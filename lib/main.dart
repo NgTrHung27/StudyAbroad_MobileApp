@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
           hoverColor: Color.fromRGBO(125, 31, 31, 1.0),
         ),
         home:
-            const LoginPage() //const MyHomePage(title: 'Flutter Demo Home Page'),
+            LoginPage() //const MyHomePage(title: 'Flutter Demo Home Page'),
         );
   }
 }
