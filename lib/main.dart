@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/Authentication/LoginPage.dart';
+import 'package:kltn_mobile/Splash/splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
           hoverColor: Color.fromRGBO(125, 31, 31, 1.0),
         ),
         home:
-            LoginPage() //const MyHomePage(title: 'Flutter Demo Home Page'),
+            SplashScreen() //const MyHomePage(title: 'Flutter Demo Home Page'),
         );
   }
 }

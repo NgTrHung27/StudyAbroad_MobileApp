@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:ffi';
+
 import 'package:http/http.dart' as http;
 
 // import 'News.dart';
@@ -8,11 +8,8 @@ import 'User.dart';
 
 class ReadData {
   loadUser(String strUserName, String strPassword) async {
-    bool check = false;
     final response = await http.get(Uri.parse(
         'https://raw.githubusercontent.com/chill2305/user_data/main/user'));
-    final res = response.body;
-    List<User> u = User.parseList(response);
   }
 
   ListUser() async {
