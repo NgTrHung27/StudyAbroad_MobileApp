@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/Authentication/LoginPage.dart';
+import 'package:kltn_mobile/Authentication/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -42,14 +42,14 @@ class _MyAppState extends State<MyApp> {
         // },
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: Color.fromRGBO(125, 31, 31, 1.0)),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color.fromRGBO(125, 31, 31, 1.0)),
           useMaterial3: true,
-          focusColor: Color.fromRGBO(125, 31, 31, 1.0),
-          hoverColor: Color.fromRGBO(125, 31, 31, 1.0),
+          focusColor: const Color.fromRGBO(125, 31, 31, 1.0),
+          hoverColor: const Color.fromRGBO(125, 31, 31, 1.0),
         ),
         home:
-            LoginPage() //const MyHomePage(title: 'Flutter Demo Home Page'),
+            const LoginPage() //const MyHomePage(title: 'Flutter Demo Home Page'),
         );
   }
 }

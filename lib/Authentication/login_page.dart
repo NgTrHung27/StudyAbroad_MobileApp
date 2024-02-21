@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kltn_mobile/components/Button.dart';
-import 'package:kltn_mobile/components/TextField.dart';
+import 'package:kltn_mobile/API/api_service.dart';
+import 'package:kltn_mobile/HomePage/home_page.dart';
+import 'package:kltn_mobile/Model/user_login.dart';
+import 'package:kltn_mobile/components/button.dart';
+import 'package:kltn_mobile/components/text_field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,12 +16,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String email = '';
+  String password = '';
   //Text Editing Controller
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   //LoginUser in Method
   // ignore: non_constant_identifier_names
-  void UserLogin() {}
+  void UserLogin() async {
+    // Lấy giá trị email và password từ các TextField
+    String email = usernameController.text.trim();
+    String password = passwordController.text.trim();
+    log('data: $email');
+    log('data: $password');
+
+    // Kiểm tra email và password không trống
+    if (email.isEmpty || password.isEmpty) {
+      // Hiển thị thông báo lỗi
+      print('Email hoặc password không được trống!');
+      return;
+    }
+    // Gọi phương thức login từ APIService
+    UserAuthentication? userAuth = await APIService().login(email, password);
+    log('data: $userAuth');
+
+    // Xử lý kết quả trả về
+    if (userAuth != null) {
+      // Đăng nhập thành công, điều hướng tới màn hình tiếp theo
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    } else {
+      // Hiển thị thông báo lỗi
+
+      print('Đăng nhập thất bại!');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +106,10 @@ class _LoginPageState extends State<LoginPage> {
                       controller: usernameController,
                       hintText: 'Enter your email',
                       obscureText: false,
+                      onChanged: (value) {
+                        // Lưu giá trị email mới được nhập
+                        email = value;
+                      },
                     ),
 
                     //Pass TextFied
@@ -77,6 +118,10 @@ class _LoginPageState extends State<LoginPage> {
                       controller: passwordController,
                       hintText: 'Enter your password',
                       obscureText: true,
+                      onChanged: (value) {
+                        // Lưu giá trị password mới được nhập
+                        password = value;
+                      },
                     ),
 
                     //Forgot Pass
