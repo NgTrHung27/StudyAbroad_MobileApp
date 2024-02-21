@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/Authentication/LoginPage.dart';
+
 import 'package:kltn_mobile/HomePage/HomePage.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 4),
     );
 
     _controller.forward();
@@ -28,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       if (status == AnimationStatus.completed) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (BuildContext context) => const HomePage(),
+            builder: (BuildContext context) => const LoginPage(),
           ),
         );
       }
@@ -45,16 +47,16 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           children: [
             // Container wrapping the logo
             Container(
-              margin: const EdgeInsets.only(bottom: 0), // Adjust this value to control spacing
+              margin: const EdgeInsets.only(bottom: 5), // Adjust this value to control spacing
               child: TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0, end: 20),
+                tween: Tween<double>(begin: 0, end: 10),
                 duration: const Duration(seconds: 2),
                 builder: (context, value, child) {
                   return Transform.scale(
-                    scale: 1 + (value / 50), // Adjust the scale factor as needed
+                    scale: 1 + (value / 80), // Adjust the scale factor as needed
                     child: Transform.translate(
                       offset: Offset(0, value),
-                      child: Image.asset('assets/LOGO_CEMC_RED.jpg', width: 100),
+                      child: Image.asset('assets/LOGO_RED.png', width: 100),
                     ),
                   );
                 },
@@ -65,7 +67,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               margin: const EdgeInsets.only(top: 0), // Adjust this value to control spacing
               child: TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0, end: 1),
-                duration: const Duration(seconds: 3),
+                duration: const Duration(seconds: 2),
                 builder: (context, value, child) {
                   return Opacity(
                     opacity: value,
