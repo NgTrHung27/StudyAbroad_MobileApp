@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-class UserAuthentication {
+class UserAuthLogin {
   String? id;
   String? name;
   String? email;
   DateTime? emailVerified;
   String? password;
 
-  UserAuthentication({
+  UserAuthLogin({
     this.id,
     this.name,
     this.email,
@@ -15,8 +15,8 @@ class UserAuthentication {
     this.password,
   });
 
-  factory UserAuthentication.fromJson(Map<String, dynamic> json) {
-    return UserAuthentication(
+  factory UserAuthLogin.fromJson(Map<String, dynamic> json) {
+    return UserAuthLogin(
       id: json['id'],
       name: json['name'],
       email: json['email'],
@@ -37,10 +37,10 @@ class UserAuthentication {
     };
   }
 
-  static List<UserAuthentication> parseList(String responseBody) {
+  static List<UserAuthLogin> parseList(String responseBody) {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
     return parsed
-        .map<UserAuthentication>((json) => UserAuthentication.fromJson(json))
+        .map<UserAuthLogin>((json) => UserAuthLogin.fromJson(json))
         .toList();
   }
 }
