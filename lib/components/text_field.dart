@@ -7,12 +7,12 @@ class MyTextField extends StatelessWidget {
   final bool obscureText;
   final Function(dynamic) onChanged; // Thêm vào đây
   const MyTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     required this.obscureText,
     required this.onChanged, // Thêm vào đây
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

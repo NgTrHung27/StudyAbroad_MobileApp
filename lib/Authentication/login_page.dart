@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
     // Gọi phương thức login từ APIService
-    UserAuthentication? userAuth = await APIService().login(email, password);
+    UserAuthLogin? userAuth = await APIService().login(email, password);
     log('data: $userAuth');
 
     // Xử lý kết quả trả về
