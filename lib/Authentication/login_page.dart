@@ -21,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   //Text Editing Controller
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  int selectedValue = 0; // Define the selectedValue variable
+  
   //LoginUser in Method
   // ignore: non_constant_identifier_names
   void UserLogin() async {
@@ -63,14 +65,14 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("assets/Background.jpg"),
+                  image: AssetImage("assets/Bckgr_Login.jpg"),
                   fit: BoxFit.cover)),
           child: Scaffold(
             backgroundColor: Colors.transparent,
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 35.0, vertical: 40.0),
+                    horizontal: 30.0, vertical: 40.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment
                       .start, // Thay đổi từ CrossAxisAlignment.center thành CrossAxisAlignment.start
@@ -82,103 +84,162 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         //Logo
                         Image.asset(
-                          "assets/LOGO_CEMC_RED.jpg",
-                          height: 134.0,
-                          width: 200.0,
+                          "assets/LOGO_RED.png",
+                          height: 80,
                         ),
                       ],
                     ),
-                    //(Option /Welcome,...)
-                    //Sign in title
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 30),
                     Text(
-                      'Sign In',
+                      'Welcome\nBack!',
                       style: GoogleFonts.getFont(
                         'Montserrat',
-                        color: Colors.white,
+                        color: const Color(0xff7D1F1F),
                         fontWeight: FontWeight.w600,
-                        fontSize: 32,
+                        fontSize: 30,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Continue your adventure',
+                      style: GoogleFonts.getFont(
+                        'Montserrat',
+                        color: const Color(0xff7D1F1F),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
                       ),
                     ),
                     //Email TextFied
-                    const SizedBox(height: 20),
-                    MyTextField(
-                      controller: usernameController,
-                      hintText: 'Enter your email',
-                      obscureText: false,
-                      onChanged: (value) {
-                        // Lưu giá trị email mới được nhập
-                        email = value;
-                      },
+                    const SizedBox(height: 30),
+                    Row( mainAxisAlignment: MainAxisAlignment.center,
+                      children:
+                       [ 
+                        MyTextField(
+                          controller: usernameController,
+                          hintText: 'Enter your email',
+                          obscureText: false,
+                          prefixIcon: Icons.email,
+                          onChanged: (value) {
+                            // Lưu giá trị email mới được nhập
+                            email = value;
+                          },
+                          
+                        ),
+                      ],
                     ),
 
                     //Pass TextFied
-                    const SizedBox(height: 20),
-                    MyTextField(
-                      controller: passwordController,
-                      hintText: 'Enter your password',
-                      obscureText: true,
-                      onChanged: (value) {
-                        // Lưu giá trị password mới được nhập
-                        password = value;
-                      },
+                    const SizedBox(height: 15),
+                    Row( mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyTextField(
+                          controller: passwordController,
+                          hintText: 'Enter your password',
+                          obscureText: true,
+                          prefixIcon: Icons.lock,
+                          additionalIcon: Icons.visibility,
+                          onChanged: (value) {
+                            // Lưu giá trị password mới được nhập
+                            password = value;
+                          },
+                        ),
+                      ],
                     ),
 
                     //Forgot Pass
-                    const SizedBox(height: 12),
-
+                    const SizedBox(height: 5),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Forgot Password?',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
+                    children: [
+                      Transform.scale(
+                        scale: 0.8, // Adjust the scale factor as needed
+                        child: Radio(
+                          value: 0,
+                          groupValue: selectedValue,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedValue = value!;
+                            });
+                          },
+                        ),
+                      ),
+                      Text(
+                        'Remember me?',
+                        style: GoogleFonts.getFont(
+                          'Montserrat',
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13,
                           ),
                         ),
                       ],
                     ),
-                    //Login Button
-                    const SizedBox(height: 170),
 
-                    MyButton(
-                      onTap: UserLogin,
+                    //Login Button
+                    const SizedBox(height: 10),
+                    Row( mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MyButton(
+                          onTap: UserLogin,
+                        ),
+                      ],
                     ),
-                    //Create Account
                     const SizedBox(height: 20),
+
+
+                    //Forgot Password
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                          Text(
+                          'Forgot your password?',
+                          style: GoogleFonts.getFont(
+                                'Montserrat',
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                          )
+                        )
+                      ],
+                    ),
+
+                    const SizedBox(height: 160),
+                    //divider
+                    const Divider(
+                      color:  Color(0xffCBD5E1),  
+                      height: 2,           
+                      thickness: 1,         
+                    ),
+                    const SizedBox(height: 10),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'You don’t have an account?',
+                          'Don’t have an account?',
                           style: GoogleFonts.getFont(
                             'Montserrat',
                             color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 13,
                           ),
                         ),
                         const SizedBox(width: 5),
-                        Text('Create Account',
+                        Text('Sign Up',
                             style: GoogleFonts.getFont(
                               'Montserrat',
                               color: const Color(0xff7D1F1F),
-                              fontWeight: FontWeight.w800,
-                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 13,
                             ))
-                      ],
-                    )
+                      ]
+                    ),
                   ],
-                ),
               ),
             ),
           ),
         ),
       ),
+      )
     );
   }
 }
