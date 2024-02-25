@@ -10,7 +10,9 @@ class MyButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        width: 330,
+        height: 40,
+        padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
             color: const Color(0xff7D1F1F),
             borderRadius: BorderRadius.circular(8)),
@@ -18,7 +20,7 @@ class MyButton extends StatelessWidget {
             child: Text(
           "Login",
           style: GoogleFonts.getFont('Montserrat',
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16),
         )),
       ),
     );

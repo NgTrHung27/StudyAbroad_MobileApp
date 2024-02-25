@@ -5,49 +5,81 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
-  final Function(dynamic) onChanged; // Thêm vào đây
+  final IconData prefixIcon;
+  final IconData? additionalIcon;
+  final double? fontSize; // Added fontSize as an optional parameter
+
   const MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.obscureText,
-    required this.onChanged, // Thêm vào đây
+    required this.prefixIcon,
+    this.additionalIcon,
+    this.fontSize, required Null Function(dynamic value) onChanged, // Added fontSize as an optional parameter
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          'Email',
-          style: GoogleFonts.getFont(
-            'Montserrat',
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 12,
-          ),
-        ),
-        const SizedBox(height: 5),
         SizedBox(
           height: 40,
-          child: TextField(
-            controller: controller,
-            obscureText: obscureText,
-            onChanged: onChanged, // Sử dụng onChanged ở đây
-            decoration: InputDecoration(
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              hintText: hintText,
-              hintStyle: TextStyle(color: Colors.grey[400]),
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          width: 320,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: const Color(0xFFCBD5E1)),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 9,
+                    horizontal: 13,
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Icon(
+                      prefixIcon,
+                      size: 21,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: controller,
+                    obscureText: obscureText,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: hintText, // Remove hintText from here
+                      hintStyle: GoogleFonts.montserrat
+                      (color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 11,
+                        horizontal: 2,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 9,
+                    horizontal: 15,
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Icon(
+                      additionalIcon,
+                      size: 21,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
