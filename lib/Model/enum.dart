@@ -7,3 +7,25 @@ enum DegreeType {
   highschool,
   university,
 }
+
+enum GradeType {
+  gpa,
+  cgpa,
+}
+
+enum CertificateType {
+  ielts,
+  toefl,
+}
+
+enum UserRole {
+  admin,
+  student,
+}
+
+enum StudentStatus {
+  studying,
+  dropped,
+  awating,
+  approved,
+}
