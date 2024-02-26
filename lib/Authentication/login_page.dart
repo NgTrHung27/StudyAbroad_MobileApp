@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/API/api_service.dart';
@@ -123,7 +122,6 @@ class _LoginPageState extends State<LoginPage> {
                             // Lưu giá trị email mới được nhập
                             email = value;
                           },
-                          
                         ),
                       ],
                     ),

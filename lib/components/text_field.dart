@@ -26,11 +26,11 @@ class MyTextField extends StatelessWidget {
       children: [
         SizedBox(
           height: 40,
-          width: 320,
+          width: 315,
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: const Color(0xFFCBD5E1)),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
               children: [
@@ -56,11 +56,11 @@ class MyTextField extends StatelessWidget {
                       hintText: hintText, // Remove hintText from here
                       hintStyle: GoogleFonts.montserrat
                       (color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        vertical: 11,
+                        vertical: 12,
                         horizontal: 2,
                       ),
                     ),
