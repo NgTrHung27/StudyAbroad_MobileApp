@@ -1,22 +1,52 @@
 import 'dart:convert';
+import 'package:kltn_mobile/Model/enum.dart';
 
-class UserAuthentication {
+class UserAuthRegister {
   String? id;
   String? name;
   String? email;
   DateTime? emailVerified;
   String? password;
+  String? image;
+  String? studentCode;
+  DateTime? dob;
+  Gender? gender;
+  String? phoneNumber;
+  String? idCardNumber;
+  String? address;
+  String? schoolId;
+  DegreeType? degreeType;
+  CertificateType? certificateType;
+  String? certificateImg;
+  GradeType? gradeType;
+  double? gradeScore;
+  bool? isTwoFactorEnabled;
+  StudentStatus? studentStatus;
 
-  UserAuthentication({
+  UserAuthRegister({
     this.id,
     this.name,
     this.email,
     this.emailVerified,
     this.password,
+    this.image,
+    this.studentCode,
+    this.dob,
+    this.gender,
+    this.phoneNumber,
+    this.idCardNumber,
+    this.address,
+    this.schoolId,
+    this.degreeType,
+    this.certificateType,
+    this.certificateImg,
+    this.gradeType,
+    this.gradeScore,
+    this.isTwoFactorEnabled,
   });
 
-  factory UserAuthentication.fromJson(Map<String, dynamic> json) {
-    return UserAuthentication(
+  factory UserAuthRegister.fromJson(Map<String, dynamic> json) {
+    return UserAuthRegister(
       id: json['id'],
       name: json['name'],
       email: json['email'],
@@ -37,10 +67,10 @@ class UserAuthentication {
     };
   }
 
-  static List<UserAuthentication> parseList(String responseBody) {
+  static List<UserAuthRegister> parseList(String responseBody) {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
     return parsed
-        .map<UserAuthentication>((json) => UserAuthentication.fromJson(json))
+        .map<UserAuthRegister>((json) => UserAuthRegister.fromJson(json))
         .toList();
   }
 }

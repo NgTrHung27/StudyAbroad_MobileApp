@@ -8,7 +8,7 @@ class APIService {
   Future<UserAuthLogin?> login(String email, String password) async {
     try {
       final response = await http.post(
-        Uri.parse('https://study-abroad-canada.vercel.app/api/auth/signin'),
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/auth/login'),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email, "password": password}),
       );

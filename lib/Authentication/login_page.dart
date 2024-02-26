@@ -18,15 +18,15 @@ class _LoginPageState extends State<LoginPage> {
   String email = '';
   String password = '';
   //Text Editing Controller
-  final usernameController = TextEditingController();
+  final usermailController = TextEditingController();
   final passwordController = TextEditingController();
   int selectedValue = 0; // Define the selectedValue variable
-  
+
   //LoginUser in Method
   // ignore: non_constant_identifier_names
   void UserLogin() async {
     // Lấy giá trị email và password từ các TextField
-    String email = usernameController.text.trim();
+    String email = usermailController.text.trim();
     String password = passwordController.text.trim();
     log('data: $email');
     log('data: $password');
@@ -59,9 +59,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Container(
+        debugShowCheckedModeBanner: false,
+        home: SafeArea(
+            child: Container(
           decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage("assets/Bckgr_Login.jpg"),
@@ -73,171 +73,241 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 30.0, vertical: 40.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment
-                      .start, // Thay đổi từ CrossAxisAlignment.center thành CrossAxisAlignment.start
-                  children: [
-                    //Logo
-                    //Logo và các phần còn lại sẽ được bao trong một Row để căn giữa theo chiều ngang
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //Logo
-                        Image.asset(
-                          "assets/LOGO_RED.png",
-                          height: 80,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Text(
-                      'Welcome\nBack!',
-                      style: GoogleFonts.getFont(
-                        'Montserrat',
-                        color: const Color(0xff7D1F1F),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Continue your adventure',
-                      style: GoogleFonts.getFont(
-                        'Montserrat',
-                        color: const Color(0xff7D1F1F),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                      ),
-                    ),
-                    //Email TextFied
-                    const SizedBox(height: 30),
-                    Row( mainAxisAlignment: MainAxisAlignment.center,
-                      children:
-                       [ 
-                        MyTextField(
-                          controller: usernameController,
-                          hintText: 'Enter your email',
-                          obscureText: false,
-                          prefixIcon: Icons.email,
-                          onChanged: (value) {
-                            // Lưu giá trị email mới được nhập
-                            email = value;
-                          },
-                        ),
-                      ],
-                    ),
-
-                    //Pass TextFied
-                    const SizedBox(height: 15),
-                    Row( mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        MyTextField(
-                          controller: passwordController,
-                          hintText: 'Enter your password',
-                          obscureText: true,
-                          prefixIcon: Icons.lock,
-                          additionalIcon: Icons.visibility,
-                          onChanged: (value) {
-                            // Lưu giá trị password mới được nhập
-                            password = value;
-                          },
-                        ),
-                      ],
-                    ),
-
-                    //Forgot Pass
-                    const SizedBox(height: 5),
-                    Row(
+                    crossAxisAlignment: CrossAxisAlignment
+                        .start, // Thay đổi từ CrossAxisAlignment.center thành CrossAxisAlignment.start
                     children: [
-                      Transform.scale(
-                        scale: 0.8, // Adjust the scale factor as needed
-                        child: Radio(
-                          value: 0,
-                          groupValue: selectedValue,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue = value!;
-                            });
-                          },
-                        ),
+                      //Logo
+                      //Logo và các phần còn lại sẽ được bao trong một Row để căn giữa theo chiều ngang
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //Logo
+                          Image.asset(
+                            "assets/LOGO_RED.png",
+                            height: 80,
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 30),
                       Text(
-                        'Remember me?',
+                        'Welcome\nBack!',
                         style: GoogleFonts.getFont(
                           'Montserrat',
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
+                          color: const Color(0xff7D1F1F),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 30,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Continue your adventure',
+                        style: GoogleFonts.getFont(
+                          'Montserrat',
+                          color: const Color(0xff7D1F1F),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                        ),
+                      ),
+                      //Email TextFied
+                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MyTextField(
+                            controller: usermailController,
+                            hintText: 'Enter your email',
+                            obscureText: false,
+                            prefixIcon: Icons.email,
+                            onChanged: (value) {
+                              // Lưu giá trị email mới được nhập
+                              email = value;
+                            },
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
 
-                    //Login Button
-                    const SizedBox(height: 10),
-                    Row( mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        MyButton(
-                          onTap: UserLogin,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
+                      //Pass TextFied
+                      const SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MyTextField(
+                            controller: passwordController,
+                            hintText: 'Enter your password',
+                            obscureText: true,
+                            prefixIcon: Icons.lock,
+                            additionalIcon: Icons.visibility,
+                            onChanged: (value) {
+                              // Lưu giá trị password mới được nhập
+                              password = value;
+                            },
+                          ),
+                        ],
+                      ),
 
-
-                    //Forgot Password
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      //Forgot Pass
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          //Logo
+                          //Logo và các phần còn lại sẽ được bao trong một Row để căn giữa theo chiều ngang
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              //Logo
+                              Image.asset(
+                                "assets/LOGO_RED.png",
+                                height: 80,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
                           Text(
-                          'Forgot your password?',
-                          style: GoogleFonts.getFont(
-                                'Montserrat',
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                          )
-                        )
-                      ],
-                    ),
-
-                    const SizedBox(height: 160),
-                    //divider
-                    const Divider(
-                      color:  Color(0xffCBD5E1),  
-                      height: 2,           
-                      thickness: 1,         
-                    ),
-                    const SizedBox(height: 10),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Don’t have an account?',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 13,
-                          ),
-                        ),
-                        const SizedBox(width: 5),
-                        Text('Sign Up',
+                            'Welcome\nBack!',
                             style: GoogleFonts.getFont(
                               'Montserrat',
                               color: const Color(0xff7D1F1F),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 13,
-                            ))
-                      ]
-                    ),
-                  ],
+                              fontWeight: FontWeight.w600,
+                              fontSize: 30,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Continue your adventure',
+                            style: GoogleFonts.getFont(
+                              'Montserrat',
+                              color: const Color(0xff7D1F1F),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                          ),
+                          //Email TextFied
+                          const SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              MyTextField(
+                                controller: usermailController,
+                                hintText: 'Enter your email',
+                                obscureText: false,
+                                prefixIcon: Icons.email,
+                                onChanged: (value) {
+                                  // Lưu giá trị email mới được nhập
+                                  email = value;
+                                },
+                              ),
+                            ],
+                          ),
+
+                          //Pass TextFied
+                          const SizedBox(height: 15),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              MyTextField(
+                                controller: passwordController,
+                                hintText: 'Enter your password',
+                                obscureText: true,
+                                prefixIcon: Icons.lock,
+                                additionalIcon: Icons.visibility,
+                                onChanged: (value) {
+                                  // Lưu giá trị password mới được nhập
+                                  password = value;
+                                },
+                              ),
+                            ],
+                          ),
+
+                          //Forgot Pass
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Transform.scale(
+                                scale: 0.8, // Adjust the scale factor as needed
+                                child: Radio(
+                                  value: 0,
+                                  groupValue: selectedValue,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedValue = value!;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Text(
+                                'Remember me?',
+                                style: GoogleFonts.getFont(
+                                  'Montserrat',
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          //Login Button
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              MyButton(
+                                onTap: UserLogin,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+
+                          //Forgot Password
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Forgot your password?',
+                                  style: GoogleFonts.getFont(
+                                    'Montserrat',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13,
+                                  ))
+                            ],
+                          ),
+
+                          const SizedBox(height: 160),
+                          //divider
+                          const Divider(
+                            color: Color(0xffCBD5E1),
+                            height: 2,
+                            thickness: 1,
+                          ),
+                          const SizedBox(height: 10),
+
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Don’t have an account?',
+                                  style: GoogleFonts.getFont(
+                                    'Montserrat',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                Text('Sign Up',
+                                    style: GoogleFonts.getFont(
+                                      'Montserrat',
+                                      color: const Color(0xff7D1F1F),
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 13,
+                                    ))
+                              ]),
+                        ],
+                      ),
+                    ]),
               ),
             ),
           ),
-        ),
-      ),
-      )
-    );
+        )));
   }
 }

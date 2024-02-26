@@ -9,9 +9,9 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-
 
   @override
   void initState() {
@@ -35,7 +35,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,16 +44,19 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           children: [
             // Container wrapping the logo
             Container(
-              margin: const EdgeInsets.only(bottom: 5), // Adjust this value to control spacing
+              margin: const EdgeInsets.only(
+                  bottom: 5), // Adjust this value to control spacing
               child: TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0, end: 10),
                 duration: const Duration(seconds: 2),
                 builder: (context, value, child) {
                   return Transform.scale(
-                    scale: 1 + (value / 80), // Adjust the scale factor as needed
+                    scale:
+                        1 + (value / 80), // Adjust the scale factor as needed
                     child: Transform.translate(
                       offset: Offset(0, value),
-                      child: Image.asset('assets/LOGO_RED.png', width: 100),
+                      child:
+                          Image.asset('assets/launcher_icons.png', width: 100),
                     ),
                   );
                 },
@@ -62,7 +64,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             ),
             // Container wrapping the text
             Container(
-              margin: const EdgeInsets.only(top: 0), // Adjust this value to control spacing
+              margin: const EdgeInsets.only(
+                  top: 0), // Adjust this value to control spacing
               child: TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0, end: 1),
                 duration: const Duration(seconds: 2),
@@ -70,16 +73,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   return Opacity(
                     opacity: value,
                     child: Transform.translate(
-                      offset: Offset(0, 50 * (1 - value)), // Adjust the translation range as needed
-                      child: Text(
-                        'Canada Education Manage Company',
-                        style: GoogleFonts.montserrat(
-                          color: const Color(0xff7D1F1F),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        )
-                      )
-                    ),
+                        offset: Offset(
+                            0,
+                            50 *
+                                (1 -
+                                    value)), // Adjust the translation range as needed
+                        child: Text('Canada Education Manage Company',
+                            style: GoogleFonts.montserrat(
+                              color: const Color(0xff7D1F1F),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ))),
                   );
                 },
               ),
@@ -96,4 +100,3 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     super.dispose();
   }
 }
-
