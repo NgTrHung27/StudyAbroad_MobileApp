@@ -48,8 +48,6 @@ class _MyAppState extends State<MyApp> {
           focusColor: const Color.fromRGBO(125, 31, 31, 1.0),
           hoverColor: const Color.fromRGBO(125, 31, 31, 1.0),
         ),
-        home:
-            const SplashScreen() //const MyHomePage(title: 'Flutter Demo Home Page'),
-        );
+        home: const SplashScreen());
   }
 }
