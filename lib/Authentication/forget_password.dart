@@ -14,7 +14,7 @@ class _ForgetPassState extends State<ForgetPass> {
   String email = '';
   final usermailController = TextEditingController();
 
-   void UserLogin() async {}
+   void userForgetPass() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class _ForgetPassState extends State<ForgetPass> {
                       Row( mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         MyButton(
-                          onTap: UserLogin,
+                          onTap: userForgetPass,
                         ),
                       ],
                       ),
