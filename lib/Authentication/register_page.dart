@@ -42,10 +42,11 @@ class _RegisterPageState extends State<RegisterPage> {
   String? selectedDistrict;
   String? selectedWard;
   String? address;
-  Gender? valueGender;
-  DegreeType? valueDegree;
-  GradeType? radioGradeTypeValue; // 0: GPA, 1: CGPA
+  String? valueGender;
+  String? valueDegree;
+  String? radioGradeTypeValue; // 0: GPA, 1: CGPA
   double? gradeScore;
+  String? selectedCertificateType;
   String certificateImg = '';
   //End of Declare
   //-----------------------------------------------------------------------------------
@@ -106,16 +107,40 @@ class _RegisterPageState extends State<RegisterPage> {
     if (selectedProgram == null) {
       print('Program is null');
     }
-    Type selectedCity = cityController;
-    Type selectedDistrict = districtController;
-    Type selectedWard = wardController;
+    if (selectedCity == null) {
+      print('City is null');
+    }
+    if (selectedDistrict == null) {
+      print('District is null');
+    }
+    if (selectedWard == null) {
+      print('Ward is null');
+    }
+
     String address = addressController.text.trim();
-    Type valueGender = genderController;
-    Type valueDegree = degreeController;
-    Type radioGradeTypeValue = gradeTypecontroller; // 0: GPA, 1: CGPA
+    if (valueGender == null) {
+      print('valueGender is null');
+    }
+    if (valueDegree == null) {
+      print('valueDegree is null');
+    }
+    if (radioGradeTypeValue == null) {
+      print('radioGradeTypeValue is null');
+    }
+
+    if (selectedCertificateType == null) {
+      print('selectedCertificateType is null');
+    }
     double gradeScore = double.parse(gradeController.text.trim());
-    Type selectedCertificateType = certificateTypeController;
     String certificateImg = imageController.text.toString();
+
+    // Type selectedCity = cityController;
+    // Type selectedDistrict = districtController;
+    // Type selectedWard = wardController;
+    // Type valueGender = genderController;
+    // Type valueDegree = degreeController;
+    // Type radioGradeTypeValue = gradeTypecontroller; // 0: GPA, 1: CGPA
+    // Type selectedCertificateType = certificateTypeController;
 
     // Kiểm tra xem các giá trị có rỗng không
     // if (email.isEmpty ||
@@ -147,15 +172,15 @@ class _RegisterPageState extends State<RegisterPage> {
         phone,
         selectedSchool,
         selectedProgram,
-        selectedCity as City,
-        selectedDistrict as District,
-        selectedWard as Ward,
+        selectedCity,
+        selectedDistrict,
+        selectedWard,
         address,
-        valueGender as Gender,
-        valueDegree as DegreeType,
-        radioGradeTypeValue as GradeType,
+        valueGender,
+        valueDegree,
+        radioGradeTypeValue,
         gradeScore,
-        selectedCertificateType as CertificateType,
+        selectedCertificateType,
         certificateImg);
     if (userAuthRegister != null) {
       // Đăng ký thành công
@@ -224,15 +249,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  //Declare intial state value for selectedWard
-  void wardChange(Ward? ward) {
-    setState(() {
-      if (ward != null) {
-        selectedWard = ward.name;
-      }
-    });
-  }
-
   //Declare intial state value for selectedDistrict
   void districtChange(District? district) {
     setState(() {
@@ -242,10 +258,21 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
+  //Declare intial state value for selectedWard
+  void wardChange(Ward? ward) {
+    setState(() {
+      if (ward != null) {
+        selectedWard = ward.name;
+      }
+    });
+  }
+
   // function to handle changes in radio button value
   void radioValueChanged(GradeType? gradeType) {
     setState(() {
-      radioGradeTypeValue = gradeType;
+      if (gradeType != null) {
+        radioGradeTypeValue = gradeType.toString().split('.').last;
+      }
     });
   }
 

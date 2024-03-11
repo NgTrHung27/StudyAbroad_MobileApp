@@ -59,9 +59,8 @@ List<Step> getSteps(
         List<School> lstschools,
         selectedSchool,
         selectedProgram,
-        lstCities,
-        radioGradeTypeValue
-       ) =>
+        List<City> lstCities,
+        radioGradeTypeValue) =>
     //---------------------------------------------------------------------------------------------------------
     //Declare Step
     [
@@ -216,6 +215,8 @@ List<Step> getSteps(
                         onChanged: (Gender? newValue) {
                           setState(() {
                             valueGender = newValue;
+                            //fix tiep 12/3/2024
+                            print(valueDegree);
                           });
                         },
                         items: <Gender>[
@@ -307,9 +308,9 @@ List<Step> getSteps(
                 ),
                 value: selectedCity == null
                     ? null
-                    : lstCities.firstWhere((element) =>
-                        element.name == selectedCity),
-                onChanged: (newValueCountry) {
+                    : lstCities
+                        .firstWhere((element) => element.name == selectedCity),
+                onChanged: (City? newValueCountry) {
                   if (newValueCountry != null) {
                     cityChange(newValueCountry);
                     selectedDistrict = null;
@@ -375,28 +376,40 @@ List<Step> getSteps(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          value: selectedDistrict,
+                          value: selectedDistrict == null
+                              ? null
+                              : lstCities
+                                  .firstWhere(
+                                      (element) => element.name == selectedCity)
+                                  .districts
+                                  .firstWhere((element) =>
+                                      element.name == selectedDistrict),
                           onChanged: (District? newValueDistrict) {
                             setState(() {
                               districtChange(newValueDistrict);
                               selectedWard = null;
                             });
                           },
-                          items: selectedCity == null ? [] : selectedCity?.districts
-                              .map<DropdownMenuItem<District>>(
-                                  (District district) {
-                            return DropdownMenuItem<District>(
-                              value: district,
-                              child: Text(
-                                district.name,
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                          items: selectedCity == null
+                              ? []
+                              : lstCities
+                                  .firstWhere(
+                                      (element) => element.name == selectedCity)
+                                  .districts
+                                  .map<DropdownMenuItem<District>>(
+                                      (District district) {
+                                  return DropdownMenuItem<District>(
+                                    value: district,
+                                    child: Text(
+                                      district.name,
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
                           isExpanded: true,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.location_city,
@@ -442,26 +455,46 @@ List<Step> getSteps(
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          value: selectedWard,
+                          value: selectedDistrict == null ||
+                                  selectedWard == null
+                              ? null
+                              : lstCities
+                                  .firstWhere(
+                                      (element) => element.name == selectedCity)
+                                  .districts
+                                  .firstWhere((element) =>
+                                      element.name == selectedDistrict)
+                                  .wards
+                                  .firstWhere(
+                                    (element) => element.name == selectedWard,
+                                  ),
                           onChanged: (Ward? newValueWard) {
                             setState(() {
-                              selectedWard = newValueWard;
+                              wardChange(newValueWard);
                             });
                           },
-                          items: selectedDistrict?.wards
-                              .map<DropdownMenuItem<Ward>>((Ward ward) {
-                            return DropdownMenuItem<Ward>(
-                              value: ward,
-                              child: Text(
-                                ward.name,
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                          items: selectedDistrict == null
+                              ? []
+                              : lstCities
+                                  .firstWhere(
+                                      (element) => element.name == selectedCity)
+                                  .districts
+                                  .firstWhere((element) =>
+                                      element.name == selectedDistrict)
+                                  .wards
+                                  .map<DropdownMenuItem<Ward>>((Ward ward) {
+                                  return DropdownMenuItem<Ward>(
+                                    value: ward,
+                                    child: Text(
+                                      ward.name,
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
                           isExpanded: true,
                           decoration: InputDecoration(
                             prefixIcon:
@@ -554,9 +587,7 @@ List<Step> getSteps(
                             onChanged: (School? newValueSchool) {
                               setState(() {
                                 schoolChange(newValueSchool);
-                                selectedProgram =
-                                    null; // Đặt lại selectedProgram khi chọn trường mới
-                                // getUniqueSchools();
+                                selectedProgram = null;
                               });
                             },
                             items: lstschools
@@ -630,7 +661,7 @@ List<Step> getSteps(
                               .programs
                               .firstWhere(
                                   (element) => element.name == selectedProgram),
-                      onChanged: (newProgramValue) {
+                      onChanged: (Program? newProgramValue) {
                         print({"selected ": newProgramValue});
                         if (newProgramValue != null) {
                           programChange(newProgramValue);
@@ -875,6 +906,7 @@ List<Step> getSteps(
 
                   Future<String?> imageValueChanged() async {
                     String certiImg = await getImage();
+                    // ignore: unnecessary_null_comparison
                     if (certiImg != null) {
                       print("Certificate ImageValue: $certiImg");
                     } else {
@@ -945,10 +977,17 @@ List<Step> getSteps(
                               fontSize: 12,
                             )),
                       ),
+                      // leading: Radio<GradeType>(
+                      //   value: GradeType.GPA,
+                      //   groupValue: radioGradeTypeValue ,
+                      //   onChanged: radioValueChanged,
+                      // ),
                       leading: Radio<GradeType>(
                         value: GradeType.GPA,
-                        groupValue: radioGradeTypeValue,
-                        onChanged: radioValueChanged,
+                        groupValue: radioGradeTypeValue ?? GradeType.GPA,
+                        onChanged: (GradeType? value) {
+                          radioValueChanged(value);
+                        },
                       ),
                       dense: true,
                       visualDensity:
@@ -971,10 +1010,17 @@ List<Step> getSteps(
                               fontSize: 12,
                             )),
                       ),
+                      // leading: Radio<GradeType>(
+                      //   value: GradeType.CGPA,
+                      //   groupValue: radioGradeTypeValue,
+                      //   onChanged: radioValueChanged,
+                      // ),
                       leading: Radio<GradeType>(
                         value: GradeType.CGPA,
-                        groupValue: radioGradeTypeValue,
-                        onChanged: radioValueChanged,
+                        groupValue: radioGradeTypeValue ?? GradeType.CGPA,
+                        onChanged: (GradeType? value) {
+                          radioValueChanged(value);
+                        },
                       ),
                       visualDensity:
                           const VisualDensity(horizontal: -4, vertical: -4),

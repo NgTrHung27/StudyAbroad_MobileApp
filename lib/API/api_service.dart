@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:kltn_mobile/Model/enum.dart';
 import 'package:kltn_mobile/Model/school.dart';
 import 'package:kltn_mobile/Model/user_login.dart';
@@ -53,16 +52,16 @@ class APIService {
     String phone,
     String? selectedSchool,
     String? selectedProgram,
-    City selectedCity,
-    District selectedDistrict,
-    Ward selectedWard,
+    String? selectedCity,
+    String? selectedDistrict,
+    String? selectedWard,
     String address,
-    Gender valueGender,
-    DegreeType valueDegree,
-    GradeType radioGradeTypeValue,
+    String? valueGender,
+    String? valueDegree,
+    String? radioGradeTypeValue,
     double gradeScore,
-    CertificateType selectedCertificateType,
-    String certificateImg,
+    String? selectedCertificateType,
+    String? certificateImg,
   ) async {
     try {
       final response = await http.post(
@@ -79,15 +78,15 @@ class APIService {
           "phoneNumber": phone,
           "schoolName": selectedSchool,
           "programName": selectedProgram,
-          "city": selectedCity.name,
-          "district": selectedDistrict.name,
-          "ward": selectedWard.name,
+          "city": selectedCity,
+          "district": selectedDistrict,
+          "ward": selectedWard,
           "addressLine": address,
-          "gender": valueGender.index, // "0" or "1
-          "degreeType": valueDegree.index,
-          "gradeType": radioGradeTypeValue.index,
+          "gender": valueGender, // "0" or "1
+          "degreeType": valueDegree,
+          "gradeType": radioGradeTypeValue,
           "gradeScore": gradeScore,
-          "certificateType": selectedCertificateType.name,
+          "certificateType": selectedCertificateType,
           "certificateImg": certificateImg,
         }),
       );
