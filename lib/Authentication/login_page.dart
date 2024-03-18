@@ -22,9 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   int selectedValue = 0; // Define the selectedValue variable
 
-  //LoginUser in Method
-  // ignore: non_constant_identifier_names
-  void UserLogin() async {
+  //LoginUser in Method API
+  void userLogin() async {
     // Lấy giá trị email và password từ các TextField
     String email = usermailController.text.trim();
     String password = passwordController.text.trim();
@@ -178,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               MyButton(
-                                onTap: UserLogin,
+                                onTap: userLogin,
                               ),
                             ],
                           ),

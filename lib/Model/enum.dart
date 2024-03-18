@@ -1,31 +1,33 @@
+// ignore_for_file: constant_identifier_names
+
 enum Gender {
-  male,
-  female,
+  Male,
+  Female,
 }
 
 enum DegreeType {
-  highschool,
-  university,
+  Highschool,
+  University,
 }
 
 enum GradeType {
-  gpa,
-  cgpa,
+  GPA,
+  CGPA,
 }
 
 enum CertificateType {
-  ielts,
-  toefl,
+  IELTS,
+  TOEFL,
 }
 
 enum UserRole {
-  admin,
-  student,
+  ADMIN,
+  Student,
 }
 
 enum StudentStatus {
-  studying,
-  dropped,
-  awating,
-  approved,
+  STUDYING,
+  DROPPED,
+  AWAITING,
+  APPROVED,
 }
