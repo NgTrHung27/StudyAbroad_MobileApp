@@ -115,15 +115,7 @@ class _ForgetPassState extends State<ForgetPass> {
                       ],
                       ),
 
-                      const SizedBox(height: 215),
-                      //divider
-                      const Divider(
-                        color:  Color(0xffCBD5E1),  
-                        height: 2,           
-                        thickness: 1,         
-                      ),
-
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 280),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

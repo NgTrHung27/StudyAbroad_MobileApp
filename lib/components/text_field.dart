@@ -26,7 +26,7 @@ class MyTextField extends StatelessWidget {
       children: [
         SizedBox(
           height: 40,
-          width: 315,
+          width: 355,
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(color: const Color(0xFFCBD5E1)),
