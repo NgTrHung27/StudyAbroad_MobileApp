@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,11 +44,11 @@ class _RegisterPageState extends State<RegisterPage> {
   String? selectedDistrict;
   String? selectedWard;
   String? address;
-  String? valueGender;
-  String? valueDegree;
-  String? radioGradeTypeValue; // 0: GPA, 1: CGPA
+  Gender? valueGender;
+  DegreeType? valueDegree;
+  GradeType? radioGradeTypeValue; // 0: GPA, 1: CGPA
   double? gradeScore;
-  String? selectedCertificateType;
+  CertificateType? selectedCertificateType;
   String certificateImg = '';
   //End of Declare
   //-----------------------------------------------------------------------------------
@@ -132,6 +134,9 @@ class _RegisterPageState extends State<RegisterPage> {
       print('selectedCertificateType is null');
     }
     double gradeScore = double.parse(gradeController.text.trim());
+    String gradeScoreString =
+        gradeScore.toString(); // Chuyển đổi giá trị gradeScore thành chuỗi
+
     String certificateImg = imageController.text.toString();
 
     // Type selectedCity = cityController;
@@ -143,23 +148,23 @@ class _RegisterPageState extends State<RegisterPage> {
     // Type selectedCertificateType = certificateTypeController;
 
     // Kiểm tra xem các giá trị có rỗng không
-    // if (email.isEmpty ||
-    //     password.isEmpty ||
-    //     name.isEmpty ||
-    //     phone.isEmpty ||
-    //     confirmpassword.isEmpty ||
-    //     gradeScore == null ||
-    //     selectedProgram == null ||
-    //     selectedCity == null ||
-    //     selectedDistrict == null ||
-    //     selectedWard == null ||
-    //     address.isEmpty ||
-    //     radioGradeTypeValue == null ||
-    //     certificateImg.isEmpty) {
-    //   // Hiển thị thông báo lỗi
-    //   print('Email, password, name, phone, confirmpass,.... không được trống!');
-    //   return;
-    // }
+    if (email.isEmpty ||
+        password.isEmpty ||
+        name.isEmpty ||
+        phone.isEmpty ||
+        confirmpassword.isEmpty ||
+        gradeScore == null ||
+        selectedProgram == null ||
+        selectedCity == null ||
+        selectedDistrict == null ||
+        selectedWard == null ||
+        address.isEmpty ||
+        radioGradeTypeValue == null ||
+        certificateImg.isEmpty) {
+      // Hiển thị thông báo lỗi
+      print('Email, password, name, phone, confirmpass,.... không được trống!');
+      return;
+    }
     //Call API from APIService
 
     UserAuthRegister? userAuthRegister = await APIService().register(
@@ -176,12 +181,13 @@ class _RegisterPageState extends State<RegisterPage> {
         selectedDistrict,
         selectedWard,
         address,
-        valueGender,
-        valueDegree,
-        radioGradeTypeValue,
-        gradeScore,
-        selectedCertificateType,
+        valueGender.toString().split('.').last.toUpperCase(),
+        valueDegree?.toString().split('.').last.toUpperCase(),
+        radioGradeTypeValue?.toString().split('.').last,
+        gradeScoreString,
+        selectedCertificateType?.toString().split('.').last,
         certificateImg);
+    print('Test null user: $userAuthRegister');
     if (userAuthRegister != null) {
       // Đăng ký thành công
       print('Đăng ký thành công: ${userAuthRegister.email}');
@@ -193,6 +199,7 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     } else {
       // Đăng ký thất bại
+      print(userAuthRegister);
       print('Đăng ký thất bại');
       // Hiển thị thông báo đăng ký thất bại
     }
@@ -271,7 +278,36 @@ class _RegisterPageState extends State<RegisterPage> {
   void radioValueChanged(GradeType? gradeType) {
     setState(() {
       if (gradeType != null) {
-        radioGradeTypeValue = gradeType.toString().split('.').last;
+        radioGradeTypeValue = gradeType;
+      }
+    });
+  }
+
+  // function to handle changes in gender value
+  void genderValueChanged(Gender? gender) {
+    setState(() {
+      print("gender: $gender");
+      if (gender != null) {
+        valueGender = gender;
+        print("gender: $gender");
+      }
+    });
+  }
+
+  // function to handle changes in degree value
+  void degreeValueChanged(DegreeType? degreeType) {
+    setState(() {
+      if (degreeType != null) {
+        valueDegree = degreeType;
+      }
+    });
+  }
+
+  // function to handle changes in certificate type value
+  void certificateTypeValueChanged(CertificateType? certificateType) {
+    setState(() {
+      if (certificateType != null) {
+        selectedCertificateType = certificateType;
       }
     });
   }
@@ -343,7 +379,10 @@ class _RegisterPageState extends State<RegisterPage> {
     districtChange(null);
     wardChange(null);
     imageValueChanged(null);
-    // radioValueChanged(null);
+    radioValueChanged(null);
+    genderValueChanged(null);
+    degreeValueChanged(null);
+    certificateTypeValueChanged(null);
     // certificateImg = ''; // Gán giá trị ban đầu cho certificateImg
   }
 
@@ -396,11 +435,15 @@ class _RegisterPageState extends State<RegisterPage> {
                     radioValueChanged,
                     getImage,
                     imageValueChanged,
+                    genderValueChanged,
+                    degreeValueChanged,
+                    certificateTypeValueChanged,
                     //Declare Stream
                     dateFocusNode,
                     errorDate,
                     valueGender,
                     valueDegree,
+                    selectedCertificateType,
                     authBloc,
                     lstschools,
                     selectedSchool,
@@ -576,12 +619,10 @@ class _RegisterPageState extends State<RegisterPage> {
   //End of Stepper method
   //-------------------------------------------------------------------------------
 
-  //DOB Setup Time not < 18
+//DOB Setup Time not < 18
   String errorDate = "";
   FocusNode dateFocusNode = FocusNode();
   DateTime selectedDate = DateTime.now();
-  // TextEditingController dateController = TextEditingController();
-
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -691,7 +732,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 //Declare Method
                                 setState,
                                 selectDate,
-                                fetchSchools,
+                               fetchSchools,
                                 schoolChange,
                                 programChange,
                                 fetchCity,
@@ -701,11 +742,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                 radioValueChanged,
                                 getImage,
                                 imageValueChanged,
+                                genderValueChanged,
+                                degreeValueChanged,
+                                certificateTypeValueChanged,
                                 //Declare Stream
                                 dateFocusNode,
                                 errorDate,
                                 valueGender,
                                 valueDegree,
+                                selectedCertificateType,
                                 authBloc,
                                 lstschools,
                                 selectedSchool,

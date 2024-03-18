@@ -1,6 +1,14 @@
 import 'dart:convert';
 import 'package:kltn_mobile/Model/enum.dart';
-
+//Thiếu: confirmpassword, selectedSchool, selectedProgram, selectedCity, selectedDistrict, selectedWard
+//tương đương: 
+/*
+phone = phoneNumber
+valueGender = gender
+valueDegree = degreeType
+radioGradeTypeValue = gradeType
+selectedCertificateType = certificateType
+*/
 class UserAuthRegister {
   String? id;
   String? name;

@@ -59,7 +59,7 @@ class APIService {
     String? valueGender,
     String? valueDegree,
     String? radioGradeTypeValue,
-    double gradeScore,
+    String? gradeScore,
     String? selectedCertificateType,
     String? certificateImg,
   ) async {
@@ -96,6 +96,16 @@ class APIService {
         log('data: $data');
 
         return UserAuthRegister.fromJson(data);
+      } else if (response.statusCode == 406) {
+        final responseData = jsonDecode(response.body);
+        final errors = responseData['error'] as List<dynamic>;
+        for (final error in errors) {
+          final code = error['code'];
+          final message = error['message'];
+          final path = error['path'];
+          print('Error: Code $code, Message: $message, Path: $path');
+        }
+        return null;
       } else {
         print("Failed to register: ${response.statusCode}");
         return null;

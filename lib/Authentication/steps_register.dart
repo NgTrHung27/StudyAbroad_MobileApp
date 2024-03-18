@@ -40,7 +40,7 @@ List<Step> getSteps(
         //Declare Future Method
         Function setState,
         selectDate,
-        fetchSchools,
+        Function fetchSchools,
         schoolChange,
         programChange,
         fetchCity,
@@ -50,11 +50,15 @@ List<Step> getSteps(
         radioValueChanged,
         getImage,
         imageValueChanged,
+        genderValueChanged,
+        degreeValueChanged,
+        certificateTypeValueChanged,
         //Declare Stream
         dateFocusNode,
         errorDate,
         valueGender,
         valueDegree,
+        selectedCertificateType,
         authBloc,
         List<School> lstschools,
         selectedSchool,
@@ -212,11 +216,10 @@ List<Step> getSteps(
                         ),
                         icon: null,
                         value: valueGender,
-                        onChanged: (Gender? newValue) {
+                        onChanged: (Gender? newValueGender) {
                           setState(() {
-                            valueGender = newValue;
-                            //fix tiep 12/3/2024
-                            print(valueDegree);
+                            genderValueChanged(newValueGender);
+                            print(valueGender);
                           });
                         },
                         items: <Gender>[
@@ -731,9 +734,10 @@ List<Step> getSteps(
                       ),
                       icon: null,
                       value: valueDegree,
-                      onChanged: (DegreeType? newValue) {
+                      onChanged: (DegreeType? newValueDegree) {
                         setState(() {
-                          valueDegree = newValue;
+                          degreeValueChanged(newValueDegree);
+                          print(valueDegree);
                         });
                       },
                       items: <DegreeType>[
@@ -798,10 +802,11 @@ List<Step> getSteps(
                   ),
                 ),
                 icon: null,
-                value: null,
-                onChanged: (CertificateType? newValue) {
+                value: selectedCertificateType,
+                onChanged: (CertificateType? newValueCertificateType) {
                   setState(() {
-                    valueDegree = newValue;
+                    certificateTypeValueChanged(newValueCertificateType);
+                    print(selectedCertificateType);
                   });
                 },
                 items: <CertificateType>[
@@ -883,27 +888,6 @@ List<Step> getSteps(
                           states.contains(MaterialState.pressed) ? 5.0 : 0.0),
                 ),
                 onPressed: () {
-                  // setState(
-                  //   () {
-                  //     getImage().then((value) => print("Value: $value"));
-                  //     Future<String?> imageValueChanged() async {
-                  //       String certiImg = await getImage();
-                  //       if (certiImg != null) {
-                  //         print("Certificate ImageValue: $certiImg");
-                  //       } else {
-                  //         print("Certificate ImageValue: null");
-                  //       }
-                  //       return null;
-                  //     }
-
-                  //     imageValueChanged();
-                  //   },
-                  // );
-
-                  // setState(imageValueChanged(getImage()));
-
-                  // imageValueChanged(getImage());
-
                   Future<String?> imageValueChanged() async {
                     String certiImg = await getImage();
                     // ignore: unnecessary_null_comparison
@@ -984,9 +968,9 @@ List<Step> getSteps(
                       // ),
                       leading: Radio<GradeType>(
                         value: GradeType.GPA,
-                        groupValue: radioGradeTypeValue ?? GradeType.GPA,
-                        onChanged: (GradeType? value) {
-                          radioValueChanged(value);
+                        groupValue: radioGradeTypeValue,
+                        onChanged: (GradeType? newGradeTypeValue) {
+                          radioValueChanged(newGradeTypeValue);
                         },
                       ),
                       dense: true,
@@ -1017,7 +1001,7 @@ List<Step> getSteps(
                       // ),
                       leading: Radio<GradeType>(
                         value: GradeType.CGPA,
-                        groupValue: radioGradeTypeValue ?? GradeType.CGPA,
+                        groupValue: radioGradeTypeValue,
                         onChanged: (GradeType? value) {
                           radioValueChanged(value);
                         },
