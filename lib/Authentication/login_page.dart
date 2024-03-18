@@ -143,80 +143,6 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
-
-                      //Forgot Pass
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          //Logo
-                          //Logo và các phần còn lại sẽ được bao trong một Row để căn giữa theo chiều ngang
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              //Logo
-                              Image.asset(
-                                "assets/LOGO_RED.png",
-                                height: 80,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 30),
-                          Text(
-                            'Welcome\nBack!',
-                            style: GoogleFonts.getFont(
-                              'Montserrat',
-                              color: const Color(0xff7D1F1F),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 30,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Continue your adventure',
-                            style: GoogleFonts.getFont(
-                              'Montserrat',
-                              color: const Color(0xff7D1F1F),
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                            ),
-                          ),
-                          //Email TextFied
-                          const SizedBox(height: 30),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MyTextField(
-                                controller: usermailController,
-                                hintText: 'Enter your email',
-                                obscureText: false,
-                                prefixIcon: Icons.email,
-                                onChanged: (value) {
-                                  // Lưu giá trị email mới được nhập
-                                  email = value;
-                                },
-                              ),
-                            ],
-                          ),
-
-                          //Pass TextFied
-                          const SizedBox(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MyTextField(
-                                controller: passwordController,
-                                hintText: 'Enter your password',
-                                obscureText: true,
-                                prefixIcon: Icons.lock,
-                                additionalIcon: Icons.visibility,
-                                onChanged: (value) {
-                                  // Lưu giá trị password mới được nhập
-                                  password = value;
-                                },
-                              ),
-                            ],
-                          ),
-
                           //Forgot Pass
                           const SizedBox(height: 5),
                           Row(
@@ -271,15 +197,7 @@ class _LoginPageState extends State<LoginPage> {
                             ],
                           ),
 
-                          const SizedBox(height: 160),
-                          //divider
-                          const Divider(
-                            color: Color(0xffCBD5E1),
-                            height: 2,
-                            thickness: 1,
-                          ),
-                          const SizedBox(height: 10),
-
+                          const SizedBox(height: 230),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -303,10 +221,10 @@ class _LoginPageState extends State<LoginPage> {
                               ]),
                         ],
                       ),
-                    ]),
+                    ),
               ),
             ),
           ),
-        )));
+        ));
   }
 }

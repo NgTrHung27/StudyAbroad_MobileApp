@@ -26,8 +26,8 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 37,
-      width: 315,
+      height: 40,
+      width: 355,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: const Color(0xFFCBD5E1)),

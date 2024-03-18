@@ -10,7 +10,7 @@ Widget build(BuildContext context) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
-      width: 330,
+      width: 365,
       height: 41,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
