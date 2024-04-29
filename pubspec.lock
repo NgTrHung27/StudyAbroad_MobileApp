@@ -392,6 +392,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+<<<<<<< HEAD
   mime:
     dependency: transitive
     description:
@@ -400,6 +401,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+=======
+>>>>>>> main
   path:
     dependency: transitive
     description:
@@ -654,5 +657,9 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
+<<<<<<< HEAD
   dart: ">=3.2.0 <4.0.0"
+=======
+  dart: ">=3.2.0-0 <4.0.0"
+>>>>>>> main
   flutter: ">=3.10.0"
