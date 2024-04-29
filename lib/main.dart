@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/Authentication/forget_password.dart';
-import 'package:kltn_mobile/Authentication/login_page.dart';
 import 'package:kltn_mobile/Authentication/register_page.dart';
+import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -50,6 +49,6 @@ class _MyAppState extends State<MyApp> {
           focusColor: const Color.fromRGBO(125, 31, 31, 1.0),
           hoverColor: const Color.fromRGBO(125, 31, 31, 1.0),
         ),
-        home: const LoginPage());
+        home: const RegisterPage());
   }
 }

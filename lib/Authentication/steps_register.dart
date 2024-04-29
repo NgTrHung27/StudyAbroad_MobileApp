@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/Model/enum.dart';
 import 'package:kltn_mobile/Model/school.dart';
 import 'package:kltn_mobile/Model/vn_country.dart';
+import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
+import 'package:kltn_mobile/bloC/auth/auth_state.dart';
 import 'package:kltn_mobile/components/numeric_textfield.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +24,7 @@ List<Step> getSteps(
         selectedWard,
         address,
         gradeScore,
+        school,
         //Declare Controller
         usermailController,
         usernameController,
@@ -574,64 +578,72 @@ List<Step> getSteps(
                         stream: null,
                         builder: (context, snapshot) {
                           //Đang Fix
-                          return DropdownButtonFormField<School>(
-                            hint: Text(
-                              '- Choose your school -',
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            value: selectedSchool == null
-                                ? null
-                                : lstschools.firstWhere((element) =>
-                                    element.name == selectedSchool),
-                            onChanged: (School? newValueSchool) {
-                              setState(() {
-                                schoolChange(newValueSchool);
-                                selectedProgram = null;
-                              });
-                            },
-                            items: lstschools
-                                .map<DropdownMenuItem<School>>((School school) {
-                              return DropdownMenuItem<School>(
-                                value: school,
-                                child: Text(
-                                  school.name,
+                          return BlocBuilder<AuthCubit, AuthState>(
+                            builder: (context, state) {
+                              if (state is AuthLoadedState) {
+                                 lstschools = state.school!;
+                              }
+                              return DropdownButtonFormField<School>(
+                                hint: Text(
+                                  '- Choose your school -',
                                   style: GoogleFonts.montserrat(
                                     color: Colors.black,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                              );
-                            }).toList(),
-                            isExpanded: true,
-                            decoration: InputDecoration(
-                              prefixIcon:
-                                  const Icon(Icons.school, color: Colors.black),
-                              filled: true,
-                              fillColor: Colors.white,
-                              // errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                              errorStyle: const TextStyle(color: Colors.white),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Color(0xFFCBD5E1), width: 1.0),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                  color: Color(0xFFCBD5E1),
-                                  width: 1.0,
+                                value: selectedSchool == null
+                                    ? null
+                                    : lstschools.firstWhere((element) =>
+                                        element.name == selectedSchool),
+                                onChanged: (School? newValueSchool) {
+                                  setState(() {
+                                    schoolChange(newValueSchool);
+                                    selectedProgram = null;
+                                  });
+                                },
+                                items: lstschools.map<DropdownMenuItem<School>>(
+                                    (School school) {
+                                  return DropdownMenuItem<School>(
+                                    value: school,
+                                    child: Text(
+                                      school.name,
+                                      style: GoogleFonts.montserrat(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                isExpanded: true,
+                                decoration: InputDecoration(
+                                  prefixIcon: const Icon(Icons.school,
+                                      color: Colors.black),
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  // errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                                  errorStyle:
+                                      const TextStyle(color: Colors.white),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFCBD5E1), width: 1.0),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFFCBD5E1),
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 11,
+                                    horizontal: 2,
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                vertical: 11,
-                                horizontal: 2,
-                              ),
-                            ),
+                              );
+                            },
                           );
                         }),
                   ),

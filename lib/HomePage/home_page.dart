@@ -10,9 +10,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center
-      // child: ,
+    return MaterialApp(
+      home: SafeArea(child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Home Page'),
+        ),
+        body: const Center(
+          child: Text('This is the home page'),
+        ),
+      ))
     );
   }
 }

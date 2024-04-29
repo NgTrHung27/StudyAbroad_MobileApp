@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/API/api_service.dart';
 import 'package:kltn_mobile/Authentication/login_page.dart';
@@ -16,6 +17,8 @@ import 'package:kltn_mobile/Model/vn_country.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
+
+import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -207,15 +210,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //Method API
   void fetchSchools() async {
-    try {
-      List<School> fetchedSchools = await APIService().getSchools();
-      setState(() {
-        lstschools = fetchedSchools;
-        print('Fetched Schools: $fetchedSchools');
-      });
-    } catch (e) {
-      print("Failed to fetch schools: $e");
-    }
+    // try {
+    //   List<School> fetchedSchools = await APIService().getSchools();
+    //   setState(() {
+    //     lstschools = fetchedSchools;
+    //     print('Fetched Schools: $fetchedSchools');
+    //   });
+    // } catch (e) {
+    //   print("Failed to fetch schools: $e");
+    // }
   }
 
   void fetchCity() async {
@@ -367,9 +370,12 @@ class _RegisterPageState extends State<RegisterPage> {
 //-----------------------------------------------------------------------------------
 
   //call function `fetchSchools` in initState to get List School when page initial
+  School? school;
   @override
   void initState() {
     super.initState();
+    context.read<AuthCubit>().getSchools();
+
     // selectDate();
     fetchSchools();
     schoolChange(null);
@@ -406,6 +412,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     selectedWard,
                     address,
                     gradeScore,
+                    school,
                     //Declare Controller
                     usermailController,
                     usernameController,
@@ -509,7 +516,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               ? 5.0
                               : 0.0),
                     ),
-                    onPressed: details.onStepCancel,
+                    onPressed: () {
+                      details.onStepCancel;
+                    },
                     child: Text('Back',
                         style: GoogleFonts.getFont(
                           'Montserrat',
@@ -713,6 +722,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 selectedWard,
                                 address,
                                 gradeScore,
+                                school,
                                 //Declare Controller
                                 usermailController,
                                 usernameController,
@@ -732,7 +742,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 //Declare Method
                                 setState,
                                 selectDate,
-                               fetchSchools,
+                                fetchSchools,
                                 schoolChange,
                                 programChange,
                                 fetchCity,
