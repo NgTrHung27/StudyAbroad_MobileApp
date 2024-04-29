@@ -1,11 +1,15 @@
 import 'dart:convert';
 
+import 'package:kltn_mobile/Model/student.dart';
+
 class UserAuthLogin {
   String? id;
   String? name;
   String? email;
   DateTime? emailVerified;
   String? password;
+  Student? student;
+  String? error;
 
   UserAuthLogin({
     this.id,
@@ -13,6 +17,8 @@ class UserAuthLogin {
     this.email,
     this.emailVerified,
     this.password,
+    this.student,
+    this.error,
   });
 
   factory UserAuthLogin.fromJson(Map<String, dynamic> json) {
@@ -20,10 +26,10 @@ class UserAuthLogin {
       id: json['id'],
       name: json['name'],
       email: json['email'],
-      emailVerified: json['emailVerified'] != null
-          ? DateTime.parse(json['emailVerified'])
-          : null,
+      emailVerified: json['emailVerified'] != null ? DateTime.parse(json['emailVerified']) : null,
       password: json['password'],
+      student: json['student'] != null ? Student.fromJson(json['student']) : null,
+      error: json['error'],
     );
   }
 
@@ -34,6 +40,7 @@ class UserAuthLogin {
       'email': email,
       'emailVerified': emailVerified?.toIso8601String(),
       'password': password,
+      'student': student?.toJson(),
     };
   }
 
