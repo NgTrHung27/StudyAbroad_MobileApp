@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/Authentication/login_page.dart';
 import 'package:kltn_mobile/Authentication/register_page.dart';
+import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -35,19 +38,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // routes: {
-        //   'FirstPage': (context) => FirstPage(),
-        // },
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromRGBO(125, 31, 31, 1.0)),
-          useMaterial3: true,
-          focusColor: const Color.fromRGBO(125, 31, 31, 1.0),
-          hoverColor: const Color.fromRGBO(125, 31, 31, 1.0),
-        ),
-        home: const RegisterPage());
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+                seedColor: const Color.fromRGBO(125, 31, 31, 1.0)),
+            useMaterial3: true,
+            focusColor: const Color.fromRGBO(125, 31, 31, 1.0),
+            hoverColor: const Color.fromRGBO(125, 31, 31, 1.0),
+          ),
+          home: const RegisterPage()),
+    );
   }
 }
