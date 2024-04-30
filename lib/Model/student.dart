@@ -1,5 +1,6 @@
 class Student {
   String? id;
+  String? studentCode;
   String? degreeType;
   String? certificateType;
   String? certificateImg;
@@ -13,6 +14,7 @@ class Student {
 
   Student({
     this.id,
+    this.studentCode,
     this.degreeType,
     this.certificateType,
     this.certificateImg,
@@ -28,6 +30,7 @@ class Student {
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
       id: json['id'],
+      studentCode: json['studentCode'],
       degreeType: json['degreeType'],
       certificateType: json['certificateType'],
       certificateImg: json['certificateImg'],
@@ -44,6 +47,7 @@ class Student {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'studentCode': studentCode,
       'degreeType': degreeType,
       'certificateType': certificateType,
       'certificateImg': certificateImg,

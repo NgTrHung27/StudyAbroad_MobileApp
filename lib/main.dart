@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/Authentication/login_page.dart';
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
+import 'package:kltn_mobile/bloC/profile_status/profile_status_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -48,6 +49,9 @@ class _MyAppState extends State<MyApp> {
           ),
           BlocProvider(
             create: (_) => LoginCubit(APIRepository()),
+          ),
+          BlocProvider(
+            create: (_) => ProfileStatusCubit(),
           ),
         ],
         child: MaterialApp(
