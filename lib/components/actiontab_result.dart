@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ActiontabResult extends StatefulWidget {
   final String result;
 
-  const ActiontabResult({Key? key, required this.result}) : super(key: key);
+  const ActiontabResult({super.key, required this.result});
 
   @override
   State<ActiontabResult> createState() => _ActiontabResultState();

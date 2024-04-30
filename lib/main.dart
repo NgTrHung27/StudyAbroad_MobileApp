@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/Authentication/login_page.dart';
-import 'package:kltn_mobile/Authentication/register_page.dart';
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';

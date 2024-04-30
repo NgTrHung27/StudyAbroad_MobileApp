@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kltn_mobile/API/api_service.dart';
 import 'package:kltn_mobile/Authentication/login_page.dart';
 import 'package:kltn_mobile/Authentication/steps_register.dart';
 import 'package:intl/intl.dart';
@@ -17,6 +16,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
+import 'package:kltn_mobile/bloC/repository/repository.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -154,7 +154,6 @@ class _RegisterPageState extends State<RegisterPage> {
         name.isEmpty ||
         phone.isEmpty ||
         confirmpassword.isEmpty ||
-        gradeScore == null ||
         selectedProgram == null ||
         selectedCity == null ||
         selectedDistrict == null ||
@@ -168,7 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
     //Call API from APIService
 
-    UserAuthRegister? userAuthRegister = await APIService().register(
+    UserAuthRegister? userAuthRegister = await APIRepository().register(
         email,
         password,
         name,
@@ -195,6 +194,7 @@ class _RegisterPageState extends State<RegisterPage> {
       // Hiển thị thông báo đăng ký thành công
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
         context,
         MaterialPageRoute(builder: (context) => const HomePage()),
       );
@@ -221,7 +221,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void fetchCity() async {
     try {
-      List<City> fetchedCity = await APIService().getCity();
+      List<City> fetchedCity = await APIRepository().getCity();
       setState(() {
         lstCities = fetchedCity.cast<City>();
       });
