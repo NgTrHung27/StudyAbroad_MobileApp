@@ -1,58 +1,53 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/API/api_service.dart';
 import 'package:kltn_mobile/HomePage/home_page.dart';
+import 'package:kltn_mobile/HomePage/user_detail.dart';
 import 'package:kltn_mobile/Model/user_login.dart';
+import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
+import 'package:kltn_mobile/bloC/repository/repository.dart';
 import 'package:kltn_mobile/components/button.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => LoginCubit(APIRepository()),
+      child: _LoginPage(),
+    );
+  }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPage extends StatefulWidget {
+  @override
+  State<_LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<_LoginPage> {
   String email = '';
   String password = '';
+  String? errorMessage;
+  double opacityLevel = 1.0;
+
   //Text Editing Controller
   final usermailController = TextEditingController();
   final passwordController = TextEditingController();
   int selectedValue = 0; // Define the selectedValue variable
 
   //LoginUser in Method API
-  void userLogin() async {
+  void userLogin(BuildContext context) {
     // Lấy giá trị email và password từ các TextField
     String email = usermailController.text.trim();
     String password = passwordController.text.trim();
     log('data: $email');
     log('data: $password');
-
-    // Kiểm tra email và password không trống
-    if (email.isEmpty || password.isEmpty) {
-      // Hiển thị thông báo lỗi
-      print('Email hoặc password không được trống!');
-      return;
-    }
-    // Gọi phương thức login từ APIService
-    UserAuthLogin? userAuth = await APIService().login(email, password);
-    log('data: $userAuth');
-
-    // Xử lý kết quả trả về
-    if (userAuth != null) {
-      // Đăng nhập thành công, điều hướng tới màn hình tiếp theo
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    } else {
-      // Hiển thị thông báo lỗi
-
-      print('Đăng nhập thất bại!');
-    }
+    // Gọi phương thức login từ LoginCubit
+    context.read<LoginCubit>().login(email, password);    
   }
 
   @override
@@ -60,89 +55,118 @@ class _LoginPageState extends State<LoginPage> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SafeArea(
-            child: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/Bckgr_Login.jpg"),
-                  fit: BoxFit.cover)),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 30.0, vertical: 40.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment
-                        .start, // Thay đổi từ CrossAxisAlignment.center thành CrossAxisAlignment.start
-                    children: [
-                      //Logo
-                      //Logo và các phần còn lại sẽ được bao trong một Row để căn giữa theo chiều ngang
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+          child: Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/Bckgr_Login.jpg"),
+                    fit: BoxFit.cover)),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: BlocConsumer<LoginCubit, LoginState>(
+                 listener: (context, state) {
+                if (state is LoginLoading) {
+                  const Center(child: CircularProgressIndicator());
+                }
+                if (state is LoginFailure) {
+                  setState(() {
+                    errorMessage = state.error;
+                  });
+                
+                } else if (state is LoginSuccess) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                          UserDetailsPage(userAuth: state.userAuthLogin)),
+                  );
+                } else if (state is EmailError) {
+                  setState(() {
+                   errorMessage = state.error;
+                  });
+                } else if (state is LoginInitial) {
+                  setState(() {
+                    errorMessage = null;
+                  });
+                }
+              },
+                builder: (context, state) {
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 40.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment
+                            .start, // Thay đổi từ CrossAxisAlignment.center thành CrossAxisAlignment.start
                         children: [
                           //Logo
-                          Image.asset(
-                            "assets/LOGO_RED.png",
-                            height: 80,
+                          //Logo và các phần còn lại sẽ được bao trong một Row để căn giữa theo chiều ngang
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              //Logo
+                              Image.asset(
+                                "assets/LOGO_RED.png",
+                                height: 80,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      Text(
-                        'Welcome\nBack!',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: const Color(0xff7D1F1F),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 30,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Continue your adventure',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: const Color(0xff7D1F1F),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        ),
-                      ),
-                      //Email TextFied
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MyTextField(
-                            controller: usermailController,
-                            hintText: 'Enter your email',
-                            obscureText: false,
-                            prefixIcon: Icons.email,
-                            onChanged: (value) {
-                              // Lưu giá trị email mới được nhập
-                              email = value;
-                            },
+                          const SizedBox(height: 30),
+                          Text(
+                            'Welcome\nBack!',
+                            style: GoogleFonts.getFont(
+                              'Montserrat',
+                              color: const Color(0xff7D1F1F),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 30,
+                            ),
                           ),
-                        ],
-                      ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Continue your adventure',
+                            style: GoogleFonts.getFont(
+                              'Montserrat',
+                              color: const Color(0xff7D1F1F),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                          ),
+                          //Email TextFied
+                          const SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              MyTextField(
+                                controller: usermailController,
+                                hintText: 'Enter your email',
+                                obscureText: false,
+                                prefixIcon: Icons.email,
+                                onChanged: (value) {
+                                  // Lưu giá trị email mới được nhập
+                                  email = value;
+                                  context.read<LoginCubit>().checkEmail(email);
+                                },
+                              ),
+                            ],
+                          ),
 
-                      //Pass TextFied
-                      const SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MyTextField(
-                            controller: passwordController,
-                            hintText: 'Enter your password',
-                            obscureText: true,
-                            prefixIcon: Icons.lock,
-                            additionalIcon: Icons.visibility,
-                            onChanged: (value) {
-                              // Lưu giá trị password mới được nhập
-                              password = value;
-                            },
+                          //Pass TextFied
+                          const SizedBox(height: 15),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              MyTextField(
+                                controller: passwordController,
+                                hintText: 'Enter your password',
+                                obscureText: true,
+                                prefixIcon: Icons.lock,
+                                additionalIcon: Icons.visibility,
+                                onChanged: (value) {
+                                  // Lưu giá trị password mới được nhập
+                                  password = value;
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
                           //Forgot Pass
                           const SizedBox(height: 5),
                           Row(
@@ -170,14 +194,19 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ],
                           ),
-
+                          //Error Message
+                          if (errorMessage != null)
+                            Text(
+                              errorMessage!,
+                              style: const TextStyle(color: Colors.red),
+                            ),
                           //Login Button
                           const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               MyButton(
-                                onTap: userLogin,
+                                onTap:() => userLogin(context),
                               ),
                             ],
                           ),
@@ -222,6 +251,8 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
+                  );
+                },
               ),
             ),
           ),
