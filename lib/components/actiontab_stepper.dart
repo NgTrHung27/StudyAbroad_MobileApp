@@ -18,6 +18,11 @@ class ActionTabStepper extends StatefulWidget {
 
 class _ActionTabStepperState extends State<ActionTabStepper> {
   int _currentStep = 2; //Auto set currentstep to step 2
+  onStepTapped(int value) {
+    setState(() {
+      _currentStep = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,20 +67,11 @@ class _ActionTabStepperState extends State<ActionTabStepper> {
                 Expanded(
                   child: Stepper(
                     currentStep: _currentStep,
-                    onStepContinue: _currentStep < widget.stepTexts.length - 1
-                        ? () {
-                            setState(() {
-                              _currentStep++;
-                            });
-                          }
-                        : null,
-                    onStepCancel: _currentStep > 0
-                        ? () {
-                            setState(() {
-                              _currentStep--;
-                            });
-                          }
-                        : null,
+                    onStepTapped: onStepTapped,
+                    controlsBuilder: (BuildContext context,
+                        ControlsDetails controlsDetails) {
+                      return Container();
+                    },              
                     steps: List.generate(
                       widget.stepTexts.length,
                       (index) => Step(

@@ -206,71 +206,65 @@ List<Step> getSteps(
                 Expanded(
                   child: SizedBox(
                     height: 37,
-                    child: StreamBuilder(
-                      stream: authBloc.genderStream,
-                      builder: (context, snapshot) =>
-                          DropdownButtonFormField<Gender>(
-                        hint: Text(
-                          'Gender',
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
+                    child: DropdownButtonFormField<Gender>(
+                      hint: Text(
+                        'Gender',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
                         ),
-                        icon: null,
-                        value: valueGender,
-                        onChanged: (Gender? newValueGender) {
-                          setState(() {
-                            genderValueChanged(newValueGender);
-                            print(valueGender);
-                          });
-                        },
-                        items: <Gender>[
-                          Gender.Female,
-                          Gender.Male,
-                        ].map<DropdownMenuItem<Gender>>((Gender value) {
-                          return DropdownMenuItem<Gender>(
-                              value: Gender.values[value.index],
-                              child: Text(
-                                Gender.values[value.index]
-                                    .toString()
-                                    .split('.')
-                                    .last,
-                                style: GoogleFonts.montserrat(
-                                  color: Colors.black,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ));
-                        }).toList(),
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.wc, color: Colors.black),
-                          filled: true,
-                          fillColor: Colors.white,
-                          errorText: snapshot.hasError
-                              ? snapshot.error.toString()
-                              : null,
-                          errorStyle: const TextStyle(color: Colors.white),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color(0xFFCBD5E1), width: 1.0),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color(0xFFCBD5E1), width: 1.0),
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 2,
-                          ),
+                      ),
+                      icon: null,
+                      value: valueGender,
+                      onChanged: (Gender? newValueGender) {
+                        setState(() {
+                          genderValueChanged(newValueGender);
+                          print(valueGender);
+                        });
+                      },
+                      items: <Gender>[
+                        Gender.Female,
+                        Gender.Male,
+                      ].map<DropdownMenuItem<Gender>>((Gender value) {
+                        return DropdownMenuItem<Gender>(
+                            value: Gender.values[value.index],
+                            child: Text(
+                              Gender.values[value.index]
+                                  .toString()
+                                  .split('.')
+                                  .last,
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ));
+                      }).toList(),
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.wc, color: Colors.black),
+                        filled: true,
+                        fillColor: Colors.white,
+                        errorStyle: const TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Color(0xFFCBD5E1), width: 1.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Color(0xFFCBD5E1), width: 1.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 2,
                         ),
                       ),
                     ),
                   ),
                 ),
+
                 const SizedBox(width: 15), // Khoảng cách giữa hai trường
                 Expanded(
                   child: NumericTextField(
@@ -370,166 +364,155 @@ List<Step> getSteps(
             Row(children: [
               Expanded(
                 child: SizedBox(
-                  height: 37,
-                  child: StreamBuilder<Object>(
-                      stream: null,
-                      builder: (context, snapshot) {
-                        return DropdownButtonFormField<District>(
-                          hint: Text(
-                            selectedCity == null ? 'District' : 'District',
-                            style: GoogleFonts.montserrat(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
+                    height: 37,
+                    child: DropdownButtonFormField<District>(
+                      hint: Text(
+                        selectedCity == null ? 'District' : 'District',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      value: selectedDistrict == null
+                          ? null
+                          : lstCities
+                              .firstWhere(
+                                  (element) => element.name == selectedCity)
+                              .districts
+                              .firstWhere((element) =>
+                                  element.name == selectedDistrict),
+                      onChanged: (District? newValueDistrict) {
+                        setState(() {
+                          districtChange(newValueDistrict);
+                          selectedWard = null;
+                        });
+                      },
+                      items: selectedCity == null
+                          ? []
+                          : lstCities
+                              .firstWhere(
+                                  (element) => element.name == selectedCity)
+                              .districts
+                              .map<DropdownMenuItem<District>>(
+                                  (District district) {
+                              return DropdownMenuItem<District>(
+                                value: district,
+                                child: Text(
+                                  district.name,
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.location_city,
+                            color: Colors.black),
+                        filled: true,
+                        fillColor: Colors.white,
+                        // errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                        errorStyle: const TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Color(0xFFCBD5E1), width: 1.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color(0xFFCBD5E1),
+                            width: 1.0,
                           ),
-                          value: selectedDistrict == null
-                              ? null
-                              : lstCities
-                                  .firstWhere(
-                                      (element) => element.name == selectedCity)
-                                  .districts
-                                  .firstWhere((element) =>
-                                      element.name == selectedDistrict),
-                          onChanged: (District? newValueDistrict) {
-                            setState(() {
-                              districtChange(newValueDistrict);
-                              selectedWard = null;
-                            });
-                          },
-                          items: selectedCity == null
-                              ? []
-                              : lstCities
-                                  .firstWhere(
-                                      (element) => element.name == selectedCity)
-                                  .districts
-                                  .map<DropdownMenuItem<District>>(
-                                      (District district) {
-                                  return DropdownMenuItem<District>(
-                                    value: district,
-                                    child: Text(
-                                      district.name,
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                          isExpanded: true,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.location_city,
-                                color: Colors.black),
-                            filled: true,
-                            fillColor: Colors.white,
-                            // errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                            errorStyle: const TextStyle(color: Colors.white),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFCBD5E1), width: 1.0),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color(0xFFCBD5E1),
-                                width: 1.0,
-                              ),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 2,
-                            ),
-                          ),
-                        );
-                      }),
-                ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 2,
+                        ),
+                      ),
+                    )),
               ),
               const SizedBox(width: 15),
               Expanded(
                 child: SizedBox(
-                  height: 37,
-                  child: StreamBuilder<Object>(
-                      stream: null,
-                      builder: (context, snapshot) {
-                        return DropdownButtonFormField<Ward>(
-                          hint: Text(
-                            selectedDistrict == null ? 'Ward' : 'Ward',
-                            style: GoogleFonts.montserrat(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          value: selectedDistrict == null ||
-                                  selectedWard == null
-                              ? null
-                              : lstCities
-                                  .firstWhere(
-                                      (element) => element.name == selectedCity)
-                                  .districts
-                                  .firstWhere((element) =>
-                                      element.name == selectedDistrict)
-                                  .wards
-                                  .firstWhere(
-                                    (element) => element.name == selectedWard,
-                                  ),
-                          onChanged: (Ward? newValueWard) {
-                            setState(() {
-                              wardChange(newValueWard);
-                            });
-                          },
-                          items: selectedDistrict == null
-                              ? []
-                              : lstCities
-                                  .firstWhere(
-                                      (element) => element.name == selectedCity)
-                                  .districts
-                                  .firstWhere((element) =>
-                                      element.name == selectedDistrict)
-                                  .wards
-                                  .map<DropdownMenuItem<Ward>>((Ward ward) {
-                                  return DropdownMenuItem<Ward>(
-                                    value: ward,
-                                    child: Text(
-                                      ward.name,
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                          isExpanded: true,
-                          decoration: InputDecoration(
-                            prefixIcon:
-                                const Icon(Icons.pin_drop, color: Colors.black),
-                            filled: true,
-                            fillColor: Colors.white,
-                            // errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                            errorStyle: const TextStyle(color: Colors.white),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color(0xFFCBD5E1), width: 1.0),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color: Color(0xFFCBD5E1),
-                                width: 1.0,
+                    height: 37,
+                    child: DropdownButtonFormField<Ward>(
+                      hint: Text(
+                        selectedDistrict == null ? 'Ward' : 'Ward',
+                        style: GoogleFonts.montserrat(
+                          color: Colors.black,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      value: selectedDistrict == null || selectedWard == null
+                          ? null
+                          : lstCities
+                              .firstWhere(
+                                  (element) => element.name == selectedCity)
+                              .districts
+                              .firstWhere(
+                                  (element) => element.name == selectedDistrict)
+                              .wards
+                              .firstWhere(
+                                (element) => element.name == selectedWard,
                               ),
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 2,
-                            ),
+                      onChanged: (Ward? newValueWard) {
+                        setState(() {
+                          wardChange(newValueWard);
+                        });
+                      },
+                      items: selectedDistrict == null
+                          ? []
+                          : lstCities
+                              .firstWhere(
+                                  (element) => element.name == selectedCity)
+                              .districts
+                              .firstWhere(
+                                  (element) => element.name == selectedDistrict)
+                              .wards
+                              .map<DropdownMenuItem<Ward>>((Ward ward) {
+                              return DropdownMenuItem<Ward>(
+                                value: ward,
+                                child: Text(
+                                  ward.name,
+                                  style: GoogleFonts.montserrat(
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        prefixIcon:
+                            const Icon(Icons.pin_drop, color: Colors.black),
+                        filled: true,
+                        fillColor: Colors.white,
+                        // errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                        errorStyle: const TextStyle(color: Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                              color: Color(0xFFCBD5E1), width: 1.0),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color(0xFFCBD5E1),
+                            width: 1.0,
                           ),
-                        );
-                      }),
-                ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 2,
+                        ),
+                      ),
+                    )),
               ),
               // Khoảng cách giữa hai trường
             ]),
@@ -573,80 +556,73 @@ List<Step> getSteps(
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 37,
-                    child: StreamBuilder<Object>(
-                        stream: null,
-                        builder: (context, snapshot) {
-                          //Đang Fix
-                          return BlocBuilder<AuthCubit, AuthState>(
-                            builder: (context, state) {
-                              if (state is AuthLoadedState) {
-                                 lstschools = state.school!;
-                              }
-                              return DropdownButtonFormField<School>(
-                                hint: Text(
-                                  '- Choose your school -',
+                      height: 37,
+                      child: BlocBuilder<AuthCubit, AuthState>(
+                        builder: (context, state) {
+                          if (state is AuthLoadedState) {
+                            lstschools = state.school!;
+                          }
+                          return DropdownButtonFormField<School>(
+                            hint: Text(
+                              '- Choose your school -',
+                              style: GoogleFonts.montserrat(
+                                color: Colors.black,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            value: selectedSchool == null
+                                ? null
+                                : lstschools.firstWhere((element) =>
+                                    element.name == selectedSchool),
+                            onChanged: (School? newValueSchool) {
+                              setState(() {
+                                schoolChange(newValueSchool);
+                                selectedProgram = null;
+                              });
+                            },
+                            items: lstschools
+                                .map<DropdownMenuItem<School>>((School school) {
+                              return DropdownMenuItem<School>(
+                                value: school,
+                                child: Text(
+                                  school.name,
                                   style: GoogleFonts.montserrat(
                                     color: Colors.black,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                value: selectedSchool == null
-                                    ? null
-                                    : lstschools.firstWhere((element) =>
-                                        element.name == selectedSchool),
-                                onChanged: (School? newValueSchool) {
-                                  setState(() {
-                                    schoolChange(newValueSchool);
-                                    selectedProgram = null;
-                                  });
-                                },
-                                items: lstschools.map<DropdownMenuItem<School>>(
-                                    (School school) {
-                                  return DropdownMenuItem<School>(
-                                    value: school,
-                                    child: Text(
-                                      school.name,
-                                      style: GoogleFonts.montserrat(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                                isExpanded: true,
-                                decoration: InputDecoration(
-                                  prefixIcon: const Icon(Icons.school,
-                                      color: Colors.black),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  // errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                                  errorStyle:
-                                      const TextStyle(color: Colors.white),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                        color: Color(0xFFCBD5E1), width: 1.0),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFCBD5E1),
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 11,
-                                    horizontal: 2,
-                                  ),
-                                ),
                               );
-                            },
+                            }).toList(),
+                            isExpanded: true,
+                            decoration: InputDecoration(
+                              prefixIcon:
+                                  const Icon(Icons.school, color: Colors.black),
+                              filled: true,
+                              fillColor: Colors.white,
+                              // errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                              errorStyle: const TextStyle(color: Colors.white),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Color(0xFFCBD5E1), width: 1.0),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                  color: Color(0xFFCBD5E1),
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 11,
+                                horizontal: 2,
+                              ),
+                            ),
                           );
-                        }),
-                  ),
+                        },
+                      )),
                 ),
               ],
             ),
