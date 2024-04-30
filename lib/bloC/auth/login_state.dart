@@ -13,6 +13,12 @@ class LoginSuccess extends LoginState {
   LoginSuccess(this.userAuthLogin);
 }
 
+class EmailError extends LoginState {
+  final String error;
+
+  EmailError(this.error);
+}
+
 class LoginFailure extends LoginState {
   final String error;
 

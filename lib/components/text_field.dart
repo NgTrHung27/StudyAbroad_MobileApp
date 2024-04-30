@@ -10,7 +10,7 @@ class MyTextField extends StatelessWidget {
   final IconData? additionalIcon;
   final double? fontSize; // Added fontSize as an optional parameter
   final Null Function(dynamic value) onChanged; // Added onChanged function
-
+  
   const MyTextField({
     super.key,
     required this.controller,
@@ -59,6 +59,7 @@ class MyTextField extends StatelessWidget {
                 maxLines:
                     obscureText ? 1 : maxLines, // Check obscureText condition
                 textAlign: TextAlign.start,
+                onChanged: onChanged,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: hintText,

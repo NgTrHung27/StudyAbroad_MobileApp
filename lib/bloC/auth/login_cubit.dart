@@ -10,6 +10,18 @@ class LoginCubit extends Cubit<LoginState> {
 
   LoginCubit(this._apiRepository) : super(LoginInitial());
 
+  void checkEmail(String email) {
+    String emailPattern = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+    RegExp regExp = RegExp(emailPattern);
+
+    if (!regExp.hasMatch(email)) {
+      print("Email checked");
+      emit(EmailError('Vui lòng nhập đúng định dạng email'));
+    } else {
+      emit(LoginInitial());
+    }
+  }
+
   Future<void> login(String email, String password) async {
     emit(LoginLoading());
     try {

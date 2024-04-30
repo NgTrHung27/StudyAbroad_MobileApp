@@ -32,6 +32,8 @@ class _LoginPageState extends State<_LoginPage> {
   String email = '';
   String password = '';
   String? errorMessage;
+  double opacityLevel = 1.0;
+
   //Text Editing Controller
   final usermailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -44,9 +46,8 @@ class _LoginPageState extends State<_LoginPage> {
     String password = passwordController.text.trim();
     log('data: $email');
     log('data: $password');
-
     // Gọi phương thức login từ LoginCubit
-    context.read<LoginCubit>().login(email, password);
+    context.read<LoginCubit>().login(email, password);    
   }
 
   @override
@@ -70,6 +71,7 @@ class _LoginPageState extends State<_LoginPage> {
                   setState(() {
                     errorMessage = state.error;
                   });
+                
                 } else if (state is LoginSuccess) {
                   Navigator.push(
                     context,
@@ -77,6 +79,14 @@ class _LoginPageState extends State<_LoginPage> {
                         builder: (context) =>
                           UserDetailsPage(userAuth: state.userAuthLogin)),
                   );
+                } else if (state is EmailError) {
+                  setState(() {
+                   errorMessage = state.error;
+                  });
+                } else if (state is LoginInitial) {
+                  setState(() {
+                    errorMessage = null;
+                  });
                 }
               },
                 builder: (context, state) {
@@ -133,6 +143,7 @@ class _LoginPageState extends State<_LoginPage> {
                                 onChanged: (value) {
                                   // Lưu giá trị email mới được nhập
                                   email = value;
+                                  context.read<LoginCubit>().checkEmail(email);
                                 },
                               ),
                             ],
