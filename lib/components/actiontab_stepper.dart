@@ -12,6 +12,7 @@ class ActionTabStepper extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _ActionTabStepperState createState() => _ActionTabStepperState();
 }
 
