@@ -5,6 +5,7 @@ import 'package:kltn_mobile/components/actiontab_stepper.dart';
 import 'package:kltn_mobile/components/id_tab.dart';
 import 'package:kltn_mobile/components/actiontab_result.dart';
 import 'package:kltn_mobile/Model/user_login.dart';
+import 'package:kltn_mobile/components/main_bottom_navbar.dart';
 
 class StatusTest extends StatelessWidget {
   final UserAuthLogin userAuth;
@@ -18,53 +19,70 @@ class StatusTest extends StatelessWidget {
       child: BlocBuilder<ProfileStatusCubit, ProfileStatusState>(
         builder: (context, state) {
           return Scaffold(
-            body: Container(
-              color: const Color(0xffd9d9d9),
-              child: Column(
-                children: [
-                  SizedBox(height: screenHeight * 0.08),
-                  //UserID and UserName
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+            // bottomNavigationBar: BottomNavbar(
+            //   items:  [
+            //     BottomNavbarItem(icon: Icons.home_outlined, label: 'Home'),
+            //     BottomNavbarItem(icon: Icons.notifications_outlined, label: 'Notifications'),
+            //     BottomNavbarItem(icon: Icons.settings, label: 'Settings'),
+            //   ],
+            // ),
+            body: Stack(
+              children: <Widget>[
+                Container(
+                  color: const Color(0xffd9d9d9),
+                  child: Column(
                     children: [
-                      IdTab(
-                        userName: userAuth.name ?? 'N/A',
-                        idUser: userAuth.student?.studentCode ?? 'N/A',
-                        avatarImgPath: 'assets/Bckgr_Login.jpg',
+                      SizedBox(height: screenHeight * 0.08),
+                      //UserID and UserName
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IdTab(
+                            userName: userAuth.name ?? 'N/A',
+                            idUser: userAuth.student?.studentCode ?? 'N/A',
+                            avatarImgPath: 'assets/Bckgr_Login.jpg',
+                          ),
+                        ], // parameters userName+idUser and avatarUser
                       ),
-                    ], // parameters userName+idUser and avatarUser
-                  ),
-                  SizedBox(height: screenHeight * 0.03),
-
-                  //Stepper
-                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //Stepper auto generate step 2
-                      ActionTabStepper(
-                        header: 'Profile Status',
-                        stepTexts: const [
-                          'Application has been submitted',
-                          'Awaiting review',
-                          'Done'
+                      SizedBox(height: screenHeight * 0.03),
+                
+                      //Stepper
+                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //Stepper auto generate step 2
+                          ActionTabStepper(
+                            header: 'Profile Status',
+                            stepTexts: const [
+                              'Application has been submitted',
+                              'Awaiting review',
+                              'Done'
+                            ],
+                            status: userAuth.student?.status ?? 'N/A'
+                          ),
                         ],
-                        status: userAuth.student?.status ?? 'N/A'
+                      ),
+                      const SizedBox(height: 20),
+                
+                      //Result Status
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ActiontabResult(
+                            result: userAuth.student?.status ?? 'N/A'
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
-
-                  //Result Status
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ActiontabResult(
-                        result: userAuth.student?.status ?? 'N/A'
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                const Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: MainNavBar(),
+                ),
+              ],
             ),
           );
         },
