@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kltn_mobile/Authentication/login_page.dart';
+import 'package:kltn_mobile/View/Authentication/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
