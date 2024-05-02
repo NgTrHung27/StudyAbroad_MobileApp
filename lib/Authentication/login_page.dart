@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/Authentication/register_page.dart';
 import 'package:kltn_mobile/View/status_test.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
@@ -43,7 +44,7 @@ class _LoginPageState extends State<_LoginPage> {
     log('data: $email');
     log('data: $password');
     // Gọi phương thức login từ LoginCubit
-    context.read<LoginCubit>().login(email, password);    
+    context.read<LoginCubit>().login(email, password);
   }
 
   @override
@@ -59,32 +60,31 @@ class _LoginPageState extends State<_LoginPage> {
             child: Scaffold(
               backgroundColor: Colors.transparent,
               body: BlocConsumer<LoginCubit, LoginState>(
-                 listener: (context, state) {
-                if (state is LoginLoading) {
-                  const Center(child: CircularProgressIndicator());
-                }
-                if (state is LoginFailure) {
-                  setState(() {
-                    errorMessage = state.error;
-                  });
-                
-                } else if (state is LoginSuccess) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                          StatusTest(userAuth: state.userAuthLogin)),
-                  );
-                } else if (state is EmailError) {
-                  setState(() {
-                   errorMessage = state.error;
-                  });
-                } else if (state is LoginInitial) {
-                  setState(() {
-                    errorMessage = null;
-                  });
-                }
-              },
+                listener: (context, state) {
+                  if (state is LoginLoading) {
+                    const Center(child: CircularProgressIndicator());
+                  }
+                  if (state is LoginFailure) {
+                    setState(() {
+                      errorMessage = state.error;
+                    });
+                  } else if (state is LoginSuccess) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              StatusTest(userAuth: state.userAuthLogin)),
+                    );
+                  } else if (state is EmailError) {
+                    setState(() {
+                      errorMessage = state.error;
+                    });
+                  } else if (state is LoginInitial) {
+                    setState(() {
+                      errorMessage = null;
+                    });
+                  }
+                },
                 builder: (context, state) {
                   return SingleChildScrollView(
                     child: Padding(
@@ -202,7 +202,7 @@ class _LoginPageState extends State<_LoginPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               MyButton(
-                                onTap:() => userLogin(context),
+                                onTap: () => userLogin(context),
                               ),
                             ],
                           ),
@@ -236,13 +236,23 @@ class _LoginPageState extends State<_LoginPage> {
                                   ),
                                 ),
                                 const SizedBox(width: 5),
-                                Text('Sign Up',
-                                    style: GoogleFonts.getFont(
-                                      'Montserrat',
-                                      color: const Color(0xff7D1F1F),
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 13,
-                                    ))
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RegisterPage()),
+                                    );
+                                  },
+                                  child: Text('Sign Up',
+                                      style: GoogleFonts.getFont(
+                                        'Montserrat',
+                                        color: const Color(0xff7D1F1F),
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 13,
+                                      )),
+                                )
                               ]),
                         ],
                       ),
