@@ -65,7 +65,6 @@ List<Step> getSteps(
         valueGender,
         valueDegree,
         selectedCertificateType,
-        authBloc,
         List<School> lstschools,
         selectedSchool,
         selectedProgram,

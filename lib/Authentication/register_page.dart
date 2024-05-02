@@ -79,19 +79,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //--------------------------------------------------------------------------------------------------
 
-  //AuthBloc
-  AuthBloc authBloc = AuthBloc(); //kiểm tra và hiển thị lỗi trong các TextField
-  // final TextEditingController nameController = TextEditingController();
-  // final TextEditingController dateController = TextEditingController();
-  // final TextEditingController phoneController = TextEditingController();
-  // final TextEditingController addressController = TextEditingController();
-  // final TextEditingController genderController = TextEditingController();
-  // final TextEditingController cICController = TextEditingController();
-  // final TextEditingController emailController = TextEditingController();
-  // final TextEditingController passController = TextEditingController();
-  //End of AuthBloc
-  //-------------------------------------------------------------------------
-
   //Declare Intial Method
   //Register User API Method
   // Lấy giá trị email và password từ các TextField
@@ -373,7 +360,7 @@ class _RegisterPageState extends State<RegisterPage> {
   void initState() {
     super.initState();
     context.read<AuthCubit>().getSchools();
-
+    print('Schools: $lstschools');
     // selectDate();
     fetchSchools();
     schoolChange(null);
@@ -449,7 +436,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     valueGender,
                     valueDegree,
                     selectedCertificateType,
-                    authBloc,
                     lstschools,
                     selectedSchool,
                     selectedProgram,
@@ -759,7 +745,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 valueGender,
                                 valueDegree,
                                 selectedCertificateType,
-                                authBloc,
                                 lstschools,
                                 selectedSchool,
                                 selectedProgram,
