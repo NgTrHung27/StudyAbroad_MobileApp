@@ -7,6 +7,7 @@ import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/auth_state.dart';
 import 'package:kltn_mobile/components/dropdown.dart';
 import 'package:kltn_mobile/components/numeric_textfield.dart';
+import 'package:kltn_mobile/components/radio.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -386,7 +387,7 @@ List<Step> getSteps(
                       height: 37,
                       child: BlocBuilder<AuthCubit, AuthState>(
                         builder: (context, state) {
-                          if (state is AuthLoadedState) {
+                          if (state is AuthLoadedNamedSchoolState) {
                             lstschools = state.school!;
                           }
                           return DropdownCustom<School>(
@@ -417,6 +418,29 @@ List<Step> getSteps(
                 Expanded(
                   child: SizedBox(
                     height: 37,
+                    child: DropdownCustom<Program>(
+                      items: selectedSchool == null
+                          ? []
+                          : selectedSchool!.programs,
+                      selectedItem: selectedProgram == null
+                          ? null
+                          : selectedSchool!.programs.firstWhere(
+                              (element) => element.name == selectedProgram),
+                      onChanged: (Program? newValueProgram) {
+                        setState(() {
+                          programChange(newValueProgram);
+                        });
+                      },
+                      itemLabel: (Program program) => program.name,
+                      hintText: 'Major',
+                      isExpanded: false,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: SizedBox(
+                    height: 37,
                     child: DropdownCustom<DegreeType>(
                       items: DegreeType.values,
                       selectedItem: valueDegree,
@@ -430,73 +454,6 @@ List<Step> getSteps(
                           degreeType.toString().split('.').last,
                       hintText: 'Degree',
                       isExpanded: false,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: SizedBox(
-                    height: 37,
-                    child: DropdownButtonFormField<DegreeType>(
-                      hint: Text(
-                        'Degree',
-                        style: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      icon: null,
-                      value: valueDegree,
-                      onChanged: (DegreeType? newValueDegree) {
-                        setState(() {
-                          degreeValueChanged(newValueDegree);
-                          print(valueDegree);
-                        });
-                      },
-                      items: <DegreeType>[
-                        DegreeType.Highschool,
-                        DegreeType.University,
-                      ].map<DropdownMenuItem<DegreeType>>((DegreeType value) {
-                        return DropdownMenuItem<DegreeType>(
-                            value: DegreeType.values[value.index],
-                            child: Text(
-                              DegreeType.values[value.index]
-                                  .toString()
-                                  .split('.')
-                                  .last,
-                              style: GoogleFonts.montserrat(
-                                color: Colors.black,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ));
-                      }).toList(),
-                      isExpanded: true,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.workspace_premium,
-                            color: Colors.black),
-                        filled: true,
-                        fillColor: Colors.white,
-                        // errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                        errorStyle: const TextStyle(color: Colors.white),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Color(0xFFCBD5E1), width: 1.0),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Color(0xFFCBD5E1),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 2,
-                        ),
-                      ),
                     ),
                   ),
                 )
@@ -612,70 +569,21 @@ List<Step> getSteps(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: SizedBox(
-                    height: 37,
-                    child: ListTile(
-                      title: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text('GPA (?/4.0)',
-                            style: GoogleFonts.getFont(
-                              'Montserrat',
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                            )),
-                      ),
-                      // leading: Radio<GradeType>(
-                      //   value: GradeType.GPA,
-                      //   groupValue: radioGradeTypeValue ,
-                      //   onChanged: radioValueChanged,
-                      // ),
-                      leading: Radio<GradeType>(
-                        value: GradeType.GPA,
-                        groupValue: radioGradeTypeValue,
-                        onChanged: (GradeType? newGradeTypeValue) {
-                          radioValueChanged(newGradeTypeValue);
-                        },
-                      ),
-                      dense: true,
-                      visualDensity:
-                          const VisualDensity(horizontal: -4, vertical: -4),
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                  ),
+                CustomRadio<GradeType>(
+                  value: GradeType.GPA,
+                  groupValue: radioGradeTypeValue,
+                  onChanged: (GradeType? newGradeTypeValue) {
+                    radioValueChanged(newGradeTypeValue);
+                  },
+                  title: 'GPA (?/4.0)',
                 ),
-                Expanded(
-                  child: SizedBox(
-                    height: 37,
-                    child: ListTile(
-                      title: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text('GGPA (?/10.0)',
-                            style: GoogleFonts.getFont(
-                              'Montserrat',
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                            )),
-                      ),
-                      // leading: Radio<GradeType>(
-                      //   value: GradeType.CGPA,
-                      //   groupValue: radioGradeTypeValue,
-                      //   onChanged: radioValueChanged,
-                      // ),
-                      leading: Radio<GradeType>(
-                        value: GradeType.CGPA,
-                        groupValue: radioGradeTypeValue,
-                        onChanged: (GradeType? value) {
-                          radioValueChanged(value);
-                        },
-                      ),
-                      visualDensity:
-                          const VisualDensity(horizontal: -4, vertical: -4),
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                  ),
+                CustomRadio<GradeType>(
+                  value: GradeType.CGPA,
+                  groupValue: radioGradeTypeValue,
+                  onChanged: (GradeType? newGradeTypeValue) {
+                    radioValueChanged(newGradeTypeValue);
+                  },
+                  title: 'GGPA (?/10.0)',
                 ),
               ],
             ),
@@ -686,16 +594,10 @@ List<Step> getSteps(
               hintText: 'Grade Score',
               prefixIcon: Icons.functions,
               onChanged: (value) {
-                // // Lưu giá trị email mới được nhập
-                // gradeScore = value;
-                // print({value});
-                // Kiểm tra xem giá trị nhập liệu có phải là một số không
                 if (value is double || value is int) {
-                  // Nếu là số, gán giá trị cho biến gradeScoreValue
                   gradeScore = value.toDouble();
                   print("Grade Score: $gradeScore");
                 } else {
-                  // Nếu không phải số, in ra thông báo lỗi
                   print("Vui lòng nhập một số thực.");
                 }
               },
