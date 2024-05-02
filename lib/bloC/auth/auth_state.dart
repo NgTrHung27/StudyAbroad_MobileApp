@@ -1,16 +1,24 @@
 import 'package:kltn_mobile/Model/school.dart';
+import 'package:kltn_mobile/Model/vn_country.dart';
 
 abstract class AuthState  {}
 
 class AuthLoadingState extends AuthState{
 }
 
-class AuthLoadedState extends AuthState{
+class AuthLoadedNamedSchoolState extends AuthState{
   final List<School>? school;
-  AuthLoadedState(this.school);
+  AuthLoadedNamedSchoolState(this.school);
 }
-
-class AuthErorrState extends AuthState{
+class AuthErrorNamedSchoolState extends AuthState{
   String? message;
-  AuthErorrState(this.message);
+  AuthErrorNamedSchoolState(this.message);
+}
+class AuthLoadedCityState extends AuthState{
+  final List<City>? city;
+  AuthLoadedCityState(this.city);
+}
+class AuthErrorCityState extends AuthState{
+  String? message;
+  AuthErrorCityState(this.message);
 }
