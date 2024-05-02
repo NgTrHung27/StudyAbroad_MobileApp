@@ -8,7 +8,7 @@ import 'package:kltn_mobile/Model/vn_country.dart';
 
 class APIRepository {
   http.Client get httpClient => http.Client();
-  
+
   //Formart Date for API
   // UserAuthRegister userAuthRegister = UserAuthRegister.none();
   // DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(userAuthRegister.dob!);
@@ -89,7 +89,7 @@ class APIRepository {
       return null;
     }
   }
-  
+
   Future<UserAuthLogin?> login(
     String email,
     String password,
@@ -101,7 +101,8 @@ class APIRepository {
         body: utf8.encode(jsonEncode({"email": email, "password": password})),
       );
 
-      final data = jsonDecode(utf8.decode(response.bodyBytes)); // Define data here
+      final data =
+          jsonDecode(utf8.decode(response.bodyBytes)); // Define data here
 
       if (response.statusCode == 200) {
         log('data: $data');
@@ -114,7 +115,7 @@ class APIRepository {
       print("Exception occurred while logging in: $e");
       return null;
     }
-  } 
+  }
 
   Future<List<School>> getSchools() async {
     try {
@@ -140,20 +141,18 @@ class APIRepository {
     }
   }
 
-
-    Future<List<City>> getCity() async {
+  Future<List<City>> getCity() async {
     try {
       final response = await http.get(
         Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/country'),
       );
       if (response.statusCode == 200) {
-        List<dynamic> data = jsonDecode(response.body);
-        print('API City Response: $data'); // Add this line
+        List<dynamic> data =
+            jsonDecode(utf8.decode(latin1.encode(response.body)));
+        print('API City Response: $data');
         List<City> cities = [];
         for (var item in data) {
-          // Tạo một đối tượng School từ JSON
           City city = City.fromJson(item);
-          // Thêm đối tượng School vào danh sách schools
           cities.add(city);
         }
         return cities;

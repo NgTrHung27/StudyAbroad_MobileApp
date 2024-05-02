@@ -5,6 +5,7 @@ import 'package:kltn_mobile/Model/school.dart';
 import 'package:kltn_mobile/Model/vn_country.dart';
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/auth_state.dart';
+import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/dropdown.dart';
 import 'package:kltn_mobile/components/numeric_textfield.dart';
 import 'package:kltn_mobile/components/radio.dart';
@@ -77,17 +78,11 @@ List<Step> getSteps(
       Step(
         title: const SizedBox.shrink(),
         isActive: currentStep != 1 && currentStep != 2,
-        label: Padding(
-          padding: const EdgeInsets.only(
+        label: const Padding(
+          padding: EdgeInsets.only(
               left: 15.0,
               right: 15.0), // Điều chỉnh khoảng cách giữa các số 1, 2, 3 ở đây
-          child: Text('Account',
-              style: GoogleFonts.getFont(
-                'Montserrat',
-                color: const Color(0xff7D1F1F),
-                fontWeight: FontWeight.w400,
-                fontSize: 11,
-              )),
+          child:  TextMonserats('Account'),
         ),
         content: Column(
           children: [
@@ -154,13 +149,7 @@ List<Step> getSteps(
       Step(
         title: const SizedBox.shrink(),
         isActive: currentStep != 0 && currentStep != 2,
-        label: Text('Profile',
-            style: GoogleFonts.getFont(
-              'Montserrat',
-              color: const Color(0xff7D1F1F),
-              fontWeight: FontWeight.w400,
-              fontSize: 11,
-            )),
+        label: const TextMonserats('Profile'),
         content: Column(
           children: [
             //DOB
@@ -241,16 +230,10 @@ List<Step> getSteps(
             ),
             const SizedBox(height: 13),
             //Address
-            Row(
+            const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Address',
-                    style: GoogleFonts.getFont(
-                      'Montserrat',
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                    )),
+                TextMonserats('Address'),
               ],
             ),
             //City
@@ -363,17 +346,11 @@ List<Step> getSteps(
       Step(
         title: const SizedBox.shrink(),
         isActive: currentStep != 0 && currentStep != 1,
-        label: Padding(
-          padding: const EdgeInsets.only(
+        label: const Padding(
+          padding: EdgeInsets.only(
               left: 15.0,
               right: 15.0), // Điều chỉnh khoảng cách giữa các số 1, 2, 3 ở đây
-          child: Text('Education',
-              style: GoogleFonts.getFont(
-                'Montserrat',
-                color: const Color(0xff7D1F1F),
-                fontWeight: FontWeight.w400,
-                fontSize: 11,
-              )),
+          child: TextMonserats('Education'),
         ),
         content: Column(
           children: [
@@ -523,43 +500,26 @@ List<Step> getSteps(
                   imageValueChanged();
                   // imageValueChanged(getImage());
                 },
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.upload_file,
                       size: 21,
                     ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Upload file here',
-                      style: GoogleFonts.getFont(
-                        'Montserrat',
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
+                    SizedBox(width: 10),
+                    TextMonserats('Upload file here')
                   ],
                 ),
               ),
             ),
             //Overall Score
             const SizedBox(height: 13),
-            Row(
+            const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Overall Score',
-                  style: GoogleFonts.getFont(
-                    'Montserrat',
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                  ),
-                ),
+                TextMonserats('Overall Score'),
               ],
             ),
             //GPA - CGPA
