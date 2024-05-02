@@ -6,7 +6,6 @@ import 'package:kltn_mobile/Authentication/login_page.dart';
 import 'package:kltn_mobile/Authentication/steps_register.dart';
 import 'package:intl/intl.dart';
 import 'package:kltn_mobile/HomePage/home_page.dart';
-import 'package:kltn_mobile/Model/auth_bloc.dart';
 import 'package:kltn_mobile/Model/enum.dart';
 import 'package:kltn_mobile/Model/school.dart';
 import 'package:kltn_mobile/Model/user_register.dart';
