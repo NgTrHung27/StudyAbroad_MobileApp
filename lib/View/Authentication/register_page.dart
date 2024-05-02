@@ -16,6 +16,8 @@ import 'dart:convert';
 
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
+import 'package:kltn_mobile/components/Style/simplebutton.dart';
+import 'package:kltn_mobile/components/Style/montserrat.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -206,14 +208,14 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   void fetchCity() async {
-    try {
-      List<City> fetchedCity = await APIRepository().getCity();
-      setState(() {
-        lstCities = fetchedCity.cast<City>();
-      });
-    } catch (e) {
-      print("Failed to fetch country: $e");
-    }
+    // try {
+    //   List<City> fetchedCity = await APIRepository().getCity();
+    //   setState(() {
+    //     lstCities = fetchedCity.cast<City>();
+    //   });
+    // } catch (e) {
+    //   print("Failed to fetch country: $e");
+    // }
   }
 
   //Declare intial state value for selectedSchool
@@ -355,11 +357,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //call function `fetchSchools` in initState to get List School when page initial
   School? school;
+  City? city;
   @override
   void initState() {
     super.initState();
     context.read<AuthCubit>().getSchools();
-    print('Schools: $lstschools');
+    context.read<AuthCubit>().getCity();
+    print('Schools: $lstschools - Check Ini');
+    print('Cities: $lstCities - Check Ini');
     // selectDate();
     fetchSchools();
     schoolChange(null);
@@ -474,133 +479,52 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(
                   width: double.infinity,
                   height: 40,
-                  child: OutlinedButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: const BorderSide(
-                            color: Color(0xff7D1F1F),
-                            width: 1.0,
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                      ),
-                      overlayColor: MaterialStateProperty.resolveWith<Color>(
-                          (states) => states.contains(MaterialState.pressed)
-                              ? const Color(0xff7D1F1F).withOpacity(0.2)
-                              : const Color(0xff7D1F1F).withOpacity(0.1)),
-                      shadowColor: MaterialStateProperty.resolveWith<Color>(
-                          (states) => states.contains(MaterialState.pressed)
-                              ? Colors.black.withOpacity(0.3)
-                              : Colors.transparent),
-                      elevation: MaterialStateProperty.resolveWith<double>(
-                          (states) => states.contains(MaterialState.pressed)
-                              ? 5.0
-                              : 0.0),
+                  child: SimpleButton(
+                    backgroundColor: Colors.transparent,
+                    borderColor: const Color(0xff7D1F1F),
+                    onPressed: details.onStepCancel,
+                    child: const TextMonserats(
+                      'Back',
+                      color: Color(0xff7D1F1F),
                     ),
-                    onPressed: () {
-                      details.onStepCancel;
-                    },
-                    child: Text('Back',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: const Color(0xff7D1F1F),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        )),
                   ),
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
                     width: double.infinity,
                     height: 40,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xff7D1F1F)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        overlayColor: MaterialStateProperty.resolveWith<Color>(
-                            (states) => states.contains(MaterialState.pressed)
-                                ? const Color(0xff7D1F1F).withOpacity(0.2)
-                                : const Color(0xff7D1F1F).withOpacity(0.1)),
-                        shadowColor: MaterialStateProperty.resolveWith<Color>(
-                            (states) => states.contains(MaterialState.pressed)
-                                ? Colors.black.withOpacity(0.3)
-                                : Colors.transparent),
-                        elevation: MaterialStateProperty.resolveWith<double>(
-                            (states) => states.contains(MaterialState.pressed)
-                                ? 5.0
-                                : 0.0),
-                      ),
+                    child: SimpleButton(
                       onPressed: () {
-                        // Thực hiện chức năng đăng ký khi nhấn nút Sign Up
-                        // Đoạn code xử lý đăng ký người dùng
                         userRegister();
                       },
-                      child: Text('Sign Up',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          )),
+                      child: const TextMonserats(
+                        'Sign Up',
+                        color: Colors.white,
+                      ),
                     )),
               ],
             )
           : Row(
               children: [
                 Expanded(
-                  child: OutlinedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: const BorderSide(
-                            color: Color(0xff7D1F1F),
-                            width: 1.0,
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                      ),
-                    ),
+                  child: SimpleButton(
+                    backgroundColor: Colors.transparent,
+                    borderColor: const Color(0xff7D1F1F),
                     onPressed: details.onStepCancel,
-                    child: Text('Back',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: const Color(0xff7D1F1F),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                        )),
+                    child: const TextMonserats(
+                      'Back',
+                      color: Color(0xff7D1F1F),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 120),
                 Expanded(
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color(0xff7D1F1F)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
+                  child: SimpleButton(
                     onPressed: details.onStepContinue,
-                    child: Text('Next',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                        )),
+                    child: const TextMonserats(
+                      'Next',
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],
@@ -669,13 +593,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             fontSize: 24,
                           )),
                       const SizedBox(height: 5),
-                      Text('Create an account to manage yout account today',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            color: const Color(0xff000000),
-                            fontWeight: FontWeight.w300,
-                            fontSize: 11,
-                          )),
+                      const TextMonserats(
+                          'Create an account to manage yout account today'),
                       Expanded(
                         child: Theme(
                           data: Theme.of(context).copyWith(
