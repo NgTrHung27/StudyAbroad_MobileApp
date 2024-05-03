@@ -13,17 +13,20 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       List<School> school = await authRepo.getSchools();
       emit(AuthLoadedNamedSchoolState(school));
+      print('Schools cubit: ` $school');
     } catch (ex) {
-      print('Schools: ` $ex');
+      print('Schools cubit: ` $ex');
       emit(AuthErrorNamedSchoolState(ex.toString()));
     }
   }
-  void getCity() async{
+
+  void getCity() async {
     try{
       List<City> city = await authRepo.getCity();
       emit(AuthLoadedCityState(city));
-    }catch(ex){
-      print('City: ` $ex');
+      print('City cubit: ` $city');
+    }catch (ex) {
+      print('City cubit: ` $ex');
       emit(AuthErrorCityState(ex.toString()));
     }
   }

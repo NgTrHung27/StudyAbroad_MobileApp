@@ -47,10 +47,8 @@ List<Step> getSteps(
         //Declare Future Method
         Function setState,
         selectDate,
-        Function fetchSchools,
         schoolChange,
         programChange,
-        fetchCity,
         cityChange,
         districtChange,
         wardChange,
@@ -82,7 +80,7 @@ List<Step> getSteps(
           padding: EdgeInsets.only(
               left: 15.0,
               right: 15.0), // Điều chỉnh khoảng cách giữa các số 1, 2, 3 ở đây
-          child:  TextMonserats('Account'),
+          child: TextMonserats('Account'),
         ),
         content: Column(
           children: [
@@ -232,7 +230,7 @@ List<Step> getSteps(
             //Address
             const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: [ 
                 TextMonserats('Address'),
               ],
             ),
@@ -240,22 +238,29 @@ List<Step> getSteps(
             const SizedBox(height: 12),
             SizedBox(
                 height: 37,
-                child: DropdownCustom<City>(
-                  items: lstCities,
-                  selectedItem: selectedCity == null
-                      ? null
-                      : lstCities.firstWhere(
-                          (element) => element.name == selectedCity),
-                  onChanged: (City? newValueCountry) {
-                    if (newValueCountry != null) {
-                      cityChange(newValueCountry);
-                      selectedDistrict = null;
-                      selectedWard = null;
+                child: BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    if(state is AuthLoadedCityState){
+                      lstCities = state.city!;
                     }
+                    return DropdownCustom<City>(
+                      items: lstCities,
+                      selectedItem: selectedCity == null
+                          ? null
+                          : lstCities.firstWhere(
+                              (element) => element.name == selectedCity),
+                      onChanged: (City? newValueCountry) {
+                        if (newValueCountry != null) {
+                          cityChange(newValueCountry);
+                          selectedDistrict = null;
+                          selectedWard = null;
+                        }
+                      },
+                      itemLabel: (City city) => city.name,
+                      hintText: 'City',
+                      isExpanded: false,
+                    );
                   },
-                  itemLabel: (City city) => city.name,
-                  hintText: 'City',
-                  isExpanded: false,
                 )),
             //District - Ward
             const SizedBox(height: 13),

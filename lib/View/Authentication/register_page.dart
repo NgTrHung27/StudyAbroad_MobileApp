@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/View/Authentication/login_page.dart';
-import 'package:kltn_mobile/View/Authentication/steps_register.dart';
+import 'package:kltn_mobile/View/Authentication/stepper_method_register/steps_method_register.dart';
+import 'package:kltn_mobile/View/Authentication/stepper_method_register/steps_register.dart';
 import 'package:intl/intl.dart';
 import 'package:kltn_mobile/View/HomePage/home_page.dart';
 import 'package:kltn_mobile/Model/enum.dart';
@@ -16,8 +16,8 @@ import 'dart:convert';
 
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
-import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/Style/textspan.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -92,49 +92,30 @@ class _RegisterPageState extends State<RegisterPage> {
     String idCardNumber = idCardNumberController.text.trim();
     DateTime dob = DateFormat('dd/MM/yyyy').parse(dateController.text.trim());
     String phone = phoneController.text.trim();
-    if (selectedSchool == null) {
-      print('School is null');
-    }
-    if (selectedProgram == null) {
-      print('Program is null');
-    }
-    if (selectedCity == null) {
-      print('City is null');
-    }
-    if (selectedDistrict == null) {
-      print('District is null');
-    }
-    if (selectedWard == null) {
-      print('Ward is null');
-    }
-
     String address = addressController.text.trim();
-    if (valueGender == null) {
-      print('valueGender is null');
-    }
-    if (valueDegree == null) {
-      print('valueDegree is null');
-    }
-    if (radioGradeTypeValue == null) {
-      print('radioGradeTypeValue is null');
-    }
-
-    if (selectedCertificateType == null) {
-      print('selectedCertificateType is null');
-    }
     double gradeScore = double.parse(gradeController.text.trim());
     String gradeScoreString =
         gradeScore.toString(); // Chuyển đổi giá trị gradeScore thành chuỗi
 
     String certificateImg = imageController.text.toString();
 
-    // Type selectedCity = cityController;
-    // Type selectedDistrict = districtController;
-    // Type selectedWard = wardController;
-    // Type valueGender = genderController;
-    // Type valueDegree = degreeController;
-    // Type radioGradeTypeValue = gradeTypecontroller; // 0: GPA, 1: CGPA
-    // Type selectedCertificateType = certificateTypeController;
+    var items = {
+      'School': selectedSchool,
+      'Program': selectedProgram,
+      'City': selectedCity,
+      'District': selectedDistrict,
+      'Ward': selectedWard,
+      'valueGender': valueGender,
+      'valueDegree': valueDegree,
+      'radioGradeTypeValue': radioGradeTypeValue,
+      'selectedCertificateType': selectedCertificateType,
+    };
+
+    items.forEach((key, value) {
+      if (value == null) {
+        print('$key is null');
+      }
+    });
 
     // Kiểm tra xem các giá trị có rỗng không
     if (email.isEmpty ||
@@ -192,30 +173,6 @@ class _RegisterPageState extends State<RegisterPage> {
       print('Đăng ký thất bại');
       // Hiển thị thông báo đăng ký thất bại
     }
-  }
-
-  //Method API
-  void fetchSchools() async {
-    // try {
-    //   List<School> fetchedSchools = await APIService().getSchools();
-    //   setState(() {
-    //     lstschools = fetchedSchools;
-    //     print('Fetched Schools: $fetchedSchools');
-    //   });
-    // } catch (e) {
-    //   print("Failed to fetch schools: $e");
-    // }
-  }
-
-  void fetchCity() async {
-    // try {
-    //   List<City> fetchedCity = await APIRepository().getCity();
-    //   setState(() {
-    //     lstCities = fetchedCity.cast<City>();
-    //   });
-    // } catch (e) {
-    //   print("Failed to fetch country: $e");
-    // }
   }
 
   //Declare intial state value for selectedSchool
@@ -366,10 +323,8 @@ class _RegisterPageState extends State<RegisterPage> {
     print('Schools: $lstschools - Check Ini');
     print('Cities: $lstCities - Check Ini');
     // selectDate();
-    fetchSchools();
     schoolChange(null);
     programChange(null);
-    fetchCity();
     cityChange(null);
     districtChange(null);
     wardChange(null);
@@ -421,10 +376,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     //Declare Method
                     setState,
                     selectDate,
-                    fetchSchools,
                     schoolChange,
                     programChange,
-                    fetchCity,
                     cityChange,
                     districtChange,
                     wardChange,
@@ -469,69 +422,7 @@ class _RegisterPageState extends State<RegisterPage> {
       currentStep = value;
     });
   }
-
-  Widget controlsBuilder(context, details) {
-    return Container(
-      margin: const EdgeInsets.only(top: 30),
-      child: currentStep == 2 // Kiểm tra nếu đang ở bước thứ 3
-          ? Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: SimpleButton(
-                    backgroundColor: Colors.transparent,
-                    borderColor: const Color(0xff7D1F1F),
-                    onPressed: details.onStepCancel,
-                    child: const TextMonserats(
-                      'Back',
-                      color: Color(0xff7D1F1F),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                    width: double.infinity,
-                    height: 40,
-                    child: SimpleButton(
-                      onPressed: () {
-                        userRegister();
-                      },
-                      child: const TextMonserats(
-                        'Sign Up',
-                        color: Colors.white,
-                      ),
-                    )),
-              ],
-            )
-          : Row(
-              children: [
-                Expanded(
-                  child: SimpleButton(
-                    backgroundColor: Colors.transparent,
-                    borderColor: const Color(0xff7D1F1F),
-                    onPressed: details.onStepCancel,
-                    child: const TextMonserats(
-                      'Back',
-                      color: Color(0xff7D1F1F),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 120),
-                Expanded(
-                  child: SimpleButton(
-                    onPressed: details.onStepContinue,
-                    child: const TextMonserats(
-                      'Next',
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-    );
-  }
-
+  //Control Builder in step_method_register.dart
   //End of Stepper method
   //-------------------------------------------------------------------------------
 
@@ -585,16 +476,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 40),
-                      Text('Create an account',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            color: const Color(0xff7D1F1F),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 24,
-                          )),
+                      const TextMonserats(
+                        'Create an account',
+                        color: Color(0xff7D1F1F),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                      ),
                       const SizedBox(height: 5),
                       const TextMonserats(
-                          'Create an account to manage yout account today'),
+                        'Create an account to manage yout account today',
+                        fontWeight: FontWeight.w300,
+                        fontSize: 11,
+                      ),
                       Expanded(
                         child: Theme(
                           data: Theme.of(context).copyWith(
@@ -644,10 +537,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 //Declare Method
                                 setState,
                                 selectDate,
-                                fetchSchools,
                                 schoolChange,
                                 programChange,
-                                fetchCity,
                                 cityChange,
                                 districtChange,
                                 wardChange,
@@ -688,25 +579,21 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                           child: RichText(
                             text: TextSpan(
-                              text: 'Already have an account? ',
-                              style: GoogleFonts.getFont(
-                                'Montserrat',
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                                fontStyle: FontStyle.italic,
-                              ),
+                              style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
-                                TextSpan(
-                                  text: 'Sign in',
-                                  style: GoogleFonts.getFont(
-                                    'Montserrat',
-                                    color: const Color(0xff7D1F1F),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 13,
-                                    decoration: TextDecoration.underline,
-                                    fontStyle: FontStyle.italic,
-                                  ),
+                                styledTextSpan(
+                                  'Already have an account? ',
+                                  color: Colors.black,
+                                ),
+                                styledTextSpan(
+                                  'Sign in',
+                                  color: const Color(0xff7D1F1F),
+                                  fontWeight: FontWeight.w700,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: const Color(
+                                      0xff7D1F1F), // Change the color of the underline
+                                  decorationStyle: TextDecorationStyle
+                                      .solid, // Change the number of lines
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Navigator.push(
