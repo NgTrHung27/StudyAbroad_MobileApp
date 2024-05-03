@@ -5,8 +5,9 @@ class TextMonserats extends StatelessWidget {
   final String text;
   final Color? color;
   final FontWeight? fontWeight;
+  final double? fontSize; // Add this line
 
-  const TextMonserats(this.text, {super.key, this.color, this.fontWeight});
+  const TextMonserats(this.text, {super.key, this.color, this.fontWeight, this.fontSize}); 
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +16,8 @@ class TextMonserats extends StatelessWidget {
       style: GoogleFonts.getFont(
         'Montserrat',
         color: color ?? const Color(0xff7D1F1F),
-        fontWeight: FontWeight.w600,
-        fontSize: 14,
+        fontWeight: fontWeight ?? FontWeight.w600,
+        fontSize: fontSize ?? 14,
       ),
     );
   }
