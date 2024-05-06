@@ -9,11 +9,12 @@ class MainNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavbar(
-    items:  [
-      BottomNavbarItem(icon: Icons.home_outlined, label: 'Home'),
-      BottomNavbarItem(icon: Icons.notifications_outlined, label: 'Notifications'),
-      BottomNavbarItem(icon: Icons.settings, label: 'Settings'),
-    ]
-   );
+      items:  [
+        BottomNavbarItem(icon: Icons.home_outlined, label: 'Home'),
+        BottomNavbarItem(icon: Icons.notifications_outlined, label: 'Notifications'),
+        BottomNavbarItem(icon: Icons.person_outlined, label: 'Profile'),
+      ],
+      initialIndex: 0,
+    );
   }
 }

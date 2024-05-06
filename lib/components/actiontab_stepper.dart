@@ -59,30 +59,37 @@ class ActionTabStepper extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Stepper(
-                        currentStep: currentStep,
-                        onStepTapped: (step) => {}, // Add your logic here
-                        controlsBuilder: (BuildContext context, ControlsDetails controlsDetails) {
-                        return Container();
-                        },
-                        steps: List.generate(
-                          stepTexts.length,
-                          (index) => Step(
-                            title: Text(
-                              stepTexts[index],
-                              style: GoogleFonts.montserrat(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                color: const Color(0xff7D1F1F),
+                      child: Theme(
+                        data: ThemeData(
+                          colorScheme: const ColorScheme.light(
+                            primary: Color(0xff7D1F1F),
+                          ),
+                        ),
+                        child: Stepper(
+                          currentStep: currentStep,
+                          onStepTapped: (step) => {}, // Add your logic here
+                          controlsBuilder: (BuildContext context, ControlsDetails controlsDetails) {
+                          return Container();
+                          },
+                          steps: List.generate(
+                            stepTexts.length,
+                            (index) => Step(
+                              title: Text(
+                                stepTexts[index],
+                                style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                  color: const Color(0xff7D1F1F),
+                                ),
                               ),
+                              content: Container(),
+                              isActive: currentStep >= index,
+                              state: currentStep == index
+                                  ? StepState.indexed
+                                  : currentStep > index
+                                      ? StepState.complete
+                                      : StepState.indexed,
                             ),
-                            content: Container(),
-                            isActive: currentStep >= index,
-                            state: currentStep == index
-                                ? StepState.indexed
-                                : currentStep > index
-                                    ? StepState.complete
-                                    : StepState.indexed,
                           ),
                         ),
                       ),
