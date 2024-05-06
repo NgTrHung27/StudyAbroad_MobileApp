@@ -1,12 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:kltn_mobile/Authentication/login_page.dart';
-import 'package:kltn_mobile/Authentication/steps_register.dart';
+import 'package:kltn_mobile/View/Authentication/login_page.dart';
+import 'package:kltn_mobile/View/Authentication/stepper_method_register/steps_method_register.dart';
+import 'package:kltn_mobile/View/Authentication/stepper_method_register/steps_register.dart';
 import 'package:intl/intl.dart';
-import 'package:kltn_mobile/HomePage/home_page.dart';
-import 'package:kltn_mobile/Model/auth_bloc.dart';
+import 'package:kltn_mobile/View/HomePage/home_page.dart';
 import 'package:kltn_mobile/Model/enum.dart';
 import 'package:kltn_mobile/Model/school.dart';
 import 'package:kltn_mobile/Model/user_register.dart';
@@ -17,6 +16,8 @@ import 'dart:convert';
 
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
+import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/Style/textspan.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -79,19 +80,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //--------------------------------------------------------------------------------------------------
 
-  //AuthBloc
-  AuthBloc authBloc = AuthBloc(); //kiểm tra và hiển thị lỗi trong các TextField
-  // final TextEditingController nameController = TextEditingController();
-  // final TextEditingController dateController = TextEditingController();
-  // final TextEditingController phoneController = TextEditingController();
-  // final TextEditingController addressController = TextEditingController();
-  // final TextEditingController genderController = TextEditingController();
-  // final TextEditingController cICController = TextEditingController();
-  // final TextEditingController emailController = TextEditingController();
-  // final TextEditingController passController = TextEditingController();
-  //End of AuthBloc
-  //-------------------------------------------------------------------------
-
   //Declare Intial Method
   //Register User API Method
   // Lấy giá trị email và password từ các TextField
@@ -104,49 +92,30 @@ class _RegisterPageState extends State<RegisterPage> {
     String idCardNumber = idCardNumberController.text.trim();
     DateTime dob = DateFormat('dd/MM/yyyy').parse(dateController.text.trim());
     String phone = phoneController.text.trim();
-    if (selectedSchool == null) {
-      print('School is null');
-    }
-    if (selectedProgram == null) {
-      print('Program is null');
-    }
-    if (selectedCity == null) {
-      print('City is null');
-    }
-    if (selectedDistrict == null) {
-      print('District is null');
-    }
-    if (selectedWard == null) {
-      print('Ward is null');
-    }
-
     String address = addressController.text.trim();
-    if (valueGender == null) {
-      print('valueGender is null');
-    }
-    if (valueDegree == null) {
-      print('valueDegree is null');
-    }
-    if (radioGradeTypeValue == null) {
-      print('radioGradeTypeValue is null');
-    }
-
-    if (selectedCertificateType == null) {
-      print('selectedCertificateType is null');
-    }
     double gradeScore = double.parse(gradeController.text.trim());
     String gradeScoreString =
         gradeScore.toString(); // Chuyển đổi giá trị gradeScore thành chuỗi
 
     String certificateImg = imageController.text.toString();
 
-    // Type selectedCity = cityController;
-    // Type selectedDistrict = districtController;
-    // Type selectedWard = wardController;
-    // Type valueGender = genderController;
-    // Type valueDegree = degreeController;
-    // Type radioGradeTypeValue = gradeTypecontroller; // 0: GPA, 1: CGPA
-    // Type selectedCertificateType = certificateTypeController;
+    var items = {
+      'School': selectedSchool,
+      'Program': selectedProgram,
+      'City': selectedCity,
+      'District': selectedDistrict,
+      'Ward': selectedWard,
+      'valueGender': valueGender,
+      'valueDegree': valueDegree,
+      'radioGradeTypeValue': radioGradeTypeValue,
+      'selectedCertificateType': selectedCertificateType,
+    };
+
+    items.forEach((key, value) {
+      if (value == null) {
+        print('$key is null');
+      }
+    });
 
     // Kiểm tra xem các giá trị có rỗng không
     if (email.isEmpty ||
@@ -203,30 +172,6 @@ class _RegisterPageState extends State<RegisterPage> {
       print(userAuthRegister);
       print('Đăng ký thất bại');
       // Hiển thị thông báo đăng ký thất bại
-    }
-  }
-
-  //Method API
-  void fetchSchools() async {
-    // try {
-    //   List<School> fetchedSchools = await APIService().getSchools();
-    //   setState(() {
-    //     lstschools = fetchedSchools;
-    //     print('Fetched Schools: $fetchedSchools');
-    //   });
-    // } catch (e) {
-    //   print("Failed to fetch schools: $e");
-    // }
-  }
-
-  void fetchCity() async {
-    try {
-      List<City> fetchedCity = await APIRepository().getCity();
-      setState(() {
-        lstCities = fetchedCity.cast<City>();
-      });
-    } catch (e) {
-      print("Failed to fetch country: $e");
     }
   }
 
@@ -369,16 +314,17 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //call function `fetchSchools` in initState to get List School when page initial
   School? school;
+  City? city;
   @override
   void initState() {
     super.initState();
     context.read<AuthCubit>().getSchools();
-
+    context.read<AuthCubit>().getCity();
+    print('Schools: $lstschools - Check Ini');
+    print('Cities: $lstCities - Check Ini');
     // selectDate();
-    fetchSchools();
     schoolChange(null);
     programChange(null);
-    fetchCity();
     cityChange(null);
     districtChange(null);
     wardChange(null);
@@ -430,10 +376,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     //Declare Method
                     setState,
                     selectDate,
-                    fetchSchools,
                     schoolChange,
                     programChange,
-                    fetchCity,
                     cityChange,
                     districtChange,
                     wardChange,
@@ -449,7 +393,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     valueGender,
                     valueDegree,
                     selectedCertificateType,
-                    authBloc,
                     lstschools,
                     selectedSchool,
                     selectedProgram,
@@ -479,150 +422,7 @@ class _RegisterPageState extends State<RegisterPage> {
       currentStep = value;
     });
   }
-
-  Widget controlsBuilder(context, details) {
-    return Container(
-      margin: const EdgeInsets.only(top: 30),
-      child: currentStep == 2 // Kiểm tra nếu đang ở bước thứ 3
-          ? Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: OutlinedButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: const BorderSide(
-                            color: Color(0xff7D1F1F),
-                            width: 1.0,
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                      ),
-                      overlayColor: MaterialStateProperty.resolveWith<Color>(
-                          (states) => states.contains(MaterialState.pressed)
-                              ? const Color(0xff7D1F1F).withOpacity(0.2)
-                              : const Color(0xff7D1F1F).withOpacity(0.1)),
-                      shadowColor: MaterialStateProperty.resolveWith<Color>(
-                          (states) => states.contains(MaterialState.pressed)
-                              ? Colors.black.withOpacity(0.3)
-                              : Colors.transparent),
-                      elevation: MaterialStateProperty.resolveWith<double>(
-                          (states) => states.contains(MaterialState.pressed)
-                              ? 5.0
-                              : 0.0),
-                    ),
-                    onPressed: () {
-                      details.onStepCancel;
-                    },
-                    child: Text('Back',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: const Color(0xff7D1F1F),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        )),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                    width: double.infinity,
-                    height: 40,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color(0xff7D1F1F)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                        ),
-                        overlayColor: MaterialStateProperty.resolveWith<Color>(
-                            (states) => states.contains(MaterialState.pressed)
-                                ? const Color(0xff7D1F1F).withOpacity(0.2)
-                                : const Color(0xff7D1F1F).withOpacity(0.1)),
-                        shadowColor: MaterialStateProperty.resolveWith<Color>(
-                            (states) => states.contains(MaterialState.pressed)
-                                ? Colors.black.withOpacity(0.3)
-                                : Colors.transparent),
-                        elevation: MaterialStateProperty.resolveWith<double>(
-                            (states) => states.contains(MaterialState.pressed)
-                                ? 5.0
-                                : 0.0),
-                      ),
-                      onPressed: () {
-                        // Thực hiện chức năng đăng ký khi nhấn nút Sign Up
-                        // Đoạn code xử lý đăng ký người dùng
-                        userRegister();
-                      },
-                      child: Text('Sign Up',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          )),
-                    )),
-              ],
-            )
-          : Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: const BorderSide(
-                            color: Color(0xff7D1F1F),
-                            width: 1.0,
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                      ),
-                    ),
-                    onPressed: details.onStepCancel,
-                    child: Text('Back',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: const Color(0xff7D1F1F),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                        )),
-                  ),
-                ),
-                const SizedBox(width: 120),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color(0xff7D1F1F)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                    onPressed: details.onStepContinue,
-                    child: Text('Next',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                        )),
-                  ),
-                ),
-              ],
-            ),
-    );
-  }
-
+  //Control Builder in step_method_register.dart
   //End of Stepper method
   //-------------------------------------------------------------------------------
 
@@ -676,21 +476,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 40),
-                      Text('Create an account',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            color: const Color(0xff7D1F1F),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 24,
-                          )),
+                      const TextMonserats(
+                        'Create an account',
+                        color: Color(0xff7D1F1F),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                      ),
                       const SizedBox(height: 5),
-                      Text('Create an account to manage yout account today',
-                          style: GoogleFonts.getFont(
-                            'Montserrat',
-                            color: const Color(0xff000000),
-                            fontWeight: FontWeight.w300,
-                            fontSize: 11,
-                          )),
+                      const TextMonserats(
+                        'Create an account to manage yout account today',
+                        fontWeight: FontWeight.w300,
+                        fontSize: 11,
+                      ),
                       Expanded(
                         child: Theme(
                           data: Theme.of(context).copyWith(
@@ -740,10 +537,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 //Declare Method
                                 setState,
                                 selectDate,
-                                fetchSchools,
                                 schoolChange,
                                 programChange,
-                                fetchCity,
                                 cityChange,
                                 districtChange,
                                 wardChange,
@@ -759,7 +554,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 valueGender,
                                 valueDegree,
                                 selectedCertificateType,
-                                authBloc,
                                 lstschools,
                                 selectedSchool,
                                 selectedProgram,
@@ -785,25 +579,21 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                           child: RichText(
                             text: TextSpan(
-                              text: 'Already have an account? ',
-                              style: GoogleFonts.getFont(
-                                'Montserrat',
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                                fontStyle: FontStyle.italic,
-                              ),
+                              style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
-                                TextSpan(
-                                  text: 'Sign in',
-                                  style: GoogleFonts.getFont(
-                                    'Montserrat',
-                                    color: const Color(0xff7D1F1F),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 13,
-                                    decoration: TextDecoration.underline,
-                                    fontStyle: FontStyle.italic,
-                                  ),
+                                styledTextSpan(
+                                  'Already have an account? ',
+                                  color: Colors.black,
+                                ),
+                                styledTextSpan(
+                                  'Sign in',
+                                  color: const Color(0xff7D1F1F),
+                                  fontWeight: FontWeight.w700,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: const Color(
+                                      0xff7D1F1F), // Change the color of the underline
+                                  decorationStyle: TextDecorationStyle
+                                      .solid, // Change the number of lines
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       Navigator.push(
