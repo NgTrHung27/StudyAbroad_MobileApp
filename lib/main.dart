@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/Model/news.dart';
 import 'package:kltn_mobile/View/Authentication/login_page.dart';
+import 'package:kltn_mobile/View/HomePage/News/news_page.dart';
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
 import 'package:kltn_mobile/bloC/profile_status/profile_status_cubit.dart';
@@ -64,7 +66,7 @@ class _MyAppState extends State<MyApp> {
               focusColor: const Color.fromRGBO(125, 31, 31, 1.0),
               hoverColor: const Color.fromRGBO(125, 31, 31, 1.0),
             ),
-            home: const LoginPage()),
+            home: NewsPage(newsList: fakeNewsList)),
       ),
     );
   }
