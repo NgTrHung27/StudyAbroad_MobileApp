@@ -30,35 +30,41 @@ class APIRepository {
     String? certificateImg,
   ) async {
     try {
+      String jsonData = jsonEncode({
+        "email": email,
+        "name": name,
+        "password": password,
+        "confirmPassword": confirmpassword,
+        "idCardNumber": idCardNumber,
+        "dob": dob.toIso8601String(),
+        "phoneNumber": phone,
+        "schoolName": selectedSchool,
+        "programName": selectedProgram,
+        "city": selectedCity,
+        "district": selectedDistrict,
+        "ward": selectedWard,
+        "addressLine": address,
+        "gender": valueGender, // "0" or "1
+        "degreeType": valueDegree,
+        "gradeType": radioGradeTypeValue,
+        "gradeScore": gradeScore,
+        "certificateType": selectedCertificateType,
+        "certificateImg": certificateImg,
+      });
+      
+      print('Sending JSON data: $jsonData');
+      
       final response = await http.post(
-        Uri.parse(
-            'https://kltn-demo-deploy-admin.vercel.app/api/auth/register'),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "email": email,
-          "name": name,
-          "password": password,
-          "confirmPassword": confirmpassword,
-          "idCardNumber": idCardNumber,
-          "dob": dob.toIso8601String(),
-          "phoneNumber": phone,
-          "schoolName": selectedSchool,
-          "programName": selectedProgram,
-          "city": selectedCity,
-          "district": selectedDistrict,
-          "ward": selectedWard,
-          "addressLine": address,
-          "gender": valueGender, // "0" or "1
-          "degreeType": valueDegree,
-          "gradeType": radioGradeTypeValue,
-          "gradeScore": gradeScore,
-          "certificateType": selectedCertificateType,
-          "certificateImg": certificateImg,
-        }),
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/auth/register'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonData,
       );
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final data =
+          jsonDecode(utf8.decode(response.bodyBytes));
         log('data: $data');
 
         return UserAuthRegister.fromJson(data);
@@ -108,7 +114,6 @@ class APIRepository {
       return null;
     }
   }
-
 
   Future<List<Country>> fetchCountry() async {
     try {

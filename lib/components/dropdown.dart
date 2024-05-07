@@ -8,6 +8,7 @@ class DropdownCustom<T> extends StatelessWidget {
   final Function(T?) onChanged;
   final String Function(T) itemLabel;
   final bool isExpanded;
+  final IconData? icon;
 
   const DropdownCustom({
     super.key,
@@ -16,7 +17,8 @@ class DropdownCustom<T> extends StatelessWidget {
     required this.onChanged,
     required this.itemLabel,
     required this.hintText,
-    required this.isExpanded,
+    required this.isExpanded, 
+    this.icon,
   });
 
   @override
@@ -47,7 +49,7 @@ class DropdownCustom<T> extends StatelessWidget {
       }).toList(),
       isExpanded: isExpanded,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.map, color: Colors.black),
+        prefixIcon: Icon(icon ?? Icons.map, color: Colors.black),
         filled: true,
         fillColor: Colors.white,
         errorStyle: const TextStyle(color: Colors.white),

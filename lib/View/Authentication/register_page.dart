@@ -10,7 +10,6 @@ import 'package:kltn_mobile/View/HomePage/home_page.dart';
 import 'package:kltn_mobile/Model/enum.dart';
 import 'package:kltn_mobile/Model/user_register.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/auth_state.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
@@ -25,13 +24,10 @@ import 'package:kltn_mobile/components/text_field.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
-
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-// void UserRegister()async{
-// }
 //Declare Date Input
 class _RegisterPageState extends State<RegisterPage> {
   //Declare API School
@@ -137,8 +133,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
     UserAuthRegister? userAuthRegister = await APIRepository().register(
         email,
-        password,
         name,
+        password,
         confirmpassword,
         idCardNumber,
         dob,
@@ -157,9 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
         certificateImg);
     print('Test null user: $userAuthRegister');
     if (userAuthRegister != null) {
-      // Đăng ký thành công
       print('Đăng ký thành công: ${userAuthRegister.email}');
-      // Hiển thị thông báo đăng ký thành công
       // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
@@ -167,14 +161,12 @@ class _RegisterPageState extends State<RegisterPage> {
         MaterialPageRoute(builder: (context) => const HomePage()),
       );
     } else {
-      // Đăng ký thất bại
       print(userAuthRegister);
       print('Đăng ký thất bại');
-      // Hiển thị thông báo đăng ký thất bại
     }
   }
 
-  //Declare intial state value for selectedSchool
+  //Declare intial state value for selectedSchool ,program, city, district, ward
   void schoolChange(Schools? school) {
     setState(() {
       if (school != null) {
@@ -184,7 +176,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  //Declare intial state value for selectedProgram
   void programChange(Program? program) {
     setState(() {
       if (program != null) {
@@ -193,7 +184,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  //Declare intial state value for selectedCity
   void cityChange(Country? city) {
     setState(() {
       if (city != null) {
@@ -202,7 +192,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  //Declare intial state value for selectedDistrict
   void districtChange(District? district) {
     setState(() {
       if (district != null) {
@@ -211,7 +200,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  //Declare intial state value for selectedWard
   void wardChange(Ward? ward) {
     setState(() {
       if (ward != null) {
@@ -220,7 +208,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  // function to handle changes in radio button value
   void radioValueChanged(GradeType? gradeType) {
     setState(() {
       if (gradeType != null) {
@@ -229,7 +216,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  // function to handle changes in gender value
   void genderValueChanged(Gender? gender) {
     setState(() {
       print("gender: $gender");
@@ -240,7 +226,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  // function to handle changes in degree value
   void degreeValueChanged(DegreeType? degreeType) {
     setState(() {
       if (degreeType != null) {
@@ -249,7 +234,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  // function to handle changes in certificate type value
   void certificateTypeValueChanged(CertificateType? certificateType) {
     setState(() {
       if (certificateType != null) {
@@ -258,7 +242,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  // function to handle changes image value
   Future<void> imageValueChanged(String? certiImg) async {
     print('Certificate ImageValueRegis: $certificateImg');
     setState(() {
@@ -296,10 +279,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   //End of Image Picker Method
 //-----------------------------------------------------------------------------------
-
-  //call function `fetchSchools` in initState to get List School when page initial
-  Schools? school;
-  Country? country;
   @override
   void initState() {
     super.initState();
@@ -307,9 +286,8 @@ class _RegisterPageState extends State<RegisterPage> {
     context.read<AuthCubit>().getCity();
   }
 
-  //End of LoginUser Method
-  //-----------------------------------------------------------------------------------
-  //Stepper Method
+//-----------------------------------------------------------------------------------
+//Stepper Method
   continueStep() {
     final isLastStep = currentStep == getSteps().length - 1;
     if (isLastStep) {
@@ -523,6 +501,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: SizedBox(
                       height: 37,
                       child: DropdownCustom<Gender>(
+                        icon: Icons.wc,
                         hintText: 'Gender',
                         items: Gender.values,
                         selectedItem: valueGender,
@@ -572,6 +551,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         lstCountry = state.country;
                       }
                       return DropdownCustom<Country>(
+                        icon: Icons.location_city,
                         items: lstCountry,
                         selectedItem: selectedCity == null
                             ? null
@@ -602,6 +582,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             lstCountry = state.country;
                           }
                           return DropdownCustom<District>(
+                            icon: Icons.map,
                             items: selectedCity == null
                                 ? []
                                 : lstCountry
@@ -639,6 +620,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             lstCountry = state.country;
                           }
                           return DropdownCustom<Ward>(
+                            icon: Icons.location_on,
                             items: selectedDistrict == null
                                 ? []
                                 : lstCountry
@@ -670,7 +652,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           );
                         },
                       )),
-                  // Khoảng cách giữa hai trường
                 )
               ]),
               const SizedBox(height: 13),
@@ -687,7 +668,6 @@ class _RegisterPageState extends State<RegisterPage> {
             ],
           ),
         ),
-
         //---------------------------------------------------------------------------------------------------------
         //Step 3 - Education
         Step(
@@ -715,6 +695,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               lstschools = state.school;
                             }
                             return DropdownCustom<Schools>(
+                              icon: Icons.school,
                               items: lstschools,
                               selectedItem: selectedSchool == null
                                   ? null
@@ -748,6 +729,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             lstschools = state.school;
                           }
                           return DropdownCustom<Program>(
+                            icon: Icons.history_edu,
                             items: selectedSchool == null
                                 ? []
                                 : selectedSchoolObject!.programs,
@@ -774,6 +756,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: SizedBox(
                       height: 37,
                       child: DropdownCustom<DegreeType>(
+                        icon: Icons.hotel_class,
                         items: DegreeType.values,
                         selectedItem: valueDegree,
                         onChanged: (DegreeType? newValueDegree) {
@@ -796,6 +779,7 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(
                 height: 37,
                 child: DropdownCustom<CertificateType>(
+                  icon: Icons.bookmark_add,
                   items: CertificateType.values,
                   onChanged: (CertificateType? newValueCertificateType) {
                     setState(() {
@@ -815,36 +799,12 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(
                 width: double.infinity,
                 height: 37,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        side: const BorderSide(
-                          color: Color(0xFFCBD5E1),
-                          width: 1.0,
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                    ),
-                    overlayColor: MaterialStateProperty.resolveWith<Color>(
-                        (states) => states.contains(MaterialState.pressed)
-                            ? const Color(0xff7D1F1F).withOpacity(0.2)
-                            : const Color(0xff7D1F1F).withOpacity(0.1)),
-                    shadowColor: MaterialStateProperty.resolveWith<Color>(
-                        (states) => states.contains(MaterialState.pressed)
-                            ? Colors.black.withOpacity(0.3)
-                            : Colors.transparent),
-                    elevation: MaterialStateProperty.resolveWith<double>(
-                        (states) =>
-                            states.contains(MaterialState.pressed) ? 5.0 : 0.0),
-                  ),
+                child: SimpleButton(
+                  backgroundColor: Colors.transparent,
+                  borderColor: const Color(0xff7D1F1F),
                   onPressed: () {
                     Future<String?> imageValueChanged() async {
                       String? certiImg = await getImage();
-                      // ignore: unnecessary_null_comparison
                       if (certiImg != null) {
                         print("Certificate ImageValue: $certiImg");
                       } else {
@@ -854,7 +814,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     }
 
                     imageValueChanged();
-                    // imageValueChanged(getImage());
                   },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,

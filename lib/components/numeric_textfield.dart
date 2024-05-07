@@ -22,9 +22,10 @@ class NumericTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
       height: 37,
-      width: 315,
+      width: screenWidth * 0.85, //355
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: const Color(0xFFCBD5E1)),
