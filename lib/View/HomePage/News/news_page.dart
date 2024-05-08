@@ -45,7 +45,7 @@ class NewsPage extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
                   child: Container( 
                     alignment: Alignment.centerLeft,
-                    child: const TextMonserats('Main News', fontSize: 26, fontWeight: FontWeight.w800 ),
+                    child: const TextMonserats('Main News', fontSize: 24, fontWeight: FontWeight.w700 ),
                   ),
                 ),
                 Padding(
@@ -56,7 +56,7 @@ class NewsPage extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    child: const TextMonserats('Daily Post', fontSize: 22, fontWeight: FontWeight.w600),
+                    child: const TextMonserats('Daily Post', fontSize: 20, fontWeight: FontWeight.w700),
                   ),
                 ),
                 Padding(

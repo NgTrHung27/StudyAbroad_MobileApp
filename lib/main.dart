@@ -66,7 +66,8 @@ class _MyAppState extends State<MyApp> {
               focusColor: const Color.fromRGBO(125, 31, 31, 1.0),
               hoverColor: const Color.fromRGBO(125, 31, 31, 1.0),
             ),
-            home: const LoginPage()),
+            home: const LoginPage(),
+          ),
       ),
     );
   }

@@ -10,9 +10,9 @@ class MainNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavbar(
       items:  [
-        BottomNavbarItem(icon: Icons.home_outlined, label: 'Home'),
-        BottomNavbarItem(icon: Icons.notifications_outlined, label: 'Notifications'),
-        BottomNavbarItem(icon: Icons.person_outlined, label: 'Profile'),
+        BottomNavbarItem(icon: 'assets/iconHome', label: 'Home'), // Pass the path without _selected or _unselected
+        BottomNavbarItem(icon: 'assets/iconNoti', label: 'Notifications'),
+        BottomNavbarItem(icon: 'assets/iconUser', label: 'Profile'),
       ],
       initialIndex: 0,
     );
