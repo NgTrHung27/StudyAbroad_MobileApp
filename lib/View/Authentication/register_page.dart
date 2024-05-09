@@ -315,13 +315,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget controlsBuilder(context, details) {
     return Container(
-      margin: const EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 40),
       child: currentStep == 2 // Kiểm tra nếu đang ở bước thứ 3
           ? Column(
               children: [
                 SizedBox(
                   width: double.infinity,
-                  height: 40,
                   child: SimpleButton(
                     backgroundColor: Colors.transparent,
                     borderColor: const Color(0xff7D1F1F),
@@ -332,7 +331,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
                 SizedBox(
                     width: double.infinity,
                     height: 40,
@@ -350,13 +349,15 @@ class _RegisterPageState extends State<RegisterPage> {
           : Row(
               children: [
                 Expanded(
-                  child: SimpleButton(
-                    backgroundColor: Colors.transparent,
-                    borderColor: const Color(0xff7D1F1F),
-                    onPressed: details.onStepCancel,
-                    child: const TextMonserats(
-                      'Back',
-                      color: Color(0xff7D1F1F),
+                  child: SizedBox(
+                    child: SimpleButton(
+                      backgroundColor: Colors.transparent,
+                      borderColor: const Color(0xff7D1F1F),
+                      onPressed: details.onStepCancel,
+                      child: const TextMonserats(
+                        'Back',
+                        color: Color(0xff7D1F1F),
+                      ),
                     ),
                   ),
                 ),
@@ -393,6 +394,7 @@ class _RegisterPageState extends State<RegisterPage> {
               MyTextField(
                 controller: usermailController,
                 hintText: 'Email',
+                keyboardType: TextInputType.emailAddress,
                 obscureText: false,
                 prefixIcon: Icons.email,
                 onChanged: (value) {
@@ -400,10 +402,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   email = value;
                 },
               ),
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               MyTextField(
                 controller: usernameController,
                 hintText: 'FullName',
+                textCapitalization: TextCapitalization.words,
                 obscureText: false,
                 prefixIcon: Icons.person,
                 onChanged: (value) {
@@ -411,29 +414,29 @@ class _RegisterPageState extends State<RegisterPage> {
                   email = value;
                 },
               ),
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               MyTextField(
                 controller: passwordController,
                 hintText: 'Password',
-                obscureText: false,
+                obscureText: true,
                 prefixIcon: Icons.lock,
                 onChanged: (value) {
                   // Lưu giá trị email mới được nhập
                   email = value;
                 },
               ),
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               MyTextField(
                 controller: confirmpasswordController,
                 hintText: 'Confirm Password',
-                obscureText: false,
+                obscureText: true,
                 prefixIcon: Icons.lock_reset,
                 onChanged: (value) {
                   // Lưu giá trị email mới được nhập
                   email = value;
                 },
               ),
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               MyTextField(
                 controller: idCardNumberController,
                 hintText: 'ID Card Number',
@@ -494,30 +497,26 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               //Gender - Phone number
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
-                    child: SizedBox(
-                      height: 37,
-                      child: DropdownCustom<Gender>(
-                        icon: Icons.wc,
-                        hintText: 'Gender',
-                        items: Gender.values,
-                        selectedItem: valueGender,
-                        onChanged: (Gender? newValueGender) {
-                          setState(() {
-                            genderValueChanged(newValueGender);
-                            print(valueGender);
-                          });
-                        },
-                        itemLabel: (Gender gender) =>
-                            gender.toString().split('.').last,
-                        isExpanded: false,
-                      ),
+                    child: DropdownCustom<Gender>(
+                      icon: Icons.wc,
+                      hintText: 'Gender',
+                      items: Gender.values,
+                      selectedItem: valueGender,
+                      onChanged: (Gender? newValueGender) {
+                        setState(() {
+                          genderValueChanged(newValueGender);
+                          print(valueGender);
+                        });
+                      },
+                      itemLabel: (Gender gender) =>
+                          gender.toString().split('.').last,
+                      isExpanded: false,
                     ),
                   ),
-
                   const SizedBox(width: 15), // Khoảng cách giữa hai trường
                   Expanded(
                     child: NumericTextField(
@@ -533,7 +532,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   )
                 ],
               ),
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               //Address
               const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -543,118 +542,108 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               //City
               const SizedBox(height: 12),
-              SizedBox(
-                  height: 37,
-                  child: BlocBuilder<AuthCubit, AuthState>(
-                    builder: (context, state) {
-                      if (state is AuthLoadedCityState) {
-                        lstCountry = state.country;
+              BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) {
+                  if (state is AuthLoadedCityState) {
+                    lstCountry = state.country;
+                  }
+                  return DropdownCustom<Country>(
+                    icon: Icons.location_city,
+                    items: lstCountry,
+                    selectedItem: selectedCity == null
+                        ? null
+                        : lstCountry.firstWhere(
+                            (element) => element.name == selectedCity),
+                    onChanged: (Country? newValueCountry) {
+                      if (newValueCountry != null) {
+                        cityChange(newValueCountry);
+                        selectedDistrict = null;
+                        selectedWard = null;
                       }
-                      return DropdownCustom<Country>(
-                        icon: Icons.location_city,
-                        items: lstCountry,
-                        selectedItem: selectedCity == null
-                            ? null
-                            : lstCountry.firstWhere(
-                                (element) => element.name == selectedCity),
-                        onChanged: (Country? newValueCountry) {
-                          if (newValueCountry != null) {
-                            cityChange(newValueCountry);
-                            selectedDistrict = null;
-                            selectedWard = null;
-                          }
-                        },
-                        itemLabel: (Country country) => country.name,
-                        hintText: 'City',
-                        isExpanded: false,
-                      );
                     },
-                  )),
+                    itemLabel: (Country country) => country.name,
+                    hintText: 'City',
+                    isExpanded: false,
+                  );
+                },
+              ),
               //District - Ward
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               Row(children: [
-                Expanded(
-                  child: SizedBox(
-                      height: 37,
-                      child: BlocBuilder<AuthCubit, AuthState>(
-                        builder: (context, state) {
-                          if (state is AuthLoadedCityState) {
-                            lstCountry = state.country;
-                          }
-                          return DropdownCustom<District>(
-                            icon: Icons.map,
-                            items: selectedCity == null
-                                ? []
-                                : lstCountry
-                                    .firstWhere((element) =>
-                                        element.name == selectedCity)
-                                    .districts,
-                            selectedItem: selectedDistrict == null
-                                ? null
-                                : lstCountry
-                                    .firstWhere((element) =>
-                                        element.name == selectedCity)
-                                    .districts
-                                    .firstWhere((element) =>
-                                        element.name == selectedDistrict),
-                            onChanged: (District? newValueDistrict) {
-                              setState(() {
-                                districtChange(newValueDistrict);
-                                selectedWard = null;
-                              });
-                            },
-                            itemLabel: (District district) => district.name,
-                            hintText: 'District',
-                            isExpanded: true,
-                          );
-                        },
-                      )),
-                ),
+                Expanded(child: BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    if (state is AuthLoadedCityState) {
+                      lstCountry = state.country;
+                    }
+                    return DropdownCustom<District>(
+                      icon: Icons.map,
+                      items: selectedCity == null
+                          ? []
+                          : lstCountry
+                              .firstWhere(
+                                  (element) => element.name == selectedCity)
+                              .districts,
+                      selectedItem: selectedDistrict == null
+                          ? null
+                          : lstCountry
+                              .firstWhere(
+                                  (element) => element.name == selectedCity)
+                              .districts
+                              .firstWhere((element) =>
+                                  element.name == selectedDistrict),
+                      onChanged: (District? newValueDistrict) {
+                        setState(() {
+                          districtChange(newValueDistrict);
+                          selectedWard = null;
+                        });
+                      },
+                      itemLabel: (District district) => district.name,
+                      hintText: 'District',
+                      isExpanded: true,
+                    );
+                  },
+                )),
                 const SizedBox(width: 15),
-                Expanded(
-                  child: SizedBox(
-                      height: 37,
-                      child: BlocBuilder<AuthCubit, AuthState>(
-                        builder: (context, state) {
-                          if (state is AuthLoadedCityState) {
-                            lstCountry = state.country;
-                          }
-                          return DropdownCustom<Ward>(
-                            icon: Icons.location_on,
-                            items: selectedDistrict == null
-                                ? []
-                                : lstCountry
-                                    .firstWhere((element) =>
-                                        element.name == selectedCity)
-                                    .districts
-                                    .firstWhere((element) =>
-                                        element.name == selectedDistrict)
-                                    .wards,
-                            selectedItem: selectedWard == null
-                                ? null
-                                : lstCountry
-                                    .firstWhere((element) =>
-                                        element.name == selectedCity)
-                                    .districts
-                                    .firstWhere((element) =>
-                                        element.name == selectedDistrict)
-                                    .wards
-                                    .firstWhere((element) =>
-                                        element.name == selectedWard),
-                            onChanged: (Ward? newValueWard) {
-                              setState(() {
-                                wardChange(newValueWard);
-                              });
-                            },
-                            itemLabel: (Ward ward) => ward.name,
-                            hintText: 'Ward',
-                            isExpanded: true,
-                          );
-                        },
-                      )),
-                )
+                Expanded(child: BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    if (state is AuthLoadedCityState) {
+                      lstCountry = state.country;
+                    }
+                    return DropdownCustom<Ward>(
+                      icon: Icons.location_on,
+                      items: selectedDistrict == null
+                          ? []
+                          : lstCountry
+                              .firstWhere(
+                                  (element) => element.name == selectedCity)
+                              .districts
+                              .firstWhere(
+                                  (element) => element.name == selectedDistrict)
+                              .wards,
+                      selectedItem: selectedWard == null
+                          ? null
+                          : lstCountry
+                              .firstWhere(
+                                  (element) => element.name == selectedCity)
+                              .districts
+                              .firstWhere(
+                                  (element) => element.name == selectedDistrict)
+                              .wards
+                              .firstWhere(
+                                  (element) => element.name == selectedWard),
+                      onChanged: (Ward? newValueWard) {
+                        setState(() {
+                          wardChange(newValueWard);
+                        });
+                      },
+                      itemLabel: (Ward ward) => ward.name,
+                      hintText: 'Ward',
+                      isExpanded: true,
+                    );
+                  },
+                )),
               ]),
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               MyTextField(
                 controller: addressController,
                 hintText: 'Address',
@@ -686,116 +675,103 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
-                    child: SizedBox(
-                        height: 37,
-                        child: BlocBuilder<AuthCubit, AuthState>(
-                          builder: (context, state) {
-                            if (state is AuthLoadedNamedSchoolState) {
-                              lstschools = state.school;
-                            }
-                            return DropdownCustom<Schools>(
-                              icon: Icons.school,
-                              items: lstschools,
-                              selectedItem: selectedSchool == null
-                                  ? null
-                                  : lstschools.firstWhere((element) =>
-                                      element.name == selectedSchool),
-                              onChanged: (Schools? newValueSchool) {
-                                setState(() {
-                                  schoolChange(newValueSchool);
-                                  selectedProgram = null;
-                                });
-                              },
-                              itemLabel: (Schools school) => school.name,
-                              hintText: 'School',
-                              isExpanded: false,
-                            );
-                          },
-                        )),
-                  ),
+                  Expanded(child: BlocBuilder<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      if (state is AuthLoadedNamedSchoolState) {
+                        lstschools = state.school;
+                      }
+                      return DropdownCustom<Schools>(
+                        icon: Icons.school,
+                        items: lstschools,
+                        selectedItem: selectedSchool == null
+                            ? null
+                            : lstschools.firstWhere(
+                                (element) => element.name == selectedSchool),
+                        onChanged: (Schools? newValueSchool) {
+                          setState(() {
+                            schoolChange(newValueSchool);
+                            selectedProgram = null;
+                          });
+                        },
+                        itemLabel: (Schools school) => school.name,
+                        hintText: 'School',
+                        isExpanded: false,
+                      );
+                    },
+                  )),
                 ],
               ),
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               // Major - Degree
               Row(
                 children: [
                   Expanded(
-                    child: SizedBox(
-                      height: 37,
-                      child: BlocBuilder<AuthCubit, AuthState>(
-                        builder: (context, state) {
-                          if (state is AuthLoadedNamedSchoolState) {
-                            lstschools = state.school;
-                          }
-                          return DropdownCustom<Program>(
-                            icon: Icons.history_edu,
-                            items: selectedSchool == null
-                                ? []
-                                : selectedSchoolObject!.programs,
-                            selectedItem: selectedProgram == null
-                                ? null
-                                : selectedSchoolObject!.programs.firstWhere(
-                                    (element) =>
-                                        element.name == selectedProgram),
-                            onChanged: (Program? newValueProgram) {
-                              setState(() {
-                                programChange(newValueProgram);
-                              });
-                            },
-                            itemLabel: (Program program) => program.name,
-                            hintText: 'Major',
-                            isExpanded: true,
-                          );
-                        },
-                      ),
+                    child: BlocBuilder<AuthCubit, AuthState>(
+                      builder: (context, state) {
+                        if (state is AuthLoadedNamedSchoolState) {
+                          lstschools = state.school;
+                        }
+                        return DropdownCustom<Program>(
+                          icon: Icons.history_edu,
+                          items: selectedSchool == null
+                              ? []
+                              : selectedSchoolObject!.programs,
+                          selectedItem: selectedProgram == null
+                              ? null
+                              : selectedSchoolObject!.programs.firstWhere(
+                                  (element) => element.name == selectedProgram),
+                          onChanged: (Program? newValueProgram) {
+                            setState(() {
+                              programChange(newValueProgram);
+                            });
+                          },
+                          itemLabel: (Program program) => program.name,
+                          hintText: 'Major',
+                          isExpanded: true,
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(width: 15),
                   Expanded(
-                    child: SizedBox(
-                      height: 37,
-                      child: DropdownCustom<DegreeType>(
-                        icon: Icons.hotel_class,
-                        items: DegreeType.values,
-                        selectedItem: valueDegree,
-                        onChanged: (DegreeType? newValueDegree) {
-                          setState(() {
-                            degreeValueChanged(newValueDegree);
-                            print(valueDegree);
-                          });
-                        },
-                        itemLabel: (DegreeType degreeType) =>
-                            degreeType.toString().split('.').last,
-                        hintText: 'Degree',
-                        isExpanded: true,
-                      ),
+                    child: DropdownCustom<DegreeType>(
+                      icon: Icons.hotel_class,
+                      items: DegreeType.values,
+                      selectedItem: valueDegree,
+                      onChanged: (DegreeType? newValueDegree) {
+                        setState(() {
+                          degreeValueChanged(newValueDegree);
+                          print(valueDegree);
+                        });
+                      },
+                      itemLabel: (DegreeType degreeType) =>
+                          degreeType.toString().split('.').last,
+                      hintText: 'Degree',
+                      isExpanded: true,
                     ),
-                  )
+                  ),
                 ],
               ),
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               //Certificate
-              SizedBox(
-                height: 37,
-                child: DropdownCustom<CertificateType>(
-                  icon: Icons.bookmark_add,
-                  items: CertificateType.values,
-                  onChanged: (CertificateType? newValueCertificateType) {
-                    setState(() {
-                      certificateTypeValueChanged(newValueCertificateType);
-                      print(selectedCertificateType);
-                    });
-                  },
-                  selectedItem: selectedCertificateType,
-                  itemLabel: (CertificateType certificateType) =>
-                      certificateType.toString().split('.').last,
-                  hintText: 'Certificate',
-                  isExpanded: false,
-                ),
+              DropdownCustom<CertificateType>(
+                icon: Icons.bookmark_add,
+                items: CertificateType.values,
+                onChanged: (CertificateType? newValueCertificateType) {
+                  setState(() {
+                    certificateTypeValueChanged(newValueCertificateType);
+                    print(selectedCertificateType);
+                  });
+                },
+                selectedItem: selectedCertificateType,
+                itemLabel: (CertificateType certificateType) =>
+                    certificateType.toString().split('.').last,
+                hintText: 'Certificate',
+                isExpanded: false,
               ),
+
               // Upload Certificate
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 height: 37,
@@ -830,7 +806,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               //Overall Score
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -862,7 +838,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
               //Grade Score
-              const SizedBox(height: 13),
+              const SizedBox(height: 20),
               NumericTextField(
                 controller: gradeController,
                 hintText: 'Grade Score',

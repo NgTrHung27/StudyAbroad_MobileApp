@@ -16,30 +16,33 @@ class SimpleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(
-            backgroundColor ?? const Color(0xff7D1F1F)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: borderColor ?? Colors.transparent),
+    return SizedBox(
+      height: 45,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              backgroundColor ?? const Color(0xff7D1F1F)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              side: BorderSide(color: borderColor ?? Colors.transparent),
+            ),
           ),
+          overlayColor: MaterialStateProperty.resolveWith<Color>((states) =>
+              states.contains(MaterialState.pressed)
+                  ? (backgroundColor ?? const Color(0xff7D1F1F)).withOpacity(0.2)
+                  : (backgroundColor ?? const Color(0xff7D1F1F))
+                      .withOpacity(0.1)),
+          shadowColor: MaterialStateProperty.resolveWith<Color>((states) =>
+              states.contains(MaterialState.pressed)
+                  ? Colors.black.withOpacity(0.3)
+                  : Colors.transparent),
+          elevation: MaterialStateProperty.resolveWith<double>(
+              (states) => states.contains(MaterialState.pressed) ? 5.0 : 0.0),
         ),
-        overlayColor: MaterialStateProperty.resolveWith<Color>((states) =>
-            states.contains(MaterialState.pressed)
-                ? (backgroundColor ?? const Color(0xff7D1F1F)).withOpacity(0.2)
-                : (backgroundColor ?? const Color(0xff7D1F1F))
-                    .withOpacity(0.1)),
-        shadowColor: MaterialStateProperty.resolveWith<Color>((states) =>
-            states.contains(MaterialState.pressed)
-                ? Colors.black.withOpacity(0.3)
-                : Colors.transparent),
-        elevation: MaterialStateProperty.resolveWith<double>(
-            (states) => states.contains(MaterialState.pressed) ? 5.0 : 0.0),
+        onPressed: onPressed,
+        child: child,
       ),
-      onPressed: onPressed,
-      child: child,
     );
   }
 }
