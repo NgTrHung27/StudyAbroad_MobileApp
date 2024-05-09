@@ -134,6 +134,7 @@ class _LoginPageState extends State<_LoginPage> {
                               MyTextField(
                                 controller: usermailController,
                                 hintText: 'Enter your email',
+                                keyboardType: TextInputType.emailAddress,
                                 obscureText: false,
                                 prefixIcon: Icons.email,
                                 onChanged: (value) {
@@ -155,7 +156,6 @@ class _LoginPageState extends State<_LoginPage> {
                                 hintText: 'Enter your password',
                                 obscureText: true,
                                 prefixIcon: Icons.lock,
-                                additionalIcon: Icons.visibility,
                                 onChanged: (value) {
                                   // Lưu giá trị password mới được nhập
                                   password = value;
