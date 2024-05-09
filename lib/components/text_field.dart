@@ -76,9 +76,14 @@ class _MyTextFieldState extends State<MyTextField> {
         ),
         decoration: InputDecoration(
             hintText: widget.hintText,
-            prefixIcon: Icon(widget.prefixIcon, size: 20),
+            prefixIcon: Icon(
+              widget.prefixIcon,
+              size: 20,
+              color: Colors.black,
+            ),
             suffixIcon: widget.obscureText
                 ? IconButton(
+                    color: Colors.black,
                     icon: Icon(
                       _obscureText ? Icons.visibility : Icons.visibility_off,
                     ),
@@ -92,7 +97,7 @@ class _MyTextFieldState extends State<MyTextField> {
             hintStyle: GoogleFonts.montserrat(
               color: Colors.black,
               fontSize: fontSize ?? 14,
-              fontWeight: FontWeight.w400,           
+              fontWeight: FontWeight.w400,
             ),
             enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Color(0xFFCBD5E1)),
