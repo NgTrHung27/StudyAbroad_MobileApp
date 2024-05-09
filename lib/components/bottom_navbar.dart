@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BottomNavbarItem {
-  final IconData icon;
+  final String icon;
   final String label;
 
   BottomNavbarItem({
@@ -66,37 +66,47 @@ class BottomNavbarState extends State<BottomNavbar> {
     );
   }
 
-  Widget _buildIcon(IconData iconData, int index, String label) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final labelWidth = _measureText(label, TextStyle(color: _selectedIndex == index ? Colors.white : Colors.grey)).width;
-        return Container(
-          padding: const EdgeInsets.only(top: 15),
-          child: Center(
+  Widget _buildIcon(String iconData, int index, String label) { // Changed from IconData to String
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      final labelWidth = _measureText(label, TextStyle(color: _selectedIndex == index ? Colors.white : Colors.grey)).width;
+      return Container(
+        padding: const EdgeInsets.only(top: 12),
+        child: Center(
+          child: Container(
+            width: labelWidth + 45,
+            height: 85,
+            decoration: _selectedIndex == index
+                ? BoxDecoration(
+                    borderRadius: BorderRadius.circular(35), // Half of the height
+                    color: const Color(0xffAF3737),
+                  )
+                : null,
             child: Container(
-              width: labelWidth + 35,
-              height: 85,
-              decoration: _selectedIndex == index
-                  ? BoxDecoration(
-                      borderRadius: BorderRadius.circular(35), // Half of the height
-                      color: const Color(0xffAF3737),
-                    )
-                  : null,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(iconData, color: _selectedIndex == index ? Colors.white : const Color(0xff7D1F1F)),
-                    Text(label, style: GoogleFonts.getFont('Montserrat' ,color: _selectedIndex == index ? Colors.white : const Color(0xff7D1F1F), fontSize: 12, fontWeight: FontWeight.w600)),
-                  ],
-                ),
+            transform: Matrix4.translationValues(0.0, 3.0, 0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: SizedBox(
+                      width: 24.0,
+                      height: 24.0,
+                      child: Image.asset(_selectedIndex == index ? '${iconData}_selected.png' : '${iconData}_unselected.png')),
+                  ), // Use Image.asset
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Text(label, style: GoogleFonts.getFont('Montserrat' ,color: _selectedIndex == index ? Colors.white : const Color(0xff7D1F1F), fontSize: 12, fontWeight: FontWeight.w600)),
+                  ),
+                ],
               ),
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
 
   Size _measureText(String text, TextStyle style) {
     final textPainter = TextPainter(
