@@ -18,7 +18,6 @@ import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/Style/textspan.dart';
 import 'package:kltn_mobile/components/convert_imagetostring.dart';
 import 'package:kltn_mobile/components/dropdown.dart';
-import 'package:kltn_mobile/components/numeric_textfield.dart';
 import 'package:kltn_mobile/components/radio.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 
@@ -462,7 +461,7 @@ class _RegisterPageState extends State<RegisterPage> {
               //DOB
               SizedBox(
                 width: double.infinity,
-                height: 37,
+                height: 43,
                 child: GestureDetector(
                   onTap: () => selectDate(context), // Call Calendar when click
                   child: AbsorbPointer(
@@ -519,10 +518,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   const SizedBox(width: 15), // Khoảng cách giữa hai trường
                   Expanded(
-                    child: NumericTextField(
+                    child: MyTextField(
+                      keyboardType: TextInputType.number,
                       controller:
                           phoneController, // Thêm controller cho trường số điện thoại
-                      hintText: 'Phone Number',
+                      hintText: 'Phone',
+                      obscureText: false,
                       prefixIcon: Icons.phone,
                       onChanged: (value) {
                         // Save phone value
@@ -694,8 +695,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           });
                         },
                         itemLabel: (Schools school) => school.name,
-                        hintText: 'School',
-                        isExpanded: false,
+                        hintText: '-Choose your school-',
+                        isExpanded: true,
                       );
                     },
                   )),
@@ -839,9 +840,11 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               //Grade Score
               const SizedBox(height: 20),
-              NumericTextField(
+              MyTextField(
+                keyboardType: TextInputType.number,
                 controller: gradeController,
                 hintText: 'Grade Score',
+                obscureText: false,
                 prefixIcon: Icons.functions,
                 onChanged: (value) {
                   if (value is double || value is int) {

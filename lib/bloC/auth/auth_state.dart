@@ -3,8 +3,12 @@ import 'package:kltn_mobile/Model/schools.dart';
 
 abstract class AuthState {}
 
+class AuthInitialState extends AuthState {}
 class AuthLoadingState extends AuthState {}
-
+class AuthEmailErrorState extends AuthState {
+  String? message;
+  AuthEmailErrorState(this.message);
+}
 class AuthLoadedNamedSchoolState extends AuthState {
   final List<Schools> school;
   AuthLoadedNamedSchoolState(this.school);

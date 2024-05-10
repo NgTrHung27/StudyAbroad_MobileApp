@@ -9,6 +9,19 @@ class AuthCubit extends Cubit<AuthState> {
   static String token = "";
   APIRepository authRepo = APIRepository();
 
+  //check email
+  void checkEmail(String email) {
+    String emailPattern = r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+    RegExp regExp = RegExp(emailPattern);
+
+    if (!regExp.hasMatch(email)) {
+      print("Email checked");
+      emit(AuthEmailErrorState('Vui lòng nhập đúng định dạng email'));
+    } else {
+      emit(AuthInitialState());
+    }
+  }
+  //fetdata from api
   void getSchools() async {
     try {
       List<Schools> school = await authRepo.fetchSchools();

@@ -31,13 +31,14 @@ class DropdownCustom<T> extends StatelessWidget {
           hintText,
           style: GoogleFonts.montserrat(
             color: Colors.black,
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
           ),
         ),
         iconSize: 24,
         icon: const Icon(
           Icons.arrow_drop_down,
+          color: Colors.black,
         ),
         value: selectedItem,
         onChanged: onChanged,
@@ -68,10 +69,7 @@ class DropdownCustom<T> extends StatelessWidget {
             borderSide: const BorderSide(color: Color(0xFFCBD5E1), width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
           ),
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: 2,
-          ),
+          contentPadding: const EdgeInsets.only(top: 10, left: 10, right: 11),
         ),
       ),
     );
