@@ -61,10 +61,10 @@ class _MyTextFieldState extends State<MyTextField> {
         controller: controller,
         obscureText: widget.obscureText ? _obscureText : false,
         maxLines: maxLines ?? 1,
-        onChanged: onChanged,
+        onChanged: widget.onChanged,
         autofocus: true,
-        keyboardType: keyboardType ?? TextInputType.text,
-        textCapitalization: textCapitalization ?? TextCapitalization.none,
+        keyboardType: widget.keyboardType ?? TextInputType.text,
+        textCapitalization: widget.textCapitalization ?? TextCapitalization.none,
         //Con trỏ |
         cursorHeight: 20,
         cursorWidth: 1.5,
@@ -106,7 +106,7 @@ class _MyTextFieldState extends State<MyTextField> {
             focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            contentPadding: const EdgeInsets.only(top: 10)),
+            contentPadding: const EdgeInsets.all(10)),
       ),
     );
   }
