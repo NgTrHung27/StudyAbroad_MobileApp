@@ -41,8 +41,8 @@ class _LoginPageState extends State<_LoginPage> {
     // Lấy giá trị email và password từ các TextField
     String email = usermailController.text.trim();
     String password = passwordController.text.trim();
-    log('data: $email');
-    log('data: $password');
+    log('data email: $email');
+    log('data pass: $password');
     // Gọi phương thức login từ LoginCubit
     context.read<LoginCubit>().login(email, password);
   }
