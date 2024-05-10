@@ -16,7 +16,15 @@ class AuthCubit extends Cubit<AuthState> {
 
     if (!regExp.hasMatch(email)) {
       print("Email checked");
-      emit(AuthEmailErrorState('Vui lòng nhập đúng định dạng email'));
+      emit(AuthErrorEmailState('Vui lòng nhập đúng định dạng email'));
+    } else {
+      emit(AuthInitialState());
+    }
+  }
+  //check password
+  void checkPassword(String password) {
+    if (password.length < 6) {
+      emit(AuthErrorPasswordState('Mật khẩu phải lớn hơn 6 ký tự'));
     } else {
       emit(AuthInitialState());
     }

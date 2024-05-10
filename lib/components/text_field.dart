@@ -58,7 +58,7 @@ class _MyTextFieldState extends State<MyTextField> {
       width: screenWidth * 0.85,
       child: TextField(
         //
-        controller: controller,
+        controller: widget.controller,
         obscureText: widget.obscureText ? _obscureText : false,
         maxLines: maxLines ?? 1,
         onChanged: widget.onChanged,
