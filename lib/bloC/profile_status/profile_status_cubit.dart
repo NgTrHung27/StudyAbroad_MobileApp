@@ -8,7 +8,7 @@ class ProfileStatusCubit extends Cubit<ProfileStatusState> {
 
   void updateStatus(String status) {
     int currentStep;
-    if (status == 'Approved' || status == 'Denied') {
+    if (status == 'APPROVED' || status == 'DENIED') {
       currentStep = 2;
     } else {
       currentStep = 1;

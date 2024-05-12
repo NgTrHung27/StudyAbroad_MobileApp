@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/View/Authentication/register_page.dart';
+import 'package:kltn_mobile/View/Profile/user_detail.dart';
 import 'package:kltn_mobile/View/status_test.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
@@ -73,7 +74,7 @@ class _LoginPageState extends State<_LoginPage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              StatusTest(userAuth: state.userAuthLogin)),
+                              UserDetailsPage(userAuth: state.userAuthLogin)),
                     );
                   } else if (state is EmailError) {
                     setState(() {

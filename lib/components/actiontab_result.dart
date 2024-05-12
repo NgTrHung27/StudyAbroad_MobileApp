@@ -16,11 +16,11 @@ class _ActiontabResultState extends State<ActiontabResult> {
     Color backgroundColor = Colors.grey; //In
 
     // Define color for each result
-    if (widget.result == 'Approved') {
+    if (widget.result == 'APPROVED') {
       backgroundColor = const Color(0xff65AF37);
-    } else if (widget.result == 'Denied') {
+    } else if (widget.result == 'DENIED') {
       backgroundColor = const Color(0xffB61919);
-    } else if (widget.result == 'Pending') {
+    } else if (widget.result == 'PENDING') {
       backgroundColor = Colors.grey;
     }
 
