@@ -204,6 +204,7 @@ class _LoginPageState extends State<_LoginPage> {
                             children: [
                               MyButton(
                                 onTap: () => userLogin(context),
+                                text: 'Login',
                               ),
                             ],
                           ),
