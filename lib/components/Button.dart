@@ -3,7 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MyButton extends StatelessWidget {
   final Function()? onTap;
-  const MyButton({super.key, required this.onTap});
+  final String text; // Thêm tham số text
+  const MyButton({Key? key, required this.onTap, required this.text})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class MyButton extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "Login",
+            text, // Sử dụng tham số text
             style: GoogleFonts.getFont(
               'Montserrat',
               color: Colors.white,

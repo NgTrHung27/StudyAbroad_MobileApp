@@ -43,6 +43,8 @@ dependencies:
   fluttertoast: ^8.2.4
   image_picker: ^1.0.7
   flutter_bloc: ^8.1.5
+  bloc: ^8.1.4
+  meta: ^1.11.0
 
 dev_dependencies:
   flutter_test:
