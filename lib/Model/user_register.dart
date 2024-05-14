@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:kltn_mobile/Model/enum.dart';
+
 class UserAuthRegister {
   String? id;
   String? name;
@@ -21,6 +22,7 @@ class UserAuthRegister {
   double? gradeScore;
   bool? isTwoFactorEnabled;
   StudentStatus? studentStatus;
+  String? error;
 
   UserAuthRegister.none();
 
@@ -45,8 +47,9 @@ class UserAuthRegister {
     this.gradeScore,
     this.isTwoFactorEnabled,
     this.studentStatus,
+    this.error,
   });
-  
+
   factory UserAuthRegister.fromJson(Map<String, dynamic> json) {
     return UserAuthRegister(
       id: json['id'],
@@ -80,6 +83,7 @@ class UserAuthRegister {
       studentStatus: json['studentStatus'] != null
           ? _parseStudentStatus(json['studentStatus'])
           : null,
+      error: json['error'],
     );
   }
 

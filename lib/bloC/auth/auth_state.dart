@@ -1,97 +1,138 @@
 import 'package:kltn_mobile/Model/country.dart';
 import 'package:kltn_mobile/Model/schools.dart';
+import 'package:kltn_mobile/Model/user_register.dart';
 
 abstract class AuthState {}
+
 //Suceess
 class AuthInitialState extends AuthState {}
+
 class AuthLoadingState extends AuthState {}
-class AuthSuccessState extends AuthState {}
+
+class AuthSuccessState extends AuthState {
+  final UserAuthRegister userAuthRegister;
+  AuthSuccessState(this.userAuthRegister);
+}
 
 //Email
 class AuthErrorEmailState extends AuthState {
-  String? message;
-  AuthErrorEmailState(this.message);
+  final String error;
+  AuthErrorEmailState(this.error);
 }
-//Password
+
+//Password - ConfrimPassword
 class AuthErrorPasswordState extends AuthState {
-  String? message;
-  AuthErrorPasswordState(this.message);
+  final String error;
+  AuthErrorPasswordState(this.error);
 }
+
+class AuthErrorConfrimPasswordState extends AuthState {
+  final String error;
+  AuthErrorConfrimPasswordState(this.error);
+}
+
+//Name
+class AuthErrorNameState extends AuthState {
+  final String error;
+  AuthErrorNameState(this.error);
+}
+
 //DOB
 class AuthErrorDOBState extends AuthState {
-  String? message;
-  AuthErrorDOBState(this.message);
+  final String error;
+  AuthErrorDOBState(this.error);
 }
+
 //Gender
 class AuthErrorGenderErrorState extends AuthState {
-  String? message;
-  AuthErrorGenderErrorState(this.message);
+  final String error;
+  AuthErrorGenderErrorState(this.error);
 }
+
 //Phone
 class AuthErrorPhoneState extends AuthState {
-  String? message;
-  AuthErrorPhoneState(this.message);
+  final String error;
+  AuthErrorPhoneState(this.error);
 }
+
 //IDCard
 class AuthErrorIDCardNumberState extends AuthState {
-  String? message;
-  AuthErrorIDCardNumberState(this.message);
+  final String error;
+  AuthErrorIDCardNumberState(this.error);
 }
-//City - District - Ward
+
+//City - District - Ward - Address
 class AuthLoadedCityState extends AuthState {
   final List<Country> country;
   AuthLoadedCityState(this.country);
 }
+
 class AuthErrorCityState extends AuthState {
-  String? message;
-  AuthErrorCityState(this.message);
+  final String error;
+  AuthErrorCityState(this.error);
 }
+
 class AuthErrorDistrictState extends AuthState {
-  String? message;
-  AuthErrorDistrictState(this.message);
+  final String error;
+  AuthErrorDistrictState(this.error);
 }
+
 class AuthErrorWardState extends AuthState {
-  String? message;
-  AuthErrorWardState(this.message);
+  final String error;
+  AuthErrorWardState(this.error);
 }
+
+//Address
+class AuthErrorAddressState extends AuthState {
+  final String error;
+  AuthErrorAddressState(this.error);
+}
+
 //School - Program
 class AuthLoadedNamedSchoolState extends AuthState {
   final List<Schools> school;
   AuthLoadedNamedSchoolState(this.school);
 }
+
 class AuthErrorNamedSchoolState extends AuthState {
-  String? message;
-  AuthErrorNamedSchoolState(this.message);
-}
-class AuthErrorProgramState extends AuthState {
-  String? message;
-  AuthErrorProgramState(this.message);
-}
-//Degree - Certificate - CertifcateIMG
-class AuthErrorDegreeTypeState extends AuthState{
-  String? message;
-  AuthErrorDegreeTypeState(this.message);
-}
-class AuthErrorCertificateTypeState extends AuthState{
-  String? message;
-  AuthErrorCertificateTypeState(this.message);
-} 
-class AuthErrorCertificateImgState extends AuthState{
-  String? message;
-  AuthErrorCertificateImgState(this.message);
-}
-//GradeType - GradeScore
-class AuthErrorGradeTypeState extends AuthState{
-  String? message;
-  AuthErrorGradeTypeState(this.message);
-}
-class AuthErrorGradeScore extends AuthState{
-  String? message;
-  AuthErrorGradeScore(this.message);
-}
-//Error API
-class AuthErrorState extends AuthState {
-  String? message;
-  AuthErrorState(this.message);
+  final String error;
+  AuthErrorNamedSchoolState(this.error);
 }
 
+class AuthErrorProgramState extends AuthState {
+  final String error;
+  AuthErrorProgramState(this.error);
+}
+
+//Degree - Certificate - CertifcateIMG
+class AuthErrorDegreeTypeState extends AuthState {
+  final String error;
+  AuthErrorDegreeTypeState(this.error);
+}
+
+class AuthErrorCertificateTypeState extends AuthState {
+  final String error;
+  AuthErrorCertificateTypeState(this.error);
+}
+
+class AuthErrorCertificateImgState extends AuthState {
+  final String error;
+  AuthErrorCertificateImgState(this.error);
+}
+
+//GradeType - GradeScore
+class AuthErrorGradeTypeState extends AuthState {
+  final String error;
+  AuthErrorGradeTypeState(this.error);
+}
+
+class AuthErrorGradeScore extends AuthState {
+  final String error;
+  AuthErrorGradeScore(this.error);
+}
+
+//Error API
+class AuthErrorState extends AuthState {
+  final String error;
+  AuthErrorState(this.error);
+}
