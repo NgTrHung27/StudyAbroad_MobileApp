@@ -1,3 +1,6 @@
+import 'package:bottom_picker/bottom_picker.dart';
+import 'package:bottom_picker/resources/arrays.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,13 +9,10 @@ import 'package:kltn_mobile/Model/country.dart';
 import 'package:kltn_mobile/Model/schools.dart';
 import 'package:kltn_mobile/View/Authentication/login_page.dart';
 import 'package:intl/intl.dart';
-import 'package:kltn_mobile/View/HomePage/home_page.dart';
 import 'package:kltn_mobile/Model/enum.dart';
-import 'package:kltn_mobile/Model/user_register.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/auth_state.dart';
-import 'package:kltn_mobile/bloC/repository/repository.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/Style/textspan.dart';
@@ -32,6 +32,23 @@ class _RegisterPageState extends State<RegisterPage> {
   //Declare API School
   List<Schools> lstschools = [];
   List<Country> lstCountry = [];
+  String? errorEmailMessage;
+  String? errorNameMessage;
+  String? errorPasswordMessage;
+  String? errorConfrimPasswordMessage;
+  String? errorIDCardNumberMessage;
+  String? errorDateMessage;
+  String? errorPhoneMessage;
+  String? errorCityMessage;
+  String? errorDistrictMessage;
+  String? errorWardMessage;
+  String? errorAddressMessage;
+  String? errorGenderMessage;
+  String? errorDegreeMessage;
+  String? errorGradeTypeMessage;
+  String? errorGradeMessage;
+  String? errorCertificateTypeMessage;
+  String? errorMessage;
   //Declare
   String email = '';
   String name = '';
@@ -39,17 +56,18 @@ class _RegisterPageState extends State<RegisterPage> {
   String confirmpassword = '';
   String phone = '';
   String idCardNumber = '';
+  String dob = '';
   Schools? selectedSchoolObject;
   String? selectedSchool;
   String? selectedProgram;
   String? selectedCity;
   String? selectedDistrict;
   String? selectedWard;
-  String? address;
+  String address = '';
   Gender? valueGender;
   DegreeType? valueDegree;
   GradeType? radioGradeTypeValue; // 0: GPA, 1: CGPA
-  double? gradeScore;
+  double gradeScore = 0.0;
   CertificateType? selectedCertificateType;
   String certificateImg = '';
   //End of Declare
@@ -90,7 +108,6 @@ class _RegisterPageState extends State<RegisterPage> {
     String address = addressController.text.trim();
     double gradeScore = double.parse(gradeController.text.trim());
     String gradeScoreString = gradeScore.toString();
-
     String certificateImg = imageController.text.toString();
 
     var items = {
@@ -104,33 +121,14 @@ class _RegisterPageState extends State<RegisterPage> {
       'radioGradeTypeValue': radioGradeTypeValue,
       'selectedCertificateType': selectedCertificateType,
     };
-
     items.forEach((key, value) {
       if (value == null) {
         print('$key is null');
       }
     });
-
-    // Kiểm tra xem các giá trị có rỗng không
-    if (email.isEmpty ||
-        password.isEmpty ||
-        name.isEmpty ||
-        phone.isEmpty ||
-        confirmpassword.isEmpty ||
-        selectedProgram == null ||
-        selectedCity == null ||
-        selectedDistrict == null ||
-        selectedWard == null ||
-        address.isEmpty ||
-        radioGradeTypeValue == null ||
-        certificateImg.isEmpty) {
-      // Hiển thị thông báo lỗi
-      print('Email, password, name, phone, confirmpass,.... không được trống!');
-      return;
-    }
     //Call API from APIService
 
-    UserAuthRegister? userAuthRegister = await APIRepository().register(
+    context.read<AuthCubit>().register(
         email,
         name,
         password,
@@ -144,25 +142,12 @@ class _RegisterPageState extends State<RegisterPage> {
         selectedDistrict,
         selectedWard,
         address,
-        valueGender.toString().split('.').last.toUpperCase(),
-        valueDegree?.toString().split('.').last.toUpperCase(),
-        radioGradeTypeValue?.toString().split('.').last,
+        valueGender,
+        valueDegree,
+        radioGradeTypeValue,
         gradeScoreString,
-        selectedCertificateType?.toString().split('.').last,
+        selectedCertificateType,
         certificateImg);
-    print('Test null user: $userAuthRegister');
-    if (userAuthRegister != null) {
-      print('Đăng ký thành công: ${userAuthRegister.email}');
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    } else {
-      print(userAuthRegister);
-      print('Đăng ký thất bại');
-    }
   }
 
   //Declare intial state value for selectedSchool ,program, city, district, ward
@@ -276,6 +261,47 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  //Date
+  Future<void> openDatePicker(BuildContext context) async {
+    BottomPicker.date(
+      pickerTitle: Text(
+        'Date of Birth',
+        style: GoogleFonts.montserrat(
+          color: Colors.black,
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      pickerTextStyle: GoogleFonts.montserrat(
+        color: Colors.black,
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+      dateOrder: DatePickerDateOrder.dmy,
+      bottomPickerTheme: BottomPickerTheme.blue,
+      initialDateTime: DateTime(2000, 01, 01),
+      maxDateTime: DateTime(2010),
+      minDateTime: DateTime(1960),
+      onChange: (value) {
+        setState(() {
+          print(value);
+          dateController.text = DateFormat('dd/MM/yyyy').format(value);
+        });
+      },
+      onSubmit: (value) {
+        print(value);
+        dateController.text = DateFormat('dd/MM/yyyy').format(value);
+        if (value.isAfter(DateTime(DateTime.now().year - 17))) {
+          context.read<AuthCubit>().checkDob(value);
+        } else {
+          setState(() {
+            errorDateMessage = null;
+          });
+        }
+      },
+    ).show(context);
+  }
+
   //End of Image Picker Method
 //-----------------------------------------------------------------------------------
   @override
@@ -314,7 +340,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget controlsBuilder(context, details) {
     return Container(
-      margin: const EdgeInsets.only(top: 40),
+      margin: const EdgeInsets.only(top: 30),
       child: currentStep == 2 // Kiểm tra nếu đang ở bước thứ 3
           ? Column(
               children: [
@@ -396,60 +422,116 @@ class _RegisterPageState extends State<RegisterPage> {
                 keyboardType: TextInputType.emailAddress,
                 obscureText: false,
                 prefixIcon: Icons.email,
+                errorText: errorEmailMessage,
                 onChanged: (value) {
                   // Lưu giá trị email mới được nhập
                   email = value;
+                  context.read<AuthCubit>().checkEmail(email);
+                  if (email.isEmpty) {
+                    setState(() {
+                      errorEmailMessage;
+                    });
+                  } else {
+                    setState(() {
+                      errorEmailMessage = null;
+                    });
+                  }
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 3),
               MyTextField(
                 controller: usernameController,
                 hintText: 'FullName',
                 textCapitalization: TextCapitalization.words,
                 obscureText: false,
                 prefixIcon: Icons.person,
+                errorText: errorNameMessage,
                 onChanged: (value) {
                   // Lưu giá trị email mới được nhập
-                  email = value;
+                  name = value;
+                  context.read<AuthCubit>().checkName(name);
+                  if (name.isEmpty) {
+                    setState(() {
+                      errorNameMessage;
+                    });
+                  } else {
+                    setState(() {
+                      errorMessage = null;
+                    });
+                  }
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 3),
               MyTextField(
                 controller: passwordController,
                 hintText: 'Password',
                 obscureText: true,
                 prefixIcon: Icons.lock,
+                errorText: errorPasswordMessage,
                 onChanged: (value) {
                   // Lưu giá trị email mới được nhập
-                  email = value;
+                  password = value;
+                  context.read<AuthCubit>().checkPassword(password);
+                  if (password.isEmpty) {
+                    setState(() {
+                      errorPasswordMessage;
+                    });
+                  } else {
+                    setState(() {
+                      errorPasswordMessage = null;
+                    });
+                  }
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 3),
               MyTextField(
                 controller: confirmpasswordController,
                 hintText: 'Confirm Password',
                 obscureText: true,
                 prefixIcon: Icons.lock_reset,
+                errorText: errorConfrimPasswordMessage,
                 onChanged: (value) {
                   // Lưu giá trị email mới được nhập
-                  email = value;
+                  confirmpassword = value;
+                  context
+                      .read<AuthCubit>()
+                      .checkConfrimPassword(password, confirmpassword);
+                  if (confirmpassword.isEmpty) {
+                    setState(() {
+                      errorConfrimPasswordMessage;
+                    });
+                  } else {
+                    setState(() {
+                      errorConfrimPasswordMessage = null;
+                    });
+                  }
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 3),
               MyTextField(
                 controller: idCardNumberController,
                 hintText: 'ID Card Number',
                 obscureText: false,
                 prefixIcon: Icons.how_to_reg,
+                errorText: errorIDCardNumberMessage,
                 onChanged: (value) {
                   // Lưu giá trị email mới được nhập
-                  email = value;
+                  idCardNumber = value;
+                  context.read<AuthCubit>().checkIDCardNumber(idCardNumber);
+                  if (idCardNumber.isEmpty) {
+                    setState(() {
+                      errorIDCardNumberMessage;
+                    });
+                  } else {
+                    setState(() {
+                      errorIDCardNumberMessage = null;
+                    });
+                  }
                 },
               ),
             ],
           ),
         ),
-
         //---------------------------------------------------------------------------------------------------------
         //Step 2 - Profile
         Step(
@@ -460,60 +542,55 @@ class _RegisterPageState extends State<RegisterPage> {
             children: [
               //DOB
               SizedBox(
-                width: double.infinity,
-                height: 43,
-                child: GestureDetector(
-                  onTap: () => selectDate(context), // Call Calendar when click
-                  child: AbsorbPointer(
-                    child: TextFormField(
-                      focusNode: dateFocusNode,
-                      controller: dateController,
-                      decoration: InputDecoration(
-                        hintText: 'Date of birth',
-                        hintStyle: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        errorText: errorDate != "" ? errorDate : null,
-                        errorStyle: const TextStyle(color: Color(0xff7D1F1F)),
-                        prefixIcon: const Icon(Icons.calendar_today),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                              color: Color(0xFFCBD5E1), width: 1.0),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 12,
-                          horizontal: 2,
-                        ),
+                  width: double.infinity,
+                  height: 73,
+                  child: GestureDetector(
+                    onTap: () {
+                      openDatePicker(context);
+                    },
+                    child: AbsorbPointer(
+                      child: MyTextField(
+                        controller: dateController,
+                        hintText: 'Date of Birth',
+                        obscureText: false,
+                        prefixIcon: Icons.date_range,
+                        errorText: errorDateMessage,
+                        onChanged: (context) {},
                       ),
-                      readOnly: true,
                     ),
-                  ),
-                ),
-              ),
+                  )),
               //Gender - Phone number
-              const SizedBox(height: 20),
+              const SizedBox(height: 3),
               Row(
                 children: [
                   Expanded(
-                    child: DropdownCustom<Gender>(
-                      icon: Icons.wc,
-                      hintText: 'Gender',
-                      items: Gender.values,
-                      selectedItem: valueGender,
-                      onChanged: (Gender? newValueGender) {
-                        setState(() {
-                          genderValueChanged(newValueGender);
-                          print(valueGender);
-                        });
-                      },
-                      itemLabel: (Gender gender) =>
-                          gender.toString().split('.').last,
-                      isExpanded: false,
+                    child: SizedBox(
+                      height: 73,
+                      child: DropdownCustom<Gender>(
+                        icon: Icons.wc,
+                        hintText: 'Gender',
+                        items: Gender.values,
+                        selectedItem: valueGender,
+                        errorText: errorGenderMessage,
+                        onChanged: (Gender? newValueGender) {
+                          if (newValueGender != null) {
+                            setState(() {
+                              errorGenderMessage;
+                            });
+                          } else {
+                            setState(() {
+                              errorGenderMessage = null;
+                            });
+                          }
+                          setState(() {
+                            genderValueChanged(newValueGender);
+                            print(valueGender);
+                          });
+                        },
+                        itemLabel: (Gender gender) =>
+                            gender.toString().split('.').last,
+                        isExpanded: false,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 15), // Khoảng cách giữa hai trường
@@ -525,15 +602,26 @@ class _RegisterPageState extends State<RegisterPage> {
                       hintText: 'Phone',
                       obscureText: false,
                       prefixIcon: Icons.phone,
+                      errorText: errorPhoneMessage,
                       onChanged: (value) {
                         // Save phone value
                         phone = value;
+                        if (phone.isEmpty) {
+                          setState(() {
+                            errorPhoneMessage;
+                          });
+                        } else {
+                          setState(() {
+                            errorPhoneMessage = null;
+                          });
+                        }
+                        context.read<AuthCubit>().checkPhoneNumber(phone);
                       },
                     ),
                   )
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               //Address
               const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -569,7 +657,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
               ),
               //District - Ward
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               Row(children: [
                 Expanded(child: BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) {
@@ -644,7 +732,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 )),
               ]),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               MyTextField(
                 controller: addressController,
                 hintText: 'Address',
@@ -702,7 +790,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   )),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               // Major - Degree
               Row(
                 children: [
@@ -753,7 +841,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               //Certificate
               DropdownCustom<CertificateType>(
                 icon: Icons.bookmark_add,
@@ -772,7 +860,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
 
               // Upload Certificate
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               SizedBox(
                 width: double.infinity,
                 height: 37,
@@ -807,7 +895,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               //Overall Score
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -839,20 +927,29 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
               //Grade Score
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               MyTextField(
                 keyboardType: TextInputType.number,
                 controller: gradeController,
                 hintText: 'Grade Score',
                 obscureText: false,
                 prefixIcon: Icons.functions,
+                errorText: errorGradeMessage,
                 onChanged: (value) {
-                  if (value is double || value is int) {
+                  if (value.isEmpty) {
+                    setState(() {
+                      errorGradeMessage;
+                    });
+                  } else if (value is double || value is int) {
                     gradeScore = value.toDouble();
                     print("Grade Score: $gradeScore");
+                    setState(() {
+                      errorGradeMessage = null;
+                    });
                   } else {
                     print("Vui lòng nhập một số thực.");
                   }
+                  context.read<AuthCubit>().checkGradeScore(gradeScore);
                 },
               ),
             ],
@@ -861,131 +958,189 @@ class _RegisterPageState extends State<RegisterPage> {
       ];
   //End of Stepper method
   //-------------------------------------------------------------------------------
-
-//DOB Setup Time not < 18
-  String errorDate = "";
-  FocusNode dateFocusNode = FocusNode();
-  DateTime selectedDate = DateTime.now();
-  Future<void> selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      errorFormatText: 'Ngày không hợp lệ',
-      errorInvalidText: 'Ngày không hợp lệ',
-      initialEntryMode: DatePickerEntryMode.input,
-    );
-    if (picked != null && picked != selectedDate) {
-      if (picked.isBefore(DateTime(DateTime.now().year - 17))) {
-        // Ngày hợp lệ
-        setState(() {
-          selectedDate = picked;
-          dateController.text = DateFormat('dd/MM/yyyy').format(selectedDate);
-          errorDate = "";
-        });
-      } else {
-        setState(() {
-          errorDate = "*Bạn phải đủ 18 tuổi";
-        });
-      }
-    }
-  }
-
 //BuildContext
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SafeArea(
-          child: Scaffold(
-              backgroundColor: const Color(0xffFAFAFA),
-              body: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0, vertical: 15.0),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 40),
-                      const TextMonserats(
-                        'Create an account',
-                        color: Color(0xff7D1F1F),
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                      ),
-                      const SizedBox(height: 5),
-                      const TextMonserats(
-                        'Create an account to manage yout account today',
-                        fontWeight: FontWeight.w300,
-                        fontSize: 11,
-                      ),
-                      Expanded(
-                        child: Theme(
-                          data: Theme.of(context).copyWith(
-                              colorScheme: const ColorScheme.light(
-                                  primary: Color(0xff7D1F1F))),
-                          child: Stepper(
-                            physics: const ClampingScrollPhysics(),
-                            type: StepperType.horizontal,
-                            elevation: 0,
-                            currentStep: currentStep,
-                            onStepContinue: continueStep,
-                            onStepCancel: cancelStep,
-                            onStepTapped: onStepTapped,
-                            controlsBuilder: controlsBuilder,
-                            steps: getSteps(), //steps_register
-                          ),
-                        ),
-                      ),
-                      const Divider(
-                        height: 1,
-                        color: Color(0xFFCBD5E1),
-                        thickness: 1.0,
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: RichText(
-                            text: TextSpan(
-                              style: DefaultTextStyle.of(context).style,
-                              children: <TextSpan>[
-                                styledTextSpan(
-                                  'Already have an account? ',
-                                  color: Colors.black,
-                                ),
-                                styledTextSpan(
-                                  'Sign in',
-                                  color: const Color(0xff7D1F1F),
-                                  fontWeight: FontWeight.w700,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: const Color(
-                                      0xff7D1F1F), // Change the color of the underline
-                                  decorationStyle: TextDecorationStyle
-                                      .solid, // Change the number of lines
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const LoginPage()));
-                                    },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+          child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
+        if (state is AuthErrorEmailState) {
+          setState(() {
+            errorEmailMessage = state.error;
+          });
+        } else if (state is AuthErrorNameState) {
+          setState(() {
+            errorNameMessage = state.error;
+          });
+        } else if (state is AuthErrorPasswordState) {
+          setState(() {
+            errorPasswordMessage = state.error;
+          });
+        } else if (state is AuthErrorConfrimPasswordState) {
+          setState(() {
+            errorConfrimPasswordMessage = state.error;
+          });
+        } else if (state is AuthErrorIDCardNumberState) {
+          setState(() {
+            errorIDCardNumberMessage = state.error;
+          });
+        } else if (state is AuthErrorDOBState) {
+          setState(() {
+            errorDateMessage = state.error;
+          });
+        } else if (state is AuthErrorPhoneState) {
+          setState(() {
+            errorPhoneMessage = state.error;
+          });
+        } else if (state is AuthErrorCityState) {
+          setState(() {
+            errorCityMessage = state.error;
+          });
+        } else if (state is AuthErrorDistrictState) {
+          setState(() {
+            errorDistrictMessage = state.error;
+          });
+        } else if (state is AuthErrorWardState) {
+          setState(() {
+            errorWardMessage = state.error;
+          });
+        } else if (state is AuthErrorAddressState) {
+          setState(() {
+            errorAddressMessage = state.error;
+          });
+        } else if (state is AuthErrorGenderErrorState) {
+          setState(() {
+            errorGenderMessage = state.error;
+          });
+        } else if (state is AuthErrorDegreeTypeState) {
+          setState(() {
+            errorDegreeMessage = state.error;
+          });
+        } else if (state is AuthErrorGradeTypeState) {
+          setState(() {
+            errorGradeTypeMessage = state.error;
+          });
+        } else if (state is AuthErrorGradeScore) {
+          setState(() {
+            errorGradeMessage = state.error;
+          });
+        } else if (state is AuthErrorCertificateTypeState) {
+          setState(() {
+            errorCertificateTypeMessage = state.error;
+          });
+        } else if (state is AuthErrorState) {
+          setState(() {
+            errorMessage = state.error;
+          });
+        } else if (state is AuthSuccessState) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const LoginPage()));
+        }
+      }, builder: (context, state) {
+        if (state is AuthErrorState) {
+          Scaffold(
+            body: Center(
+              child: Text(state.error),
+            ),
+          );
+        } else if (state is AuthLoadingState) {
+          const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else if (state is AuthInitialState) {}
+        return Scaffold(
+          backgroundColor: const Color(0xffFAFAFA),
+          body: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 40),
+                  const TextMonserats(
+                    'Create an account',
+                    color: Color(0xff7D1F1F),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24,
                   ),
-                ),
-              ))),
+                  const SizedBox(height: 5),
+                  const TextMonserats(
+                    'Create an account to manage yout account today',
+                    fontWeight: FontWeight.w300,
+                    fontSize: 11,
+                  ),
+                  Expanded(
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                          colorScheme: const ColorScheme.light(
+                              primary: Color(0xff7D1F1F))),
+                      child: Stepper(
+                        physics: const ClampingScrollPhysics(),
+                        type: StepperType.horizontal,
+                        elevation: 0,
+                        currentStep: currentStep,
+                        onStepContinue: continueStep,
+                        onStepCancel: cancelStep,
+                        onStepTapped: onStepTapped,
+                        controlsBuilder: controlsBuilder,
+                        steps: getSteps(), //steps_register
+                      ),
+                    ),
+                  ),
+                  const Divider(
+                    height: 1,
+                    color: Color(0xFFCBD5E1),
+                    thickness: 1.0,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            styledTextSpan(
+                              'Already have an account? ',
+                              color: Colors.black,
+                            ),
+                            styledTextSpan(
+                              'Sign in',
+                              color: const Color(0xff7D1F1F),
+                              fontWeight: FontWeight.w700,
+                              decoration: TextDecoration.underline,
+                              decorationColor: const Color(
+                                  0xff7D1F1F), // Change the color of the underline
+                              decorationStyle: TextDecorationStyle
+                                  .solid, // Change the number of lines
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginPage()));
+                                },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      })),
     );
   }
 }

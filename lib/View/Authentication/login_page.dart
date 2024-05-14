@@ -147,7 +147,7 @@ class _LoginPageState extends State<_LoginPage> {
                           ),
 
                           //Pass TextFied
-                          const SizedBox(height: 15),
+                          const SizedBox(height: 3),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -164,7 +164,6 @@ class _LoginPageState extends State<_LoginPage> {
                             ],
                           ),
                           //Forgot Pass
-                          const SizedBox(height: 5),
                           Row(
                             children: [
                               Transform.scale(
@@ -222,7 +221,7 @@ class _LoginPageState extends State<_LoginPage> {
                             ],
                           ),
 
-                          const SizedBox(height: 230),
+                          const SizedBox(height: 180),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

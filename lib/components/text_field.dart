@@ -14,6 +14,7 @@ class MyTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final TextCapitalization? textCapitalization;
   final Function()? onpressed;
+  final String? errorText;
 
   const MyTextField(
       {super.key,
@@ -27,7 +28,8 @@ class MyTextField extends StatefulWidget {
       required this.onChanged,
       this.keyboardType,
       this.textCapitalization,
-      this.onpressed});
+      this.onpressed,
+      this.errorText});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -48,65 +50,85 @@ class _MyTextFieldState extends State<MyTextField> {
   TextInputType? keyboardType;
   TextCapitalization? textCapitalization;
   Function()? onpressed;
+  String? errorText;
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
     return SizedBox(
-      height: 43,
-      width: screenWidth * 0.85,
-      child: TextField(
-        //
-        controller: widget.controller,
-        obscureText: widget.obscureText ? _obscureText : false,
-        maxLines: maxLines ?? 1,
-        onChanged: widget.onChanged,
-        autofocus: true,
-        keyboardType: widget.keyboardType ?? TextInputType.text,
-        textCapitalization: widget.textCapitalization ?? TextCapitalization.none,
-        //Con trỏ |
-        cursorHeight: 20,
-        cursorWidth: 1.5,
-        //Decoration of TextField
-        style: GoogleFonts.montserrat(
-          color: Colors.black,
-          fontSize: fontSize ?? 14,
-          fontWeight: FontWeight.w500,
+      height: 73,
+      child: SizedBox(
+        height: 43,
+        width: screenWidth * 0.85,
+        child: TextField(
+          //
+          controller: widget.controller,
+          obscureText: widget.obscureText ? _obscureText : false,
+          maxLines: widget.maxLines ?? 1,
+          onChanged: widget.onChanged,
+          autofocus: true,
+          keyboardType: widget.keyboardType ?? TextInputType.text,
+          textCapitalization:
+              widget.textCapitalization ?? TextCapitalization.none,
+          //Con trỏ |
+          cursorHeight: 20,
+          cursorWidth: 1.5,
+          //Decoration of TextField
+          style: GoogleFonts.montserrat(
+            color: Colors.black,
+            fontSize: fontSize ?? 14,
+            fontWeight: FontWeight.w500,
+          ),
+          decoration: InputDecoration(
+              hintText: widget.hintText,
+              prefixIcon: Icon(
+                widget.prefixIcon,
+                size: 20,
+                color: Colors.black,
+              ),
+              suffixIcon: widget.obscureText
+                  ? IconButton(
+                      color: Colors.black,
+                      icon: Icon(
+                        _obscureText ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    )
+                  : null,
+              hintStyle: GoogleFonts.montserrat(
+                color: Colors.black,
+                fontSize: fontSize ?? 14,
+                fontWeight: FontWeight.w400,
+              ),
+              //error
+              errorText: widget.errorText,
+              errorStyle: GoogleFonts.montserrat(
+                color: Colors.red,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+              errorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Colors.red, style: BorderStyle.solid, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              focusedErrorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFCBD5E1)),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              contentPadding: const EdgeInsets.all(10)),
         ),
-        decoration: InputDecoration(
-            hintText: widget.hintText,
-            prefixIcon: Icon(
-              widget.prefixIcon,
-              size: 20,
-              color: Colors.black,
-            ),
-            suffixIcon: widget.obscureText
-                ? IconButton(
-                    color: Colors.black,
-                    icon: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                  )
-                : null,
-            hintStyle: GoogleFonts.montserrat(
-              color: Colors.black,
-              fontSize: fontSize ?? 14,
-              fontWeight: FontWeight.w400,
-            ),
-            enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFFCBD5E1)),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            contentPadding: const EdgeInsets.all(10)),
       ),
     );
   }

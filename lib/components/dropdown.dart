@@ -10,6 +10,7 @@ class DropdownCustom<T> extends StatelessWidget {
   final bool isExpanded;
   final IconData? icon;
   final Color? color;
+  final String? errorText;
 
   const DropdownCustom({
     super.key,
@@ -19,7 +20,9 @@ class DropdownCustom<T> extends StatelessWidget {
     required this.itemLabel,
     required this.hintText,
     required this.isExpanded,
-    this.icon, this.color,
+    this.icon,
+    this.color,
+    this.errorText,
   });
 
   @override
@@ -57,10 +60,25 @@ class DropdownCustom<T> extends StatelessWidget {
         }).toList(),
         isExpanded: isExpanded,
         decoration: InputDecoration(
-          prefixIcon: Icon(icon ?? Icons.map, color: color ?? Colors.black, size: 20,),
+          //error
+          errorText: errorText,
+          errorStyle: GoogleFonts.montserrat(
+            color: Colors.red,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+          errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.red, style: BorderStyle.solid, width: 1.0),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          prefixIcon: Icon(
+            icon ?? Icons.map,
+            color: color ?? Colors.black,
+            size: 20,
+          ),
           filled: true,
           fillColor: Colors.white,
-          errorStyle: const TextStyle(color: Colors.white),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Color(0xFFCBD5E1), width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
