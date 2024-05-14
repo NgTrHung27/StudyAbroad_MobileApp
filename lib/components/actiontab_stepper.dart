@@ -67,7 +67,6 @@ class ActionTabStepper extends StatelessWidget {
                         ),
                         child: Stepper(
                           currentStep: currentStep,
-                          onStepTapped: (step) => {}, // Add your logic here
                           controlsBuilder: (BuildContext context, ControlsDetails controlsDetails) {
                           return Container();
                           },

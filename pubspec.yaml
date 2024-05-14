@@ -45,6 +45,8 @@ dependencies:
   flutter_bloc: ^8.1.5
   line_icons: ^2.0.3
   bottom_picker: ^2.7.0
+  bloc: ^8.1.4
+  meta: ^1.11.0
 
 dev_dependencies:
   flutter_test:

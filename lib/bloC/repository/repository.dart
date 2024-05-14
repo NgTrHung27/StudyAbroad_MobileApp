@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:kltn_mobile/Model/country.dart';
 import 'package:kltn_mobile/Model/schools.dart';
+import 'package:kltn_mobile/Model/user_forgot.dart';
 import 'package:kltn_mobile/Model/user_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:kltn_mobile/Model/user_register.dart';
@@ -51,11 +52,12 @@ class APIRepository {
         "certificateType": selectedCertificateType,
         "certificateImg": certificateImg,
       });
-      
+
       print('Sending JSON data: $jsonData');
-      
+
       final response = await http.post(
-        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/auth/register'),
+        Uri.parse(
+            'https://kltn-demo-deploy-admin.vercel.app/api/auth/register'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -63,8 +65,7 @@ class APIRepository {
       );
 
       if (response.statusCode == 200) {
-        final data =
-          jsonDecode(utf8.decode(response.bodyBytes));
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
         log('data: $data');
 
         return UserAuthRegister.fromJson(data);
@@ -160,6 +161,30 @@ class APIRepository {
       }
     } catch (e) {
       throw Exception('Failed to connect to the API School: $e');
+    }
+  }
+
+  Future<UserForgotpass?> forgotPass(String email) async {
+    try {
+      final response = await httpClient.post(
+        Uri.parse(
+            'https://kltn-demo-deploy-admin.vercel.app/api/auth/reset-password'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email}),
+      );
+
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
+
+      if (response.statusCode == 200) {
+        log('data: $data');
+        return UserForgotpass.fromJson(data);
+      } else {
+        print("Failed to login: ${response.statusCode}");
+        return UserForgotpass.fromJson(data);
+      }
+    } catch (e) {
+      print("Exception occurred while logging in: $e");
+      return null;
     }
   }
 }
