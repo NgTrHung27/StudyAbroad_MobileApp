@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:kltn_mobile/Model/carousel_image.dart';
 import 'package:kltn_mobile/Model/country.dart';
 import 'package:kltn_mobile/Model/schools.dart';
 import 'package:kltn_mobile/Model/user_forgot.dart';
@@ -185,6 +186,55 @@ class APIRepository {
     } catch (e) {
       print("Exception occurred while logging in: $e");
       return null;
+    }
+  }
+
+  Future<List<ImageTest>> fetchCarouselImage() async {
+    try {
+      final response = await httpClient.get(
+        Uri.parse('https://api.thecatapi.com/v1/images/search?limit=10'),
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> data =
+            jsonDecode(utf8.decode(latin1.encode(response.body)));
+        print('API ImageCarousel: $data'); // Add this line
+        List<ImageTest> imagecarousels = [];
+        for (var item in data) {
+          // Tạo một đối tượng School từ JSON
+          ImageTest imagecarousel = ImageTest.fromJson(item);
+          // Thêm đối tượng School vào danh sách schools
+          imagecarousels.add(imagecarousel);
+        }
+        return imagecarousels;
+      } else {
+        throw Exception('Failed to load image');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the API Image');
+    }
+  }
+  Future<List<News>> fetchNews() async {
+    try {
+      final response = await httpClient.get(
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/news'),
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> data =
+            jsonDecode(utf8.decode(latin1.encode(response.body)));
+        print('API News Response: $data'); // Add this line
+        List<News> news = [];
+        for (var item in data) {
+          // Tạo một đối tượng School từ JSON
+          News newss = News.fromJson(item);
+          // Thêm đối tượng School vào danh sách schools
+          news.add(newss);
+        }
+        return news;
+      } else {
+        throw Exception('Failed to load news');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the API News');
     }
   }
 }

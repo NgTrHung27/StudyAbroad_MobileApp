@@ -4,8 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 class MyButton extends StatelessWidget {
   final Function()? onTap;
   final String text; // Thêm tham số text
-  const MyButton({Key? key, required this.onTap, required this.text})
-      : super(key: key);
+  const MyButton({super.key, required this.onTap, required this.text});
 
   @override
   Widget build(BuildContext context) {
