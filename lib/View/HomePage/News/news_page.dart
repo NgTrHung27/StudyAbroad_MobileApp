@@ -19,7 +19,7 @@ class NewsPage extends StatelessWidget {
       home: Scaffold(
         body: SafeArea(
           child: Container(
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: ListView(
               children: [
                 Padding(
