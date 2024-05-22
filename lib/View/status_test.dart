@@ -20,13 +20,6 @@ class StatusTest extends StatelessWidget {
       child: BlocBuilder<ProfileStatusCubit, ProfileStatusState>(
         builder: (context, state) {
           return Scaffold(
-            // bottomNavigationBar: BottomNavbar(
-            //   items:  [
-            //     BottomNavbarItem(icon: Icons.home_outlined, label: 'Home'),
-            //     BottomNavbarItem(icon: Icons.notifications_outlined, label: 'Notifications'),
-            //     BottomNavbarItem(icon: Icons.settings, label: 'Settings'),
-            //   ],
-            // ),
             body: Stack(
               children: <Widget>[
                 Container(
