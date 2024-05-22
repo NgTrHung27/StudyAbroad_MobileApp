@@ -962,6 +962,8 @@ class _RegisterPageState extends State<RegisterPage> {
 //BuildContext
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: SafeArea(
@@ -1053,7 +1055,7 @@ class _RegisterPageState extends State<RegisterPage> {
           );
         } else if (state is AuthInitialState) {}
         return Scaffold(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
@@ -1076,9 +1078,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   Expanded(
                     child: Theme(
-                      data: Theme.of(context).copyWith(
-                          colorScheme: ColorScheme.light(
-                              primary: AppColor.redButton)),
+                      data: ThemeData(
+                        canvasColor: Theme.of(context).scaffoldBackgroundColor,
+                        colorScheme: Theme.of(context).colorScheme.copyWith(
+                              primary: AppColor.redButton,
+                              background: Colors.red,
+                              secondary: Colors.green,
+                            ),
+                      ),
                       child: Stepper(
                         physics: const ClampingScrollPhysics(),
                         type: StepperType.horizontal,
@@ -1099,40 +1106,36 @@ class _RegisterPageState extends State<RegisterPage> {
                     indent: 20,
                     endIndent: 20,
                   ),
+                  SizedBox(height: screenHeight * 0.02),
                   Align(
                     alignment: Alignment.center,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          style: DefaultTextStyle.of(context).style,
-                          children: <TextSpan>[
-                            styledTextSpan(
-                              'Already have an account? ',
-                              color: Colors.black,
-                            ),
-                            styledTextSpan(
-                              'Sign in',
-                              color: AppColor.redButton,
-                              fontWeight: FontWeight.w700,
-                              decoration: TextDecoration.underline,
-                              decorationColor: const Color(
-                                  0xff7D1F1F), // Change the color of the underline
-                              decorationStyle: TextDecorationStyle
-                                  .solid, // Change the number of lines
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginPage()));
-                                },
-                            ),
-                          ],
-                        ),
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: <TextSpan>[
+                          styledTextSpan(
+                            'Already have an account? ',
+                            color: Colors.black,
+                          ),
+                          styledTextSpan(
+                            'Sign up',
+                            color: AppColor.redButton,
+                            fontWeight: FontWeight.w700,
+                            decoration: TextDecoration.underline,
+                            decorationColor: const Color(
+                                0xff7D1F1F), // Change the color of the underline
+                            decorationStyle: TextDecorationStyle
+                                .solid, // Change the number of lines
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginPage()));
+                              },
+                          ),
+                        ],
                       ),
                     ),
                   ),

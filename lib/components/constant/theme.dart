@@ -12,6 +12,7 @@ class AppTheme {
   );
   static ThemeData blackTheme = ThemeData(
     brightness: Brightness.dark,
+    scaffoldBackgroundColor: AppColor.scafflodBgColorDark,
     primaryColor: const Color(0xff1E2334),
     colorScheme: const ColorScheme.dark().copyWith(
       secondary: const Color(0xff3F3F46), // Màu tùy chỉnh cho light theme

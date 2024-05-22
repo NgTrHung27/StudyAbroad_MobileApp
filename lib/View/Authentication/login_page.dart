@@ -238,40 +238,36 @@ class _LoginPageState extends State<_LoginPage> {
                               indent: 20,
                               endIndent: 20,
                             ),
+                            SizedBox(height: screenHeight * 0.02),
                             Align(
                               alignment: Alignment.center,
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: DefaultTextStyle.of(context).style,
-                                    children: <TextSpan>[
-                                      styledTextSpan(
-                                        'Already have an account? ',
-                                        color: Colors.black,
-                                      ),
-                                      styledTextSpan(
-                                        'Sign up',
-                                        color: AppColor.redButton,
-                                        fontWeight: FontWeight.w700,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: const Color(
-                                            0xff7D1F1F), // Change the color of the underline
-                                        decorationStyle: TextDecorationStyle
-                                            .solid, // Change the number of lines
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const RegisterPage()));
-                                          },
-                                      ),
-                                    ],
-                                  ),
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    styledTextSpan(
+                                      'Don’t have an account? ',
+                                      color: Colors.black,
+                                    ),
+                                    styledTextSpan(
+                                      'Sign up',
+                                      color: AppColor.redButton,
+                                      fontWeight: FontWeight.w700,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: const Color(
+                                          0xff7D1F1F), // Change the color of the underline
+                                      decorationStyle: TextDecorationStyle
+                                          .solid, // Change the number of lines
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const RegisterPage()));
+                                        },
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
