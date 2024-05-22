@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class IdTab extends StatefulWidget {
   final String userName;
@@ -25,7 +26,7 @@ class _IdTabState extends State<IdTab> {
       height: 80,
       width: screenWidth * 0.9,
       decoration: BoxDecoration(
-        color: const Color(0xff7D1F1F),
+        color: AppColor.redButton,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(

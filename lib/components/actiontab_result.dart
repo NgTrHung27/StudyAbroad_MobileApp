@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class ActiontabResult extends StatefulWidget {
   final String result;
@@ -13,7 +14,7 @@ class _ActiontabResultState extends State<ActiontabResult> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    Color backgroundColor = Colors.grey; //In
+    Color backgroundColor = AppColor.greyColor; //In
 
     // Define color for each result
     if (widget.result == 'APPROVED') {
@@ -21,7 +22,7 @@ class _ActiontabResultState extends State<ActiontabResult> {
     } else if (widget.result == 'DENIED') {
       backgroundColor = const Color(0xffB61919);
     } else if (widget.result == 'PENDING') {
-      backgroundColor = Colors.grey;
+      backgroundColor = AppColor.greyColor;
     }
 
     return Container(

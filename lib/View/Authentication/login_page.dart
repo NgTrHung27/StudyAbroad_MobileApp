@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +9,9 @@ import 'package:kltn_mobile/View/Profile/user_detail.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/Style/textspan.dart';
 import 'package:kltn_mobile/components/button.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 
 class LoginPage extends StatelessWidget {
@@ -88,178 +91,194 @@ class _LoginPageState extends State<_LoginPage> {
                 }
               },
               builder: (context, state) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 20, vertical: screenHeight * 0.08),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment
-                        .start, // Thay đổi từ CrossAxisAlignment.center thành CrossAxisAlignment.start
-                    children: [
-                      //Logo
-                      //Logo và các phần còn lại sẽ được bao trong một Row để căn giữa theo chiều ngang
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          //Logo
-                          Image.asset(
-                            "assets/LOGO_RED.png",
-                            height: 80,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      Text(
-                        'Welcome\nBack!',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: const Color(0xff7D1F1F),
-                          fontWeight: FontWeight.w600,
-                          fontSize: 30,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Continue your adventure',
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: const Color(0xff7D1F1F),
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        ),
-                      ),
-                      //Email TextFied
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MyTextField(
-                            controller: usermailController,
-                            hintText: 'Enter your email',
-                            keyboardType: TextInputType.emailAddress,
-                            obscureText: false,
-                            prefixIcon: Icons.email,
-                            onChanged: (value) {
-                              // Lưu giá trị email mới được nhập
-                              email = value;
-                              context.read<LoginCubit>().checkEmail(email);
-                            },
-                          ),
-                        ],
-                      ),
-                      //Pass TextFied
-                      const SizedBox(height: 3),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MyTextField(
-                            controller: passwordController,
-                            hintText: 'Enter your password',
-                            obscureText: true,
-                            prefixIcon: Icons.lock,
-                            onChanged: (value) {
-                              // Lưu giá trị password mới được nhập
-                              password = value;
-                            },
-                          ),
-                        ],
-                      ),
-                      //Error Message
-                      if (errorMessage != null)
-                        Center(
-                          child: TextMonserats(
-                            errorMessage!,
-                            color: Colors.red,
-                          ),
-                        ),
-                      //Forgot Pass
-                      Row(
-                        children: [
-                          Transform.scale(
-                            scale: 0.8, // Adjust the scale factor as needed
-                            child: Radio(
-                              value: 0,
-                              groupValue: selectedValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedValue = value!;
-                                });
-                              },
-                            ),
-                          ),
-                          const TextMonserats(
-                            'Remember me?',
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
-                        ],
-                      ),
-
-                      //Login Button
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          MyButton(
-                            onTap: () => userLogin(context),
-                            text: 'Login',
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      //Forgot Password
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              // Navigate to the ForgetPass screen
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const ForgetPass()),
-                              );
-                            },
-                            child: const TextMonserats(
-                              'Forgot your password?',
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 180),
-                      Row(
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 20, vertical: screenHeight * 0.05),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            //Logo
+                            Image.asset(
+                              "assets/LOGO_RED.png",
+                              height: 80,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: TextMonserats(
+                            'Welcome\nBack!',
+                            fontSize: 30,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: TextMonserats(
+                            'Continue your adventure',
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        //Email TextFied
+                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MyTextField(
+                              controller: usermailController,
+                              hintText: 'Enter your email',
+                              keyboardType: TextInputType.emailAddress,
+                              obscureText: false,
+                              prefixIcon: Icons.email,
+                              onChanged: (value) {
+                                // Lưu giá trị email mới được nhập
+                                email = value;
+                                context.read<LoginCubit>().checkEmail(email);
+                              },
+                            ),
+                          ],
+                        ),
+                        //Pass TextFied
+                        const SizedBox(height: 3),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MyTextField(
+                              controller: passwordController,
+                              hintText: 'Enter your password',
+                              obscureText: true,
+                              prefixIcon: Icons.lock,
+                              onChanged: (value) {
+                                // Lưu giá trị password mới được nhập
+                                password = value;
+                              },
+                            ),
+                          ],
+                        ),
+                        //Error Message
+                        if (errorMessage != null)
+                          Center(
+                            child: TextMonserats(
+                              errorMessage!,
+                              color: Colors.red,
+                            ),
+                          ),
+                        //Forgot Pass
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8, // Adjust the scale factor as needed
+                              child: Radio(
+                                value: 0,
+                                groupValue: selectedValue,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedValue = value!;
+                                  });
+                                },
+                              ),
+                            ),
                             const TextMonserats(
-                              'Don’t have an account?',
+                              'Remember me?',
                               color: Colors.black,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w400,
                               fontSize: 15,
                             ),
-                            const SizedBox(width: 5),
+                          ],
+                        ),
+
+                        //Login Button
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MyButton(
+                              onTap: () => userLogin(context),
+                              text: 'Login',
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        //Forgot Password
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
                             GestureDetector(
                               onTap: () {
+                                // Navigate to the ForgetPass screen
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterPage()),
+                                      builder: (context) => const ForgetPass()),
                                 );
                               },
-                              child: Text('Sign Up',
-                                  style: GoogleFonts.getFont(
-                                    'Montserrat',
-                                    color: const Color(0xff7D1F1F),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 15,
-                                  )),
-                            )
-                          ]),
-                    ],
+                              child: const TextMonserats(
+                                'Forgot your password?',
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 110),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Divider(
+                              height: 1,
+                              color: Color(0xFFCBD5E1),
+                              thickness: 1.0,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: RichText(
+                                  text: TextSpan(
+                                    style: DefaultTextStyle.of(context).style,
+                                    children: <TextSpan>[
+                                      styledTextSpan(
+                                        'Already have an account? ',
+                                        color: Colors.black,
+                                      ),
+                                      styledTextSpan(
+                                        'Sign up',
+                                        color: AppColor.redButton,
+                                        fontWeight: FontWeight.w700,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: const Color(
+                                            0xff7D1F1F), // Change the color of the underline
+                                        decorationStyle: TextDecorationStyle
+                                            .solid, // Change the number of lines
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const RegisterPage()));
+                                          },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 );
               },

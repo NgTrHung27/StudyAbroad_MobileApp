@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class ActionTab extends StatelessWidget {
   final String header; //parameter header
@@ -32,7 +33,7 @@ class ActionTab extends StatelessWidget {
             header, // parameter header
             style: GoogleFonts.montserrat(
               fontSize: 16,
-              color: const Color(0xff7D1F1F),
+              color: AppColor.redButton,
               fontWeight: FontWeight.w600,
             ),
           ),

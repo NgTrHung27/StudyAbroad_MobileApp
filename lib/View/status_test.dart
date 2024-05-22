@@ -23,7 +23,7 @@ class StatusTest extends StatelessWidget {
             body: Stack(
               children: <Widget>[
                 Container(
-                  color: const Color(0xffd9d9d9),
+                  color: Theme.of(context).primaryColor,
                   child: Column(
                     children: [
                       SizedBox(height: screenHeight * 0.08),
