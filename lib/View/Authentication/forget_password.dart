@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/bloC/auth/forgot_pass_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
+import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 import 'package:kltn_mobile/components/button.dart';
 
@@ -93,41 +93,37 @@ class _ForgetPassState extends State<_ForgetPass> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      Text(
-                        'Forgot Password?',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 30,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Enter your email for the verification process, we will send verify link',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.getFont(
-                          'Montserrat',
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                        ),
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextMonserats(
+                            'Forgot Password?',
+                            textAlign: TextAlign.center,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 30,
+                          ),
+                          SizedBox(height: 10),
+                          TextMonserats(
+                            'Enter your email for the verification process, we will send verify link',
+                            textAlign: TextAlign.center,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 70),
                       Column(
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              TextMonserats(
                                 'Enter Your Email',
-                                style: GoogleFonts.getFont(
-                                  'Montserrat',
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                ),
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
                               ),
                             ],
                           ),
@@ -151,9 +147,10 @@ class _ForgetPassState extends State<_ForgetPass> {
                                   ),
                                   // Display errorMessage if it is not null
                                   if (errorMessage != null)
-                                    Text(
+                                    TextMonserats(
                                       errorMessage!,
-                                      style: const TextStyle(color: Colors.red),
+                                      color: Colors.red,
+                                      textAlign: TextAlign.left,
                                     ),
                                 ],
                               ),
@@ -181,14 +178,11 @@ class _ForgetPassState extends State<_ForgetPass> {
                                   // Navigate back to login screen
                                   Navigator.pop(context);
                                 },
-                                child: Text(
+                                child: const TextMonserats(
                                   'Back to Login',
-                                  style: GoogleFonts.getFont(
-                                    'Montserrat',
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 13,
-                                  ),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 13,
                                 ),
                               ),
                             ],
