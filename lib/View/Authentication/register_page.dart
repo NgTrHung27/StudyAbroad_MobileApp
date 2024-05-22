@@ -16,6 +16,7 @@ import 'package:kltn_mobile/bloC/auth/auth_state.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/Style/textspan.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/convert_imagetostring.dart';
 import 'package:kltn_mobile/components/dropdown.dart';
 import 'package:kltn_mobile/components/radio.dart';
@@ -348,11 +349,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: double.infinity,
                   child: SimpleButton(
                     backgroundColor: Colors.transparent,
-                    borderColor: const Color(0xff7D1F1F),
+                    borderColor: AppColor.redButton,
                     onPressed: details.onStepCancel,
-                    child: const TextMonserats(
+                    child: TextMonserats(
                       'Back',
-                      color: Color(0xff7D1F1F),
+                      color: AppColor.redButton,
                     ),
                   ),
                 ),
@@ -377,11 +378,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: SizedBox(
                     child: SimpleButton(
                       backgroundColor: Colors.transparent,
-                      borderColor: const Color(0xff7D1F1F),
+                      borderColor: AppColor.redButton,
                       onPressed: details.onStepCancel,
-                      child: const TextMonserats(
+                      child: TextMonserats(
                         'Back',
-                        color: Color(0xff7D1F1F),
+                        color: AppColor.redButton,
                       ),
                     ),
                   ),
@@ -866,7 +867,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: 37,
                 child: SimpleButton(
                   backgroundColor: Colors.transparent,
-                  borderColor: const Color(0xff7D1F1F),
+                  borderColor: AppColor.redButton,
                   onPressed: () {
                     Future<String?> imageValueChanged() async {
                       String? certiImg = await getImage();
@@ -1052,7 +1053,7 @@ class _RegisterPageState extends State<RegisterPage> {
           );
         } else if (state is AuthInitialState) {}
         return Scaffold(
-          backgroundColor: const Color(0xffFAFAFA),
+          backgroundColor: Theme.of(context).primaryColor,
           body: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
@@ -1061,9 +1062,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 40),
-                  const TextMonserats(
+                  TextMonserats(
                     'Create an account',
-                    color: Color(0xff7D1F1F),
+                    color: AppColor.redButton,
                     fontWeight: FontWeight.w700,
                     fontSize: 24,
                   ),
@@ -1076,8 +1077,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   Expanded(
                     child: Theme(
                       data: Theme.of(context).copyWith(
-                          colorScheme: const ColorScheme.light(
-                              primary: Color(0xff7D1F1F))),
+                          colorScheme: ColorScheme.light(
+                              primary: AppColor.redButton)),
                       child: Stepper(
                         physics: const ClampingScrollPhysics(),
                         type: StepperType.horizontal,
@@ -1114,7 +1115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                             styledTextSpan(
                               'Sign in',
-                              color: const Color(0xff7D1F1F),
+                              color: AppColor.redButton,
                               fontWeight: FontWeight.w700,
                               decoration: TextDecoration.underline,
                               decorationColor: const Color(

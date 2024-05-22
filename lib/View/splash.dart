@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/View/Authentication/login_page.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -80,7 +81,7 @@ class _SplashScreenState extends State<SplashScreen>
                                     value)), // Adjust the translation range as needed
                         child: Text('Canada Education Manage Company',
                             style: GoogleFonts.montserrat(
-                              color: const Color(0xff7D1F1F),
+                              color: AppColor.redButton,
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
                             ))),

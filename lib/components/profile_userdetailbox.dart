@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class LegendBox extends StatelessWidget {
   final String title;
@@ -18,26 +19,36 @@ class LegendBox extends StatelessWidget {
             Container(
               height: 65.0,
               constraints: const BoxConstraints(minWidth: double.infinity),
-              padding: const EdgeInsets.only(top: 12.0), 
+              padding: const EdgeInsets.only(top: 12.0),
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
+                  border: Border.all(color: AppColor.greyColor),
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
-                  child: Align(alignment: Alignment.centerLeft, child: TextMonserats(value, color: value == 'APPROVED' ? Colors.green : value == 'DENIED' ? Colors.red : Colors.black,)),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextMonserats(
+                        value,
+                        color: value == 'APPROVED'
+                            ? Colors.green
+                            : value == 'DENIED'
+                                ? Colors.red
+                                : Colors.black,
+                      )),
                 ),
               ),
             ),
             Positioned(
               left: 15.0,
               child: Container(
-                color: Colors.white, 
-                padding: const EdgeInsets.symmetric(horizontal: 7.0), 
-                child: TextMonserats(
-                  title, color: Colors.grey, fontSize: 15.0, fontWeight: FontWeight.w600
-                ),
+                color: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                child: TextMonserats(title,
+                    color: AppColor.greyColor,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600),
               ),
             ),
           ],

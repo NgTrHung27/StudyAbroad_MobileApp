@@ -6,7 +6,9 @@ import 'package:kltn_mobile/View/Authentication/register_page.dart';
 import 'package:kltn_mobile/View/Profile/user_detail.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
+import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/button.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 
 class LoginPage extends StatelessWidget {
@@ -89,13 +91,10 @@ class _LoginPageState extends State<_LoginPage> {
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 30.0, vertical: 40.0),
+                          horizontal: 10.0, vertical: 15.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment
-                            .start, // Thay đổi từ CrossAxisAlignment.center thành CrossAxisAlignment.start
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          //Logo
-                          //Logo và các phần còn lại sẽ được bao trong một Row để căn giữa theo chiều ngang
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -107,23 +106,20 @@ class _LoginPageState extends State<_LoginPage> {
                             ],
                           ),
                           const SizedBox(height: 30),
-                          Text(
-                            'Welcome\nBack!',
-                            style: GoogleFonts.getFont(
-                              'Montserrat',
-                              color: const Color(0xff7D1F1F),
-                              fontWeight: FontWeight.w600,
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: TextMonserats(
+                              'Welcome\nBack!',
                               fontSize: 30,
+                              textAlign: TextAlign.left,
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            'Continue your adventure',
-                            style: GoogleFonts.getFont(
-                              'Montserrat',
-                              color: const Color(0xff7D1F1F),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: TextMonserats(
+                              'Continue your adventure',
                               fontWeight: FontWeight.w500,
-                              fontSize: 15,
                             ),
                           ),
                           //Email TextFied
@@ -222,7 +218,7 @@ class _LoginPageState extends State<_LoginPage> {
                             ],
                           ),
 
-                          const SizedBox(height: 180),
+                          const SizedBox(height: 150),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -248,7 +244,7 @@ class _LoginPageState extends State<_LoginPage> {
                                   child: Text('Sign Up',
                                       style: GoogleFonts.getFont(
                                         'Montserrat',
-                                        color: const Color(0xff7D1F1F),
+                                        color: AppColor.redButton,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 13,
                                       )),
