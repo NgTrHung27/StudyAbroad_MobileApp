@@ -25,7 +25,7 @@ class SimpleButton extends StatelessWidget {
               backgroundColor ?? AppColor.redButton),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(15.0),
               side: BorderSide(color: borderColor ?? Colors.transparent),
             ),
           ),
