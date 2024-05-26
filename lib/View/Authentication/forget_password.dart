@@ -44,9 +44,6 @@ class _ForgetPassState extends State<_ForgetPass> {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = context.select(
-        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
-    final textColor = isDarkMode ? Colors.white : Colors.black;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
