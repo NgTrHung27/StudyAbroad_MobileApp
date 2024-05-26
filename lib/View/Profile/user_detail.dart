@@ -17,9 +17,10 @@ class UserDetailsPage extends StatelessWidget {
     return BlocBuilder<ThemeSettingCubit, ThemeData>(
       builder: (context, state) {
         double screenWidth = MediaQuery.of(context).size.width;
-        Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
+
         return Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: context.select(
+              (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
           body: Stack(
             children: <Widget>[
               Padding(

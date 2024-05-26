@@ -8,10 +8,10 @@ part 'theme_setting_state.dart';
 
 class ThemeSettingCubit extends Cubit<ThemeData> {
   ThemeSettingCubit() : super(AppTheme.lightTheme) {
-    _loadTheme();
+    loadTheme();
   }
 
-  Future<void> _loadTheme() async {
+  Future<void> loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final isDarkMode = prefs.getBool('isDarkMode') ?? false;
     emit(isDarkMode ? AppTheme.blackTheme : AppTheme.lightTheme);

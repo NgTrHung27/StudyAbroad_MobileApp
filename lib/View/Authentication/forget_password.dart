@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/bloC/auth/forgot_pass_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
+import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/constant/theme.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 import 'package:kltn_mobile/components/button.dart';
 
@@ -42,12 +44,14 @@ class _ForgetPassState extends State<_ForgetPass> {
 
   @override
   Widget build(BuildContext context) {
-    // In giá trị của biến ra log console
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/FORGOT PASSWORD 6.jpg"),
+            image: AssetImage(
+                context.watch<ThemeSettingCubit>().state == AppTheme.blackTheme
+                    ? 'assets/FORGOTPASS_Background_Dark.png'
+                    : 'assets/FORGOT PASSWORD 6.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -121,7 +125,6 @@ class _ForgetPassState extends State<_ForgetPass> {
                             children: [
                               TextMonserats(
                                 'Enter Your Email',
-                                color: Colors.black,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
                               ),
@@ -180,7 +183,6 @@ class _ForgetPassState extends State<_ForgetPass> {
                                 },
                                 child: const TextMonserats(
                                   'Back to Login',
-                                  color: Colors.black,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 13,
                                 ),
