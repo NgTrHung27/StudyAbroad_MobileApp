@@ -1,6 +1,8 @@
 // FILE: text_field.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
 
 class MyTextField extends StatefulWidget {
   final TextEditingController controller;
@@ -55,6 +57,10 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
     return SizedBox(
       height: 73,
       child: SizedBox(
@@ -75,7 +81,7 @@ class _MyTextFieldState extends State<MyTextField> {
           cursorWidth: 1.5,
           //Decoration of TextField
           style: GoogleFonts.montserrat(
-            color: Colors.black,
+            color: textColor,
             fontSize: fontSize ?? 14,
             fontWeight: FontWeight.w500,
           ),
@@ -84,11 +90,11 @@ class _MyTextFieldState extends State<MyTextField> {
               prefixIcon: Icon(
                 widget.prefixIcon,
                 size: 20,
-                color: Colors.black,
+                color: iconColor,
               ),
               suffixIcon: widget.obscureText
                   ? IconButton(
-                      color: Colors.black,
+                      color: iconColor,
                       icon: Icon(
                         _obscureText ? Icons.visibility : Icons.visibility_off,
                       ),
@@ -100,7 +106,7 @@ class _MyTextFieldState extends State<MyTextField> {
                     )
                   : null,
               hintStyle: GoogleFonts.montserrat(
-                color: Colors.black,
+                color: textColor,
                 fontSize: fontSize ?? 14,
                 fontWeight: FontWeight.w400,
               ),

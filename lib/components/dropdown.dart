@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class DropdownCustom<T> extends StatelessWidget {
   final List<T> items;
@@ -27,21 +30,26 @@ class DropdownCustom<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    final backgroundDropdown = isDarkMode ? AppColor.scafflodBgColorDark : Colors.white;
     return SizedBox(
       height: 43,
       child: DropdownButtonFormField<T>(
         hint: Text(
           hintText,
           style: GoogleFonts.montserrat(
-            color: Colors.black,
+            color: textColor,
             fontSize: 14,
             fontWeight: FontWeight.w400,
           ),
         ),
         iconSize: 24,
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_drop_down,
-          color: Colors.black,
+          color: iconColor,
         ),
         value: selectedItem,
         onChanged: onChanged,
@@ -51,7 +59,7 @@ class DropdownCustom<T> extends StatelessWidget {
             child: Text(
               itemLabel(value),
               style: GoogleFonts.montserrat(
-                color: Colors.black,
+                color: textColor,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
@@ -74,11 +82,11 @@ class DropdownCustom<T> extends StatelessWidget {
           ),
           prefixIcon: Icon(
             icon ?? Icons.map,
-            color: color ?? Colors.black,
+            color: color ?? iconColor,
             size: 20,
           ),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: backgroundDropdown,
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Color(0xFFCBD5E1), width: 1.0),
             borderRadius: BorderRadius.circular(10.0),
