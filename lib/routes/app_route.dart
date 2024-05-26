@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kltn_mobile/Model/user_login.dart';
 import 'package:kltn_mobile/View/Authentication/forget_password.dart';
 import 'package:kltn_mobile/View/Authentication/login_page.dart';
+import 'package:kltn_mobile/View/Authentication/logout.dart';
 import 'package:kltn_mobile/View/Authentication/register_page.dart';
 import 'package:kltn_mobile/View/HomePage/News/news_page.dart';
 import 'package:kltn_mobile/View/HomePage/home_page.dart';
@@ -11,7 +12,7 @@ class AppRoute {
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => const LoginPage());
+        return MaterialPageRoute(builder: (_) => const LogoutPage());
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/login':
