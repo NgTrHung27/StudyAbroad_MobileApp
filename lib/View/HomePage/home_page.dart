@@ -23,6 +23,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     context.read<CarouselBloc>().add(FetchCarousel());
+    context.read<ThemeSettingCubit>().loadTheme();
+
     _loadIconState();
   }
 
@@ -42,9 +44,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: context.select(
+          (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
         child: Stack(children: [
@@ -54,17 +56,6 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20),
               const NewsSearchTextField(hintText: 'Search here...'),
               const SizedBox(height: 15),
-              IconButton(
-                  onPressed: toggleTheme,
-                  icon: !isChangeColor
-                      ? const Icon(
-                          Icons.sunny,
-                          color: Colors.amberAccent,
-                        )
-                      : const Icon(
-                          Icons.brightness_3,
-                          color: Colors.amberAccent,
-                        )),
               BlocBuilder<CarouselBloc, CarouselState>(
                 builder: (context, state) {
                   if (state is CarouselLoading) {

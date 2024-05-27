@@ -13,6 +13,7 @@ import 'package:kltn_mobile/Model/enum.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/auth_state.dart';
+import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/Style/textspan.dart';
@@ -21,6 +22,7 @@ import 'package:kltn_mobile/components/convert_imagetostring.dart';
 import 'package:kltn_mobile/components/dropdown.dart';
 import 'package:kltn_mobile/components/radio.dart';
 import 'package:kltn_mobile/components/text_field.dart';
+import 'package:kltn_mobile/routes/app_route.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -341,7 +343,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget controlsBuilder(context, details) {
     return Container(
-      margin: const EdgeInsets.only(top: 30),
       child: currentStep == 2 // Kiểm tra nếu đang ở bước thứ 3
           ? Column(
               children: [
@@ -896,7 +897,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
               //Overall Score
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               const Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -928,7 +929,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
               //Grade Score
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               MyTextField(
                 keyboardType: TextInputType.number,
                 controller: gradeController,
@@ -963,9 +964,9 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: AppRoute.onGenerateRoute,
       home: SafeArea(
           child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
         if (state is AuthErrorEmailState) {
@@ -1055,7 +1056,8 @@ class _RegisterPageState extends State<RegisterPage> {
           );
         } else if (state is AuthInitialState) {}
         return Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: context.select(
+              (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
           body: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
@@ -1078,14 +1080,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   Expanded(
                     child: Theme(
-                      data: ThemeData(
-                        canvasColor: Theme.of(context).scaffoldBackgroundColor,
-                        colorScheme: Theme.of(context).colorScheme.copyWith(
-                              primary: AppColor.redButton,
-                              background: Colors.red,
-                              secondary: Colors.green,
-                            ),
-                      ),
+                      data: Theme.of(context).copyWith(
+                          canvasColor: context.select(
+                              (ThemeSettingCubit cubit) =>
+                                  cubit.state.scaffoldBackgroundColor),
+                          colorScheme: Theme.of(context).colorScheme.copyWith(
+                              onSurface: Colors.transparent,
+                              primary: AppColor.redButton)),
                       child: Stepper(
                         physics: const ClampingScrollPhysics(),
                         type: StepperType.horizontal,
@@ -1095,7 +1096,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         onStepCancel: cancelStep,
                         onStepTapped: onStepTapped,
                         controlsBuilder: controlsBuilder,
-                        steps: getSteps(), //steps_register
+                        steps: getSteps(),
                       ),
                     ),
                   ),
@@ -1128,11 +1129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 .solid, // Change the number of lines
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginPage()));
+                                Navigator.pushNamed(context, "/login");
                               },
                           ),
                         ],
