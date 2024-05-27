@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/cupertino.dart'; // Import Cupertino library
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class FunctionItem {
   final String name;
   final IconData icon;
+  final bool isEnable;
+  bool switchValue;
 
-  FunctionItem({required this.name, required this.icon});
+  FunctionItem({
+    required this.name,
+    required this.icon,
+    this.isEnable = false,
+    this.switchValue = false,
+  });
 }
 
-class ActionTab extends StatelessWidget {
+class ActionTab extends StatefulWidget {
   final String header;
-  final List<FunctionItem> functions; // Parameter functions
+  final List<FunctionItem> functions;
 
   const ActionTab({
     super.key,
     required this.header,
-    this.functions =
-        const [], // Initialize functions as an empty list if not provided
+    this.functions = const [],
   });
 
+  @override
+  _ActionTabState createState() => _ActionTabState();
+}
+
+class _ActionTabState extends State<ActionTab> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -43,15 +54,15 @@ class ActionTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextMonserats(
-            header, // Parameter header
+            widget.header,
             fontSize: 17,
             color: AppColor.redButton,
             fontWeight: FontWeight.w600,
           ),
-          const SizedBox(height: 15), // Space between header and functions
+          const SizedBox(height: 15),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: functions.asMap().entries.map((entry) {
+            children: widget.functions.asMap().entries.map((entry) {
               int idx = entry.key;
               FunctionItem function = entry.value;
               return Padding(
@@ -61,19 +72,28 @@ class ActionTab extends StatelessWidget {
                     Row(
                       children: [
                         Icon(function.icon, color: Colors.black, size: 25),
-                        const SizedBox(
-                            width: 15), // Space between icon and text
-                        TextMonserats(
-                          function.name, // Parameter function
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
+                        const SizedBox(width: 15),
+                        Expanded(
+                          child: TextMonserats(
+                            function.name,
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
+                        if (function.isEnable)
+                          CupertinoSwitch(
+                            value: function.switchValue,
+                            onChanged: (value) {
+                              setState(() {
+                                function.switchValue = value;
+                              });
+                            },
+                          ),
                       ],
                     ),
-                    if (idx != functions.length - 1)
-                      const SizedBox(height: 12), // Space between functions
-                    const SizedBox(height: 8), // Space between functions
+                    if (idx != widget.functions.length - 1)
+                      const SizedBox(height: 12),
                   ],
                 ),
               );
