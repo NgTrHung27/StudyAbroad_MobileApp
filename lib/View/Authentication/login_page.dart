@@ -62,6 +62,7 @@ class _LoginPageState extends State<_LoginPage> {
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColor = isDarkMode ? Colors.white : Colors.black;
+    final textColorRed = isDarkMode ? Colors.white : AppColor.redButton;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRoute.onGenerateRoute,
@@ -127,11 +128,12 @@ class _LoginPageState extends State<_LoginPage> {
                         ],
                       ),
                       const SizedBox(height: 30),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: TextMonserats(
                           'Welcome\nBack!',
                           fontSize: 30,
+                          color: textColorRed,
                         ),
                       ),
                       const SizedBox(height: 4),
