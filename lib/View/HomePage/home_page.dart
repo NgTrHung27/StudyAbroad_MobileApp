@@ -74,7 +74,16 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 10),
               const BoxGridView(),
               const SizedBox(height: 5),
-              const TextMonserats('What\'s New?',
+              const TextMonserats('Explore Schools',
+                  fontSize: 20, fontWeight: FontWeight.w700),
+              SizedBox(
+                height: 200,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                ),
+              ),
+              const SizedBox(height: 5),
+              const TextMonserats('What\'s News?',
                   fontSize: 20, fontWeight: FontWeight.w700),
             ],
           ),

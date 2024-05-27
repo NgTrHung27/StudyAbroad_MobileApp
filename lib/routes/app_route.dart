@@ -26,6 +26,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const RegisterPage());
       case '/forgotpass':
         return MaterialPageRoute(builder: (_) => const ForgetPass());
+      case '/logout':
+        return MaterialPageRoute(builder: (_) => const LogoutPage());
       case '/news':
         return MaterialPageRoute(builder: (_) => const NewsPage(newsList: []));
       default:
