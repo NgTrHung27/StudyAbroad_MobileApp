@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor = Theme.of(context).scaffoldBackgroundColor; 
+    Color backgroundColor = Theme.of(context).scaffoldBackgroundColor;
     return Scaffold(
       backgroundColor: backgroundColor,
       body: Padding(

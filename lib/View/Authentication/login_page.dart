@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/View/Authentication/forget_password.dart';
 import 'package:kltn_mobile/View/Authentication/register_page.dart';
 import 'package:kltn_mobile/View/Profile/user_detail.dart';
-import 'package:kltn_mobile/View/status_test.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';

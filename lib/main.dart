@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kltn_mobile/View/Authentication/login_page.dart';
-import 'package:kltn_mobile/View/Authentication/register_page.dart';
-import 'package:kltn_mobile/View/HomePage/News/news_page.dart';
-import 'package:kltn_mobile/View/HomePage/home_page.dart';
+import 'package:kltn_mobile/View/Profile/user.dart';
+//import 'package:kltn_mobile/View/Authentication/login_page.dart';
+//import 'package:kltn_mobile/View/Authentication/register_page.dart';
+//import 'package:kltn_mobile/View/HomePage/News/news_page.dart';
+//import 'package:kltn_mobile/View/HomePage/home_page.dart';
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/forgot_pass_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               theme: state,
               themeMode: ThemeMode.system,
-              home: const HomePage());
+              home: const UserProfile());
         },
       ),
     );
