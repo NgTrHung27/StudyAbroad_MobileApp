@@ -14,22 +14,37 @@ class BoxGridView extends StatelessWidget {
         crossAxisSpacing: 17,
         mainAxisSpacing: 17,
         childAspectRatio: 1.2,
-        children: const [
+        children: [
           BoxGradient(
-              color1: Color(0xffDE5C4D),
-              color2: Color(0xffC91717),
-              smallText: 'See your',
-              bigText: 'Score'),
+            color1: const Color(0xffFF9736),
+            color2: const Color(0xffC41010),
+            smallText: 'See your',
+            bigText: 'Score',
+            onTap: () {
+              Navigator.pushNamed(context, "/news");
+            },
+            image: const AssetImage('assets/medal.png'),
+          ),
           BoxGradient(
-              color1: Color(0xff67D292),
-              color2: Color(0xff4EBF93),
-              smallText: 'Watch',
-              bigText: 'News'),
+            color1: const Color(0xff86E0D0),
+            color2: const Color(0xff3A9571),
+            smallText: 'Watch',
+            bigText: 'News',
+            onTap: () {
+              Navigator.pushNamed(context, "/news");
+            },
+            image: const AssetImage('assets/newspaper.png'),
+          ),
           BoxGradient(
-              color1: Color(0xff8ED3FF),
-              color2: Color(0xff4D91CD),
-              smallText: 'Contacts for',
-              bigText: 'Comments'),
+            color1: const Color(0xff80E8FF),
+            color2: const Color(0xff297BC5),
+            smallText: 'Contacts for',
+            bigText: 'Comments',
+            onTap: () {
+              Navigator.pushNamed(context, "/news");
+            },
+            image: const AssetImage('assets/3d-contact.png'),
+          ),
         ],
       ),
     );

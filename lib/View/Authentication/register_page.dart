@@ -964,6 +964,9 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColor = isDarkMode ? Colors.white : Colors.black;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRoute.onGenerateRoute,
@@ -1114,10 +1117,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       text: TextSpan(
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
-                          styledTextSpan(
-                            'Already have an account? ',
-                            color: Colors.black,
-                          ),
+                          styledTextSpan('Already have an account? ',
+                              color: textColor),
                           styledTextSpan(
                             'Sign up',
                             color: AppColor.redButton,

@@ -12,7 +12,7 @@ class AppRoute {
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => const LogoutPage());
+        return MaterialPageRoute(builder: (_) => const LoginPage());
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/login':
@@ -25,6 +25,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const RegisterPage());
       case '/forgotpass':
         return MaterialPageRoute(builder: (_) => const ForgetPass());
+      case '/logout':
+        return MaterialPageRoute(builder: (_) => const LogoutPage());
       case '/news':
         return MaterialPageRoute(builder: (_) => const NewsPage(newsList: []));
       default:
