@@ -6,13 +6,14 @@ import 'package:kltn_mobile/View/Authentication/logout.dart';
 import 'package:kltn_mobile/View/Authentication/register_page.dart';
 import 'package:kltn_mobile/View/HomePage/News/news_page.dart';
 import 'package:kltn_mobile/View/HomePage/home_page.dart';
+import 'package:kltn_mobile/View/Profile/user.dart';
 import 'package:kltn_mobile/View/Profile/user_detail.dart';
 
 class AppRoute {
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => const LogoutPage());
+        return MaterialPageRoute(builder: (_) => const UserProfile());
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomePage());
       case '/login':
