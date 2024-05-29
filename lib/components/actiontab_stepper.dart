@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/bloC/profile_status/profile_status_cubit.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class ActionTabStepper extends StatelessWidget {
   final String header; // parameter header
@@ -20,7 +21,10 @@ class ActionTabStepper extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return BlocBuilder<ProfileStatusCubit, ProfileStatusState>(
       builder: (context, state) {
-        int currentStep = (state is ProfileStatusLoaded && state.status == status) ? state.currentStep : 0;
+        int currentStep =
+            (state is ProfileStatusLoaded && state.status == status)
+                ? state.currentStep
+                : 0;
         print(status);
         return SingleChildScrollView(
           child: Container(
@@ -50,7 +54,7 @@ class ActionTabStepper extends StatelessWidget {
                     header,
                     style: GoogleFonts.montserrat(
                       fontSize: 17,
-                      color: const Color(0xff7D1F1F),
+                      color: AppColor.redButton,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -61,15 +65,15 @@ class ActionTabStepper extends StatelessWidget {
                     Expanded(
                       child: Theme(
                         data: ThemeData(
-                          colorScheme: const ColorScheme.light(
-                            primary: Color(0xff7D1F1F),
+                          colorScheme: ColorScheme.light(
+                            primary: AppColor.redButton,
                           ),
                         ),
                         child: Stepper(
                           currentStep: currentStep,
-                          onStepTapped: (step) => {}, // Add your logic here
-                          controlsBuilder: (BuildContext context, ControlsDetails controlsDetails) {
-                          return Container();
+                          controlsBuilder: (BuildContext context,
+                              ControlsDetails controlsDetails) {
+                            return Container();
                           },
                           steps: List.generate(
                             stepTexts.length,
@@ -79,7 +83,7 @@ class ActionTabStepper extends StatelessWidget {
                                 style: GoogleFonts.montserrat(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15,
-                                  color: const Color(0xff7D1F1F),
+                                  color: AppColor.redButton,
                                 ),
                               ),
                               content: Container(),

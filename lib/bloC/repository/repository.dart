@@ -1,21 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:kltn_mobile/Model/school.dart';
+import 'package:kltn_mobile/Model/carousel_image.dart';
+import 'package:kltn_mobile/Model/country.dart';
+import 'package:kltn_mobile/Model/schools.dart';
+import 'package:kltn_mobile/Model/user_forgot.dart';
 import 'package:kltn_mobile/Model/user_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:kltn_mobile/Model/user_register.dart';
-import 'package:kltn_mobile/Model/vn_country.dart';
 
 class APIRepository {
   http.Client get httpClient => http.Client();
-
-  //Formart Date for API
-  // UserAuthRegister userAuthRegister = UserAuthRegister.none();
-  // DateTime parsedDate = DateFormat('dd/MM/yyyy').parse(userAuthRegister.dob!);
-  // String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(parsedDate);
-  // DateTime now = DateTime.now();
-  // String dateNow = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-
   Future<UserAuthRegister?> register(
     String email,
     String name,
@@ -38,35 +32,41 @@ class APIRepository {
     String? certificateImg,
   ) async {
     try {
+      String jsonData = jsonEncode({
+        "email": email,
+        "name": name,
+        "password": password,
+        "confirmPassword": confirmpassword,
+        "idCardNumber": idCardNumber,
+        "dob": dob.toIso8601String(),
+        "phoneNumber": phone,
+        "schoolName": selectedSchool,
+        "programName": selectedProgram,
+        "city": selectedCity,
+        "district": selectedDistrict,
+        "ward": selectedWard,
+        "addressLine": address,
+        "gender": valueGender, // "0" or "1
+        "degreeType": valueDegree,
+        "gradeType": radioGradeTypeValue,
+        "gradeScore": gradeScore,
+        "certificateType": selectedCertificateType,
+        "certificateImg": certificateImg,
+      });
+
+      print('Sending JSON data: $jsonData');
+
       final response = await http.post(
         Uri.parse(
             'https://kltn-demo-deploy-admin.vercel.app/api/auth/register'),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "email": email,
-          "name": name,
-          "password": password,
-          "confirmPassword": confirmpassword,
-          "idCardNumber": idCardNumber,
-          "dob": dob.toIso8601String(),
-          "phoneNumber": phone,
-          "schoolName": selectedSchool,
-          "programName": selectedProgram,
-          "city": selectedCity,
-          "district": selectedDistrict,
-          "ward": selectedWard,
-          "addressLine": address,
-          "gender": valueGender, // "0" or "1
-          "degreeType": valueDegree,
-          "gradeType": radioGradeTypeValue,
-          "gradeScore": gradeScore,
-          "certificateType": selectedCertificateType,
-          "certificateImg": certificateImg,
-        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonData,
       );
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final data = jsonDecode(utf8.decode(response.bodyBytes));
         log('data: $data');
 
         return UserAuthRegister.fromJson(data);
@@ -117,18 +117,42 @@ class APIRepository {
     }
   }
 
-  Future<List<School>> getSchools() async {
+  Future<List<Country>> fetchCountry() async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/country'),
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> data =
+            jsonDecode(utf8.decode(latin1.encode(response.body)));
+        print('API Country Response: $data');
+        List<Country> countries = [];
+        for (var item in data) {
+          Country country = Country.fromJson(item);
+          countries.add(country);
+        }
+        return countries;
+      } else {
+        throw Exception('Failed to load countries');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the API Country');
+    }
+  }
+
+  Future<List<Schools>> fetchSchools() async {
     try {
       final response = await httpClient.get(
         Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/schools/full'),
       );
       if (response.statusCode == 200) {
-        List<dynamic> data = jsonDecode(response.body);
+        List<dynamic> data =
+            jsonDecode(utf8.decode(latin1.encode(response.body)));
         print('API School Response: $data'); // Add this line
-        List<School> schools = [];
+        List<Schools> schools = [];
         for (var item in data) {
           // Tạo một đối tượng School từ JSON
-          School school = School.fromJson(item);
+          Schools school = Schools.fromJson(item);
           // Thêm đối tượng School vào danh sách schools
           schools.add(school);
         }
@@ -141,26 +165,76 @@ class APIRepository {
     }
   }
 
-  Future<List<City>> getCity() async {
+  Future<UserForgotpass?> forgotPass(String email) async {
     try {
-      final response = await http.get(
-        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/country'),
+      final response = await httpClient.post(
+        Uri.parse(
+            'https://kltn-demo-deploy-admin.vercel.app/api/auth/reset-password'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email}),
+      );
+
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
+
+      if (response.statusCode == 200) {
+        log('data: $data');
+        return UserForgotpass.fromJson(data);
+      } else {
+        print("Failed to login: ${response.statusCode}");
+        return UserForgotpass.fromJson(data);
+      }
+    } catch (e) {
+      print("Exception occurred while logging in: $e");
+      return null;
+    }
+  }
+
+  Future<List<ImageTest>> fetchCarouselImage() async {
+    try {
+      final response = await httpClient.get(
+        Uri.parse('https://api.thecatapi.com/v1/images/search?limit=10'),
       );
       if (response.statusCode == 200) {
         List<dynamic> data =
             jsonDecode(utf8.decode(latin1.encode(response.body)));
-        print('API City Response: $data');
-        List<City> cities = [];
+        print('API ImageCarousel: $data'); // Add this line
+        List<ImageTest> imagecarousels = [];
         for (var item in data) {
-          City city = City.fromJson(item);
-          cities.add(city);
+          // Tạo một đối tượng School từ JSON
+          ImageTest imagecarousel = ImageTest.fromJson(item);
+          // Thêm đối tượng School vào danh sách schools
+          imagecarousels.add(imagecarousel);
         }
-        return cities;
+        return imagecarousels;
       } else {
-        throw Exception('Failed to load cities');
+        throw Exception('Failed to load image');
       }
     } catch (e) {
-      throw Exception('Failed to connect to the API City');
+      throw Exception('Failed to connect to the API Image');
+    }
+  }
+  Future<List<News>> fetchNews() async {
+    try {
+      final response = await httpClient.get(
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/news'),
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> data =
+            jsonDecode(utf8.decode(latin1.encode(response.body)));
+        print('API News Response: $data'); // Add this line
+        List<News> news = [];
+        for (var item in data) {
+          // Tạo một đối tượng School từ JSON
+          News newss = News.fromJson(item);
+          // Thêm đối tượng School vào danh sách schools
+          news.add(newss);
+        }
+        return news;
+      } else {
+        throw Exception('Failed to load news');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the API News');
     }
   }
 }

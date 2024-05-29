@@ -15,21 +15,15 @@ class StatusTest extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return BlocProvider(
-      create: (context) => ProfileStatusCubit()..updateStatus(userAuth.student?.status ?? 'N/A'),
+      create: (context) =>
+          ProfileStatusCubit()..updateStatus(userAuth.student?.status ?? 'N/A'),
       child: BlocBuilder<ProfileStatusCubit, ProfileStatusState>(
         builder: (context, state) {
           return Scaffold(
-            // bottomNavigationBar: BottomNavbar(
-            //   items:  [
-            //     BottomNavbarItem(icon: Icons.home_outlined, label: 'Home'),
-            //     BottomNavbarItem(icon: Icons.notifications_outlined, label: 'Notifications'),
-            //     BottomNavbarItem(icon: Icons.settings, label: 'Settings'),
-            //   ],
-            // ),
             body: Stack(
               children: <Widget>[
                 Container(
-                  color: const Color(0xffd9d9d9),
+                  color: Theme.of(context).primaryColor,
                   child: Column(
                     children: [
                       SizedBox(height: screenHeight * 0.08),
@@ -45,32 +39,30 @@ class StatusTest extends StatelessWidget {
                         ], // parameters userName+idUser and avatarUser
                       ),
                       SizedBox(height: screenHeight * 0.03),
-                
+
                       //Stepper
-                       Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           //Stepper auto generate step 2
                           ActionTabStepper(
-                            header: 'Profile Status',
-                            stepTexts: const [
-                              'Application has been submitted',
-                              'Awaiting review',
-                              'Done'
-                            ],
-                            status: userAuth.student?.status ?? 'N/A'
-                          ),
+                              header: 'Profile Status',
+                              stepTexts: const [
+                                'Application has been submitted',
+                                'Awaiting review',
+                                'Done'
+                              ],
+                              status: userAuth.student?.status ?? 'N/A'),
                         ],
                       ),
                       const SizedBox(height: 20),
-                
+
                       //Result Status
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ActiontabResult(
-                            result: userAuth.student?.status ?? 'N/A'
-                          ),
+                              result: userAuth.student?.status ?? 'N/A'),
                         ],
                       ),
                     ],

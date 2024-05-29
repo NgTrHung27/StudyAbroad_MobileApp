@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class SimpleButton extends StatelessWidget {
   final Color? backgroundColor;
@@ -16,30 +17,34 @@ class SimpleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(
-            backgroundColor ?? const Color(0xff7D1F1F)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: BorderSide(color: borderColor ?? Colors.transparent),
+    final screenWidth = MediaQuery.of(context).size.width;
+    return SizedBox(
+      height: 45,
+      width: screenWidth * 0.9,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(
+              backgroundColor ?? AppColor.redButton),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              side: BorderSide(color: borderColor ?? Colors.transparent),
+            ),
           ),
+          overlayColor: MaterialStateProperty.resolveWith<Color>((states) =>
+              states.contains(MaterialState.pressed)
+                  ? (backgroundColor ?? AppColor.redButton).withOpacity(0.2)
+                  : (backgroundColor ?? AppColor.redButton).withOpacity(0.1)),
+          shadowColor: MaterialStateProperty.resolveWith<Color>((states) =>
+              states.contains(MaterialState.pressed)
+                  ? Colors.black.withOpacity(0.3)
+                  : Colors.transparent),
+          elevation: MaterialStateProperty.resolveWith<double>(
+              (states) => states.contains(MaterialState.pressed) ? 5.0 : 0.0),
         ),
-        overlayColor: MaterialStateProperty.resolveWith<Color>((states) =>
-            states.contains(MaterialState.pressed)
-                ? (backgroundColor ?? const Color(0xff7D1F1F)).withOpacity(0.2)
-                : (backgroundColor ?? const Color(0xff7D1F1F))
-                    .withOpacity(0.1)),
-        shadowColor: MaterialStateProperty.resolveWith<Color>((states) =>
-            states.contains(MaterialState.pressed)
-                ? Colors.black.withOpacity(0.3)
-                : Colors.transparent),
-        elevation: MaterialStateProperty.resolveWith<double>(
-            (states) => states.contains(MaterialState.pressed) ? 5.0 : 0.0),
+        onPressed: onPressed,
+        child: child,
       ),
-      onPressed: onPressed,
-      child: child,
     );
   }
 }

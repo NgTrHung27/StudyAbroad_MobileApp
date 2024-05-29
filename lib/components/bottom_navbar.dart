@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class BottomNavbarItem {
-  final IconData icon;
+  final String icon;
   final String label;
 
-  BottomNavbarItem({
-    required this.icon, 
-    required this.label
-    });
+  BottomNavbarItem({required this.icon, required this.label});
 }
 
 class BottomNavbar extends StatefulWidget {
@@ -24,7 +22,7 @@ class BottomNavbar extends StatefulWidget {
 
 class BottomNavbarState extends State<BottomNavbar> {
   late int _selectedIndex;
-  
+
   @override
   void initState() {
     super.initState();
@@ -45,15 +43,21 @@ class BottomNavbarState extends State<BottomNavbar> {
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.vertical(top: Radius.circular(45)),
           boxShadow: [
-            BoxShadow(color: Colors.grey, blurRadius:45,offset: Offset(0, 15), blurStyle: BlurStyle.normal),
+            BoxShadow(
+                color: Colors.grey,
+                blurRadius: 45,
+                offset: Offset(0, 15),
+                blurStyle: BlurStyle.normal),
           ],
         ),
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(45)),
           child: CupertinoTabBar(
+            backgroundColor: AppColor.scafflodBgColor,
             items: widget.items.map((item) {
               return BottomNavigationBarItem(
-                icon: _buildIcon(item.icon, widget.items.indexOf(item), item.label),
+                icon: _buildIcon(
+                    item.icon, widget.items.indexOf(item), item.label),
                 label: '',
               );
             }).toList(),
@@ -66,28 +70,53 @@ class BottomNavbarState extends State<BottomNavbar> {
     );
   }
 
-  Widget _buildIcon(IconData iconData, int index, String label) {
+  Widget _buildIcon(String iconData, int index, String label) {
+    // Changed from IconData to String
     return LayoutBuilder(
       builder: (context, constraints) {
-        final labelWidth = _measureText(label, TextStyle(color: _selectedIndex == index ? Colors.white : Colors.grey)).width;
+        final labelWidth = _measureText(
+                label,
+                TextStyle(
+                    color:
+                        _selectedIndex == index ? Colors.white : Colors.grey))
+            .width;
         return Container(
-          padding: const EdgeInsets.only(top: 15),
+          padding: const EdgeInsets.only(top: 12),
           child: Center(
             child: Container(
-              width: labelWidth + 35,
+              width: labelWidth + 45,
               height: 85,
               decoration: _selectedIndex == index
                   ? BoxDecoration(
-                      borderRadius: BorderRadius.circular(35), // Half of the height
+                      borderRadius:
+                          BorderRadius.circular(35), // Half of the height
                       color: const Color(0xffAF3737),
                     )
                   : null,
-              child: Center(
+              child: Container(
+                transform: Matrix4.translationValues(0.0, 3.0, 0.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(iconData, color: _selectedIndex == index ? Colors.white : const Color(0xff7D1F1F)),
-                    Text(label, style: GoogleFonts.getFont('Montserrat' ,color: _selectedIndex == index ? Colors.white : const Color(0xff7D1F1F), fontSize: 12, fontWeight: FontWeight.w600)),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4.0),
+                      child: SizedBox(
+                          width: 24.0,
+                          height: 24.0,
+                          child: Image.asset(_selectedIndex == index
+                              ? '${iconData}_selected.png'
+                              : '${iconData}_unselected.png')),
+                    ), // Use Image.asset
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Text(label,
+                          style: GoogleFonts.getFont('Montserrat',
+                              color: _selectedIndex == index
+                                  ? Colors.white
+                                  : const Color(0xff7D1F1F),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600)),
+                    ),
                   ],
                 ),
               ),

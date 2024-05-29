@@ -7,10 +7,9 @@ import '../../../components/Style/montserrat.dart';
 import '../../../components/Style/news_searchtextfield.dart';
 import '../../../components/news_listview_horizontal.dart';
 
-
 class NewsPage extends StatelessWidget {
   const NewsPage({super.key, required this.newsList});
-  
+
   final List<News> newsList;
 
   @override
@@ -18,13 +17,14 @@ class NewsPage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-      body: SafeArea(
+        body: SafeArea(
           child: Container(
-            color: const Color(0xffF9F9F9),
+            color: Theme.of(context).scaffoldBackgroundColor,
             child: ListView(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30, top: 20, bottom: 15),
+                  padding: const EdgeInsets.only(
+                      left: 30, right: 30, top: 20, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -33,7 +33,8 @@ class NewsPage extends StatelessWidget {
                           Navigator.pop(context);
                         },
                       ),
-                      const CirleAvatarImage(avatarImgPath: 'assets/backgr-01.jpg'),
+                      const CirleAvatarImage(
+                          avatarImgPath: 'assets/backgr-01.jpg'),
                     ],
                   ),
                 ),
@@ -42,10 +43,12 @@ class NewsPage extends StatelessWidget {
                   child: NewsSearchTextField(hintText: 'Search here...'),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
-                  child: Container( 
+                  padding:
+                      const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+                  child: Container(
                     alignment: Alignment.centerLeft,
-                    child: const TextMonserats('Main News', fontSize: 26, fontWeight: FontWeight.w800 ),
+                    child: const TextMonserats('Main News',
+                        fontSize: 24, fontWeight: FontWeight.w700),
                   ),
                 ),
                 Padding(
@@ -53,14 +56,17 @@ class NewsPage extends StatelessWidget {
                   child: NewsListView(newsList: newsList),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+                  padding:
+                      const EdgeInsets.only(left: 30, right: 30, bottom: 15),
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    child: const TextMonserats('Daily Post', fontSize: 22, fontWeight: FontWeight.w600),
+                    child: const TextMonserats('Daily Post',
+                        fontSize: 20, fontWeight: FontWeight.w700),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+                  padding:
+                      const EdgeInsets.only(left: 30, right: 30, bottom: 15),
                   child: VerticalNewsListView(newsList: newsList),
                 ),
               ],

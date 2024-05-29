@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
+import 'package:kltn_mobile/components/constant/theme.dart';
 
 class IdTab extends StatefulWidget {
   final String userName;
@@ -21,12 +25,16 @@ class _IdTabState extends State<IdTab> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final isDarkMode =
+        context.watch<ThemeSettingCubit>().state == AppTheme.blackTheme;
     return Container(
       height: 80,
       width: screenWidth * 0.9,
       decoration: BoxDecoration(
-        color: const Color(0xff7D1F1F),
+        color: isDarkMode ? AppColor.scafflodBgColorDark : AppColor.redButton,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+            color: isDarkMode ? Colors.white : Colors.transparent, width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class MyButton extends StatelessWidget {
   final Function()? onTap;
-  const MyButton({super.key, required this.onTap});
+  final String text; // Thêm tham số text
+  const MyButton({super.key, required this.onTap, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class MyButton extends StatelessWidget {
         height: 41,
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: const Color(0xff7D1F1F),
+          color: AppColor.redButton,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -29,7 +31,7 @@ class MyButton extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "Login",
+            text, // Sử dụng tham số text
             style: GoogleFonts.getFont(
               'Montserrat',
               color: Colors.white,
