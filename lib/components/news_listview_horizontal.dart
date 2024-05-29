@@ -1,16 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/View/HomePage/News/news_detail.dart';
+import 'package:kltn_mobile/bloC/news/news_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
-
 import '../Model/news.dart';
 
-class NewsListView extends StatelessWidget {
-  final List<News> newsList;
+class NewsListView extends StatefulWidget {
+  const NewsListView({super.key});
 
-  const NewsListView({super.key, required this.newsList});
+  @override
+  NewsListViewState createState() => NewsListViewState();
+}
+
+class NewsListViewState extends State<NewsListView> {
+  List<NewsList> newsList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<NewsCubit>().getNewsList();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<NewsCubit, NewsState>(
+      builder: (context, state) {
+        if (state is NewsLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is NewsError) {
+          return Center(
+            child: Text(state.message),
+          );
+        }
+        if (state is NewsLoaded) {
+          newsList = state.newsList;
+          return buildNewsList();
+        }
+        print('error state: $state');
+        return Container();
+      },
+    );
+  }
+
+  Widget buildNewsList() {
     return SizedBox(
       height: 370,
       child: ListView.builder(
@@ -21,7 +56,9 @@ class NewsListView extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => NewsDetailPage(news: newsList[index])),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        NewsDetailPage(news: newsList[index])),
               );
             },
             child: Container(
@@ -30,7 +67,7 @@ class NewsListView extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: AssetImage(newsList[index].thumbnailUrl),
+                  image: NetworkImage(newsList[index].cover),
                   fit: BoxFit.cover,
                 ),
               ),

@@ -10,7 +10,7 @@ import '../../../components/news_listview_horizontal.dart';
 class NewsPage extends StatelessWidget {
   const NewsPage({super.key, required this.newsList});
 
-  final List<News> newsList;
+  final List<NewsList> newsList;
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +51,9 @@ class NewsPage extends StatelessWidget {
                         fontSize: 24, fontWeight: FontWeight.w700),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, bottom: 15),
-                  child: NewsListView(newsList: newsList),
+                const Padding(
+                  padding: EdgeInsets.only(left: 30, bottom: 15),
+                  child: NewsListView(),
                 ),
                 Padding(
                   padding:

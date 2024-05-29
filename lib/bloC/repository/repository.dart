@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:kltn_mobile/Model/carousel_image.dart';
 import 'package:kltn_mobile/Model/country.dart';
+import 'package:kltn_mobile/Model/news.dart';
 import 'package:kltn_mobile/Model/schools.dart';
 import 'package:kltn_mobile/Model/user_forgot.dart';
 import 'package:kltn_mobile/Model/user_login.dart';
@@ -197,7 +198,6 @@ class APIRepository {
       if (response.statusCode == 200) {
         List<dynamic> data =
             jsonDecode(utf8.decode(latin1.encode(response.body)));
-        print('API ImageCarousel: $data'); // Add this line
         List<ImageTest> imagecarousels = [];
         for (var item in data) {
           // Tạo một đối tượng School từ JSON
@@ -213,7 +213,8 @@ class APIRepository {
       throw Exception('Failed to connect to the API Image');
     }
   }
-  Future<List<News>> fetchNews() async {
+
+  Future<List<NewsList>> fetchNews() async {
     try {
       final response = await httpClient.get(
         Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/news'),
@@ -222,10 +223,10 @@ class APIRepository {
         List<dynamic> data =
             jsonDecode(utf8.decode(latin1.encode(response.body)));
         print('API News Response: $data'); // Add this line
-        List<News> news = [];
+        List<NewsList> news = [];
         for (var item in data) {
           // Tạo một đối tượng School từ JSON
-          News newss = News.fromJson(item);
+          NewsList newss = NewsList.fromJson(item);
           // Thêm đối tượng School vào danh sách schools
           news.add(newss);
         }
