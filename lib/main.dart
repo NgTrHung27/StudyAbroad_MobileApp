@@ -4,6 +4,7 @@ import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/forgot_pass_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
 import 'package:kltn_mobile/bloC/carousel_event_state/carousel_bloc.dart';
+import 'package:kltn_mobile/bloC/news/news_cubit.dart';
 import 'package:kltn_mobile/bloC/profile_status/profile_status_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
 import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
@@ -21,6 +22,7 @@ void main() {
         BlocProvider(
             create: (context) =>
                 CarouselBloc(APIRepository())..add(FetchCarousel())),
+        BlocProvider(create: (_) => NewsCubit()),
       ],
       child: const MyApp(),
     ),

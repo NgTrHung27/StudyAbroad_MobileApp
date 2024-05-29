@@ -4,7 +4,7 @@ import 'package:kltn_mobile/components/Style/montserrat.dart';
 import '../Model/news.dart';
 
 class VerticalNewsListView extends StatelessWidget {
-  final List<News> newsList;
+  final List<NewsList> newsList;
 
   const VerticalNewsListView({super.key, required this.newsList});
 
@@ -38,7 +38,7 @@ class VerticalNewsListView extends StatelessWidget {
                       bottomLeft: Radius.circular(15),
                     ),
                     child: Image.asset(
-                      newsList[index].thumbnailUrl,
+                      newsList[index].cover,
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -5,8 +5,9 @@ import '../../../Model/news.dart';
 import '../../../components/Style/backbutton.dart';
 
 class NewsDetailPage extends StatelessWidget {
-  final News news;
+  final NewsList news;
   const NewsDetailPage({super.key, required this.news});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -18,7 +19,7 @@ class NewsDetailPage extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width, // full screen width
                   height: MediaQuery.of(context).size.height * 0.5, // half screen height
-                  child: Image.asset(news.thumbnailUrl, fit: BoxFit.cover),  // thumbnail image
+                  child: Image.network(news.cover, fit: BoxFit.cover),  // thumbnail image
                 ),
                 Container(
                   transform: Matrix4.translationValues(0.0, -120.0, 0.0),
