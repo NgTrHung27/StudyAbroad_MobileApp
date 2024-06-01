@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kltn_mobile/View/Authentication/login_page.dart';
+import 'package:kltn_mobile/View/HomePage/home_page.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 4),
+      duration: const Duration(seconds: 2),
     );
 
     _controller.forward();
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (status == AnimationStatus.completed) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (BuildContext context) => const LoginPage(),
+            builder: (BuildContext context) => const HomePage(),
           ),
         );
       }
@@ -56,8 +56,7 @@ class _SplashScreenState extends State<SplashScreen>
                         1 + (value / 80), // Adjust the scale factor as needed
                     child: Transform.translate(
                       offset: Offset(0, value),
-                      child:
-                          Image.asset('assets/launcher_icons.png', width: 100),
+                      child: Image.asset('assets/LOGO_RED.png', width: 100),
                     ),
                   );
                 },

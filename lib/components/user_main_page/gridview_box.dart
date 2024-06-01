@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:kltn_mobile/components/user_main_page/boxgradient.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BoxGridView extends StatelessWidget {
   const BoxGridView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final actionS1 = localizations != null
+        ? localizations.home_action_orange_Score1
+        : 'Default Text';
+    final actionS2 = localizations != null
+        ? localizations.home_action_orange_Score2
+        : 'Default Text';
+    final actionNews1 = localizations != null
+        ? localizations.home_action_green_News1
+        : 'Default Text';
+    final actionNews2 = localizations != null
+        ? localizations.home_action_green_News2
+        : 'Default Text';
+    final actionComments1 = localizations != null
+        ? localizations.home_action_blue_Comments1
+        : 'Default Text';
+    final actionComments2 = localizations != null
+        ? localizations.home_action_blue_Comments2
+        : 'Default Text';
+
     return SizedBox(
       height: 330,
       child: GridView.count(
@@ -18,8 +39,8 @@ class BoxGridView extends StatelessWidget {
           BoxGradient(
             color1: const Color(0xffFF9736),
             color2: const Color(0xffC41010),
-            smallText: 'See your',
-            bigText: 'Score',
+            smallText: actionS1,
+            bigText: actionS2,
             onTap: () {
               Navigator.pushNamed(context, "/news");
             },
@@ -28,8 +49,8 @@ class BoxGridView extends StatelessWidget {
           BoxGradient(
             color1: const Color(0xff86E0D0),
             color2: const Color(0xff3A9571),
-            smallText: 'Watch',
-            bigText: 'News',
+            smallText: actionNews1,
+            bigText: actionNews2,
             onTap: () {
               Navigator.pushNamed(context, "/news");
             },
@@ -38,8 +59,8 @@ class BoxGridView extends StatelessWidget {
           BoxGradient(
             color1: const Color(0xff80E8FF),
             color2: const Color(0xff297BC5),
-            smallText: 'Contacts for',
-            bigText: 'Comments',
+            smallText: actionComments1,
+            bigText: actionComments2,
             onTap: () {
               Navigator.pushNamed(context, "/news");
             },

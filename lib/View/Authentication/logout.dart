@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:kltn_mobile/View/HomePage/base_lang.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/routes/app_route.dart';
 
-class LogoutPage extends StatelessWidget {
+class LogoutPage extends BasePage {
   const LogoutPage({super.key});
 
+  @override
+  // ignore: library_private_types_in_public_api
+  _LogoutPageState createState() => _LogoutPageState();
+}
+
+class _LogoutPageState extends BasePageState<LogoutPage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;

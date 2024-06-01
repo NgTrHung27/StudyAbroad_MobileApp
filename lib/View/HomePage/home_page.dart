@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/View/HomePage/base_lang.dart';
 import 'package:kltn_mobile/bloC/carousel_event_state/carousel_bloc.dart';
+import 'package:kltn_mobile/bloC/lang/language_bloc.dart';
 import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/news_searchtextfield.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/main_bottom_navbar.dart';
 import 'package:kltn_mobile/components/user_main_page/gridview_box.dart';
 import 'package:kltn_mobile/components/user_main_page/hello_avt.dart';
 import 'package:kltn_mobile/components/user_main_page/carousel_loading.dart';
 import 'package:kltn_mobile/components/user_main_page/carousel_slider_data_found.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends BasePage {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -24,76 +26,85 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     context.read<CarouselBloc>().add(FetchCarousel());
     context.read<ThemeSettingCubit>().loadTheme();
-
-    _loadIconState();
-  }
-
-  Future<void> _loadIconState() async {
-    final prefs = await SharedPreferences.getInstance();
-    isChangeColor = prefs.getBool('isChangeColor') ?? false;
-    setState(() {});
-  }
-
-  bool isChangeColor = false;
-  void toggleTheme() {
-    context.read<ThemeSettingCubit>().toggleTheme();
-    setState(() {
-      isChangeColor = !isChangeColor;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final hintText =
+        localizations != null ? localizations.home_search : 'Default Text';
+    final homeActionText =
+        localizations != null ? localizations.home_action : 'Default Text';
+    final homeExploreText =
+        localizations != null ? localizations.home_exlore : 'Default Text';
+    final homeNewListText =
+        localizations != null ? localizations.home_NewList : 'Default Text';
+
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColorRed = isDarkMode ? Colors.white : AppColor.redButton;
     return Scaffold(
       backgroundColor: context.select(
           (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-        child: Stack(children: [
-          ListView(
-            children: [
-              const HelloAVT(username: 'John Doe'),
-              const SizedBox(height: 20),
-              const NewsSearchTextField(hintText: 'Search here...'),
-              const SizedBox(height: 15),
-              BlocBuilder<CarouselBloc, CarouselState>(
-                builder: (context, state) {
-                  if (state is CarouselLoading) {
-                    return const CarouselLoadingCustom();
-                  } else if (state is CarouselLoaded) {
-                    return CarouselSliderDataFound(state.carousels);
-                  } else if (state is CarouselError) {
-                    return Center(child: Text(state.message));
-                  } else {
-                    return Container();
-                  }
-                },
+      body: BlocBuilder<LanguageBloc, Locale>(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+            child: Stack(children: [
+              ListView(
+                children: [
+                  const HelloAVT(username: 'John Doe'),
+                  const SizedBox(height: 20),
+                  NewsSearchTextField(hintText: hintText),
+                  const SizedBox(height: 15),
+                  BlocBuilder<CarouselBloc, CarouselState>(
+                    builder: (context, state) {
+                      if (state is CarouselLoading) {
+                        return const CarouselLoadingCustom();
+                      } else if (state is CarouselLoaded) {
+                        return CarouselSliderDataFound(state.carousels);
+                      } else if (state is CarouselError) {
+                        return Center(child: Text(state.message));
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                  TextMonserats(
+                    homeActionText,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: textColorRed,
+                  ),
+                  const SizedBox(height: 10),
+                  const BoxGridView(),
+                  const SizedBox(height: 5),
+                  TextMonserats(
+                    homeExploreText,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: textColorRed,
+                  ),
+                  SizedBox(
+                    height: 200,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  TextMonserats(homeNewListText,
+                      fontSize: 20, fontWeight: FontWeight.w700),
+                ],
               ),
-              const TextMonserats('Actions',
-                  fontSize: 20, fontWeight: FontWeight.w700),
-              const SizedBox(height: 10),
-              const BoxGridView(),
-              const SizedBox(height: 5),
-              const TextMonserats('Explore Schools',
-                  fontSize: 20, fontWeight: FontWeight.w700),
-              SizedBox(
-                height: 200,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                ),
+              const Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: MainNavBar(),
               ),
-              const SizedBox(height: 5),
-              const TextMonserats('What\'s News?',
-                  fontSize: 20, fontWeight: FontWeight.w700),
-            ],
-          ),
-          const Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: MainNavBar(),
-          ),
-        ]),
+            ]),
+          );
+        },
       ),
     );
   }

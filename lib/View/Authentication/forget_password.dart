@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/View/HomePage/base_lang.dart';
 import 'package:kltn_mobile/bloC/auth/forgot_pass_cubit.dart';
 import 'package:kltn_mobile/bloC/repository/repository.dart';
 import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
@@ -8,16 +9,18 @@ import 'package:kltn_mobile/components/constant/theme.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 import 'package:kltn_mobile/components/button.dart';
 
-class ForgetPass extends StatelessWidget {
+class ForgetPass extends BasePage {
   const ForgetPass({super.key});
 
-  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ForgotPassCubit(APIRepository()),
       child: _ForgetPass(),
     );
   }
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 class _ForgetPass extends StatefulWidget {
