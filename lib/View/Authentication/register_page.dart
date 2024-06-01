@@ -11,6 +11,7 @@ import 'package:kltn_mobile/View/Authentication/login_page.dart';
 import 'package:intl/intl.dart';
 import 'package:kltn_mobile/Model/enum.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kltn_mobile/View/HomePage/base_lang.dart';
 import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
 import 'package:kltn_mobile/bloC/auth/auth_state.dart';
 import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
@@ -24,7 +25,7 @@ import 'package:kltn_mobile/components/radio.dart';
 import 'package:kltn_mobile/components/text_field.dart';
 import 'package:kltn_mobile/routes/app_route.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends BasePage {
   const RegisterPage({super.key});
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -1041,8 +1042,8 @@ class _RegisterPageState extends State<RegisterPage> {
             errorMessage = state.error;
           });
         } else if (state is AuthSuccessState) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginPage()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => const LoginPage()));
         }
       }, builder: (context, state) {
         if (state is AuthErrorState) {

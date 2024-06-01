@@ -14,7 +14,8 @@ class BoxGradient extends StatelessWidget {
       required this.color2,
       required this.smallText,
       required this.bigText,
-      this.onTap, required this.image});
+      this.onTap,
+      required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class BoxGradient extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  top: 15, bottom: 0, left: 15, right: 15),
+                  top: 15, bottom: 0, left: 15, right: 0),
               child: Row(
                 children: [
                   Column(
@@ -66,7 +67,8 @@ class BoxGradient extends StatelessWidget {
                         child: TextMonserats(bigText,
                             fontSize: 24,
                             color: Colors.white,
-                            fontWeight: FontWeight.w700),
+                            fontWeight: FontWeight.w700,
+                            maxLine: 2),
                       ),
                     ],
                   ),

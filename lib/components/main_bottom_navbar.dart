@@ -9,10 +9,22 @@ class MainNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavbar(
-      items:  [
-        BottomNavbarItem(icon: 'assets/iconHome', label: 'Home'), // Pass the path without _selected or _unselected
-        BottomNavbarItem(icon: 'assets/iconNoti', label: 'Notifications'),
-        BottomNavbarItem(icon: 'assets/iconUser', label: 'Profile'),
+      items: [
+        BottomNavbarItem(
+            icon: 'assets/iconHome',
+            label: 'Home',
+            onTap: () => Navigator.pushNamed(context,
+                '/home')), // Pass the path without _selected or _unselected
+        BottomNavbarItem(
+            icon: 'assets/iconNoti',
+            label: 'Notifications',
+            onTap: () => Navigator.pushNamed(context, '/news')),
+        BottomNavbarItem(
+            icon: 'assets/iconUser',
+            label: 'Profile',
+            onTap: () {
+              Navigator.pushNamed(context, '/user');
+            }),
       ],
       initialIndex: 0,
     );

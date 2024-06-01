@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart'; // Import Cupertino library
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:kltn_mobile/bloC/lang/language_bloc.dart';
 import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
@@ -11,12 +13,14 @@ class FunctionItem {
   final IconData icon;
   final bool isEnable;
   bool switchValue;
+  final void Function(Locale)? dropdownCallback; // Changed type here
 
   FunctionItem({
     required this.name,
     required this.icon,
     this.isEnable = false,
     this.switchValue = false,
+    this.dropdownCallback, // Initialize new field
   });
 }
 
@@ -35,6 +39,7 @@ class ActionTab extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _ActionTabState createState() => _ActionTabState();
 }
 
@@ -44,6 +49,9 @@ class _ActionTabState extends State<ActionTab> {
     final screenWidth = MediaQuery.of(context).size.width;
     final isDarkMode =
         context.watch<ThemeSettingCubit>().state == AppTheme.blackTheme;
+    final dropdownColor =
+        isDarkMode ? AppColor.scafflodBgColorDark : Colors.white;
+    final textcolor = isDarkMode ? Colors.white : Colors.black;
     return Container(
       padding: const EdgeInsets.all(16.0),
       width: screenWidth * 0.9,
@@ -98,6 +106,52 @@ class _ActionTabState extends State<ActionTab> {
                               context.read<ThemeSettingCubit>().toggleTheme();
                             },
                           ),
+                        if (function.dropdownCallback != null)
+                          BlocBuilder<LanguageBloc, Locale>(
+                              builder: (context, state) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: textcolor,
+                                    width:
+                                        2), // Change color and width as needed
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(13)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: DropdownButton<Locale>(
+                                    value: context.watch<LanguageBloc>().state,
+                                    items: const [
+                                      DropdownMenuItem(
+                                          value: Locale('en'),
+                                          child: Text('English')),
+                                      DropdownMenuItem(
+                                          value: Locale('ko'),
+                                          child: Text('Korean')),
+                                      DropdownMenuItem(
+                                          value: Locale('vi'),
+                                          child: Text('Vietnamese')),
+                                    ],
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        function.dropdownCallback!(value);
+                                      }
+                                    },
+                                    dropdownColor: dropdownColor,
+                                    style: GoogleFonts.montserrat(
+                                      color: textcolor,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    underline: Container(),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(13),
+                                    )),
+                              ),
+                            );
+                          }),
                       ],
                     ),
                     if (idx != widget.functions.length - 1)

@@ -6,8 +6,10 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 class BottomNavbarItem {
   final String icon;
   final String label;
+  final Function onTap;
 
-  BottomNavbarItem({required this.icon, required this.label});
+  BottomNavbarItem(
+      {required this.icon, required this.label, required this.onTap});
 }
 
 class BottomNavbar extends StatefulWidget {
@@ -32,6 +34,7 @@ class BottomNavbarState extends State<BottomNavbar> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      widget.items[index].onTap();
     });
   }
 
