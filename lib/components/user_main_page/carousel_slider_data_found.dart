@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/Model/carousel_image.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/models/carousel_image.dart';
 
 class CarouselSliderDataFound extends StatefulWidget {
   final List<ImageTest> carouselList;

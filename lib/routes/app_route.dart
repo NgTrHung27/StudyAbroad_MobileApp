@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/Model/user_login.dart';
-import 'package:kltn_mobile/View/Authentication/forget_password.dart';
-import 'package:kltn_mobile/View/Authentication/login_page.dart';
-import 'package:kltn_mobile/View/Authentication/logout.dart';
-import 'package:kltn_mobile/View/Authentication/register_page.dart';
-import 'package:kltn_mobile/View/HomePage/News/news_page.dart';
-import 'package:kltn_mobile/View/HomePage/home_page.dart';
-import 'package:kltn_mobile/View/Profile/user.dart';
-import 'package:kltn_mobile/View/Profile/user_detail.dart';
-import 'package:kltn_mobile/View/splash.dart';
+import 'package:kltn_mobile/models/user_login.dart';
+import 'package:kltn_mobile/screens/Authentication/forget_password.dart';
+import 'package:kltn_mobile/screens/Authentication/login_page.dart';
+import 'package:kltn_mobile/screens/Authentication/logout.dart';
+import 'package:kltn_mobile/screens/Authentication/register_page.dart';
+import 'package:kltn_mobile/screens/home/home_page.dart';
 
-import '../View/Notifications/notifications_page.dart';
+import 'package:kltn_mobile/screens/home/splash.dart';
+import 'package:kltn_mobile/screens/news/news_page.dart';
+import 'package:kltn_mobile/screens/profiles/user.dart';
+import 'package:kltn_mobile/screens/profiles/user_detail.dart';
+
+import '../screens/notifications/notifications_page.dart';
 
 class AppRoute {
   static Route onGenerateRoute(RouteSettings routeSettings) {
@@ -37,7 +38,7 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const NewsPage(newsList: []));
       case '/user':
         return MaterialPageRoute(builder: (_) => const UserProfile());
-      case 'notifications':
+      case '/notifications':
         return MaterialPageRoute(builder: (_) => const NotificationsPage());
       default:
         return MaterialPageRoute(builder: (_) => const HomePage());
