@@ -14,7 +14,7 @@ class HelloAVT extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final homeHello =
-        localizations != null ? localizations.home_search : 'Default Text';
+        localizations != null ? localizations.home_hello : 'Default Text';
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColorRed = isDarkMode ? Colors.white : AppColor.redButton;
