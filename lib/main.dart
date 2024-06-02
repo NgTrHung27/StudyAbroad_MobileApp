@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:kltn_mobile/bloC/auth/auth_cubit.dart';
-import 'package:kltn_mobile/bloC/auth/forgot_pass_cubit.dart';
-import 'package:kltn_mobile/bloC/auth/login_cubit.dart';
-import 'package:kltn_mobile/bloC/carousel_event_state/carousel_bloc.dart';
-import 'package:kltn_mobile/bloC/lang/language_bloc.dart';
-import 'package:kltn_mobile/bloC/news/news_cubit.dart';
-import 'package:kltn_mobile/bloC/profile_status/profile_status_cubit.dart';
-import 'package:kltn_mobile/bloC/repository/repository.dart';
-import 'package:kltn_mobile/bloC/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/blocs/auth_cubit_bloc/auth_cubit.dart';
+import 'package:kltn_mobile/blocs/auth_cubit_bloc/forgot_pass_cubit.dart';
+import 'package:kltn_mobile/blocs/auth_cubit_bloc/login_cubit.dart';
+import 'package:kltn_mobile/blocs/carousel_event_state/carousel_bloc.dart';
+import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
+import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
+import 'package:kltn_mobile/blocs/profile_status_cubit_bloc/profile_status_cubit.dart';
+import 'package:kltn_mobile/blocs/repository/repository.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/routes/app_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: state,
               themeMode: ThemeMode.system,
-              initialRoute: "notifications",
+              initialRoute: "/",
               onGenerateRoute: AppRoute.onGenerateRoute,
               //Language
               localizationsDelegates: const [
