@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: state,
               themeMode: ThemeMode.system,
-              initialRoute: "/",
+              initialRoute: "notifications",
               onGenerateRoute: AppRoute.onGenerateRoute,
               //Language
               localizationsDelegates: const [

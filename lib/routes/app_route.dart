@@ -10,6 +10,8 @@ import 'package:kltn_mobile/View/Profile/user.dart';
 import 'package:kltn_mobile/View/Profile/user_detail.dart';
 import 'package:kltn_mobile/View/splash.dart';
 
+import '../View/Notifications/notifications_page.dart';
+
 class AppRoute {
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
@@ -35,6 +37,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const NewsPage(newsList: []));
       case '/user':
         return MaterialPageRoute(builder: (_) => const UserProfile());
+      case 'notifications':
+        return MaterialPageRoute(builder: (_) => const NotificationsPage());
       default:
         return MaterialPageRoute(builder: (_) => const HomePage());
     }
