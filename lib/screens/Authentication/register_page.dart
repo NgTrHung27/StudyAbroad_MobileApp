@@ -12,7 +12,7 @@ import 'package:kltn_mobile/components/functions/convert_imagetostring.dart';
 import 'package:kltn_mobile/models/country.dart';
 import 'package:kltn_mobile/models/enum.dart';
 import 'package:kltn_mobile/models/schools.dart';
-import 'package:kltn_mobile/screens/Authentication/login_page.dart';
+import 'package:kltn_mobile/screens/authentication/login_page.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
