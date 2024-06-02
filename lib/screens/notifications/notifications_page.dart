@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
-import 'package:kltn_mobile/components/Style/news_searchtextfield.dart';
+import 'package:kltn_mobile/components/style/news_searchtextfield.dart';
 import 'package:kltn_mobile/components/list_view/nofitications_list.dart';
-import 'package:kltn_mobile/components/user_main_page/hello_avt.dart';
+import 'package:kltn_mobile/components/functions_main_page/hello_avt.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
-import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/constant/theme.dart';
 
@@ -111,44 +111,49 @@ class _ActionTabState extends State<ActionTab> {
                               builder: (context, state) {
                             return Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: textcolor,
-                                    width:
-                                        2), // Change color and width as needed
+                                border: Border.all(color: textcolor, width: 1),
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(13)),
+                                    const BorderRadius.all(Radius.circular(30)),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: DropdownButton<Locale>(
-                                    value: context.watch<LanguageBloc>().state,
-                                    items: const [
-                                      DropdownMenuItem(
-                                          value: Locale('en'),
-                                          child: Text('English')),
-                                      DropdownMenuItem(
-                                          value: Locale('ko'),
-                                          child: Text('Korean')),
-                                      DropdownMenuItem(
-                                          value: Locale('vi'),
-                                          child: Text('Vietnamese')),
-                                    ],
-                                    onChanged: (value) {
-                                      if (value != null) {
-                                        function.dropdownCallback!(value);
-                                      }
-                                    },
-                                    dropdownColor: dropdownColor,
-                                    style: GoogleFonts.montserrat(
-                                      color: textcolor,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    underline: Container(),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(13),
-                                    )),
+                              child: SizedBox(
+                                height: 30,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15.0),
+                                  child: DropdownButton<Locale>(
+                                      value:
+                                          context.watch<LanguageBloc>().state,
+                                      items: const [
+                                        DropdownMenuItem(
+                                            value: Locale('en'),
+                                            child: Text('English')),
+                                        DropdownMenuItem(
+                                            value: Locale('ko'),
+                                            child: Text('Korean')),
+                                        DropdownMenuItem(
+                                            value: Locale('vi'),
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 5),
+                                              child: Text('Vietnamese'),
+                                            )),
+                                      ],
+                                      onChanged: (value) {
+                                        if (value != null) {
+                                          function.dropdownCallback!(value);
+                                        }
+                                      },
+                                      dropdownColor: dropdownColor,
+                                      style: GoogleFonts.montserrat(
+                                        color: textcolor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      underline: Container(),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(15),
+                                      )),
+                                ),
                               ),
                             );
                           }),

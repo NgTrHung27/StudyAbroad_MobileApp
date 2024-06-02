@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/components/Style/montserrat.dart';
-import 'package:kltn_mobile/components/Style/simplebutton.dart';
+import 'package:kltn_mobile/components/style/montserrat.dart';
+import 'package:kltn_mobile/components/style/simplebutton.dart';
 import 'package:kltn_mobile/routes/app_route.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 

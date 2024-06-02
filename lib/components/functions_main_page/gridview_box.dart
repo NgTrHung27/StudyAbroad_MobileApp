@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/components/user_main_page/boxgradient.dart';
+import 'package:kltn_mobile/components/functions_main_page/boxgradient.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BoxGridView extends StatelessWidget {

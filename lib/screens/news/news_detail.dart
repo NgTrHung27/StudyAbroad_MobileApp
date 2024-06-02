@@ -1,8 +1,8 @@
 // FILE:NEWS_DETAIL.DART CONTEXT
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/models/news.dart';
-import '../../components/Style/backbutton.dart';
+import '../../components/style/backbutton.dart';
 
 class NewsDetailPage extends StatelessWidget {
   final NewsList news;
