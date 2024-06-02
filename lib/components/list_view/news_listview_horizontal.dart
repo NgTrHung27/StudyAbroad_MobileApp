@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
-import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/screens/news/news_detail.dart';
 

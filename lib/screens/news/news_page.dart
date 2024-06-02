@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/components/Style/backbutton.dart';
+import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/components/list_view/news_listview_vertical.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
-import '../../components/Style/montserrat.dart';
-import '../../components/Style/news_searchtextfield.dart';
+import '../../components/style/montserrat.dart';
+import '../../components/style/news_searchtextfield.dart';
 import '../../components/list_view/news_listview_horizontal.dart';
 
 class NewsPage extends BasePage {
