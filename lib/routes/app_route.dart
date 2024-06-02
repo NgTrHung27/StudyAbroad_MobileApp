@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kltn_mobile/models/user_login.dart';
-import 'package:kltn_mobile/screens/Authentication/forget_password.dart';
-import 'package:kltn_mobile/screens/Authentication/login_page.dart';
-import 'package:kltn_mobile/screens/Authentication/logout.dart';
-import 'package:kltn_mobile/screens/Authentication/register_page.dart';
+import 'package:kltn_mobile/screens/authentication/forget_password.dart';
+import 'package:kltn_mobile/screens/authentication/login_page.dart';
+import 'package:kltn_mobile/screens/authentication/logout.dart';
+import 'package:kltn_mobile/screens/authentication/register_page.dart';
 import 'package:kltn_mobile/screens/home/home_page.dart';
 
 import 'package:kltn_mobile/screens/home/splash.dart';
