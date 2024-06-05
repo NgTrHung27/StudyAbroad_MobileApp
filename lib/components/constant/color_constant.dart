@@ -11,4 +11,6 @@ class AppColor {
   static final Color backgrTab = Color(0xffFFFFFF);
   static final Color backgrTabDark = Color(0xff3F3F46);
   static final Color backgrTabLight = Color(0xffFFFFFF);
+  static final Color borderTextField = Color(0xff959595);
+  static final Color borderTextFieldFocused = Color(0xff0000000);
 }
