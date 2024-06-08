@@ -12,7 +12,6 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/constant/theme.dart';
 import 'package:kltn_mobile/components/functions/button.dart';
 import 'package:kltn_mobile/components/functions/text_field.dart';
-import 'package:kltn_mobile/routes/app_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
@@ -22,13 +21,7 @@ class LoginPage extends BasePage {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<ThemeSettingCubit>().loadTheme();
-  }
-
+class _LoginPageState extends BasePageState<LoginPage> {
   String email = '';
   String password = '';
   String? errorMessage;
@@ -51,287 +44,260 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    final homeActionText =
-        localizations != null ? localizations.home_action : 'Default Text';
-
+    final welcome =
+        localizations != null ? localizations.login_welcome : 'Default Text';
+    final loginContinue =
+        localizations != null ? localizations.login_continue : 'Default Text';
+    final emailText = localizations != null
+        ? localizations.register_login_cpass__fg_mail
+        : 'Default Text';
+    final passText = localizations != null
+        ? localizations.register_login_cpass__fg_pass
+        : 'Default Text';
+    final remem =
+        localizations != null ? localizations.login_remember : 'Default Text';
+    final signup = localizations != null
+        ? localizations.register_login_signin
+        : 'Default Text';
+    final forgot =
+        localizations != null ? localizations.login_forgot : 'Default Text';
+    final notAccout =
+        localizations != null ? localizations.login_donot : 'Default Text';
     final screenHeight = MediaQuery.of(context).size.height;
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColor = isDarkMode ? Colors.white : Colors.black;
     final textColorRed = isDarkMode ? Colors.white : AppColor.redButton;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: AppRoute.onGenerateRoute,
-      home: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(context.watch<ThemeSettingCubit>().state ==
-                        AppTheme.blackTheme
-                    ? "assets/Bckgr_Login_Dark.png"
-                    : "assets/Bckgr_Login.jpg"),
-                fit: BoxFit.cover)),
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: BackButtonCircle(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ),
-          // backgroundColor: Colors.transparent,
-          body: BlocConsumer<LoginCubit, LoginState>(
-            listener: (context, state) {
-              if (state is LoginLoading) {
-                const Center(child: CircularProgressIndicator());
-              }
-              if (state is LoginFailure) {
-                setState(() {
-                  errorMessage = state.error;
-                });
-              } else if (state is LoginSuccess) {
-                Navigator.pushNamed(context, 'userdetail',
-                    arguments: state.userAuthLogin);
-              } else if (state is EmailError) {
-                setState(() {
-                  errorMessage = state.error;
-                });
-              } else if (state is LoginInitial) {
-                setState(() {
-                  errorMessage = null;
-                });
-              }
-            },
-            builder: (context, state) {
-              return SingleChildScrollView(
-                child: BlocBuilder<LanguageBloc, Locale>(
-                  builder: (context, state) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20, vertical: screenHeight * 0.05),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Image.asset(
+    return Container(
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(context.watch<ThemeSettingCubit>().state ==
+                      AppTheme.blackTheme
+                  ? "assets/Bckgr_Login_Dark.png"
+                  : "assets/Bckgr_Login.jpg"),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.transparent,
+        body: BlocConsumer<LoginCubit, LoginState>(
+          listener: (context, state) {
+            if (state is LoginLoading) {
+              const Center(child: CircularProgressIndicator());
+            }
+            if (state is LoginFailure) {
+              setState(() {
+                errorMessage = state.error;
+              });
+            } else if (state is LoginSuccess) {
+              Navigator.pushNamed(context, 'userdetail',
+                  arguments: state.userAuthLogin);
+            } else if (state is EmailError) {
+              setState(() {
+                errorMessage = state.error;
+              });
+            } else if (state is LoginInitial) {
+              setState(() {
+                errorMessage = null;
+              });
+            }
+          },
+          builder: (context, state) {
+            return SingleChildScrollView(
+              child: BlocBuilder<LanguageBloc, Locale>(
+                builder: (context, state) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 20, vertical: screenHeight * 0.05),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            BackButtonCircle(onPressed: () {
+                              Navigator.pushNamed(context, '/logout');
+                            }),
+                            //Logo
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.20),
+                            Image.asset(
                               context.watch<ThemeSettingCubit>().state ==
                                       AppTheme.blackTheme
                                   ? "assets/LOGO_WHITE.png"
                                   : "assets/LOGO_RED.png",
                               height: 80,
                             ),
+                            SizedBox(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.25),
+                            Container(width: 35)
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: TextMonserats(
+                            welcome,
+                            fontSize: 30,
+                            color: textColorRed,
                           ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     BackButtonCircle(
-                          //       onPressed: () {
-                          //         if (scaffoldKey.currentContext != null) {
-                          //           if (Navigator.canPop(
-                          //               scaffoldKey.currentContext!)) {
-                          //             Navigator.pop(
-                          //                 scaffoldKey.currentContext!);
-                          //           } else {
-                          //             Navigator.pushNamed(
-                          //                 scaffoldKey.currentContext!, 'home');
-                          //           }
-                          //         }
-                          //       },
-                          //     ),
-                          //     //Logo
-                          //     SizedBox(
-                          //         width:
-                          //             MediaQuery.of(context).size.width * 0.20),
-                          //     Image.asset(
-                          //       context.watch<ThemeSettingCubit>().state ==
-                          //               AppTheme.blackTheme
-                          //           ? "assets/LOGO_WHITE.png"
-                          //           : "assets/LOGO_RED.png",
-                          //       height: 80,
-                          //     ),
-                          //     SizedBox(
-                          //         width:
-                          //             MediaQuery.of(context).size.width * 0.20),
-                          //     Container(width: 35)
-                          //   ],
-                          // ),
-                          const SizedBox(height: 30),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                        ),
+                        const SizedBox(height: 4),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: TextMonserats(
+                            loginContinue,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        //Email TextFied
+                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MyTextField(
+                              controller: usermailController,
+                              hintText: emailText,
+                              keyboardType: TextInputType.emailAddress,
+                              obscureText: false,
+                              prefixIcon: Icons.email,
+                              onChanged: (value) {
+                                // Lưu giá trị email mới được nhập
+                                email = value;
+                                context.read<LoginCubit>().checkEmail(email);
+                              },
+                            ),
+                          ],
+                        ),
+                        //Pass TextFied
+                        const SizedBox(height: 3),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MyTextField(
+                              controller: passwordController,
+                              hintText: passText,
+                              obscureText: true,
+                              prefixIcon: Icons.lock,
+                              onChanged: (value) {
+                                // Lưu giá trị password mới được nhập
+                                password = value;
+                              },
+                            ),
+                          ],
+                        ),
+                        //Error Message
+                        if (errorMessage != null)
+                          Center(
                             child: TextMonserats(
-                              homeActionText,
-                              fontSize: 30,
-                              color: textColorRed,
+                              errorMessage!,
+                              color: Colors.red,
                             ),
                           ),
-                          const SizedBox(height: 4),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: TextMonserats(
-                              'Continue your adventure',
+                        //Forgot Pass
+                        Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.8, // Adjust the scale factor as needed
+                              child: Radio(
+                                value: 0,
+                                groupValue: selectedValue,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedValue = value!;
+                                  });
+                                },
+                              ),
+                            ),
+                            TextMonserats(
+                              remem,
+                              fontWeight: FontWeight.w400,
                               fontSize: 15,
-                              fontWeight: FontWeight.w500,
                             ),
-                          ),
-                          //Email TextFied
-                          const SizedBox(height: 30),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MyTextField(
-                                controller: usermailController,
-                                hintText: 'Enter your email',
-                                keyboardType: TextInputType.emailAddress,
-                                obscureText: false,
-                                prefixIcon: Icons.email,
-                                onChanged: (value) {
-                                  // Lưu giá trị email mới được nhập
-                                  email = value;
-                                  context.read<LoginCubit>().checkEmail(email);
-                                },
-                              ),
-                            ],
-                          ),
-                          //Pass TextFied
-                          const SizedBox(height: 3),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MyTextField(
-                                controller: passwordController,
-                                hintText: 'Enter your password',
-                                obscureText: true,
-                                prefixIcon: Icons.lock,
-                                onChanged: (value) {
-                                  // Lưu giá trị password mới được nhập
-                                  password = value;
-                                },
-                              ),
-                            ],
-                          ),
-                          //Error Message
-                          if (errorMessage != null)
-                            Center(
+                          ],
+                        ),
+
+                        //Login Button
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MyButton(
+                              onTap: () => userLogin(context),
+                              text: signup,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        //Forgot Password
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // Navigate to the ForgetPass screen
+                                Navigator.pushNamed(context, "/forgotpass");
+                              },
                               child: TextMonserats(
-                                errorMessage!,
-                                color: Colors.red,
+                                forgot,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                          //Forgot Pass
-                          Row(
-                            children: [
-                              Transform.scale(
-                                scale: 0.8, // Adjust the scale factor as needed
-                                child: Radio(
-                                  value: 0,
-                                  groupValue: selectedValue,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedValue = value!;
-                                    });
-                                  },
-                                ),
-                              ),
-                              const TextMonserats(
-                                'Remember me?',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                              ),
-                            ],
-                          ),
+                          ],
+                        ),
 
-                          //Login Button
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MyButton(
-                                onTap: () => userLogin(context),
-                                text: 'Login',
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          //Forgot Password
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  // Navigate to the ForgetPass screen
-                                  Navigator.pushNamed(context, "/forgotpass");
-                                },
-                                child: const TextMonserats(
-                                  'Forgot your password?',
-                                  fontWeight: FontWeight.w500,
+                        const SizedBox(height: 110),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Divider(
+                              height: 1,
+                              color: Color(0xFFCBD5E1),
+                              thickness: 1.0,
+                              indent: 20,
+                              endIndent: 20,
+                            ),
+                            SizedBox(height: screenHeight * 0.02),
+                            Align(
+                              alignment: Alignment.center,
+                              child: RichText(
+                                text: TextSpan(
+                                  style: DefaultTextStyle.of(context).style,
+                                  children: <TextSpan>[
+                                    styledTextSpan(
+                                      notAccout,
+                                      color: textColor,
+                                    ),
+                                    styledTextSpan(
+                                      signup,
+                                      color: AppColor.redButton,
+                                      fontWeight: FontWeight.w700,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: const Color(
+                                          0xff7D1F1F), // Change the color of the underline
+                                      decorationStyle: TextDecorationStyle
+                                          .solid, // Change the number of lines
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          Navigator.pushNamed(
+                                              context, "/register");
+                                        },
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
-
-                          const SizedBox(height: 110),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Divider(
-                                height: 1,
-                                color: Color(0xFFCBD5E1),
-                                thickness: 1.0,
-                                indent: 20,
-                                endIndent: 20,
-                              ),
-                              SizedBox(height: screenHeight * 0.02),
-                              Align(
-                                alignment: Alignment.center,
-                                child: RichText(
-                                  text: TextSpan(
-                                    style: DefaultTextStyle.of(context).style,
-                                    children: <TextSpan>[
-                                      styledTextSpan(
-                                        'Don’t have an account? ',
-                                        color: textColor,
-                                      ),
-                                      styledTextSpan(
-                                        'Sign up',
-                                        color: AppColor.redButton,
-                                        fontWeight: FontWeight.w700,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: const Color(
-                                            0xff7D1F1F), // Change the color of the underline
-                                        decorationStyle: TextDecorationStyle
-                                            .solid, // Change the number of lines
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Navigator.pushNamed(
-                                                context, "/register");
-                                          },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              // const Positioned(
-                              //   bottom: 0,
-                              //   left: 0,
-                              //   right: 0,
-                              //   child: MainNavBar(),
-                              // )
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            );
+          },
         ),
       ),
     );

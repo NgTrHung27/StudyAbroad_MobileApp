@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         localizations != null ? localizations.home_exlore : 'Default Text';
     final homeNewListText =
         localizations != null ? localizations.home_NewList : 'Default Text';
-
+    
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColorRed = isDarkMode ? Colors.white : AppColor.redButton;

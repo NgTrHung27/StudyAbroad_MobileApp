@@ -48,17 +48,17 @@ class MyApp extends StatelessWidget {
               themeMode: ThemeMode.system,
               initialRoute: "/",
               onGenerateRoute: AppRoute.onGenerateRoute,
+              supportedLocales: const [
+                Locale('en'), // English
+                Locale('ko'), // Korean
+                Locale('vi') // Vietnamese
+              ],
               //Language
               localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en'), // English
-                Locale('ko'), // Korean
-                Locale('vi') // Vietnamese
               ],
               locale: locale,
             );
