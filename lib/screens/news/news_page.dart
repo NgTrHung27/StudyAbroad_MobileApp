@@ -7,6 +7,7 @@ import 'package:kltn_mobile/screens/home/base_lang.dart';
 import '../../components/style/montserrat.dart';
 import '../../components/style/news_searchtextfield.dart';
 import '../../components/list_view/news_listview_horizontal.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewsPage extends BasePage {
   const NewsPage({super.key, required this.newsList});
@@ -20,63 +21,64 @@ class NewsPage extends BasePage {
 class _NewsPageState extends BasePageState<NewsPage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: SafeArea(
-          child: Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 30, right: 30, top: 20, bottom: 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      BackButtonCircle(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      const CirleAvatarImage(
-                          avatarImgPath: 'assets/backgr-01.jpg'),
-                    ],
-                  ),
+    final localizations = AppLocalizations.of(context);
+    final hintText =
+        localizations != null ? localizations.home_search : 'Default Text';
+    final news1 =
+        localizations != null ? localizations.new_main : 'Default Text';
+    final news2 =
+        localizations != null ? localizations.new_post : 'Default Text';
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 30, right: 30, top: 20, bottom: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    BackButtonCircle(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const CirleAvatarImage(
+                        avatarImgPath: 'assets/backgr-01.jpg'),
+                  ],
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 30, right: 30, bottom: 15),
-                  child: NewsSearchTextField(hintText: 'Search here...'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+                child: NewsSearchTextField(hintText: hintText),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: TextMonserats(news1,
+                      fontSize: 24, fontWeight: FontWeight.w700),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 30, right: 30, bottom: 15),
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: const TextMonserats('Main News',
-                        fontSize: 24, fontWeight: FontWeight.w700),
-                  ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 30, bottom: 15),
+                child: NewsListView(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: TextMonserats(news2,
+                      fontSize: 20, fontWeight: FontWeight.w700),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 30, bottom: 15),
-                  child: NewsListView(),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 30, right: 30, bottom: 15),
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    child: const TextMonserats('Daily Post',
-                        fontSize: 20, fontWeight: FontWeight.w700),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 30, right: 30, bottom: 15),
-                  child: VerticalNewsListView(newsList: widget.newsList),
-                ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
+                child: VerticalNewsListView(newsList: widget.newsList),
+              ),
+            ],
           ),
         ),
       ),

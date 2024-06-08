@@ -22,7 +22,6 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     super.initState();
-    context.read<ThemeSettingCubit>().loadTheme();
     _loadIconState();
   }
 
@@ -42,6 +41,42 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final hello =
+        localizations != null ? localizations.home_hello : 'Default Text';
+    final account =
+        localizations != null ? localizations.profile_account : 'Default Text';
+    final account1 = localizations != null
+        ? localizations.profile_account_profilesInfo
+        : 'Default Text';
+    final account2 = localizations != null
+        ? localizations.profile_account_changePassword
+        : 'Default Text';
+    final status =
+        localizations != null ? localizations.profile_status : 'Default Text';
+    final status1 = localizations != null
+        ? localizations.profile_status_ps
+        : 'Default Text';
+    final status2 = localizations != null
+        ? localizations.profile_status_ps1
+        : 'Default Text';
+    final status3 = localizations != null
+        ? localizations.profile_status_ps2
+        : 'Default Text';
+    final setting =
+        localizations != null ? localizations.profile_setting : 'Default Text';
+    final setting1 = localizations != null
+        ? localizations.profile_setting_Language
+        : 'Default Text';
+    final setting2 = localizations != null
+        ? localizations.profile_setting_Screenmode
+        : 'Default Text';
+    final setting3 = localizations != null
+        ? localizations.profile_setting_Support
+        : 'Default Text';
+    final logout =
+        localizations != null ? localizations.profile_logout : 'Default Text';
+
     final screenHeight = MediaQuery.of(context).size.height;
     final backgroundColor = context.select(
       (ThemeSettingCubit cubit) => cubit.state == AppTheme.blackTheme
@@ -69,7 +104,7 @@ class _UserProfileState extends State<UserProfile> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IdTab(
-                        userName: AppLocalizations.of(context)!.home_hello,
+                        userName: hello,
                         idUser: 'N/A',
                         avatarImgPath: 'assets/Bckgr_Login.jpg',
                       ),
@@ -78,48 +113,33 @@ class _UserProfileState extends State<UserProfile> {
                   SizedBox(height: screenHeight * 0.03),
                   ActionTab(
                     backgroundColor: backgroundColor,
-                    header: AppLocalizations.of(context)!.profile_account,
+                    header: account,
                     colorIcon: colorIcon,
                     functions: [
-                      FunctionItem(
-                          name: AppLocalizations.of(context)!
-                              .profile_account_profilesInfo,
-                          icon: Icons.person),
-                      FunctionItem(
-                          name: AppLocalizations.of(context)!
-                              .profile_account_changePassword,
-                          icon: Icons.key),
+                      FunctionItem(name: account1, icon: Icons.person),
+                      FunctionItem(name: account2, icon: Icons.key),
                     ], // List of functions
                   ),
                   const SizedBox(height: 20),
                   ActionTab(
-                    header: AppLocalizations.of(context)!.profile_status,
+                    header: status,
                     backgroundColor: backgroundColor,
                     colorIcon: colorIcon,
                     functions: [
-                      FunctionItem(
-                          name: AppLocalizations.of(context)!.profile_status_ps,
-                          icon: Icons.account_circle),
-                      FunctionItem(
-                          name:
-                              AppLocalizations.of(context)!.profile_status_ps1,
-                          icon: Icons.school_outlined),
-                      FunctionItem(
-                          name:
-                              AppLocalizations.of(context)!.profile_status_ps2,
-                          icon: Icons.payment),
+                      FunctionItem(name: status1, icon: Icons.account_circle),
+                      FunctionItem(name: status2, icon: Icons.school_outlined),
+                      FunctionItem(name: status3, icon: Icons.payment),
                     ], // List of functions
                   ),
                   const SizedBox(height: 20),
 
                   ActionTab(
-                    header: AppLocalizations.of(context)!.profile_setting,
+                    header: setting,
                     backgroundColor: backgroundColor,
                     colorIcon: colorIcon,
                     functions: [
                       FunctionItem(
-                        name: AppLocalizations.of(context)!
-                            .profile_setting_Language,
+                        name: setting1,
                         icon: Icons.language,
                         dropdownCallback: (Locale newValue) {
                           // Accept the new value
@@ -143,15 +163,12 @@ class _UserProfileState extends State<UserProfile> {
                         },
                       ),
                       FunctionItem(
-                          name: AppLocalizations.of(context)!
-                              .profile_setting_Screenmode,
+                          name: setting2,
                           icon: Icons.nightlight_round,
                           isEnable: true,
                           switchValue: false),
                       FunctionItem(
-                          name: AppLocalizations.of(context)!
-                              .profile_setting_Support,
-                          icon: Icons.question_mark_rounded),
+                          name: setting3, icon: Icons.question_mark_rounded),
                     ], // List of functions
                   ),
                   const SizedBox(height: 20),
@@ -159,7 +176,7 @@ class _UserProfileState extends State<UserProfile> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/logout');
                     },
-                    child: const TextMonserats('Logout',
+                    child: TextMonserats(logout,
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w700),

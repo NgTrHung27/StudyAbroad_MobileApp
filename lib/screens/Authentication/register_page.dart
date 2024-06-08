@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/blocs/auth_cubit_bloc/auth_cubit.dart';
 import 'package:kltn_mobile/blocs/auth_cubit_bloc/auth_state.dart';
+import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/functions/convert_imagetostring.dart';
 import 'package:kltn_mobile/models/country.dart';
@@ -22,8 +25,8 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/functions/dropdown.dart';
 import 'package:kltn_mobile/components/functions/radio.dart';
 import 'package:kltn_mobile/components/functions/text_field.dart';
-import 'package:kltn_mobile/routes/app_route.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterPage extends BasePage {
   const RegisterPage({super.key});
@@ -32,41 +35,72 @@ class RegisterPage extends BasePage {
 }
 
 //Declare Date Input
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends BasePageState<RegisterPage> {
+  //Declare Language
+  String register_1 = '';
+  String register_2 = '';
+  String register_3 = '';
+  String register_4 = '';
+  String register_5 = '';
+  String register_6 = '';
+  String register_login_signin = '';
+  String register_email = '';
+  String register_pass = '';
+  String register_7 = '';
+  String register_8 = '';
+  String register_9 = '';
+  String register_10 = '';
+  String register_11 = '';
+  String register_12 = '';
+  String register_13 = '';
+  String register_14 = '';
+  String register_15 = '';
+  String register_16 = '';
+  String register_17 = '';
+  String register_18 = '';
+  String register_19 = '';
+  String register_20 = '';
+  String register_21 = '';
+  String register_22 = '';
+  String register_23 = '';
+  String register_24 = '';
+  String register_25 = '';
+  String register_26 = '';
+  String register_signup = '';
   //Declare API School
   List<Schools> lstschools = [];
   List<Country> lstCountry = [];
-  String? errorEmailMessage;
-  String? errorNameMessage;
-  String? errorPasswordMessage;
-  String? errorConfrimPasswordMessage;
-  String? errorIDCardNumberMessage;
-  String? errorDateMessage;
-  String? errorPhoneMessage;
-  String? errorCityMessage;
-  String? errorDistrictMessage;
-  String? errorWardMessage;
-  String? errorAddressMessage;
-  String? errorGenderMessage;
-  String? errorDegreeMessage;
-  String? errorGradeTypeMessage;
-  String? errorGradeMessage;
-  String? errorCertificateTypeMessage;
-  String? errorMessage;
+  String? errorEmailMessage,
+      errorNameMessage,
+      errorPasswordMessage,
+      errorConfrimPasswordMessage,
+      errorIDCardNumberMessage,
+      errorDateMessage,
+      errorPhoneMessage,
+      errorCityMessage,
+      errorDistrictMessage,
+      errorWardMessage,
+      errorAddressMessage,
+      errorGenderMessage,
+      errorDegreeMessage,
+      errorGradeTypeMessage,
+      errorGradeMessage,
+      errorCertificateTypeMessage,
+      errorMessage;
   //Declare
-  String email = '';
-  String name = '';
-  String password = '';
-  String confirmpassword = '';
-  String phone = '';
-  String idCardNumber = '';
-  String dob = '';
+  String email = '',
+      name = '',
+      password = '',
+      confirmpassword = '',
+      phone = '',
+      idCardNumber = '',
+      dob = '';
   Schools? selectedSchoolObject;
-  String? selectedSchool;
-  String? selectedProgram;
-  String? selectedCity;
-  String? selectedDistrict;
-  String? selectedWard;
+  String? selectedSchool,
+      selectedProgram,
+      selectedCity,
+      selectedDistrict,
+      selectedWard;
   String address = '';
   Gender? valueGender;
   DegreeType? valueDegree;
@@ -102,18 +136,17 @@ class _RegisterPageState extends State<RegisterPage> {
   //--------------------------------------------------------------------------------------------------
 
   void userRegister() async {
-    String email = usermailController.text.trim();
-    String name = usernameController.text.trim();
-    String password = passwordController.text.trim();
-    String confirmpassword = confirmpasswordController.text.trim();
-    String idCardNumber = idCardNumberController.text.trim();
+    String email = usermailController.text.trim(),
+        name = usernameController.text.trim(),
+        password = passwordController.text.trim(),
+        confirmpassword = confirmpasswordController.text.trim(),
+        idCardNumber = idCardNumberController.text.trim(),
+        phone = phoneController.text.trim(),
+        address = addressController.text.trim(),
+        certificateImg = imageController.text.toString();
     DateTime dob = DateFormat('dd/MM/yyyy').parse(dateController.text.trim());
-    String phone = phoneController.text.trim();
-    String address = addressController.text.trim();
     double gradeScore = double.parse(gradeController.text.trim());
     String gradeScoreString = gradeScore.toString();
-    String certificateImg = imageController.text.toString();
-
     var items = {
       'School': selectedSchool,
       'Program': selectedProgram,
@@ -265,6 +298,25 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  String getGenderLabel(BuildContext context, Gender gender) {
+    switch (gender) {
+      case Gender.Male:
+        return Intl.message(
+          'Male',
+          name: 'male',
+          locale: Localizations.localeOf(context).languageCode,
+        );
+      case Gender.Female:
+        return Intl.message(
+          'Female',
+          name: 'female',
+          locale: Localizations.localeOf(context).languageCode,
+        );
+      default:
+        return '';
+    }
+  }
+
   //Date
   Future<void> openDatePicker(BuildContext context) async {
     BottomPicker.date(
@@ -318,7 +370,40 @@ class _RegisterPageState extends State<RegisterPage> {
 //-----------------------------------------------------------------------------------
 //Stepper Method
   continueStep() {
-    final isLastStep = currentStep == getSteps().length - 1;
+    final isLastStep = currentStep ==
+        getSteps(
+                    register_1,
+                    register_2,
+                    register_3,
+                    register_4,
+                    register_5,
+                    register_6,
+                    register_login_signin,
+                    register_email,
+                    register_pass,
+                    register_7,
+                    register_8,
+                    register_9,
+                    register_10,
+                    register_11,
+                    register_12,
+                    register_13,
+                    register_14,
+                    register_15,
+                    register_16,
+                    register_17,
+                    register_18,
+                    register_19,
+                    register_20,
+                    register_21,
+                    register_22,
+                    register_23,
+                    register_24,
+                    register_25,
+                    register_26,
+                    register_signup)
+                .length -
+            1;
     if (isLastStep) {
       print('Complete');
     } else {
@@ -342,86 +427,142 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  Widget controlsBuilder(context, details) {
-    return Container(
-      child: currentStep == 2 // Kiểm tra nếu đang ở bước thứ 3
-          ? Column(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: SimpleButton(
-                    backgroundColor: Colors.transparent,
-                    borderColor: AppColor.redButton,
-                    onPressed: details.onStepCancel,
-                    child: TextMonserats(
-                      'Back',
-                      color: AppColor.redButton,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                SizedBox(
-                    width: double.infinity,
-                    height: 40,
-                    child: SimpleButton(
-                      onPressed: () {
-                        userRegister();
-                      },
-                      child: const TextMonserats(
-                        'Sign Up',
-                        color: Colors.white,
-                      ),
-                    )),
-              ],
-            )
-          : Row(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    child: SimpleButton(
-                      backgroundColor: Colors.transparent,
-                      borderColor: AppColor.redButton,
-                      onPressed: details.onStepCancel,
-                      child: TextMonserats(
-                        'Back',
-                        color: AppColor.redButton,
+  Widget controlsBuilder(context, details, {String? register_25, register_26}) {
+    return BlocBuilder<LanguageBloc, Locale>(
+      builder: (context, state) {
+        String currentLanguageCode = state.languageCode;
+
+        // Xác định các chuỗi ký tự theo ngôn ngữ
+        String backText;
+        String continueText;
+        String signUpText;
+
+        if (currentLanguageCode == 'vi') {
+          backText = 'Trở lại';
+          continueText = 'Tiếp tục';
+          signUpText = 'Đăng ký';
+        } else if (currentLanguageCode == 'ko') {
+          backText = '뒤로';
+          continueText = '계속';
+          signUpText = '가입';
+        } else {
+          backText = 'Back';
+          continueText = 'Next';
+          signUpText = 'Sign Up';
+        }
+
+        return Container(
+          child: currentStep == 2 // Kiểm tra nếu đang ở bước thứ 3
+              ? Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: SimpleButton(
+                        backgroundColor: Colors.transparent,
+                        borderColor: AppColor.redButton,
+                        onPressed: details.onStepCancel,
+                        child: TextMonserats(
+                          backText,
+                          color: AppColor.redButton,
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                const SizedBox(width: 120),
-                Expanded(
-                  child: SimpleButton(
-                    onPressed: details.onStepContinue,
-                    child: const TextMonserats(
-                      'Next',
-                      color: Colors.white,
+                    const SizedBox(height: 15),
+                    SizedBox(
+                        width: double.infinity,
+                        height: 40,
+                        child: SimpleButton(
+                          onPressed: () {
+                            userRegister();
+                          },
+                          child: TextMonserats(
+                            signUpText,
+                            color: Colors.white,
+                          ),
+                        )),
+                  ],
+                )
+              : Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        child: SimpleButton(
+                          backgroundColor: Colors.transparent,
+                          borderColor: AppColor.redButton,
+                          onPressed: details.onStepCancel,
+                          child: TextMonserats(
+                            backText,
+                            color: AppColor.redButton,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(width: 120),
+                    Expanded(
+                      child: SimpleButton(
+                        onPressed: details.onStepContinue,
+                        child: TextMonserats(
+                          continueText,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+        );
+      },
     );
   }
 
 // List Steps
-  List<Step> getSteps() => [
+  List<Step> getSteps(
+          register1,
+          register2,
+          register3,
+          register4,
+          register5,
+          register6,
+          register_login_signin,
+          register_email,
+          register_pass,
+          register_7,
+          register_8,
+          register_9,
+          register_10,
+          register_11,
+          register_12,
+          register_13,
+          register_14,
+          register_15,
+          register_16,
+          register_17,
+          register_18,
+          register_19,
+          register_20,
+          register_21,
+          register_22,
+          register_23,
+          register_24,
+          register_25,
+          register_26,
+          registerSignup) =>
+      [
         //Step 1 - Account
         Step(
           title: const SizedBox.shrink(),
           isActive: currentStep != 1 && currentStep != 2,
-          label: const Padding(
-            padding: EdgeInsets.only(
+          label: Padding(
+            padding: const EdgeInsets.only(
                 left: 15.0,
                 right:
                     15.0), // Điều chỉnh khoảng cách giữa các số 1, 2, 3 ở đây
-            child: TextMonserats('Account'),
+            child: TextMonserats(register3),
           ),
           content: Column(
             children: [
               MyTextField(
                 controller: usermailController,
-                hintText: 'Email',
+                hintText: register_email,
                 keyboardType: TextInputType.emailAddress,
                 obscureText: false,
                 prefixIcon: Icons.email,
@@ -444,7 +585,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 3),
               MyTextField(
                 controller: usernameController,
-                hintText: 'FullName',
+                hintText: register_7,
                 textCapitalization: TextCapitalization.words,
                 obscureText: false,
                 prefixIcon: Icons.person,
@@ -467,7 +608,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 3),
               MyTextField(
                 controller: passwordController,
-                hintText: 'Password',
+                hintText: register_pass,
                 obscureText: true,
                 prefixIcon: Icons.lock,
                 errorText: errorPasswordMessage,
@@ -489,7 +630,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 3),
               MyTextField(
                 controller: confirmpasswordController,
-                hintText: 'Confirm Password',
+                hintText: register_8,
                 obscureText: true,
                 prefixIcon: Icons.lock_reset,
                 errorText: errorConfrimPasswordMessage,
@@ -513,7 +654,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 3),
               MyTextField(
                 controller: idCardNumberController,
-                hintText: 'ID Card Number',
+                hintText: register_9,
                 obscureText: false,
                 prefixIcon: Icons.how_to_reg,
                 errorText: errorIDCardNumberMessage,
@@ -540,7 +681,7 @@ class _RegisterPageState extends State<RegisterPage> {
         Step(
           title: const SizedBox.shrink(),
           isActive: currentStep != 0 && currentStep != 2,
-          label: const TextMonserats('Profile'),
+          label: TextMonserats(register4),
           content: Column(
             children: [
               //DOB
@@ -554,7 +695,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: AbsorbPointer(
                       child: MyTextField(
                         controller: dateController,
-                        hintText: 'Date of Birth',
+                        hintText: register_10,
                         obscureText: false,
                         prefixIcon: Icons.date_range,
                         errorText: errorDateMessage,
@@ -571,7 +712,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 73,
                       child: DropdownCustom<Gender>(
                         icon: Icons.wc,
-                        hintText: 'Gender',
+                        hintText: register_11,
                         items: Gender.values,
                         selectedItem: valueGender,
                         errorText: errorGenderMessage,
@@ -591,7 +732,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           });
                         },
                         itemLabel: (Gender gender) =>
-                            gender.toString().split('.').last,
+                            getGenderLabel(context, gender),
                         isExpanded: false,
                       ),
                     ),
@@ -602,7 +743,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       keyboardType: TextInputType.number,
                       controller:
                           phoneController, // Thêm controller cho trường số điện thoại
-                      hintText: 'Phone',
+                      hintText: register_12,
                       obscureText: false,
                       prefixIcon: Icons.phone,
                       errorText: errorPhoneMessage,
@@ -626,10 +767,10 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 15),
               //Address
-              const Row(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextMonserats('Address'),
+                  TextMonserats(register_13),
                 ],
               ),
               //City
@@ -654,7 +795,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       }
                     },
                     itemLabel: (Country country) => country.name,
-                    hintText: 'City',
+                    hintText: register_14,
                     isExpanded: false,
                   );
                 },
@@ -690,7 +831,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         });
                       },
                       itemLabel: (District district) => district.name,
-                      hintText: 'District',
+                      hintText: register_15,
                       isExpanded: true,
                     );
                   },
@@ -729,7 +870,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         });
                       },
                       itemLabel: (Ward ward) => ward.name,
-                      hintText: 'Ward',
+                      hintText: register_16,
                       isExpanded: true,
                     );
                   },
@@ -738,7 +879,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 15),
               MyTextField(
                 controller: addressController,
-                hintText: 'Address',
+                hintText: register_17,
                 obscureText: false,
                 prefixIcon: Icons.home,
                 onChanged: (value) {
@@ -754,12 +895,12 @@ class _RegisterPageState extends State<RegisterPage> {
         Step(
           title: const SizedBox.shrink(),
           isActive: currentStep != 0 && currentStep != 1,
-          label: const Padding(
-            padding: EdgeInsets.only(
+          label: Padding(
+            padding: const EdgeInsets.only(
                 left: 15.0,
                 right:
                     15.0), // Điều chỉnh khoảng cách giữa các số 1, 2, 3 ở đây
-            child: TextMonserats('Education'),
+            child: TextMonserats(register5),
           ),
           content: Column(
             children: [
@@ -786,7 +927,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           });
                         },
                         itemLabel: (Schools school) => school.name,
-                        hintText: '-Choose your school-',
+                        hintText: register_18,
                         isExpanded: true,
                       );
                     },
@@ -818,7 +959,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             });
                           },
                           itemLabel: (Program program) => program.name,
-                          hintText: 'Major',
+                          hintText: register_19,
                           isExpanded: true,
                         );
                       },
@@ -838,7 +979,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       itemLabel: (DegreeType degreeType) =>
                           degreeType.toString().split('.').last,
-                      hintText: 'Degree',
+                      hintText: register_20,
                       isExpanded: true,
                     ),
                   ),
@@ -858,7 +999,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 selectedItem: selectedCertificateType,
                 itemLabel: (CertificateType certificateType) =>
                     certificateType.toString().split('.').last,
-                hintText: 'Certificate',
+                hintText: register_21,
                 isExpanded: false,
               ),
 
@@ -883,26 +1024,26 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     imageValueChanged();
                   },
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.upload_file,
                         size: 21,
                       ),
-                      SizedBox(width: 10),
-                      TextMonserats('Upload file here')
+                      const SizedBox(width: 10),
+                      TextMonserats(register_22)
                     ],
                   ),
                 ),
               ),
               //Overall Score
               const SizedBox(height: 10),
-              const Row(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextMonserats('Overall Score'),
+                  TextMonserats(register_23),
                 ],
               ),
               //GPA - CGPA
@@ -934,7 +1075,7 @@ class _RegisterPageState extends State<RegisterPage> {
               MyTextField(
                 keyboardType: TextInputType.number,
                 controller: gradeController,
-                hintText: 'Grade Score',
+                hintText: register_24,
                 obscureText: false,
                 prefixIcon: Icons.functions,
                 errorText: errorGradeMessage,
@@ -964,15 +1105,92 @@ class _RegisterPageState extends State<RegisterPage> {
 //BuildContext
   @override
   Widget build(BuildContext context) {
+    //Language
+    final localizations = AppLocalizations.of(context);
+    final register1 =
+        localizations != null ? localizations.register_1 : 'Default Text';
+    final register2 =
+        localizations != null ? localizations.register_2 : 'Default Text';
+    final register3 =
+        localizations != null ? localizations.register_3 : 'Default Text';
+    final register4 =
+        localizations != null ? localizations.register_4 : 'Default Text';
+    final register5 =
+        localizations != null ? localizations.register_5 : 'Default Text';
+    final register6 =
+        localizations != null ? localizations.register_6 : 'Default Text';
+    final register_login_signin = localizations != null
+        ? localizations.register_login_signin
+        : 'Default Text';
+    final register_email = localizations != null
+        ? localizations.register_login_cpass__fg_mail
+        : 'Default Text';
+    final register_pass = localizations != null
+        ? localizations.register_login_cpass__fg_pass
+        : 'Default Text';
+    final register_7 = localizations != null
+        ? localizations.register_7_fullname
+        : 'Default Text';
+    final register_8 = localizations != null
+        ? localizations.register_8_confirm_pass
+        : 'Default Text';
+    final register_9 = localizations != null
+        ? localizations.register_9_idcard
+        : 'Default Text';
+    final register_10 =
+        localizations != null ? localizations.register_10_dob : 'Default Text';
+    final register_11 = localizations != null
+        ? localizations.register_11_gender
+        : 'Default Text';
+    final register_12 = localizations != null
+        ? localizations.register_12_phone
+        : 'Default Text';
+    final register_13 = localizations != null
+        ? localizations.register_13_address
+        : 'Default Text';
+    final register_14 =
+        localizations != null ? localizations.register_14_city : 'Default Text';
+    final register_15 = localizations != null
+        ? localizations.register_15_district
+        : 'Default Text';
+    final register_16 =
+        localizations != null ? localizations.register_16_ward : 'Default Text';
+    final register_17 = localizations != null
+        ? localizations.register_17_addressline
+        : 'Default Text';
+    final register_18 = localizations != null
+        ? localizations.register_18_school
+        : 'Default Text';
+    final register_19 = localizations != null
+        ? localizations.register_19_major
+        : 'Default Text';
+    final register_20 = localizations != null
+        ? localizations.register_20_degree
+        : 'Default Text';
+    final register_21 = localizations != null
+        ? localizations.register_21_certi
+        : 'Default Text';
+    final register_22 = localizations != null
+        ? localizations.register_22_upfile
+        : 'Default Text';
+    final register_23 = localizations != null
+        ? localizations.register_23_score
+        : 'Default Text';
+    final register_24 = localizations != null
+        ? localizations.register_24_gscore
+        : 'Default Text';
+    final register_25 =
+        localizations != null ? localizations.register_25_back : 'Default Text';
+    final register_26 =
+        localizations != null ? localizations.register_26_next : 'Default Text';
+    final register_signup =
+        localizations != null ? localizations.logout_3_signup : 'Default Text';
     final screenHeight = MediaQuery.of(context).size.height;
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColor = isDarkMode ? Colors.white : Colors.black;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: AppRoute.onGenerateRoute,
-      home: SafeArea(
-          child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
         if (state is AuthErrorEmailState) {
           setState(() {
             errorEmailMessage = state.error;
@@ -1042,10 +1260,11 @@ class _RegisterPageState extends State<RegisterPage> {
             errorMessage = state.error;
           });
         } else if (state is AuthSuccessState) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => const LoginPage()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const LoginPage()));
         }
-      }, builder: (context, state) {
+      },
+      builder: (context, state) {
         if (state is AuthErrorState) {
           Scaffold(
             body: Center(
@@ -1071,14 +1290,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   const SizedBox(height: 40),
                   TextMonserats(
-                    'Create an account',
+                    register1,
                     color: AppColor.redButton,
                     fontWeight: FontWeight.w700,
                     fontSize: 24,
                   ),
                   const SizedBox(height: 5),
-                  const TextMonserats(
-                    'Create an account to manage yout account today',
+                  TextMonserats(
+                    register2,
                     fontWeight: FontWeight.w300,
                     fontSize: 11,
                   ),
@@ -1100,7 +1319,37 @@ class _RegisterPageState extends State<RegisterPage> {
                         onStepCancel: cancelStep,
                         onStepTapped: onStepTapped,
                         controlsBuilder: controlsBuilder,
-                        steps: getSteps(),
+                        steps: getSteps(
+                            register1,
+                            register2,
+                            register3,
+                            register4,
+                            register5,
+                            register6,
+                            register_login_signin,
+                            register_email,
+                            register_pass,
+                            register_7,
+                            register_8,
+                            register_9,
+                            register_10,
+                            register_11,
+                            register_12,
+                            register_13,
+                            register_14,
+                            register_15,
+                            register_16,
+                            register_17,
+                            register_18,
+                            register_19,
+                            register_20,
+                            register_21,
+                            register_22,
+                            register_23,
+                            register_24,
+                            register_25,
+                            register_26,
+                            register_signup),
                       ),
                     ),
                   ),
@@ -1118,10 +1367,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       text: TextSpan(
                         style: DefaultTextStyle.of(context).style,
                         children: <TextSpan>[
-                          styledTextSpan('Already have an account? ',
-                              color: textColor),
+                          styledTextSpan(register6, color: textColor),
                           styledTextSpan(
-                            'Sign up',
+                            register_signup,
                             color: AppColor.redButton,
                             fontWeight: FontWeight.w700,
                             decoration: TextDecoration.underline,
@@ -1143,7 +1391,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
         );
-      })),
+      },
     );
   }
 }

@@ -1,34 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/auth_cubit_bloc/forgot_pass_cubit.dart';
-import 'package:kltn_mobile/blocs/repository/repository.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/theme.dart';
 import 'package:kltn_mobile/components/functions/button.dart';
 import 'package:kltn_mobile/components/functions/text_field.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgetPass extends BasePage {
   const ForgetPass({super.key});
-
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ForgotPassCubit(APIRepository()),
-      child: _ForgetPass(),
-    );
-  }
-
   @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+  State<ForgetPass> createState() => _ForgetPassState();
 }
 
-class _ForgetPass extends StatefulWidget {
-  @override
-  State<_ForgetPass> createState() => _ForgetPassState();
-}
-
-class _ForgetPassState extends State<_ForgetPass> {
+class _ForgetPassState extends BasePageState<ForgetPass> {
   String email = '';
   String? errorMessage;
   final usermailController = TextEditingController();
@@ -47,6 +34,20 @@ class _ForgetPassState extends State<_ForgetPass> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final forgot1 =
+        localizations != null ? localizations.forgot_1 : 'Default Text';
+    final forgot2 =
+        localizations != null ? localizations.forgot_2 : 'Default Text';
+    final forgot3 =
+        localizations != null ? localizations.forgot_3 : 'Default Text';
+    final emailText = localizations != null
+        ? localizations.register_login_cpass__fg_mail
+        : 'Default Text';
+    final forgot4 =
+        localizations != null ? localizations.forgot_4 : 'Default Text';
+    final forgot5 =
+        localizations != null ? localizations.forgot_5 : 'Default Text';
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -100,19 +101,19 @@ class _ForgetPassState extends State<_ForgetPass> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      const Column(
+                      Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           TextMonserats(
-                            'Forgot Password?',
+                            forgot1,
                             textAlign: TextAlign.center,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
                             fontSize: 30,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           TextMonserats(
-                            'Enter your email for the verification process, we will send verify link',
+                            forgot2,
                             textAlign: TextAlign.center,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
@@ -123,11 +124,11 @@ class _ForgetPassState extends State<_ForgetPass> {
                       const SizedBox(height: 70),
                       Column(
                         children: [
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               TextMonserats(
-                                'Enter Your Email',
+                                forgot3,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
                               ),
@@ -141,7 +142,7 @@ class _ForgetPassState extends State<_ForgetPass> {
                                 children: [
                                   MyTextField(
                                     controller: usermailController,
-                                    hintText: 'Email',
+                                    hintText: emailText,
                                     obscureText: false,
                                     prefixIcon: Icons.email,
                                     onChanged: (value) {
@@ -167,7 +168,7 @@ class _ForgetPassState extends State<_ForgetPass> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               MyButton(
-                                text: 'Send Verification Link',
+                                text: forgot4,
                                 onTap: () {
                                   print('Button pressed');
                                   userForgetPass(context);
@@ -184,8 +185,8 @@ class _ForgetPassState extends State<_ForgetPass> {
                                   // Navigate back to login screen
                                   Navigator.pop(context);
                                 },
-                                child: const TextMonserats(
-                                  'Back to Login',
+                                child: TextMonserats(
+                                  forgot5,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 13,
                                 ),
