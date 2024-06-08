@@ -13,9 +13,8 @@ class MyButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        //365
-        width: screenWidth * 0.8,
-        height: 41,
+        width: screenWidth * 0.9,
+        height: 45,
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: AppColor.redButton,
@@ -35,7 +34,7 @@ class MyButton extends StatelessWidget {
             style: GoogleFonts.getFont(
               'Montserrat',
               color: Colors.white,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               fontSize: 15,
             ),
           ),

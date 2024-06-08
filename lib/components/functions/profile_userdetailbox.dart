@@ -4,8 +4,13 @@ import 'package:kltn_mobile/components/style/montserrat.dart';
 class LegendBox extends StatelessWidget {
   final String title;
   final String value;
+  final Color color;
 
-  const LegendBox({super.key, required this.title, required this.value});
+  const LegendBox(
+      {super.key,
+      required this.title,
+      required this.value,
+      this.color = Colors.white});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +23,7 @@ class LegendBox extends StatelessWidget {
             Container(
               height: 65.0,
               constraints: const BoxConstraints(minWidth: double.infinity),
-              padding: const EdgeInsets.only(top: 12.0), 
+              padding: const EdgeInsets.only(top: 12.0),
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
@@ -26,18 +31,28 @@ class LegendBox extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
-                  child: Align(alignment: Alignment.centerLeft, child: TextMonserats(value, color: value == 'APPROVED' ? Colors.green : value == 'DENIED' ? Colors.red : Colors.black,)),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextMonserats(
+                        value,
+                        color: value == 'APPROVED'
+                            ? Colors.green
+                            : value == 'DENIED'
+                                ? Colors.red
+                                : Colors.black,
+                      )),
                 ),
               ),
             ),
             Positioned(
               left: 15.0,
               child: Container(
-                color: Colors.white, 
-                padding: const EdgeInsets.symmetric(horizontal: 7.0), 
-                child: TextMonserats(
-                  title, color: Colors.grey, fontSize: 15.0, fontWeight: FontWeight.w600
-                ),
+                color: color,
+                padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                child: TextMonserats(title,
+                    color: Colors.grey,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.w600),
               ),
             ),
           ],

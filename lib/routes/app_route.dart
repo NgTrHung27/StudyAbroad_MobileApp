@@ -4,6 +4,7 @@ import 'package:kltn_mobile/screens/authentication/forget_password.dart';
 import 'package:kltn_mobile/screens/authentication/login_page.dart';
 import 'package:kltn_mobile/screens/authentication/logout.dart';
 import 'package:kltn_mobile/screens/authentication/register_page.dart';
+import 'package:kltn_mobile/screens/home/contact_us.dart';
 import 'package:kltn_mobile/screens/home/home_page.dart';
 
 import 'package:kltn_mobile/screens/home/splash.dart';
@@ -17,7 +18,7 @@ class AppRoute {
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(builder: (_) => const ContactUs());
       case '/splash':
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case '/home':
@@ -40,6 +41,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const UserProfile());
       case '/notifications':
         return MaterialPageRoute(builder: (_) => const NotificationsPage());
+      case '/contactus':
+        return MaterialPageRoute(builder: (_) => const ContactUs());
       default:
         return MaterialPageRoute(builder: (_) => const HomePage());
     }

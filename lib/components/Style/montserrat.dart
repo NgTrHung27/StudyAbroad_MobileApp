@@ -10,14 +10,18 @@ class TextMonserats extends StatelessWidget {
   final double? fontSize;
   final int? maxLine;
   final TextAlign? textAlign;
+  final double height;
 
-  const TextMonserats(this.text,
-      {super.key,
-      this.color,
-      this.fontWeight,
-      this.fontSize,
-      this.maxLine,
-      this.textAlign});
+  const TextMonserats(
+    this.text, {
+    super.key,
+    this.color,
+    this.fontWeight,
+    this.fontSize,
+    this.maxLine,
+    this.textAlign,
+    this.height = 1.75, // Initialize with default value
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,7 @@ class TextMonserats extends StatelessWidget {
         color: color ?? textColor,
         fontWeight: fontWeight ?? FontWeight.w600,
         fontSize: fontSize ?? 14,
+        height: height,
       ),
       maxLines: maxLine,
       textAlign: textAlign,

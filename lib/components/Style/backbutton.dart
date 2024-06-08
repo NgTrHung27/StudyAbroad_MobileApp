@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BackButtonCircle extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
-  const BackButtonCircle({super.key, required this.onPressed});
+  const BackButtonCircle({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class BackButtonCircle extends StatelessWidget {
       child: Center(
         child: IconButton(
           icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: onPressed,
+          onPressed: onPressed ?? () => Navigator.pop(context),
         ),
       ),
     );
