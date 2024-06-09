@@ -40,11 +40,10 @@ class BottomNavbarState extends State<BottomNavbar> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(25.0),
-      child: Container(
+    return Container(
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(45)),
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top:Radius.circular(45), bottom: Radius.circular(45)),
           boxShadow: [
             BoxShadow(
                 color: Colors.grey,
@@ -69,8 +68,7 @@ class BottomNavbarState extends State<BottomNavbar> {
             height: 80,
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget _buildIcon(String iconData, int index, String label) {

@@ -17,6 +17,7 @@ class UserDetailsPage extends StatelessWidget {
     return BlocBuilder<ThemeSettingCubit, ThemeData>(
       builder: (context, state) {
         double screenWidth = MediaQuery.of(context).size.width;
+        double screenHeight = MediaQuery.of(context).size.height;
 
         return Scaffold(
           backgroundColor: context.select(
@@ -25,36 +26,38 @@ class UserDetailsPage extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.all(screenWidth * 0.15),
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      const TextMonserats('Profile',
-                          fontSize: 22, fontWeight: FontWeight.bold),
-                      const SizedBox(height: 20),
-                      const CirleAvatarImage(
-                          avatarImgPath: 'assets/backgr-01.jpg',
-                          width: 120,
-                          height: 120),
-                      const SizedBox(height: 20),
-                      LegendBox(
-                          title: 'Full name', value: userAuth.name ?? 'N/A'),
-                      const SizedBox(height: 20),
-                      LegendBox(title: 'Email', value: userAuth.email ?? 'N/A'),
-                      const SizedBox(height: 20),
-                      LegendBox(
-                          title: 'ID Student',
-                          value: userAuth.student?.studentCode ?? 'N/A'),
-                      const SizedBox(height: 20),
-                      LegendBox(
-                          title: 'Status',
-                          value: userAuth.student?.status ?? 'N/A'),
-                    ],
+                child: SingleChildScrollView(
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        const TextMonserats('Profile',
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                         SizedBox(height:screenHeight  * 0.02),
+                        const CirleAvatarImage(
+                            avatarImgPath: 'assets/backgr-01.jpg',
+                            width: 120,
+                            height: 120),
+                         SizedBox(height:screenHeight  * 0.02),
+                        LegendBox(
+                            title: 'Full name', value: userAuth.name ?? 'N/A', isEditable: true),
+                         SizedBox(height:screenHeight  * 0.02),
+                        LegendBox(title: 'Email', value: userAuth.email ?? 'N/A'),
+                        SizedBox(height:screenHeight  * 0.02),
+                        LegendBox(
+                            title: 'ID Student',
+                            value: userAuth.student?.school?.name ?? 'N/A'),
+                        SizedBox(height:screenHeight  * 0.02),
+                        LegendBox(
+                            title: 'Status',
+                            value: userAuth.student?.program?.program?.name ?? 'N/A'),
+                      ],
+                    ),
                   ),
                 ),
               ),
               Positioned(
-                top: 10.0,
+                top: screenWidth * 0.13,
                 left: 10.0,
                 child: BackButtonCircle(onPressed: () {
                   Navigator.pop(context);

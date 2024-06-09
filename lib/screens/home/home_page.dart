@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-            child: Stack(children: [
+            child: 
               ListView(
                 children: [
                   const HelloAVT(username: 'John Doe'),
@@ -96,13 +96,6 @@ class _HomePageState extends State<HomePage> {
                       fontSize: 20, fontWeight: FontWeight.w700),
                 ],
               ),
-              const Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: MainNavBar(),
-              ),
-            ]),
           );
         },
       ),
