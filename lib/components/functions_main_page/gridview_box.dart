@@ -8,6 +8,7 @@ class BoxGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    double screenHeight = MediaQuery.of(context).size.height;
     final actionS1 = localizations != null
         ? localizations.home_action_orange_Score1
         : 'Default Text';
@@ -27,14 +28,24 @@ class BoxGridView extends StatelessWidget {
         ? localizations.home_action_blue_Comments2
         : 'Default Text';
 
+    int crossAxisCount =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3;
+    double childAspectRatio =
+        MediaQuery.of(context).orientation == Orientation.portrait
+            ?  1.2
+            : 1.4;
+
     return SizedBox(
-      height: 330,
+      height: MediaQuery.of(context).orientation == Orientation.portrait
+          ? 330
+          : 220, // Điều chỉnh chiều cao khi thiết bị xoay
+
       child: GridView.count(
         physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: 2,
+        crossAxisCount: crossAxisCount,
         crossAxisSpacing: 17,
         mainAxisSpacing: 17,
-        childAspectRatio: 1.2,
+        childAspectRatio: childAspectRatio,
         children: [
           BoxGradient(
             color1: const Color(0xffFF9736),
