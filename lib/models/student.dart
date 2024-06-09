@@ -1,63 +1,77 @@
 class Student {
-  String? id;
-  String? studentCode;
-  String? degreeType;
-  String? certificateType;
-  String? certificateImg;
-  String? gradeType;
-  double? gradeScore;
-  String? status;
-  String? accountId;
-  String? schoolId;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  School? school;
+  ProgramWrapper? program;
 
   Student({
-    this.id,
-    this.studentCode,
-    this.degreeType,
-    this.certificateType,
-    this.certificateImg,
-    this.gradeType,
-    this.gradeScore,
-    this.status,
-    this.accountId,
-    this.schoolId,
-    this.createdAt,
-    this.updatedAt,
+    this.school,
+    this.program,
   });
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
-      id: json['id'],
-      studentCode: json['studentCode'],
-      degreeType: json['degreeType'],
-      certificateType: json['certificateType'],
-      certificateImg: json['certificateImg'],
-      gradeType: json['gradeType'],
-      gradeScore: json['gradeScore']?.toDouble(),
-      status: json['status'],
-      accountId: json['accountId'],
-      schoolId: json['schoolId'],
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+      school: json['school'] != null ? School.fromJson(json['school']) : null,
+      program: json['program'] != null ? ProgramWrapper.fromJson(json['program']) : null,
     );
   }
-  
+
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'studentCode': studentCode,
-      'degreeType': degreeType,
-      'certificateType': certificateType,
-      'certificateImg': certificateImg,
-      'gradeType': gradeType,
-      'gradeScore': gradeScore,
-      'status': status,
-      'accountId': accountId,
-      'schoolId': schoolId,
-      'createdAt': createdAt?.toIso8601String(),
-      'updatedAt': updatedAt?.toIso8601String(),
+      'school': school?.toJson(),
+      'program': program?.toJson(),
+    };
+  }
+}
+
+class School {
+  String? name;
+
+  School({this.name});
+
+  factory School.fromJson(Map<String, dynamic> json) {
+    return School(
+      name: json['name'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
+  }
+}
+
+class ProgramWrapper {
+  Program? program;
+
+  ProgramWrapper({this.program});
+
+  factory ProgramWrapper.fromJson(Map<String, dynamic> json) {
+    return ProgramWrapper(
+      program: json['program'] != null ? Program.fromJson(json['program']) : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'program': program?.toJson(),
+    };
+  }
+}
+
+class Program {
+  String? name;
+
+  Program({this.name});
+
+  factory Program.fromJson(Map<String, dynamic> json) {
+    return Program(
+      name: json['name'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
     };
   }
 }

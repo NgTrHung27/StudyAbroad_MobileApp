@@ -8,6 +8,7 @@ import 'package:kltn_mobile/screens/home/contact_us.dart';
 import 'package:kltn_mobile/screens/home/home_page.dart';
 
 import 'package:kltn_mobile/screens/home/splash.dart';
+import 'package:kltn_mobile/screens/mainpage/mainpage.dart';
 import 'package:kltn_mobile/screens/news/news_page.dart';
 import 'package:kltn_mobile/screens/profiles/user.dart';
 import 'package:kltn_mobile/screens/profiles/user_detail.dart';
@@ -43,6 +44,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const NotificationsPage());
       case '/contactus':
         return MaterialPageRoute(builder: (_) => const ContactUs());
+      case '/mainpage':
+        return MaterialPageRoute(builder: (_) => const MainPage());
       default:
         return MaterialPageRoute(builder: (_) => const HomePage());
     }
