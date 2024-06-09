@@ -22,8 +22,6 @@ class BoxGradient extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 170,
-        height: 130,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -48,8 +46,8 @@ class BoxGradient extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                  top: 15, bottom: 0, left: 15, right: 0),
+              padding:
+                  const EdgeInsets.only(top: 10, bottom: 0, left: 15, right: 0),
               child: Row(
                 children: [
                   Column(
@@ -62,8 +60,8 @@ class BoxGradient extends StatelessWidget {
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
+                      Transform.translate(
+                        offset: const Offset(0, -8),
                         child: TextMonserats(bigText,
                             fontSize: 24,
                             color: Colors.white,
@@ -75,19 +73,18 @@ class BoxGradient extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 0, bottom: 5, left: 15, right: 15),
+            Transform.translate(
+              offset: const Offset(-15, -10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Image(
                     image: image,
-                    width: 65,
+                    width: 68,
                   )
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
