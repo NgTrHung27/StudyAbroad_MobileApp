@@ -8,7 +8,6 @@ class BoxGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    double screenHeight = MediaQuery.of(context).size.height;
     final actionS1 = localizations != null
         ? localizations.home_action_orange_Score1
         : 'Default Text';
