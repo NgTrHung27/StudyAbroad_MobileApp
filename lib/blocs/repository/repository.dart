@@ -9,7 +9,6 @@ import 'package:kltn_mobile/models/user_forgot.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/models/user_register.dart';
 
-
 class APIRepository {
   http.Client get httpClient => http.Client();
   Future<UserAuthRegister?> register(
@@ -226,13 +225,16 @@ class APIRepository {
         print('API News Response: $data'); // Add this line
         List<NewsList> news = [];
         for (var item in data) {
-          // Tạo một đối tượng School từ JSON
-          NewsList newss = NewsList.fromJson(item);
-          // Thêm đối tượng School vào danh sách schools
-          news.add(newss);
+          try {
+            NewsList newss = NewsList.fromJson(item);
+            news.add(newss);
+          } catch (e) {
+            print('Error processing item: $e');
+          }
         }
         return news;
       } else {
+        print("Failed to login: ${response.statusCode}");
         throw Exception('Failed to load news');
       }
     } catch (e) {
