@@ -23,16 +23,14 @@ class BoxGridView extends StatelessWidget {
     final actionComments1 = localizations != null
         ? localizations.home_action_blue_Comments1
         : 'Default Text';
-    final actionComments2 = localizations != null
+    final actionComments2 = localizations != null 
         ? localizations.home_action_blue_Comments2
         : 'Default Text';
 
     int crossAxisCount =
         MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3;
     double childAspectRatio =
-        MediaQuery.of(context).orientation == Orientation.portrait
-            ?  1.2
-            : 1.4;
+        MediaQuery.of(context).orientation == Orientation.portrait ? 1.2 : 1.4;
 
     return SizedBox(
       height: MediaQuery.of(context).orientation == Orientation.portrait
@@ -72,7 +70,7 @@ class BoxGridView extends StatelessWidget {
             smallText: actionComments1,
             bigText: actionComments2,
             onTap: () {
-              Navigator.pushNamed(context, "/news");
+              Navigator.pushNamed(context, "/contactus");
             },
             image: const AssetImage('assets/3d-contact.png'),
           ),

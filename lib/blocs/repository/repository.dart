@@ -166,6 +166,14 @@ class APIRepository {
     }
   }
 
+  Future<List<String>> fetchUniqueCountries() async {
+    final response = await httpClient.get(
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/schools'));
+    final schools = schoolsFromJson(response.body);
+    final countries = schools.map((school) => school.country).toSet().toList();
+    return countries;
+  }
+
   Future<UserForgotpass?> forgotPass(String email) async {
     try {
       final response = await httpClient.post(
