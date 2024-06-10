@@ -12,6 +12,7 @@ import 'package:kltn_mobile/components/functions_main_page/carousel_loading.dart
 import 'package:kltn_mobile/components/functions_main_page/carousel_slider_data_found.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:kltn_mobile/screens/schools/schools_countries_main_.dart';
 
 class HomePage extends BasePage {
   const HomePage({super.key});
@@ -84,11 +85,9 @@ class _HomePageState extends State<HomePage> {
                     fontWeight: FontWeight.w700,
                     color: textColorRed,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 200,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                    ),
+                    child: CountrySchoolList(schools: [],),
                   ),
                   const SizedBox(height: 5),
                   TextMonserats(homeNewListText,
