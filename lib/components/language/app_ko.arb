@@ -27,6 +27,7 @@
   "logout_2": "오늘 계정을 관리하려면 계정을 만드세요",
   "logout_3_signup": "가입하기",
   "logout_4_signin": "이미 계정이 있으신가요? 로그인",
+  "logout_5_home": "홈",
   "register_1": "계정 만들기",
   "register_2": "오늘 계정을 관리하기 위해 계정을 만드세요",
   "register_3": "계정",

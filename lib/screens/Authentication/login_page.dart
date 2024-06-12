@@ -43,6 +43,10 @@ class _LoginPageState extends BasePageState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    //size
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    //language
     final localizations = AppLocalizations.of(context);
     final welcome =
         localizations != null ? localizations.login_welcome : 'Default Text';
@@ -63,7 +67,6 @@ class _LoginPageState extends BasePageState<LoginPage> {
         localizations != null ? localizations.login_forgot : 'Default Text';
     final notAccout =
         localizations != null ? localizations.login_donot : 'Default Text';
-    final screenHeight = MediaQuery.of(context).size.height;
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColor = isDarkMode ? Colors.white : Colors.black;
@@ -73,8 +76,8 @@ class _LoginPageState extends BasePageState<LoginPage> {
           image: DecorationImage(
               image: AssetImage(context.watch<ThemeSettingCubit>().state ==
                       AppTheme.blackTheme
-                  ? "assets/Bckgr_Login_Dark.png"
-                  : "assets/Bckgr_Login.jpg"),
+                  ? "assets/backgrounds/bckgr_login_dark.jpg"
+                  : "assets/backgrounds/bckgr_login.jpg"),
               fit: BoxFit.cover)),
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -107,7 +110,8 @@ class _LoginPageState extends BasePageState<LoginPage> {
                 builder: (context, state) {
                   return Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: 20, vertical: screenHeight * 0.05),
+                        horizontal: screenWidth * 0.05,
+                        vertical: screenHeight * 0.05),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -118,23 +122,19 @@ class _LoginPageState extends BasePageState<LoginPage> {
                               Navigator.pushNamed(context, '/logout');
                             }),
                             //Logo
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.20),
+                            SizedBox(width: screenWidth * 0.20),
                             Image.asset(
                               context.watch<ThemeSettingCubit>().state ==
                                       AppTheme.blackTheme
-                                  ? "assets/LOGO_WHITE.png"
-                                  : "assets/LOGO_RED.png",
+                                  ? "assets/logo/logo_white.png"
+                                  : "assets/logo/logo_red.png",
                               height: 80,
                             ),
-                            SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.25),
+                            SizedBox(width: screenWidth * 0.25),
                             Container(width: 35)
                           ],
                         ),
-                        const SizedBox(height: 30),
+                        SizedBox(height: screenHeight * 0.04),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: TextMonserats(
@@ -143,7 +143,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                             color: textColorRed,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: screenHeight * 0.008),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: TextMonserats(
@@ -153,7 +153,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                           ),
                         ),
                         //Email TextFied
-                        const SizedBox(height: 30),
+                        SizedBox(height: screenHeight * 0.04),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -172,7 +172,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                           ],
                         ),
                         //Pass TextFied
-                        const SizedBox(height: 3),
+                        SizedBox(height: screenHeight * 0.001),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -220,7 +220,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                         ),
 
                         //Login Button
-                        const SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.04),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -230,7 +230,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: screenHeight * 0.03),
                         //Forgot Password
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -248,7 +248,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                           ],
                         ),
 
-                        const SizedBox(height: 110),
+                        SizedBox(height: screenHeight * 0.25),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

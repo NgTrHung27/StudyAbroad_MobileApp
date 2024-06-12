@@ -54,8 +54,8 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
           image: DecorationImage(
             image: AssetImage(
                 context.watch<ThemeSettingCubit>().state == AppTheme.blackTheme
-                    ? 'assets/FORGOTPASS_Background_Dark.png'
-                    : 'assets/FORGOT PASSWORD 6.jpg'),
+                    ? 'assets/backgrounds/bckgr_fgpass_dark.jpg'
+                    : 'assets/backgrounds/bckgr_fgpass.jpg'),
             fit: BoxFit.cover,
           ),
         ),

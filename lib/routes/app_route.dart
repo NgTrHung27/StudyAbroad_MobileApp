@@ -19,7 +19,7 @@ class AppRoute {
   static Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       case '/splash':
         return MaterialPageRoute(builder: (_) => const SplashScreen());
       case '/home':

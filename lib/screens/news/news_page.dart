@@ -46,7 +46,7 @@ class _NewsPageState extends BasePageState<NewsPage> {
                       },
                     ),
                     const CirleAvatarImage(
-                        avatarImgPath: 'assets/backgr-01.jpg'),
+                        avatarImgPath: 'assets/backgrounds/backgr_logout.jpg'),
                   ],
                 ),
               ),

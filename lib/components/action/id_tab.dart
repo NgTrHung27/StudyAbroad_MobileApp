@@ -14,7 +14,8 @@ class IdTab extends StatefulWidget {
     super.key,
     required this.userName,
     required this.idUser,
-    this.avatarImgPath = 'assets/backgr-01.jpg', // Optional default image
+    this.avatarImgPath =
+        'assets/backgrounds/backgr_logout.jpg', // Optional default image
   });
 
   @override
@@ -56,9 +57,11 @@ class _IdTabState extends State<IdTab> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: (widget.avatarImgPath != 'assets/backgr-01.jpg')
+                  image: (widget.avatarImgPath !=
+                          'assets/backgrounds/backgr_logout.jpg')
                       ? AssetImage(widget.avatarImgPath)
-                      : const AssetImage('assets/backgr-01.jpg'),
+                      : const AssetImage(
+                          'assets/backgrounds/backgr_logout.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),

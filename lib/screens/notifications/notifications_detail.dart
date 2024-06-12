@@ -18,27 +18,28 @@ class NotificationDetailPage extends StatelessWidget {
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    return  Scaffold(
+    return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.07, vertical: screenHeight * 0.05),
+        padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.07, vertical: screenHeight * 0.05),
         child: Column(
           children: [
             const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:[
-                BackButtonCircle(),
-                CirleAvatarImage(avatarImgPath: 'assets/backgr-01.jpg'),                
-              ]
-            ),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BackButtonCircle(),
+                  CirleAvatarImage(
+                      avatarImgPath: 'assets/backgrounds/backgr_logout.jpg'),
+                ]),
             SizedBox(
               height: screenHeight * 0.05,
             ),
             ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Container(
-                color: isDarkMode ? const Color(0xff3F3F46) : Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.all(screenWidth * 0.05),
+                  color: isDarkMode ? const Color(0xff3F3F46) : Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.all(screenWidth * 0.05),
                     child: Column(
                       children: [
                         Row(
@@ -46,7 +47,9 @@ class NotificationDetailPage extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: 30,
-                              backgroundImage: NetworkImage(notification.schoolAvt ?? 'assets/backgr-01.jpg'),
+                              backgroundImage: NetworkImage(
+                                  notification.schoolAvt ??
+                                      'assets/backgrounds/backgr_logout.jpg'),
                             ),
                             SizedBox(
                               width: screenWidth * 0.05,
@@ -56,14 +59,17 @@ class NotificationDetailPage extends StatelessWidget {
                               children: [
                                 TextMonserats(
                                   notification.schoolName ?? '',
-                                  color: isDarkMode ? Colors.white : AppColor.redButton,
-                                  fontSize: screenWidth*0.04,
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : AppColor.redButton,
+                                  fontSize: screenWidth * 0.04,
                                   fontWeight: FontWeight.w600,
                                 ),
                                 TextMonserats(
                                   notification.time ?? '',
-                                    color: isDarkMode ? Colors.white : Colors.black,
-                                    fontSize: screenWidth*0.03,
+                                  color:
+                                      isDarkMode ? Colors.white : Colors.black,
+                                  fontSize: screenWidth * 0.03,
                                 ),
                               ],
                             ),
@@ -79,26 +85,25 @@ class NotificationDetailPage extends StatelessWidget {
                               ),
                               TextMonserats(
                                 notification.notiTitle ?? '',
-                                  color: isDarkMode ? Colors.white : Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
+                                color: isDarkMode ? Colors.white : Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
                               ),
                               SizedBox(
                                 height: screenHeight * 0.01,
                               ),
                               TextMonserats(
                                 notification.notiContent ?? '',
-                                  color: isDarkMode ? Colors.white : Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                color: isDarkMode ? Colors.white : Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ],
                           ),
                         )
-                    ],
-                  ),
-                )
-              ),
+                      ],
+                    ),
+                  )),
             ),
           ],
         ),

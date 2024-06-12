@@ -27,6 +27,7 @@
   "logout_2": "Create account to manage your account today",
   "logout_3_signup": "Sign Up",
   "logout_4_signin": "Already have an account? Sign in",
+  "logout_5_home": "Home",
   "register_1": "Create an account",
   "register_2": "Create an account to mange your account today",
   "register_3": "Account",
@@ -85,8 +86,4 @@
   "nav_profile": "Profile",
   "noti": "Notifications",
   "noti_1": "Please Sign in to continue using this service"
-  
-
-
-   
 }
