@@ -6,9 +6,9 @@ class CirleAvatarImage extends StatelessWidget {
   final double height;
 
   const CirleAvatarImage({
-    super.key, 
-    required this.avatarImgPath, 
-    this.width = 50.0, 
+    super.key,
+    required this.avatarImgPath,
+    this.width = 50.0,
     this.height = 50.0,
   });
 
@@ -20,9 +20,9 @@ class CirleAvatarImage extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
-          image: (avatarImgPath != 'assets/backgr-01.jpg')
+          image: (avatarImgPath != 'assets/backgrounds/backgr_logout.jpg')
               ? AssetImage(avatarImgPath)
-              : const AssetImage('assets/backgr-01.jpg'),
+              : const AssetImage('assets/backgrounds/backgr_logout.jpg'),
           fit: BoxFit.cover,
         ),
       ),

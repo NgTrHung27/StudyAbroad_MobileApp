@@ -12,6 +12,7 @@ import 'package:kltn_mobile/blocs/auth_cubit_bloc/auth_state.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/functions/convert_imagetostring.dart';
+import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/models/country.dart';
 import 'package:kltn_mobile/models/enum.dart';
 import 'package:kltn_mobile/models/schools.dart';
@@ -1105,6 +1106,8 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
 //BuildContext
   @override
   Widget build(BuildContext context) {
+    //size
+    final screenWidth = MediaQuery.of(context).size.width;
     //Language
     final localizations = AppLocalizations.of(context);
     final register1 =
@@ -1282,18 +1285,29 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
           backgroundColor: context.select(
               (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
           body: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.03, vertical: screenWidth * 0.04),
             child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 40),
-                  TextMonserats(
-                    register1,
-                    color: AppColor.redButton,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BackButtonCircle(onPressed: () {
+                        Navigator.pushNamed(context, '/logout');
+                      }),
+                      SizedBox(width: screenWidth * 0.20),
+                      TextMonserats(
+                        register1,
+                        color: AppColor.redButton,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                      ),
+                      SizedBox(width: screenWidth * 0.20),
+                      Container(width: 30)
+                    ],
                   ),
                   const SizedBox(height: 5),
                   TextMonserats(
@@ -1309,7 +1323,8 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
                                   cubit.state.scaffoldBackgroundColor),
                           colorScheme: Theme.of(context).colorScheme.copyWith(
                               onSurface: Colors.transparent,
-                              primary: AppColor.redButton)),
+                              primary: AppColor.redButton,
+                              secondary: AppColor.redButton)),
                       child: Stepper(
                         physics: const ClampingScrollPhysics(),
                         type: StepperType.horizontal,

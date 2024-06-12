@@ -63,7 +63,7 @@ class BoxGradient extends StatelessWidget {
                       Transform.translate(
                         offset: const Offset(0, -8),
                         child: TextMonserats(bigText,
-                            fontSize: 24,
+                            fontSize: 22,
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                             maxLine: 2),

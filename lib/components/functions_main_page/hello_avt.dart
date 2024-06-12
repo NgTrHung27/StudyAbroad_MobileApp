@@ -31,15 +31,21 @@ class HelloAVT extends StatelessWidget {
               fontWeight: FontWeight.w600,
               color: Colors.grey,
             ),
-            TextMonserats(
-              username,
-              fontSize: 23,
-              fontWeight: FontWeight.w700,
-              color: textColorRed,
+            Transform.translate(
+              offset: const Offset(0, -5),
+              child: TextMonserats(
+                username,
+                fontSize: 23,
+                fontWeight: FontWeight.w700,
+                color: textColorRed,
+              ),
             ),
           ],
         ),
-        const CirleAvatarImage(avatarImgPath: 'assets/backgr-01.jpg'),
+        Transform.translate(
+            offset: const Offset(-5, -5),
+            child: const CirleAvatarImage(
+                avatarImgPath: 'assets/backgrounds/backgr_logout.jpg')),
       ],
     );
   }

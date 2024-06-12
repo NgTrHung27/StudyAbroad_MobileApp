@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     final localizations = AppLocalizations.of(context);
     final hintText =
         localizations != null ? localizations.home_search : 'Default Text';
@@ -39,7 +40,6 @@ class _HomePageState extends State<HomePage> {
         localizations != null ? localizations.home_exlore : 'Default Text';
     final homeNewListText =
         localizations != null ? localizations.home_NewList : 'Default Text';
-    
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColorRed = isDarkMode ? Colors.white : AppColor.redButton;
@@ -50,50 +50,51 @@ class _HomePageState extends State<HomePage> {
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
-            child: 
-              ListView(
-                children: [
-                  const HelloAVT(username: 'John Doe'),
-                  const SizedBox(height: 20),
-                  NewsSearchTextField(hintText: hintText),
-                  const SizedBox(height: 15),
-                  BlocBuilder<CarouselBloc, CarouselState>(
-                    builder: (context, state) {
-                      if (state is CarouselLoading) {
-                        return const CarouselLoadingCustom();
-                      } else if (state is CarouselLoaded) {
-                        return CarouselSliderDataFound(state.carousels);
-                      } else if (state is CarouselError) {
-                        return Center(child: Text(state.message));
-                      } else {
-                        return Container();
-                      }
-                    },
+            child: ListView(
+              children: [
+                const HelloAVT(username: 'John Doe'),
+                SizedBox(height: screenHeight * 0.01),
+                NewsSearchTextField(hintText: hintText),
+                SizedBox(height: screenHeight * 0.02),
+                BlocBuilder<CarouselBloc, CarouselState>(
+                  builder: (context, state) {
+                    if (state is CarouselLoading) {
+                      return const CarouselLoadingCustom();
+                    } else if (state is CarouselLoaded) {
+                      return CarouselSliderDataFound(state.carousels);
+                    } else if (state is CarouselError) {
+                      return Center(child: Text(state.message));
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+                TextMonserats(
+                  homeActionText,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: textColorRed,
+                ),
+                SizedBox(height: screenHeight * 0.01),
+                const BoxGridView(),
+                const SizedBox(height: 5),
+                TextMonserats(
+                  homeExploreText,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: textColorRed,
+                ),
+                const SizedBox(
+                  height: 200,
+                  child: CountrySchoolList(
+                    schools: [],
                   ),
-                  TextMonserats(
-                    homeActionText,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: textColorRed,
-                  ),
-                  const SizedBox(height: 10),
-                  const BoxGridView(),
-                  const SizedBox(height: 5),
-                  TextMonserats(
-                    homeExploreText,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: textColorRed,
-                  ),
-                  const SizedBox(
-                    height: 200,
-                    child: CountrySchoolList(schools: [],),
-                  ),
-                  const SizedBox(height: 5),
-                  TextMonserats(homeNewListText,
-                      fontSize: 20, fontWeight: FontWeight.w700),
-                ],
-              ),
+                ),
+                SizedBox(height: screenHeight * 0.01),
+                TextMonserats(homeNewListText,
+                    fontSize: 20, fontWeight: FontWeight.w700),
+              ],
+            ),
           );
         },
       ),

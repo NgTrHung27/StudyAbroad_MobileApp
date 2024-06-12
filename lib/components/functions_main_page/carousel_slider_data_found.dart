@@ -62,10 +62,17 @@ class _CarouselSliderDataFoundState extends State<CarouselSliderDataFound> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidget = MediaQuery.of(context).size.width;
+    double orientationSizeHor =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 0.7;
+    final screenHeight = MediaQuery.of(context).size.height;
+    double orientationSizeVer =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 0.25 : 0.5;
     return Column(
       children: [
         SizedBox(
-          height: 200,
+          width: screenWidget * orientationSizeHor,
+          height: screenHeight * orientationSizeVer,
           child: CarouselSlider(
               items: imageSlider,
               options: CarouselOptions(

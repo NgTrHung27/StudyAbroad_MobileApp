@@ -23,15 +23,15 @@ class BoxGridView extends StatelessWidget {
     final actionComments1 = localizations != null
         ? localizations.home_action_blue_Comments1
         : 'Default Text';
-    final actionComments2 = localizations != null 
+    final actionComments2 = localizations != null
         ? localizations.home_action_blue_Comments2
         : 'Default Text';
 
     int crossAxisCount =
         MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3;
     double childAspectRatio =
-        MediaQuery.of(context).orientation == Orientation.portrait ? 1.2 : 1.4;
-
+        MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 1.4;
+    double height= MediaQuery.of(context).size.height;
     return SizedBox(
       height: MediaQuery.of(context).orientation == Orientation.portrait
           ? 330
@@ -42,7 +42,7 @@ class BoxGridView extends StatelessWidget {
         crossAxisCount: crossAxisCount,
         crossAxisSpacing: 17,
         mainAxisSpacing: 17,
-        childAspectRatio: childAspectRatio,
+        childAspectRatio: height * childAspectRatio / 755,
         children: [
           BoxGradient(
             color1: const Color(0xffFF9736),
@@ -52,7 +52,7 @@ class BoxGridView extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, "/news");
             },
-            image: const AssetImage('assets/medal.png'),
+            image: const AssetImage('assets/icons_3d/icon_3d_medal.png'),
           ),
           BoxGradient(
             color1: const Color(0xff86E0D0),
@@ -62,7 +62,7 @@ class BoxGridView extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, "/news");
             },
-            image: const AssetImage('assets/newspaper.png'),
+            image: const AssetImage('assets/icons_3d/icon_3d_newspaper.png'),
           ),
           BoxGradient(
             color1: const Color(0xff80E8FF),
@@ -72,7 +72,7 @@ class BoxGridView extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(context, "/contactus");
             },
-            image: const AssetImage('assets/3d-contact.png'),
+            image: const AssetImage('assets/icons_3d/icon_3d_contact.png'),
           ),
         ],
       ),

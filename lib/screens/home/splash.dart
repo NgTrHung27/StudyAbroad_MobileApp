@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen>
                         1 + (value / 80), // Adjust the scale factor as needed
                     child: Transform.translate(
                       offset: Offset(0, value),
-                      child: Image.asset('assets/LOGO_RED.png', width: 100),
+                      child: Image.asset('assets/logo/logo_red.png', width: 100),
                     ),
                   );
                 },

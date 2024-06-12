@@ -33,24 +33,29 @@ class UserDetailsPage extends StatelessWidget {
                       children: <Widget>[
                         const TextMonserats('Profile',
                             fontSize: 22, fontWeight: FontWeight.bold),
-                         SizedBox(height:screenHeight  * 0.02),
+                        SizedBox(height: screenHeight * 0.02),
                         const CirleAvatarImage(
-                            avatarImgPath: 'assets/backgr-01.jpg',
+                            avatarImgPath:
+                                'assets/backgrounds/backgr_logout.jpg',
                             width: 120,
                             height: 120),
-                         SizedBox(height:screenHeight  * 0.02),
+                        SizedBox(height: screenHeight * 0.02),
                         LegendBox(
-                            title: 'Full name', value: userAuth.name ?? 'N/A', isEditable: true),
-                         SizedBox(height:screenHeight  * 0.02),
-                        LegendBox(title: 'Email', value: userAuth.email ?? 'N/A'),
-                        SizedBox(height:screenHeight  * 0.02),
+                            title: 'Full name',
+                            value: userAuth.name ?? 'N/A',
+                            isEditable: true),
+                        SizedBox(height: screenHeight * 0.02),
+                        LegendBox(
+                            title: 'Email', value: userAuth.email ?? 'N/A'),
+                        SizedBox(height: screenHeight * 0.02),
                         LegendBox(
                             title: 'ID Student',
                             value: userAuth.student?.school?.name ?? 'N/A'),
-                        SizedBox(height:screenHeight  * 0.02),
+                        SizedBox(height: screenHeight * 0.02),
                         LegendBox(
                             title: 'Status',
-                            value: userAuth.student?.program?.program?.name ?? 'N/A'),
+                            value: userAuth.student?.program?.program?.name ??
+                                'N/A'),
                       ],
                     ),
                   ),

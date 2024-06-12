@@ -106,7 +106,7 @@ class _UserProfileState extends State<UserProfile> {
                       IdTab(
                         userName: hello,
                         idUser: 'N/A',
-                        avatarImgPath: 'assets/Bckgr_Login.jpg',
+                        avatarImgPath: 'assets/backgrounds/bckgr_login.jpg',
                       ),
                     ], // parameters userName+idUser and avatarUser
                   ),
