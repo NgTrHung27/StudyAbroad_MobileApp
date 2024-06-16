@@ -4,8 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../home/home_page.dart';
 import '../notifications/notifications_page.dart';
-import '../profiles/user.dart';
-
+import '../profiles/profile.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -20,7 +19,7 @@ class MainPageState extends State<MainPage> {
   final List<Widget> _children = [
     const HomePage(),
     const NotificationsPage(),
-    const UserProfile(),
+    const Profile(),
   ];
 
   void onTabTapped(int index) {
@@ -32,9 +31,12 @@ class MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    final home = localizations != null ? localizations.nav_home : 'Default Text';
-    final noti = localizations != null ? localizations.nav_noti : 'Default Text';
-    final profile = localizations != null ? localizations.nav_profile : 'Default Text';
+    final home =
+        localizations != null ? localizations.nav_home : 'Default Text';
+    final noti =
+        localizations != null ? localizations.nav_noti : 'Default Text';
+    final profile =
+        localizations != null ? localizations.nav_profile : 'Default Text';
 
     return Scaffold(
       body: Stack(

@@ -104,7 +104,7 @@ class APIRepository {
 
       final data =
           jsonDecode(utf8.decode(response.bodyBytes)); // Define data here
-
+      
       if (response.statusCode == 200) {
         log('data: $data');
         return UserAuthLogin.fromJson(data);

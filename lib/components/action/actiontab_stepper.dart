@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/blocs/profile_status_cubit_bloc/profile_status_cubit.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
+import 'package:kltn_mobile/components/constant/theme.dart';
 
 class ActionTabStepper extends StatelessWidget {
   final String header; // parameter header
@@ -18,6 +20,15 @@ class ActionTabStepper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final backgroundColor = context.select(
+      (ThemeSettingCubit cubit) => cubit.state == AppTheme.blackTheme
+          ? AppColor.backgrTabDark
+          : AppColor.backgrTabLight,
+    );
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColorRed = isDarkMode ? Colors.white : AppColor.redButton;
+
     final screenWidth = MediaQuery.of(context).size.width;
     return BlocBuilder<ProfileStatusCubit, ProfileStatusState>(
       builder: (context, state) {
@@ -30,7 +41,7 @@ class ActionTabStepper extends StatelessWidget {
           child: Container(
             width: screenWidth * 0.9,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: backgroundColor,
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
@@ -54,7 +65,7 @@ class ActionTabStepper extends StatelessWidget {
                     header,
                     style: GoogleFonts.montserrat(
                       fontSize: 17,
-                      color: AppColor.redButton,
+                      color: textColorRed,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -83,7 +94,7 @@ class ActionTabStepper extends StatelessWidget {
                                 style: GoogleFonts.montserrat(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15,
-                                  color: AppColor.redButton,
+                                  color: textColorRed,
                                 ),
                               ),
                               content: Container(),

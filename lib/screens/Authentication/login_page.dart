@@ -29,7 +29,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
   //Text Editing Controller
   final usermailController = TextEditingController();
   final passwordController = TextEditingController();
-  int selectedValue = 0; // Define the selectedValue variable
+  int selectedValue = 0;
   //LoginUser in Method API
   void userLogin(BuildContext context) {
     // Lấy giá trị email và password từ các TextField
@@ -91,8 +91,8 @@ class _LoginPageState extends BasePageState<LoginPage> {
               setState(() {
                 errorMessage = state.error;
               });
-            } else if (state is LoginSuccess) {
-              Navigator.pushNamed(context, 'userdetail',
+            } else if (state is LoginSuccess) {            
+              Navigator.pushNamed(context, '/home',
                   arguments: state.userAuthLogin);
             } else if (state is EmailError) {
               setState(() {

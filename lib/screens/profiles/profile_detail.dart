@@ -5,20 +5,23 @@ import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/components/functions/profile_userdetailbox.dart';
-import 'package:kltn_mobile/models/user_login.dart';
+import 'package:kltn_mobile/screens/home/base_lang.dart';
 
-class UserDetailsPage extends StatelessWidget {
-  final UserAuthLogin userAuth;
-
-  const UserDetailsPage({super.key, required this.userAuth});
+class ProfileDetail extends BasePage {
+  const ProfileDetail({super.key});
 
   @override
+  State<ProfileDetail> createState() => _UserDetailsPageState();
+}
+
+class _UserDetailsPageState extends BasePageState<ProfileDetail> {
+  @override
   Widget build(BuildContext context) {
+    final userAuth = this.userAuth;
     return BlocBuilder<ThemeSettingCubit, ThemeData>(
       builder: (context, state) {
         double screenWidth = MediaQuery.of(context).size.width;
         double screenHeight = MediaQuery.of(context).size.height;
-
         return Scaffold(
           backgroundColor: context.select(
               (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
@@ -34,27 +37,27 @@ class UserDetailsPage extends StatelessWidget {
                         const TextMonserats('Profile',
                             fontSize: 22, fontWeight: FontWeight.bold),
                         SizedBox(height: screenHeight * 0.02),
-                        const CirleAvatarImage(
-                            avatarImgPath:
-                                'assets/backgrounds/backgr_logout.jpg',
+                        CirleAvatarImage(
+                            avatarImgPath: userAuth?.student.school.logo ??
+                                'assets/logo/logo_red.png',
                             width: 120,
                             height: 120),
                         SizedBox(height: screenHeight * 0.02),
                         LegendBox(
                             title: 'Full name',
-                            value: userAuth.name ?? 'N/A',
+                            value: userAuth?.name ?? 'N/A',
                             isEditable: true),
                         SizedBox(height: screenHeight * 0.02),
                         LegendBox(
-                            title: 'Email', value: userAuth.email ?? 'N/A'),
+                            title: 'Email', value: userAuth?.email ?? 'N/A'),
                         SizedBox(height: screenHeight * 0.02),
                         LegendBox(
                             title: 'ID Student',
-                            value: userAuth.student?.school?.name ?? 'N/A'),
+                            value: userAuth?.student.school.name ?? 'N/A'),
                         SizedBox(height: screenHeight * 0.02),
                         LegendBox(
                             title: 'Status',
-                            value: userAuth.student?.program?.program?.name ??
+                            value: userAuth?.student.program.program.name ??
                                 'N/A'),
                       ],
                     ),

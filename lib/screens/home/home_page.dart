@@ -11,16 +11,20 @@ import 'package:kltn_mobile/components/functions_main_page/hello_avt.dart';
 import 'package:kltn_mobile/components/functions_main_page/carousel_loading.dart';
 import 'package:kltn_mobile/components/functions_main_page/carousel_slider_data_found.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/schools/schools_countries_main_.dart';
 
 class HomePage extends BasePage {
-  const HomePage({super.key});
+
+  const HomePage({super.key, UserAuthLogin? userAuth});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends BasePageState<HomePage> {
+
   @override
   void initState() {
     super.initState();
@@ -30,6 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final userAuth = this.userAuth;
     final screenHeight = MediaQuery.of(context).size.height;
     final localizations = AppLocalizations.of(context);
     final hintText =
@@ -52,7 +57,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
             child: ListView(
               children: [
-                const HelloAVT(username: 'John Doe'),
+                HelloAVT(username: userAuth?.name ?? 'N/A'),
                 SizedBox(height: screenHeight * 0.01),
                 NewsSearchTextField(hintText: hintText),
                 SizedBox(height: screenHeight * 0.02),

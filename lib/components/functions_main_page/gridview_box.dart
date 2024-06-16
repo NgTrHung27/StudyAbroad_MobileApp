@@ -30,12 +30,12 @@ class BoxGridView extends StatelessWidget {
     int crossAxisCount =
         MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3;
     double childAspectRatio =
-        MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 1.4;
-    double height= MediaQuery.of(context).size.height;
+        MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 2.3;
+    double height = MediaQuery.of(context).size.height;
     return SizedBox(
       height: MediaQuery.of(context).orientation == Orientation.portrait
           ? 330
-          : 220, // Điều chỉnh chiều cao khi thiết bị xoay
+          : 330, // Điều chỉnh chiều cao khi thiết bị xoay
 
       child: GridView.count(
         physics: const NeverScrollableScrollPhysics(),
