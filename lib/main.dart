@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,10 +13,14 @@ import 'package:kltn_mobile/blocs/profile_status_cubit_bloc/profile_status_cubit
 import 'package:kltn_mobile/blocs/repository/repository.dart';
 import 'package:kltn_mobile/blocs/schools_cubit/schools_cubit.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/routes/app_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final userAuth = await checkLoginStatus();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -30,13 +36,26 @@ void main() {
         BlocProvider(create: (_) => LanguageBloc()),
         BlocProvider(create: (_) => SchoolsCubit())
       ],
-      child: const MyApp(),
+      child: MyApp(userAuth: userAuth),
     ),
   );
 }
 
+Future<UserAuthLogin?> checkLoginStatus() async {
+  final logindata = await SharedPreferences.getInstance();
+  final userString = logindata.getString('user');
+  if (userString != null) {
+    final user = UserAuthLogin.fromJson(jsonDecode(userString));
+    return user;
+  } else {
+    return null;
+  }
+}
+
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final UserAuthLogin? userAuth;
+
+  const MyApp({super.key, this.userAuth});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +67,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: state,
               themeMode: ThemeMode.system,
-              initialRoute: "/mainpage",
+              initialRoute: "/",
               onGenerateRoute: AppRoute.onGenerateRoute,
               supportedLocales: const [
                 Locale('en'), // English

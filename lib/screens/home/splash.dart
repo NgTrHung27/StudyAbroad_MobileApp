@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
-import 'package:kltn_mobile/screens/home/home_page.dart';
+import 'package:kltn_mobile/screens/mainpage/mainpage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (status == AnimationStatus.completed) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (BuildContext context) => const HomePage(),
+            builder: (BuildContext context) => const MainPage(),
           ),
         );
       }

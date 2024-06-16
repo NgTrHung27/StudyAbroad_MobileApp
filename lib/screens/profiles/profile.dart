@@ -9,20 +9,24 @@ import 'package:kltn_mobile/components/action/id_tab.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/constant/theme.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class UserProfile extends BasePage {
-  const UserProfile({super.key});
+class Profile extends BasePage {
+  const Profile({super.key});
+
   @override
-  State<UserProfile> createState() => _UserProfileState();
+  State<Profile> createState() => _UserProfileState();
 }
 
-class _UserProfileState extends State<UserProfile> {
+class _UserProfileState extends BasePageState<Profile> {
+  bool isChangeColor = false;
+
   @override
   void initState() {
     super.initState();
     _loadIconState();
+    print('Logo URL: ${userAuth?.student.school.logo}'); // Debug URL
   }
 
   Future<void> _loadIconState() async {
@@ -31,7 +35,6 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {});
   }
 
-  bool isChangeColor = false;
   void toggleTheme() {
     context.read<ThemeSettingCubit>().toggleTheme();
     setState(() {
@@ -41,6 +44,7 @@ class _UserProfileState extends State<UserProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final userAuth = this.userAuth;
     final localizations = AppLocalizations.of(context);
     final hello =
         localizations != null ? localizations.home_hello : 'Default Text';
@@ -99,16 +103,20 @@ class _UserProfileState extends State<UserProfile> {
               child: Column(
                 children: [
                   SizedBox(height: screenHeight * 0.08),
-                  //UserID and UserName
+                  // UserID and UserName
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IdTab(
                         userName: hello,
-                        idUser: 'N/A',
-                        avatarImgPath: 'assets/backgrounds/bckgr_login.jpg',
+                        idUser: userAuth?.name ?? 'N/A',
+                        avatarImgUrl: userAuth?.student.school.logo != null
+                            ? userAuth!.student.school.logo
+                            : null, // Sử dụng hình ảnh từ API nếu có
+
+                        avatarImgPath: 'assets/logo/logo_red.png',
                       ),
-                    ], // parameters userName+idUser and avatarUser
+                    ],
                   ),
                   SizedBox(height: screenHeight * 0.03),
                   ActionTab(
@@ -116,9 +124,14 @@ class _UserProfileState extends State<UserProfile> {
                     header: account,
                     colorIcon: colorIcon,
                     functions: [
-                      FunctionItem(name: account1, icon: Icons.person),
+                      FunctionItem(
+                          name: account1,
+                          icon: Icons.person,
+                          onTap: () {
+                            Navigator.pushNamed(context, '/profiledetail');
+                          }),
                       FunctionItem(name: account2, icon: Icons.key),
-                    ], // List of functions
+                    ],
                   ),
                   const SizedBox(height: 20),
                   ActionTab(
@@ -126,13 +139,17 @@ class _UserProfileState extends State<UserProfile> {
                     backgroundColor: backgroundColor,
                     colorIcon: colorIcon,
                     functions: [
-                      FunctionItem(name: status1, icon: Icons.account_circle),
+                      FunctionItem(
+                          name: status1,
+                          icon: Icons.account_circle,
+                          onTap: () {
+                            Navigator.pushNamed(context, '/profilestatus');
+                          }),
                       FunctionItem(name: status2, icon: Icons.school_outlined),
                       FunctionItem(name: status3, icon: Icons.payment),
-                    ], // List of functions
+                    ],
                   ),
                   const SizedBox(height: 20),
-
                   ActionTab(
                     header: setting,
                     backgroundColor: backgroundColor,
@@ -142,7 +159,6 @@ class _UserProfileState extends State<UserProfile> {
                         name: setting1,
                         icon: Icons.language,
                         dropdownCallback: (Locale newValue) {
-                          // Accept the new value
                           switch (newValue.languageCode) {
                             case 'en':
                               context
@@ -163,13 +179,14 @@ class _UserProfileState extends State<UserProfile> {
                         },
                       ),
                       FunctionItem(
-                          name: setting2,
-                          icon: Icons.nightlight_round,
-                          isEnable: true,
-                          switchValue: false),
+                        name: setting2,
+                        icon: Icons.nightlight_round,
+                        isEnable: true,
+                        switchValue: false,
+                      ),
                       FunctionItem(
                           name: setting3, icon: Icons.question_mark_rounded),
-                    ], // List of functions
+                    ],
                   ),
                   const SizedBox(height: 20),
                   SimpleButton(

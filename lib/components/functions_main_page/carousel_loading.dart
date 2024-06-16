@@ -12,14 +12,13 @@ class CarouselLoadingCustom extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
             decoration: const BoxDecoration(
                 color: Colors.grey,
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               child: AspectRatio(
-                aspectRatio: 16 / 9,
+                aspectRatio: 16 / 7.5,
                 child: Container(
                   color: Colors.grey,
                 ),

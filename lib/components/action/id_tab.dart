@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,14 +9,15 @@ import 'package:kltn_mobile/components/constant/theme.dart';
 class IdTab extends StatefulWidget {
   final String userName;
   final String idUser;
-  final String avatarImgPath; // Default avatar image path
+  final String? avatarImgUrl;
+  final String avatarImgPath;
 
   const IdTab({
     super.key,
     required this.userName,
     required this.idUser,
-    this.avatarImgPath =
-        'assets/backgrounds/backgr_logout.jpg', // Optional default image
+    this.avatarImgUrl,
+    required this.avatarImgPath,
   });
 
   @override
@@ -25,6 +27,10 @@ class IdTab extends StatefulWidget {
 class _IdTabState extends State<IdTab> {
   @override
   Widget build(BuildContext context) {
+    final ImageProvider<Object> imageWidget = widget.avatarImgUrl != null
+        ? CachedNetworkImageProvider(widget.avatarImgUrl!)
+            as ImageProvider<Object>
+        : AssetImage(widget.avatarImgPath) as ImageProvider<Object>;
     final screenWidth = MediaQuery.of(context).size.width;
     final isDarkMode =
         context.watch<ThemeSettingCubit>().state == AppTheme.blackTheme;
@@ -57,11 +63,7 @@ class _IdTabState extends State<IdTab> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: (widget.avatarImgPath !=
-                          'assets/backgrounds/backgr_logout.jpg')
-                      ? AssetImage(widget.avatarImgPath)
-                      : const AssetImage(
-                          'assets/backgrounds/backgr_logout.jpg'),
+                  image: imageWidget,
                   fit: BoxFit.cover,
                 ),
               ),

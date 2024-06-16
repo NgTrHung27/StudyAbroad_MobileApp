@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/models/carousel_image.dart';
 
@@ -62,7 +64,12 @@ class _CarouselSliderDataFoundState extends State<CarouselSliderDataFound> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidget = MediaQuery.of(context).size.width;
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final circleBG = isDarkMode ? const Color(0xff616161) : Colors.white;
+    final circleHL = isDarkMode ? Colors.white : const Color(0xff959595);
+
+    final screenWidth = MediaQuery.of(context).size.width;
     double orientationSizeHor =
         MediaQuery.of(context).orientation == Orientation.portrait ? 1 : 0.7;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -71,14 +78,14 @@ class _CarouselSliderDataFoundState extends State<CarouselSliderDataFound> {
     return Column(
       children: [
         SizedBox(
-          width: screenWidget * orientationSizeHor,
+          width: screenWidth * orientationSizeHor,
           height: screenHeight * orientationSizeVer,
           child: CarouselSlider(
               items: imageSlider,
               options: CarouselOptions(
                   autoPlay: true,
                   enlargeCenterPage: true,
-                  aspectRatio: 16 / 9,
+                  aspectRatio: 16 / 7.5,
                   viewportFraction: 1,
                   onPageChanged: (index, reason) {
                     setState(() {
@@ -96,9 +103,7 @@ class _CarouselSliderDataFoundState extends State<CarouselSliderDataFound> {
               margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: _current == index
-                    ? const Color.fromRGBO(0, 0, 0, 0.9)
-                    : const Color.fromRGBO(0, 0, 0, 0.4),
+                color: _current == index ? circleHL : circleBG,
               ),
             );
           }).toList(),

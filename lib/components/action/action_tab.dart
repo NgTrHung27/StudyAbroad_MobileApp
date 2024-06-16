@@ -13,14 +13,16 @@ class FunctionItem {
   final IconData icon;
   final bool isEnable;
   bool switchValue;
-  final void Function(Locale)? dropdownCallback; // Changed type here
+  final void Function(Locale)? dropdownCallback;
+  final Function()? onTap;
 
   FunctionItem({
     required this.name,
     required this.icon,
     this.isEnable = false,
     this.switchValue = false,
-    this.dropdownCallback, // Initialize new field
+    this.dropdownCallback,
+    this.onTap,
   });
 }
 
@@ -82,86 +84,99 @@ class _ActionTabState extends State<ActionTab> {
             children: widget.functions.asMap().entries.map((entry) {
               int idx = entry.key;
               FunctionItem function = entry.value;
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5.0),
-                child: Column(
-                  children: [
-                    Row(
+              return Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: function.onTap,
+                  borderRadius: BorderRadius.circular(20),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5.0),
+                    child: Column(
                       children: [
-                        Icon(function.icon, color: widget.colorIcon, size: 25),
-                        const SizedBox(width: 15),
-                        Expanded(
-                          child: TextMonserats(
-                            function.name,
-                            fontSize: 16,
-                            color: isDarkMode ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
+                        Row(
+                          children: [
+                            Icon(function.icon,
+                                color: widget.colorIcon, size: 25),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: TextMonserats(
+                                function.name,
+                                fontSize: 16,
+                                color: isDarkMode ? Colors.white : Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            if (function.isEnable)
+                              CupertinoSwitch(
+                                value:
+                                    context.watch<ThemeSettingCubit>().state ==
+                                        AppTheme.blackTheme,
+                                onChanged: (value) {
+                                  context
+                                      .read<ThemeSettingCubit>()
+                                      .toggleTheme();
+                                },
+                              ),
+                            if (function.dropdownCallback != null)
+                              BlocBuilder<LanguageBloc, Locale>(
+                                  builder: (context, state) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    border:
+                                        Border.all(color: textcolor, width: 1),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                  ),
+                                  child: SizedBox(
+                                    height: 30,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15.0),
+                                      child: DropdownButton<Locale>(
+                                          value: context
+                                              .watch<LanguageBloc>()
+                                              .state,
+                                          items: const [
+                                            DropdownMenuItem(
+                                                value: Locale('en'),
+                                                child: Text('English')),
+                                            DropdownMenuItem(
+                                                value: Locale('ko'),
+                                                child: Text('Korean')),
+                                            DropdownMenuItem(
+                                                value: Locale('vi'),
+                                                child: Padding(
+                                                  padding:
+                                                      EdgeInsets.only(right: 5),
+                                                  child: Text('Vietnamese'),
+                                                )),
+                                          ],
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              function.dropdownCallback!(value);
+                                            }
+                                          },
+                                          dropdownColor: dropdownColor,
+                                          style: GoogleFonts.montserrat(
+                                            color: textcolor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          underline: Container(),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(15),
+                                          )),
+                                    ),
+                                  ),
+                                );
+                              }),
+                          ],
                         ),
-                        if (function.isEnable)
-                          CupertinoSwitch(
-                            value: context.watch<ThemeSettingCubit>().state ==
-                                AppTheme.blackTheme,
-                            onChanged: (value) {
-                              context.read<ThemeSettingCubit>().toggleTheme();
-                            },
-                          ),
-                        if (function.dropdownCallback != null)
-                          BlocBuilder<LanguageBloc, Locale>(
-                              builder: (context, state) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: textcolor, width: 1),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(30)),
-                              ),
-                              child: SizedBox(
-                                height: 30,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15.0),
-                                  child: DropdownButton<Locale>(
-                                      value:
-                                          context.watch<LanguageBloc>().state,
-                                      items: const [
-                                        DropdownMenuItem(
-                                            value: Locale('en'),
-                                            child: Text('English')),
-                                        DropdownMenuItem(
-                                            value: Locale('ko'),
-                                            child: Text('Korean')),
-                                        DropdownMenuItem(
-                                            value: Locale('vi'),
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(right: 5),
-                                              child: Text('Vietnamese'),
-                                            )),
-                                      ],
-                                      onChanged: (value) {
-                                        if (value != null) {
-                                          function.dropdownCallback!(value);
-                                        }
-                                      },
-                                      dropdownColor: dropdownColor,
-                                      style: GoogleFonts.montserrat(
-                                        color: textcolor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                      underline: Container(),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(15),
-                                      )),
-                                ),
-                              ),
-                            );
-                          }),
+                        if (idx != widget.functions.length - 1)
+                          const SizedBox(height: 12),
                       ],
                     ),
-                    if (idx != widget.functions.length - 1)
-                      const SizedBox(height: 12),
-                  ],
+                  ),
                 ),
               );
             }).toList(),
