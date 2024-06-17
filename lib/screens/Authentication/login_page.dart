@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,8 +92,8 @@ class _LoginPageState extends BasePageState<LoginPage> {
               setState(() {
                 errorMessage = state.error;
               });
-            } else if (state is LoginSuccess) {            
-              Navigator.pushNamed(context, '/home',
+            } else if (state is LoginSuccess) {
+              Navigator.pushNamed(context, '/mainpage',
                   arguments: state.userAuthLogin);
             } else if (state is EmailError) {
               setState(() {

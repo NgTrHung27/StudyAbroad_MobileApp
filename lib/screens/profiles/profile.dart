@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/blocs/auth_cubit_bloc/login_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
@@ -26,7 +27,6 @@ class _UserProfileState extends BasePageState<Profile> {
   void initState() {
     super.initState();
     _loadIconState();
-    print('Logo URL: ${userAuth?.student.school.logo}'); // Debug URL
   }
 
   Future<void> _loadIconState() async {
@@ -40,6 +40,10 @@ class _UserProfileState extends BasePageState<Profile> {
     setState(() {
       isChangeColor = !isChangeColor;
     });
+  }
+
+  void userLogout(BuildContext context) {
+    context.read<LoginCubit>().logout();
   }
 
   @override
@@ -191,6 +195,7 @@ class _UserProfileState extends BasePageState<Profile> {
                   const SizedBox(height: 20),
                   SimpleButton(
                     onPressed: () {
+                      userLogout(context);
                       Navigator.pushNamed(context, '/logout');
                     },
                     child: TextMonserats(logout,
@@ -198,6 +203,7 @@ class _UserProfileState extends BasePageState<Profile> {
                         fontSize: 16,
                         fontWeight: FontWeight.w700),
                   ),
+                  SizedBox(height: screenHeight * 0.2),
                 ],
               ),
             ),

@@ -9,6 +9,7 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileStatus extends BasePage {
   const ProfileStatus({super.key});
@@ -22,6 +23,17 @@ class _ProfileStatusState extends BasePageState<ProfileStatus> {
     final userAuth = this.userAuth;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenwidth = MediaQuery.of(context).size.width;
+    //language
+    final localizations = AppLocalizations.of(context);
+    final pf_status = localizations != null
+        ? localizations.profile_status_ps
+        : 'Default Text';
+    final pf_status1 =
+        localizations != null ? localizations.pfs_step1 : 'Default Text';
+    final pf_status2 =
+        localizations != null ? localizations.pfs_step2 : 'Default Text';
+    final pf_status3 =
+        localizations != null ? localizations.pfs_step3 : 'Default Text';
     //Theme
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
@@ -49,7 +61,7 @@ class _ProfileStatusState extends BasePageState<ProfileStatus> {
                               Navigator.pop(context);
                             }),
                             TextMonserats(
-                              'Profile Status',
+                              pf_status,
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: textColorRed,
@@ -68,8 +80,10 @@ class _ProfileStatusState extends BasePageState<ProfileStatus> {
                           IdTab(
                             userName: userAuth?.name ?? 'N/A',
                             idUser: '',
-                            avatarImgPath: userAuth?.student.school.logo ??
-                                'assets/logo/logo_red.png',
+                            avatarImgUrl: userAuth?.student.school.logo != null
+                                ? userAuth!.student.school.logo
+                                : null,
+                            avatarImgPath: 'assets/logo/logo_red.png',
                           ),
                         ], // parameters userName+idUser and avatarUser
                       ),
@@ -81,12 +95,8 @@ class _ProfileStatusState extends BasePageState<ProfileStatus> {
                         children: [
                           //Stepper auto generate step 2
                           ActionTabStepper(
-                              header: 'Profile Status',
-                              stepTexts: const [
-                                'Application has been submitted',
-                                'Awaiting review',
-                                'Done'
-                              ],
+                              header: pf_status,
+                              stepTexts: [pf_status1, pf_status2, pf_status3],
                               status: userAuth?.student.status ?? 'N/A'),
                         ],
                       ),

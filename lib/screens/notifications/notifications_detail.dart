@@ -6,14 +6,22 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/models/notifications.dart';
+import 'package:kltn_mobile/screens/home/base_lang.dart';
 
-class NotificationDetailPage extends StatelessWidget {
+class NotificationDetailPage extends BasePage {
+  const NotificationDetailPage({super.key, required this.notification});
   final Notifications notification;
 
-  const NotificationDetailPage({super.key, required this.notification});
+  @override
+  State<NotificationDetailPage> createState() => _NotificationDetailPageState();
+}
 
+@override
+class _NotificationDetailPageState
+    extends BasePageState<NotificationDetailPage> {
   @override
   Widget build(BuildContext context) {
+    final userAuth = this.userAuth;
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final screenWidth = MediaQuery.of(context).size.width;
@@ -21,19 +29,27 @@ class NotificationDetailPage extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.07, vertical: screenHeight * 0.05),
-        child: Column(
+            horizontal: screenWidth * 0.04, vertical: screenHeight * 0.01),
+        child: ListView(
           children: [
-            const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  BackButtonCircle(),
-                  CirleAvatarImage(
-                      avatarImgPath: 'assets/backgrounds/backgr_logout.jpg'),
-                ]),
-            SizedBox(
-              height: screenHeight * 0.05,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BackButtonCircle(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                CirleAvatarImage(
+                    avatarImgUrl: userAuth?.student.school.logo != null
+                        ? userAuth!.student.school.logo
+                        : null,
+                    avatarImgPath: 'assets/logo/logo_red.png',
+                    width: 60,
+                    height: 60),
+              ],
             ),
+            SizedBox(height: screenHeight * 0.03),
             ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Container(
@@ -45,12 +61,14 @@ class NotificationDetailPage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundImage: NetworkImage(
-                                  notification.schoolAvt ??
-                                      'assets/backgrounds/backgr_logout.jpg'),
-                            ),
+                            CirleAvatarImage(
+                                avatarImgUrl:
+                                    userAuth?.student.school.logo != null
+                                        ? userAuth!.student.school.logo
+                                        : null,
+                                avatarImgPath: 'assets/logo/logo_red.png',
+                                width: 60,
+                                height: 60),
                             SizedBox(
                               width: screenWidth * 0.05,
                             ),
@@ -58,7 +76,7 @@ class NotificationDetailPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextMonserats(
-                                  notification.schoolName ?? '',
+                                  widget.notification.schoolName ?? '',
                                   color: isDarkMode
                                       ? Colors.white
                                       : AppColor.redButton,
@@ -66,7 +84,7 @@ class NotificationDetailPage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                 ),
                                 TextMonserats(
-                                  notification.time ?? '',
+                                  widget.notification.time ?? '',
                                   color:
                                       isDarkMode ? Colors.white : Colors.black,
                                   fontSize: screenWidth * 0.03,
@@ -84,7 +102,7 @@ class NotificationDetailPage extends StatelessWidget {
                                 height: screenHeight * 0.02,
                               ),
                               TextMonserats(
-                                notification.notiTitle ?? '',
+                                widget.notification.notiTitle ?? '',
                                 color: isDarkMode ? Colors.white : Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -93,7 +111,7 @@ class NotificationDetailPage extends StatelessWidget {
                                 height: screenHeight * 0.01,
                               ),
                               TextMonserats(
-                                notification.notiContent ?? '',
+                                widget.notification.notiContent ?? '',
                                 color: isDarkMode ? Colors.white : Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,

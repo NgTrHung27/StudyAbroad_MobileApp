@@ -16,7 +16,6 @@ import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/schools/schools_countries_main_.dart';
 
 class HomePage extends BasePage {
-
   const HomePage({super.key, UserAuthLogin? userAuth});
 
   @override
@@ -24,7 +23,6 @@ class HomePage extends BasePage {
 }
 
 class _HomePageState extends BasePageState<HomePage> {
-
   @override
   void initState() {
     super.initState();
@@ -36,6 +34,8 @@ class _HomePageState extends BasePageState<HomePage> {
   Widget build(BuildContext context) {
     final userAuth = this.userAuth;
     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    //Language
     final localizations = AppLocalizations.of(context);
     final hintText =
         localizations != null ? localizations.home_search : 'Default Text';
@@ -54,10 +54,11 @@ class _HomePageState extends BasePageState<HomePage> {
       body: BlocBuilder<LanguageBloc, Locale>(
         builder: (context, state) {
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+            padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.04, vertical: screenHeight * 0.01),
             child: ListView(
               children: [
-                HelloAVT(username: userAuth?.name ?? 'N/A'),
+                WelcomeAVT(username: userAuth?.name ?? 'N/A'),
                 SizedBox(height: screenHeight * 0.01),
                 NewsSearchTextField(hintText: hintText),
                 SizedBox(height: screenHeight * 0.02),

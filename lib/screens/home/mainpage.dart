@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kltn_mobile/components/navbar/bottom_navbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../home/home_page.dart';
+import 'home_page.dart';
 import '../notifications/notifications_page.dart';
 import '../profiles/profile.dart';
 

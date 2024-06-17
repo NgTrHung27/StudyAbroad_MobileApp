@@ -85,5 +85,9 @@
   "nav_noti": "Notifications",
   "nav_profile": "Profile",
   "noti": "Notifications",
-  "noti_1": "Please Sign in to continue using this service"
+  "noti_1": "Please Sign in to continue using this service",
+  "pfs": "Profile Status",
+  "pfs_step1": "Application has been submitted",
+  "pfs_step2": "Awaiting review",
+  "pfs_step3": "Done"
 }

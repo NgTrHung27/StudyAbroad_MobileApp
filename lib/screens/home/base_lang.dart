@@ -44,11 +44,6 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
     if (userString != null) {
       setState(() {
         userAuth = UserAuthLogin.fromJson(jsonDecode(userString));
-        print('User Auth: $userAuth'); // Debug User Auth (User Login)
-        print('User Auth NameSchool: ${userAuth?.student.school.name}');
-        print('User Auth BGImage: ${userAuth?.student.school.background}');
-        print(
-            'User Auth LogoImage: ${userAuth?.student.school.logo}'); // Debug User Auth ID (User Login ID
       });
     }
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
-import 'package:kltn_mobile/screens/mainpage/mainpage.dart';
+import 'package:kltn_mobile/screens/home/mainpage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

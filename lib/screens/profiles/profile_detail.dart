@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/components/functions/profile_userdetailbox.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileDetail extends BasePage {
   const ProfileDetail({super.key});
@@ -18,6 +20,14 @@ class _UserDetailsPageState extends BasePageState<ProfileDetail> {
   @override
   Widget build(BuildContext context) {
     final userAuth = this.userAuth;
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColor = isDarkMode ? Colors.black : AppColor.redButton;
+    //Language
+    final localizations = AppLocalizations.of(context);
+    final profile = localizations != null
+        ? localizations.profile_account_profilesInfo
+        : 'Default Text';
     return BlocBuilder<ThemeSettingCubit, ThemeData>(
       builder: (context, state) {
         double screenWidth = MediaQuery.of(context).size.width;
@@ -34,12 +44,18 @@ class _UserDetailsPageState extends BasePageState<ProfileDetail> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        const TextMonserats('Profile',
-                            fontSize: 22, fontWeight: FontWeight.bold),
+                        TextMonserats(
+                          profile,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: textColor,
+                        ),
                         SizedBox(height: screenHeight * 0.02),
                         CirleAvatarImage(
-                            avatarImgPath: userAuth?.student.school.logo ??
-                                'assets/logo/logo_red.png',
+                            avatarImgUrl: userAuth?.student.school.logo != null
+                                ? userAuth!.student.school.logo
+                                : null,
+                            avatarImgPath: 'assets/logo/logo_red.png',
                             width: 120,
                             height: 120),
                         SizedBox(height: screenHeight * 0.02),
