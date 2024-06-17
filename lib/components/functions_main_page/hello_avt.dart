@@ -5,13 +5,19 @@ import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
+import 'package:kltn_mobile/screens/home/base_lang.dart';
 
-class HelloAVT extends StatelessWidget {
-  const HelloAVT({super.key, required this.username});
+class WelcomeAVT extends BasePage {
+  const WelcomeAVT({super.key, required this.username});
   final String username;
+  @override
+  State<WelcomeAVT> createState() => _WelcomeAVTState();
+}
 
+class _WelcomeAVTState extends BasePageState<WelcomeAVT> {
   @override
   Widget build(BuildContext context) {
+    final userAuth = this.userAuth;
     final localizations = AppLocalizations.of(context);
     final homeHello =
         localizations != null ? localizations.home_hello : 'Default Text';
@@ -34,7 +40,7 @@ class HelloAVT extends StatelessWidget {
             Transform.translate(
               offset: const Offset(0, -5),
               child: TextMonserats(
-                username,
+                widget.username,
                 fontSize: 23,
                 fontWeight: FontWeight.w700,
                 color: textColorRed,
@@ -44,8 +50,13 @@ class HelloAVT extends StatelessWidget {
         ),
         Transform.translate(
             offset: const Offset(-5, -5),
-            child: const CirleAvatarImage(
-                avatarImgPath: 'assets/backgrounds/backgr_logout.jpg')),
+            child: CirleAvatarImage(
+                avatarImgUrl: userAuth?.student.school.logo != null
+                    ? userAuth!.student.school.logo
+                    : null,
+                avatarImgPath: 'assets/logo/logo_red.png',
+                width: 60,
+                height: 60)),
       ],
     );
   }

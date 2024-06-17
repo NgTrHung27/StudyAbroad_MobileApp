@@ -29,19 +29,19 @@ class NotificationsPageState extends State<NotificationsPage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        backgroundColor: context.select(
-            (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
-        body: 
-          ListView(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth*0.075, vertical: screenHeight*0.05),
-            children: [
-              const HelloAVT(username: 'John Doe'),
-              const SizedBox(height: 20),
-              NewsSearchTextField(hintText: hintText),
-              SizedBox(height: screenHeight*0.05),
-              NotificationList(),            
-            ]
-          ),
-      );
+      backgroundColor: context.select(
+          (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.04, vertical: screenHeight * 0.01),
+        child: ListView(children: [
+          const WelcomeAVT(username: 'John Doe'),
+          const SizedBox(height: 20),
+          NewsSearchTextField(hintText: hintText),
+          SizedBox(height: screenHeight * 0.05),
+          NotificationList(),
+        ]),
+      ),
+    );
   }
 }

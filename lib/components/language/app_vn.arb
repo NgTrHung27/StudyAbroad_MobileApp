@@ -85,5 +85,9 @@
   "nav_noti": "Thông báo",
   "nav_profile": "Hồ sơ",
   "noti": "Thông báo",
-  "noti_1": "Vui lòng Đăng nhập để tiếp tục sử dụng dịch vụ này"
+  "noti_1": "Vui lòng Đăng nhập để tiếp tục sử dụng dịch vụ này",
+  "pfs": "Trạng thái hồ sơ",
+  "pfs_step1": "Đã nộp đơn",
+  "pfs_step2": "Đang chờ xem xét",
+  "pfs_step3": "Hoàn tất"
 }

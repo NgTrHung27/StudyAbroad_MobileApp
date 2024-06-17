@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/components/list_view/news_listview_vertical.dart';
@@ -21,6 +24,14 @@ class NewsPage extends BasePage {
 class _NewsPageState extends BasePageState<NewsPage> {
   @override
   Widget build(BuildContext context) {
+    final userAuth = this.userAuth;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    //theme
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColor = isDarkMode ? Colors.black : AppColor.redButton;
+    //Language
     final localizations = AppLocalizations.of(context);
     final hintText =
         localizations != null ? localizations.home_search : 'Default Text';
@@ -29,57 +40,49 @@ class _NewsPageState extends BasePageState<NewsPage> {
     final news2 =
         localizations != null ? localizations.new_post : 'Default Text';
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 30, right: 30, top: 20, bottom: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    BackButtonCircle(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    const CirleAvatarImage(
-                        avatarImgPath: 'assets/backgrounds/backgr_logout.jpg'),
-                  ],
+      backgroundColor: context.select(
+          (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.04, vertical: screenHeight * 0.01),
+        child: ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BackButtonCircle(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
-                child: NewsSearchTextField(hintText: hintText),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: TextMonserats(news1,
-                      fontSize: 24, fontWeight: FontWeight.w700),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 30, bottom: 15),
-                child: NewsListView(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: TextMonserats(news2,
-                      fontSize: 20, fontWeight: FontWeight.w700),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, bottom: 15),
-                child: VerticalNewsListView(newsList: widget.newsList),
-              ),
-            ],
-          ),
+                CirleAvatarImage(
+                    avatarImgUrl: userAuth?.student.school.logo != null
+                        ? userAuth!.student.school.logo
+                        : null,
+                    avatarImgPath: 'assets/logo/logo_red.png',
+                    width: 60,
+                    height: 60),
+              ],
+            ),
+            SizedBox(height: screenHeight * 0.01),
+            NewsSearchTextField(hintText: hintText),
+            SizedBox(height: screenHeight * 0.03),
+            TextMonserats(
+              news1,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: textColor,
+            ),
+            const NewsListView(),
+            SizedBox(height: screenHeight * 0.02),
+            TextMonserats(
+              news2,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: textColor,
+            ),
+            VerticalNewsListView(newsList: widget.newsList),
+          ],
         ),
       ),
     );

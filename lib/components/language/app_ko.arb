@@ -72,7 +72,7 @@
   "chang_pass_1": "비밀번호를 변경하시겠습니까?",
   "chang_pass_2": "확인 절차를 위해 이메일을 입력하세요. 이메일로 숫자 코드를 보내드리겠습니다.",
   "new_main": "주요 뉴스",
-  "new_post": "Daily Post",
+  "new_post": "데일리 포스트",
   "school_Australia": "호주",
   "school_Canada": "캐나다",
   "school_Korea": "한국",
@@ -85,5 +85,9 @@
   "nav_noti": "알림",
   "nav_profile": "프로필",
   "noti": "알림",
-  "noti_1": "이 서비스를 계속 사용하려면 로그인하세요"
+  "noti_1": "이 서비스를 계속 사용하려면 로그인하세요",
+  "pfs": "프로필 상태",
+  "pfs_step1": "신청이 제출되었습니다",
+  "pfs_step2": "검토 대기 중",
+  "pfs_step3": "완료"
 }
