@@ -30,7 +30,7 @@ class _NewsPageState extends BasePageState<NewsPage> {
     //theme
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
-    final textColor = isDarkMode ? Colors.black : AppColor.redButton;
+    final textColor = isDarkMode ? Colors.white : AppColor.redButton;
     //Language
     final localizations = AppLocalizations.of(context);
     final hintText =
