@@ -25,14 +25,14 @@ class _ProfileStatusState extends BasePageState<ProfileStatus> {
     final screenwidth = MediaQuery.of(context).size.width;
     //language
     final localizations = AppLocalizations.of(context);
-    final pf_status = localizations != null
+    final pfStatus = localizations != null
         ? localizations.profile_status_ps
         : 'Default Text';
-    final pf_status1 =
+    final pfStatus1 =
         localizations != null ? localizations.pfs_step1 : 'Default Text';
-    final pf_status2 =
+    final pfStatus2 =
         localizations != null ? localizations.pfs_step2 : 'Default Text';
-    final pf_status3 =
+    final pfStatus3 =
         localizations != null ? localizations.pfs_step3 : 'Default Text';
     //Theme
     final isDarkMode = context.select(
@@ -61,7 +61,7 @@ class _ProfileStatusState extends BasePageState<ProfileStatus> {
                               Navigator.pop(context);
                             }),
                             TextMonserats(
-                              pf_status,
+                              pfStatus,
                               fontSize: 22,
                               fontWeight: FontWeight.bold,
                               color: textColorRed,
@@ -95,8 +95,8 @@ class _ProfileStatusState extends BasePageState<ProfileStatus> {
                         children: [
                           //Stepper auto generate step 2
                           ActionTabStepper(
-                              header: pf_status,
-                              stepTexts: [pf_status1, pf_status2, pf_status3],
+                              header: pfStatus,
+                              stepTexts: [pfStatus1, pfStatus2, pfStatus3],
                               status: userAuth?.student.status ?? 'N/A'),
                         ],
                       ),
