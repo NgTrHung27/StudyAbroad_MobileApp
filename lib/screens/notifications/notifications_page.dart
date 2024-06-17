@@ -14,7 +14,7 @@ class NotificationsPage extends BasePage {
   State<NotificationsPage> createState() => NotificationsPageState();
 }
 
-class NotificationsPageState extends State<NotificationsPage> {
+class NotificationsPageState extends BasePageState<NotificationsPage> {
   @override
   void initState() {
     super.initState();
@@ -23,6 +23,8 @@ class NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userAuth = this.userAuth;
+
     final localizations = AppLocalizations.of(context);
     final hintText =
         localizations != null ? localizations.home_search : 'Default Text';
@@ -35,10 +37,10 @@ class NotificationsPageState extends State<NotificationsPage> {
         padding: EdgeInsets.symmetric(
             horizontal: screenWidth * 0.04, vertical: screenHeight * 0.01),
         child: ListView(children: [
-          const WelcomeAVT(username: 'John Doe'),
-          const SizedBox(height: 20),
+          WelcomeAVT(username: userAuth?.name ?? 'N/A'),
+          SizedBox(height: screenHeight * 0.01),
           NewsSearchTextField(hintText: hintText),
-          SizedBox(height: screenHeight * 0.05),
+          SizedBox(height: screenHeight * 0.04),
           NotificationList(),
         ]),
       ),

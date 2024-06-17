@@ -1286,34 +1286,34 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
               (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
           body: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.03, vertical: screenWidth * 0.04),
+                horizontal: screenWidth * 0.03, vertical: screenHeight * 0.06),
             child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 40),
+                  Container(width: screenWidth * 0.3),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       BackButtonCircle(onPressed: () {
                         Navigator.pushNamed(context, '/logout');
                       }),
-                      SizedBox(width: screenWidth * 0.20),
+                      SizedBox(width: screenWidth * 0.01),
                       TextMonserats(
                         register1,
                         color: AppColor.redButton,
                         fontWeight: FontWeight.w700,
                         fontSize: 24,
                       ),
-                      SizedBox(width: screenWidth * 0.20),
-                      Container(width: 30)
+                      SizedBox(width: screenWidth * 0.01),
+                      Container(width: screenWidth * 0.15)
                     ],
                   ),
                   const SizedBox(height: 5),
                   TextMonserats(
                     register2,
                     fontWeight: FontWeight.w300,
-                    fontSize: 11,
+                    fontSize: 12,
                   ),
                   Expanded(
                     child: Theme(

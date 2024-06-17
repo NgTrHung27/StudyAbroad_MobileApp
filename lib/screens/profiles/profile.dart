@@ -49,6 +49,7 @@ class _UserProfileState extends BasePageState<Profile> {
   @override
   Widget build(BuildContext context) {
     final userAuth = this.userAuth;
+    bool isLoggedIn = this.isLoggedIn;
     final localizations = AppLocalizations.of(context);
     final hello =
         localizations != null ? localizations.home_hello : 'Default Text';
@@ -82,8 +83,13 @@ class _UserProfileState extends BasePageState<Profile> {
     final setting3 = localizations != null
         ? localizations.profile_setting_Support
         : 'Default Text';
-    final logout =
-        localizations != null ? localizations.profile_logout : 'Default Text';
+    final logout = localizations != null
+        ? localizations.profile_logout_ss1
+        : 'Default Text';
+    final logout2 = localizations != null
+        ? localizations.profile_logout_ss2
+        : 'Default Text';
+    final logoutText = isLoggedIn ? logout : logout2;
 
     final screenHeight = MediaQuery.of(context).size.height;
     final backgroundColor = context.select(
@@ -117,7 +123,6 @@ class _UserProfileState extends BasePageState<Profile> {
                         avatarImgUrl: userAuth?.student.school.logo != null
                             ? userAuth!.student.school.logo
                             : null, // Sử dụng hình ảnh từ API nếu có
-
                         avatarImgPath: 'assets/logo/logo_red.png',
                       ),
                     ],
@@ -198,7 +203,7 @@ class _UserProfileState extends BasePageState<Profile> {
                       userLogout(context);
                       Navigator.pushNamed(context, '/logout');
                     },
-                    child: TextMonserats(logout,
+                    child: TextMonserats(logoutText,
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w700),

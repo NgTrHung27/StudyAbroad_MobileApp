@@ -11,6 +11,7 @@ abstract class BasePage extends StatefulWidget {
 
 abstract class BasePageState<T extends BasePage> extends State<T> {
   UserAuthLogin? userAuth;
+  bool isLoggedIn = false;
 
   @override
   void initState() {
@@ -41,10 +42,13 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
   Future<void> _loadUserAuth() async {
     final logindata = await SharedPreferences.getInstance();
     final userString = logindata.getString('user');
-    if (userString != null) {
-      setState(() {
+    setState(() {
+      if (userString != null) {
         userAuth = UserAuthLogin.fromJson(jsonDecode(userString));
-      });
-    }
+        isLoggedIn = true;
+      } else {
+        isLoggedIn = false; 
+      }
+    });
   }
 }
