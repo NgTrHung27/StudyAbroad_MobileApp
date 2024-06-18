@@ -25,14 +25,23 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(
+      String email, String password, bool isRememberChange) async {
+    print(isRememberChange);
     emit(LoginLoading());
     try {
       UserAuthLogin? userAuthLogin =
           await _apiRepository.login(email, password);
       if (userAuthLogin != null && userAuthLogin.error == null) {
-        final logindata = await SharedPreferences.getInstance();
-        await logindata.setString('user', jsonEncode(userAuthLogin.toJson()));
+        this.userAuthLogin = userAuthLogin;
+        if (isRememberChange) {
+          final logindata = await SharedPreferences.getInstance();
+          await logindata.setString('user', jsonEncode(userAuthLogin.toJson()));
+          await logindata.setBool('isRememberChange', isRememberChange);
+        } else {
+          final logindata = await SharedPreferences.getInstance();
+          await logindata.setString('user', jsonEncode(userAuthLogin.toJson()));
+        }
         emit(LoginSuccess(userAuthLogin));
       } else {
         emit(LoginFailure(userAuthLogin?.error ?? 'Failed to login'));
@@ -45,6 +54,7 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> logout() async {
     final logindata = await SharedPreferences.getInstance();
     await logindata.remove('user');
+    await logindata.remove('isRememberChange');
     emit(LoginInitial());
   }
 }
