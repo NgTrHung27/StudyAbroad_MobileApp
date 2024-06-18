@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kltn_mobile/blocs/auth_cubit_bloc/login_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kltn_mobile/models/user_login.dart';
