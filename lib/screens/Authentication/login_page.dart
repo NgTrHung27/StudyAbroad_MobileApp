@@ -25,11 +25,12 @@ class _LoginPageState extends BasePageState<LoginPage> {
   String email = '';
   String password = '';
   String? errorMessage;
+  bool? isRememberChange = false;
+  int selectedValue = 0;
 
   //Text Editing Controller
   final usermailController = TextEditingController();
   final passwordController = TextEditingController();
-  int selectedValue = 0;
   //LoginUser in Method API
   void userLogin(BuildContext context) {
     // Lấy giá trị email và password từ các TextField
@@ -37,8 +38,26 @@ class _LoginPageState extends BasePageState<LoginPage> {
     String password = passwordController.text.trim();
     log('data email: $email');
     log('data pass: $password');
-    // Gọi phương thức login từ LoginCubit
-    context.read<LoginCubit>().login(email, password);
+    // Call login method frorm LoginCubit
+    context
+        .read<LoginCubit>()
+        .login(email, password, isRememberChange!)
+        .then((_) {
+      // Sau khi login thành công, cập nhật lại userAuth từ LoginCubit
+      final loginCubit = context.read<LoginCubit>();
+      if (loginCubit.state is LoginSuccess) {
+        setState(() {
+          userAuth = (loginCubit.state as LoginSuccess).userAuthLogin;
+          print('userAuthReset: $userAuth');
+        });
+      }
+    });
+  }
+
+  void changeSelectedValueRadio(bool? isRemember) {
+    setState(() {
+      isRememberChange = isRemember;
+    });
   }
 
   @override
@@ -92,8 +111,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                 errorMessage = state.error;
               });
             } else if (state is LoginSuccess) {
-              Navigator.pushNamed(context, '/mainpage',
-                  arguments: state.userAuthLogin);
+              Navigator.pushNamed(context, '/mainpage', arguments: userAuth);
             } else if (state is EmailError) {
               setState(() {
                 errorMessage = state.error;
@@ -200,17 +218,27 @@ class _LoginPageState extends BasePageState<LoginPage> {
                         Row(
                           children: [
                             Transform.scale(
-                              scale: 0.8, // Adjust the scale factor as needed
-                              child: Radio(
-                                value: 0,
-                                groupValue: selectedValue,
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedValue = value!;
-                                  });
-                                },
-                              ),
-                            ),
+                                scale: 0.8, // Adjust the scale factor as needed
+                                child: Checkbox(
+                                  checkColor: Colors.white,
+                                  value: isRememberChange,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  fillColor: MaterialStateProperty.all<Color>(
+                                      AppColor.redButton),
+                                  onChanged: (bool? value) {
+                                    changeSelectedValueRadio(value!);
+                                  },
+                                )
+                                // Radio(
+                                //   value: true,
+                                //   groupValue: isRememberChange,
+                                //   onChanged: (bool? value) {
+                                //     changeSelectedValueRadio(value!);
+                                //   },
+                                // ),
+                                ),
                             TextMonserats(
                               remem,
                               fontWeight: FontWeight.w400,

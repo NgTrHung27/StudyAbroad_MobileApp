@@ -42,13 +42,23 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
   Future<void> _loadUserAuth() async {
     final logindata = await SharedPreferences.getInstance();
     final userString = logindata.getString('user');
+    final isRemember = logindata.getBool('isRememberChange') ??
+        false; // Lấy trạng thái isRememberChange
     setState(() {
-      if (userString != null) {
+      if (userString != null && isRemember) {
+        // Kiểm tra nếu có thông tin đăng nhập và isRememberChange là true
+        userAuth = UserAuthLogin.fromJson(jsonDecode(userString));
+        isLoggedIn = true;
+      } else if (userString != null) {
         userAuth = UserAuthLogin.fromJson(jsonDecode(userString));
         isLoggedIn = true;
       } else {
-        isLoggedIn = false; 
+        // Nếu isRememberChange là false, không lấy thông tin đăng nhập từ SharedPreferences
+        userAuth = null;
+        isLoggedIn = false;
       }
+      print('Check isRemember Data Base: $isRemember');
+      print('Check Data Base: $userAuth');
     });
   }
 }
