@@ -27,7 +27,7 @@ Future<void> main() async {
         BlocProvider(create: (_) => ThemeSettingCubit()),
         BlocProvider(create: (_) => AuthCubit()),
         BlocProvider(create: (_) => LoginCubit(APIRepository())),
-        BlocProvider(create: (_) => ProfileStatusCubit()),
+        BlocProvider(create: (_) => ProfileStatusCubit()), 
         BlocProvider(create: (_) => ForgotPassCubit(APIRepository())),
         BlocProvider(
             create: (context) =>

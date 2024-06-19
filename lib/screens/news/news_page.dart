@@ -33,9 +33,7 @@ class _NewsPageState extends BasePageState<NewsPage> {
     final textColor = isDarkMode ? Colors.white : AppColor.redButton;
     //Language
     final localizations = AppLocalizations.of(context);
-    final hintText =
-        localizations != null ? localizations.home_search : 'Default Text';
-    final news1 =
+        final news1 =
         localizations != null ? localizations.new_main : 'Default Text';
     final news2 =
         localizations != null ? localizations.new_post : 'Default Text';
@@ -65,7 +63,7 @@ class _NewsPageState extends BasePageState<NewsPage> {
               ],
             ),
             SizedBox(height: screenHeight * 0.01),
-            NewsSearchTextField(hintText: hintText),
+            const NewsSearchTextField(),
             SizedBox(height: screenHeight * 0.03),
             TextMonserats(
               news1,

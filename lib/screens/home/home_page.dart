@@ -13,13 +13,15 @@ import 'package:kltn_mobile/components/functions_main_page/hello_avt.dart';
 import 'package:kltn_mobile/components/functions_main_page/carousel_loading.dart';
 import 'package:kltn_mobile/components/functions_main_page/carousel_slider_data_found.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:kltn_mobile/screens/home/search_page.dart';
 import 'package:kltn_mobile/screens/schools/schools_countries_main_.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends BasePage {
-  const HomePage({super.key, UserAuthLogin? userAuth});
+  const HomePage({super.key, UserAuthLogin? userAuth, NewsList? newsData});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -32,7 +34,6 @@ class _HomePageState extends BasePageState<HomePage> {
     context.read<CarouselBloc>().add(FetchCarousel());
     context.read<ThemeSettingCubit>().loadTheme();
     _loadUserAuth();
-    print('Check Data Home: $userAuth');
   }
 
   Future<void> _loadUserAuth() async {
@@ -57,8 +58,6 @@ class _HomePageState extends BasePageState<HomePage> {
     final screenWidth = MediaQuery.of(context).size.width;
     //Language
     final localizations = AppLocalizations.of(context);
-    final hintText =
-        localizations != null ? localizations.home_search : 'Default Text';
     final homeActionText =
         localizations != null ? localizations.home_action : 'Default Text';
     final homeExploreText =
@@ -80,7 +79,17 @@ class _HomePageState extends BasePageState<HomePage> {
               children: [
                 WelcomeAVT(username: userAuth?.name ?? 'N/A'),
                 SizedBox(height: screenHeight * 0.01),
-                NewsSearchTextField(hintText: hintText),
+                const NewsSearchTextField(),
+                IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const SearchPage();
+                      }));
+                    },
+                    icon: const Icon(Icons.search)),
                 SizedBox(height: screenHeight * 0.02),
                 BlocBuilder<CarouselBloc, CarouselState>(
                   builder: (context, state) {

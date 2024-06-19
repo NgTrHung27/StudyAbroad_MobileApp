@@ -230,7 +230,7 @@ class APIRepository {
       if (response.statusCode == 200) {
         List<dynamic> data =
             jsonDecode(utf8.decode(latin1.encode(response.body)));
-        print('API News Response: $data'); // Add this line
+        // print('API News Response: $data'); 
         List<NewsList> news = [];
         for (var item in data) {
           try {
