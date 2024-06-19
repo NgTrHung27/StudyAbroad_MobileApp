@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
+import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
+import 'package:kltn_mobile/models/news.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 
@@ -12,12 +14,14 @@ abstract class BasePage extends StatefulWidget {
 abstract class BasePageState<T extends BasePage> extends State<T> {
   UserAuthLogin? userAuth;
   bool isLoggedIn = false;
+  List<NewsList> newsData = [];
 
   @override
   void initState() {
     super.initState();
     _loadLanguage();
     _loadUserAuth();
+    context.read<NewsCubit>().getNewsList();
   }
 
   Future<void> _loadLanguage() async {

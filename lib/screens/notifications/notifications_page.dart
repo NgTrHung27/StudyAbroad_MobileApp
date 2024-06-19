@@ -4,7 +4,6 @@ import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/style/news_searchtextfield.dart';
 import 'package:kltn_mobile/components/list_view/nofitications_list.dart';
 import 'package:kltn_mobile/components/functions_main_page/hello_avt.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class NotificationsPage extends BasePage {
@@ -23,11 +22,7 @@ class NotificationsPageState extends BasePageState<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
-
-    final localizations = AppLocalizations.of(context);
-    final hintText =
-        localizations != null ? localizations.home_search : 'Default Text';
+    final userAuth = this.userAuth;   
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -39,7 +34,7 @@ class NotificationsPageState extends BasePageState<NotificationsPage> {
         child: ListView(children: [
           WelcomeAVT(username: userAuth?.name ?? 'N/A'),
           SizedBox(height: screenHeight * 0.01),
-          NewsSearchTextField(hintText: hintText),
+          const NewsSearchTextField(),
           SizedBox(height: screenHeight * 0.04),
           NotificationList(),
         ]),
