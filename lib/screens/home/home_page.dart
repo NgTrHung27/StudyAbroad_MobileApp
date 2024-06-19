@@ -16,7 +16,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
-import 'package:kltn_mobile/screens/home/search_page.dart';
 import 'package:kltn_mobile/screens/schools/schools_countries_main_.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -80,16 +79,6 @@ class _HomePageState extends BasePageState<HomePage> {
                 WelcomeAVT(username: userAuth?.name ?? 'N/A'),
                 SizedBox(height: screenHeight * 0.01),
                 const NewsSearchTextField(),
-                IconButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const SearchPage();
-                      }));
-                    },
-                    icon: const Icon(Icons.search)),
                 SizedBox(height: screenHeight * 0.02),
                 BlocBuilder<CarouselBloc, CarouselState>(
                   builder: (context, state) {
