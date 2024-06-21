@@ -14,7 +14,6 @@ class NewsCubit extends Cubit<NewsState> {
     try {
       List<NewsList> newsList = await apiRepository.fetchNews();
       emit(NewsLoaded(newsList: newsList));
-      print('NewLoaded $newsList');
     } catch (e) {
       emit(NewsError(message: e.toString()));
       print('NewsError $e');

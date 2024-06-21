@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kltn_mobile/components/functions/alert_dialog.dart';
 import 'package:kltn_mobile/components/navbar/bottom_navbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
+import 'package:provider/provider.dart';
 
 import 'home_page.dart';
 import '../notifications/notifications_page.dart';
@@ -30,6 +33,7 @@ class MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<AuthNotifier>().isLoggedIn;
     final localizations = AppLocalizations.of(context);
     final home =
         localizations != null ? localizations.nav_home : 'Default Text';
@@ -58,9 +62,20 @@ class MainPageState extends State<MainPage> {
                       label: home,
                       onTap: () => onTabTapped(0)),
                   BottomNavbarItem(
-                      icon: 'assets/iconNoti',
-                      label: noti,
-                      onTap: () => onTabTapped(1)),
+                    icon: 'assets/iconNoti',
+                    label: noti,
+                    // onTap: () => onTabTapped(1)),
+                    onTap: () {
+                      isLoggedIn
+                          ? onTabTapped(1)
+                          : showCustomDialog(
+                              context: context,
+                              onConfirm: () {
+                                Navigator.pushNamed(context, '/login');
+                              },
+                            );
+                    },
+                  ),
                   BottomNavbarItem(
                       icon: 'assets/iconUser',
                       label: profile,

@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/auth_cubit_bloc/login_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/functions/alert_dialog.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/style/simplebutton.dart';
 import 'package:kltn_mobile/components/action/action_tab.dart';
 import 'package:kltn_mobile/components/action/id_tab.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/constant/theme.dart';
+import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +51,8 @@ class _UserProfileState extends BasePageState<Profile> {
   @override
   Widget build(BuildContext context) {
     final userAuth = this.userAuth;
-    bool isLoggedIn = this.isLoggedIn;
+    final isLoggedIn = context.watch<AuthNotifier>().isLoggedIn;
+
     final localizations = AppLocalizations.of(context);
     final hello =
         localizations != null ? localizations.home_hello : 'Default Text';
@@ -137,7 +140,14 @@ class _UserProfileState extends BasePageState<Profile> {
                           name: account1,
                           icon: Icons.person,
                           onTap: () {
-                            Navigator.pushNamed(context, '/profiledetail');
+                            isLoggedIn
+                                ? Navigator.pushNamed(context, '/profiledetail')
+                                : showCustomDialog(
+                                    context: context,
+                                    onConfirm: () {
+                                      Navigator.pushNamed(context, '/login');
+                                    },
+                                  );
                           }),
                       FunctionItem(name: account2, icon: Icons.key),
                     ],
@@ -152,7 +162,14 @@ class _UserProfileState extends BasePageState<Profile> {
                           name: status1,
                           icon: Icons.account_circle,
                           onTap: () {
-                            Navigator.pushNamed(context, '/profilestatus');
+                            isLoggedIn
+                                ? Navigator.pushNamed(context, '/profilestatus')
+                                : showCustomDialog(
+                                    context: context,
+                                    onConfirm: () {
+                                      Navigator.pushNamed(context, '/login');
+                                    },
+                                  );
                           }),
                       FunctionItem(name: status2, icon: Icons.school_outlined),
                       FunctionItem(name: status3, icon: Icons.payment),

@@ -23,7 +23,6 @@ class NewsListViewState extends State<NewsListView> {
 
   @override
   Widget build(BuildContext context) {
-    print('newsListHorizon: $newsList');
     return BlocBuilder<NewsCubit, NewsState>(
       builder: (context, state) {
         if (state is NewsLoading) {
@@ -38,7 +37,6 @@ class NewsListViewState extends State<NewsListView> {
         }
         if (state is NewsLoaded) {
           newsList = state.newsList;
-          print('newsListHorizonLoad: $newsList');
           return buildNewsList();
         }
         print('error state: $state');

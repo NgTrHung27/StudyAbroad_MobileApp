@@ -19,7 +19,6 @@ class UserAuthLogin {
     Student student;
     bool isLocked;
     String? error;
-    String? token;
 
     UserAuthLogin({
         required this.id,
@@ -82,7 +81,7 @@ class UserAuthLogin {
 }
 
 class Student {
-    StudentScholarship scholarship;
+    List<ScholarshipElement> scholarship;
     String status;
     School school;
     StudentProgram program;
@@ -95,7 +94,7 @@ class Student {
     });
 
     Student copyWith({
-        StudentScholarship? scholarship,
+        List<ScholarshipElement>? scholarship,
         String? status,
         School? school,
         StudentProgram? program,
@@ -108,14 +107,14 @@ class Student {
         );
 
     factory Student.fromJson(Map<String, dynamic> json) => Student(
-        scholarship: StudentScholarship.fromJson(json["scholarship"]),
+        scholarship: List<ScholarshipElement>.from(json["scholarship"].map((x) => ScholarshipElement.fromJson(x))),
         status: json["status"],
         school: School.fromJson(json["school"]),
         program: StudentProgram.fromJson(json["program"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "scholarship": scholarship.toJson(),
+        "scholarship": List<dynamic>.from(scholarship.map((x) => x.toJson())),
         "status": status,
         "school": school.toJson(),
         "program": program.toJson(),
@@ -168,7 +167,7 @@ class ProgramProgram {
     };
 }
 
-class StudentScholarship {
+class ScholarshipElement {
     String id;
     String studentId;
     String scholarshipId;
@@ -176,7 +175,7 @@ class StudentScholarship {
     DateTime updatedAt;
     ScholarshipScholarship scholarship;
 
-    StudentScholarship({
+    ScholarshipElement({
         required this.id,
         required this.studentId,
         required this.scholarshipId,
@@ -185,7 +184,7 @@ class StudentScholarship {
         required this.scholarship,
     });
 
-    StudentScholarship copyWith({
+    ScholarshipElement copyWith({
         String? id,
         String? studentId,
         String? scholarshipId,
@@ -193,7 +192,7 @@ class StudentScholarship {
         DateTime? updatedAt,
         ScholarshipScholarship? scholarship,
     }) => 
-        StudentScholarship(
+        ScholarshipElement(
             id: id ?? this.id,
             studentId: studentId ?? this.studentId,
             scholarshipId: scholarshipId ?? this.scholarshipId,
@@ -202,7 +201,7 @@ class StudentScholarship {
             scholarship: scholarship ?? this.scholarship,
         );
 
-    factory StudentScholarship.fromJson(Map<String, dynamic> json) => StudentScholarship(
+    factory ScholarshipElement.fromJson(Map<String, dynamic> json) => ScholarshipElement(
         id: json["id"],
         studentId: json["studentId"],
         scholarshipId: json["scholarshipId"],
