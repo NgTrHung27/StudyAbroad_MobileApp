@@ -12,7 +12,7 @@ class CarouselInitial extends CarouselState {}
 class CarouselLoading extends CarouselState {}
 
 class CarouselLoaded extends CarouselState {
-  final List<ImageTest> carousels;
+  final List<Schools> carousels;
 
   const CarouselLoaded(this.carousels);
 

@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
-import 'package:kltn_mobile/models/carousel_image.dart';
+import 'package:kltn_mobile/models/schools.dart';
 
 class CarouselSliderDataFound extends StatefulWidget {
-  final List<ImageTest> carouselList;
+  final List<Schools> carouselList;
   const CarouselSliderDataFound(this.carouselList, {super.key});
 
   @override
@@ -30,7 +30,7 @@ class _CarouselSliderDataFoundState extends State<CarouselSliderDataFound> {
                 child: Stack(
                   children: [
                     CachedNetworkImage(
-                      imageUrl: e.url,
+                      imageUrl: e.background,
                       errorWidget: (context, url, error) =>
                           const Icon(Icons.error),
                       progressIndicatorBuilder:
@@ -48,7 +48,7 @@ class _CarouselSliderDataFoundState extends State<CarouselSliderDataFound> {
                       right: 0,
                       child: Container(
                         padding: const EdgeInsets.all(10),
-                        child: const TextMonserats('Test Text',
+                        child: TextMonserats(e.name,
                             fontSize: 20,
                             color: Colors.white,
                             fontWeight: FontWeight.w700),
