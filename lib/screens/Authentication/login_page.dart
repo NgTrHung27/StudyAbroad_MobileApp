@@ -230,15 +230,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                                   onChanged: (bool? value) {
                                     changeSelectedValueRadio(value!);
                                   },
-                                )
-                                // Radio(
-                                //   value: true,
-                                //   groupValue: isRememberChange,
-                                //   onChanged: (bool? value) {
-                                //     changeSelectedValueRadio(value!);
-                                //   },
-                                // ),
-                                ),
+                                )),
                             TextMonserats(
                               remem,
                               fontWeight: FontWeight.w400,

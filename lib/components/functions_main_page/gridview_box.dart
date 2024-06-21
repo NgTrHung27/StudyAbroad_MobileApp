@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kltn_mobile/components/functions/alert_dialog.dart';
 import 'package:kltn_mobile/components/functions_main_page/boxgradient.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
+import 'package:provider/provider.dart';
 
 class BoxGridView extends StatelessWidget {
   const BoxGridView({super.key});
@@ -8,6 +11,8 @@ class BoxGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    // final isLoggedIn = Provider.of<bool>(context);
+    final isLoggedIn = context.watch<AuthNotifier>().isLoggedIn;
     final actionS1 = localizations != null
         ? localizations.home_action_orange_Score1
         : 'Default Text';
@@ -50,7 +55,14 @@ class BoxGridView extends StatelessWidget {
             smallText: actionS1,
             bigText: actionS2,
             onTap: () {
-              Navigator.pushNamed(context, "/news");
+              isLoggedIn
+                  ? Navigator.pushNamed(context, '/news')
+                  : showCustomDialog(
+                      context: context,
+                      onConfirm: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                    );
             },
             image: const AssetImage('assets/icons_3d/icon_3d_medal.png'),
           ),

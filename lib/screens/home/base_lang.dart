@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
 import 'package:kltn_mobile/models/news.dart';
+import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kltn_mobile/models/user_login.dart';
+import 'package:provider/provider.dart';
 
 abstract class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -46,23 +47,20 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
   Future<void> _loadUserAuth() async {
     final logindata = await SharedPreferences.getInstance();
     final userString = logindata.getString('user');
-    final isRemember = logindata.getBool('isRememberChange') ??
-        false; // Lấy trạng thái isRememberChange
+    final isRemember = logindata.getBool('isRememberChange') ?? false;
     setState(() {
       if (userString != null && isRemember) {
         // Kiểm tra nếu có thông tin đăng nhập và isRememberChange là true
         userAuth = UserAuthLogin.fromJson(jsonDecode(userString));
-        isLoggedIn = true;
+        context.read<AuthNotifier>().setLoggedIn(true);
       } else if (userString != null) {
         userAuth = UserAuthLogin.fromJson(jsonDecode(userString));
-        isLoggedIn = true;
+        context.read<AuthNotifier>().setLoggedIn(true);
       } else {
         // Nếu isRememberChange là false, không lấy thông tin đăng nhập từ SharedPreferences
         userAuth = null;
-        isLoggedIn = false;
+        context.read<AuthNotifier>().setLoggedIn(false);
       }
-      print('Check isRemember Data Base: $isRemember');
-      print('Check Data Base: $userAuth');
     });
   }
 }
