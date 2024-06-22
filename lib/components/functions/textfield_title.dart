@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
+import 'package:kltn_mobile/components/constant/theme.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 
 class TextFieldTitle extends StatefulWidget {
@@ -47,6 +50,8 @@ class _TextFieldTitleState extends State<TextFieldTitle> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isFocused = _focusNode.hasFocus;
+    final isDarkMode =
+        context.watch<ThemeSettingCubit>().state == AppTheme.blackTheme;
 
     return SizedBox(
       width: screenWidth * 0.85,
@@ -56,6 +61,7 @@ class _TextFieldTitleState extends State<TextFieldTitle> {
             height: 65.0,
             constraints: const BoxConstraints(minWidth: double.infinity),
             padding: const EdgeInsets.only(top: 12.0),
+            //default extFieldTile
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: AppColor.borderTextField, width: 1.0),
@@ -74,11 +80,12 @@ class _TextFieldTitleState extends State<TextFieldTitle> {
                     hintStyle: TextStyle(
                         color: AppColor.borderTextField, fontSize: 16),
                     contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                        vertical: 15.0), // Adjust the padding here
+                        horizontal: 20.0, vertical: 15.0),
+                    //focused border
                     focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.black, width: 1.0),
+                      borderSide: BorderSide(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                          width: 1.0),
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
@@ -86,14 +93,19 @@ class _TextFieldTitleState extends State<TextFieldTitle> {
               ),
             ),
           ),
+          //title textfield
           Positioned(
             left: 15.0,
             child: Container(
-              color: widget.color,
+              color: isDarkMode ? AppColor.scafflodBgColorDark : widget.color,
               padding: const EdgeInsets.symmetric(horizontal: 7.0),
               child: TextMonserats(
                 widget.title,
-                color: isFocused ? Colors.black : AppColor.borderTextField,
+                color: (isFocused && isDarkMode)
+                    ? Colors.white
+                    : (isFocused && !isDarkMode)
+                        ? Colors.black
+                        : AppColor.borderTextField,
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
               ),
