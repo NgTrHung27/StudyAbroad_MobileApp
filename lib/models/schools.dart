@@ -15,7 +15,7 @@ class Schools {
   String logo;
   String background;
   String name;
-  dynamic short;
+  String? short;
   String? description;
   dynamic history;
   String color;
@@ -46,7 +46,7 @@ class Schools {
     String? logo,
     String? background,
     String? name,
-    dynamic short,
+    String? short,
     String? description,
     dynamic history,
     String? color,
