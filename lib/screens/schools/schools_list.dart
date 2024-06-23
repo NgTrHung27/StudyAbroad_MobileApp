@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/schools_cubit/schools_cubit.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/list_view/school_box.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
@@ -24,6 +25,10 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final exploreColor = isDarkMode ? Colors.white : AppColor.redButton;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Schools List'),
@@ -43,7 +48,7 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
                       padding: EdgeInsets.only(top: screenHeight*0.025, bottom: screenHeight*0.015),
                       child: TextMonserats(
                         'Explore Schools',
-                        color: AppColor.redButton,
+                        color: exploreColor,
                         fontSize: screenWidth*0.045,
                         fontWeight: FontWeight.w700,
                       ),

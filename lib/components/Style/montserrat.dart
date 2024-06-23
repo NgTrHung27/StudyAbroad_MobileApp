@@ -22,7 +22,7 @@ class TextMonserats extends StatelessWidget {
     this.maxLine,
     this.textAlign,
     this.overflow,
-    this.height = 1.75, // Initialize with default value
+    this.height = 1.75,
   });
 
   @override
