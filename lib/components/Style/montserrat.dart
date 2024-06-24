@@ -11,6 +11,7 @@ class TextMonserats extends StatelessWidget {
   final int? maxLine;
   final TextAlign? textAlign;
   final double height;
+  final TextOverflow? overflow;
 
   const TextMonserats(
     this.text, {
@@ -20,7 +21,8 @@ class TextMonserats extends StatelessWidget {
     this.fontSize,
     this.maxLine,
     this.textAlign,
-    this.height = 1.75, // Initialize with default value
+    this.overflow,
+    this.height = 1.75,
   });
 
   @override
@@ -37,6 +39,7 @@ class TextMonserats extends StatelessWidget {
         fontSize: fontSize ?? 14,
         height: height,
       ),
+      overflow: overflow,
       maxLines: maxLine,
       textAlign: textAlign,
     );
