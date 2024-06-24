@@ -103,7 +103,7 @@ class APIRepository {
 
       final data =
           jsonDecode(utf8.decode(response.bodyBytes)); // Define data here
-      
+
       if (response.statusCode == 200) {
         log('data: $data');
         return UserAuthLogin.fromJson(data);
@@ -188,7 +188,7 @@ class APIRepository {
         log('data: $data');
         return UserForgotpass.fromJson(data);
       } else {
-        print("Failed to login: ${response.statusCode}");
+        print("Failed to send Fogot Pass: ${response.statusCode}");
         return UserForgotpass.fromJson(data);
       }
     } catch (e) {
@@ -205,7 +205,7 @@ class APIRepository {
       if (response.statusCode == 200) {
         List<dynamic> data =
             jsonDecode(utf8.decode(latin1.encode(response.body)));
-        // print('API News Response: $data'); 
+        print('API News Response: $data');
         List<NewsList> news = [];
         for (var item in data) {
           try {
@@ -217,7 +217,7 @@ class APIRepository {
         }
         return news;
       } else {
-        print("Failed to login: ${response.statusCode}");
+        print("Failed to loadNew: ${response.statusCode}");
         throw Exception('Failed to load news');
       }
     } catch (e) {
