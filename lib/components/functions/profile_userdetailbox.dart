@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 
 // ignore: must_be_immutable
@@ -24,6 +27,10 @@ class LegendBox extends StatefulWidget {
 class _LegendBoxState extends State<LegendBox> {
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+    final titleBox = isDarkMode ? AppColor.scafflodBgColorDark : AppColor.scafflodBgColor;
     return SizedBox(
       width: double.infinity,
       child: Stack(
@@ -47,7 +54,7 @@ class _LegendBoxState extends State<LegendBox> {
                         ? Colors.green
                         : widget.value == 'DENIED'
                             ? Colors.red
-                            : Colors.black,
+                            : textColor,
                   ),
                 ),
               ),
@@ -56,7 +63,7 @@ class _LegendBoxState extends State<LegendBox> {
           Positioned(
             left: 15.0,
             child: Container(
-              color: widget.color,
+              color: titleBox,
               padding: const EdgeInsets.symmetric(horizontal: 7.0),
               child: TextMonserats(
                 widget.title,
@@ -66,41 +73,6 @@ class _LegendBoxState extends State<LegendBox> {
               ),
             ),
           ),
-          if (widget.isEditable)
-            Positioned(
-              top: 15.0,
-              right: 15.0,
-              child: IconButton(
-                icon: const Icon(Icons.edit),
-                onPressed: () async {
-                  final TextEditingController controller =
-                      TextEditingController(text: widget.value);
-                  final newValue = await showDialog<String>(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text('Edit ${widget.title}'),
-                      content: TextField(
-                        controller: controller,
-                      ),
-                      actions: [
-                        TextButton(
-                          child: const Text('Save'),
-                          onPressed: () {
-                            Navigator.of(context).pop(controller.text);
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                  if (newValue != null) {
-                    setState(() {
-                      widget.value = newValue;
-                    });
-                    // Call API to save the new value
-                  }
-                },
-              ),
-            ),
         ],
       ),
     );
