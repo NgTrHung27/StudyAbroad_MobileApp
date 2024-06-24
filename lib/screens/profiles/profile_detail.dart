@@ -22,7 +22,7 @@ class _UserDetailsPageState extends BasePageState<ProfileDetail> {
     final userAuth = this.userAuth;
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
-    final textColor = isDarkMode ? Colors.black : AppColor.redButton;
+    final titleColor = isDarkMode ? Colors.white : AppColor.redButton;
     //Language
     final localizations = AppLocalizations.of(context);
     final profile = localizations != null
@@ -48,7 +48,7 @@ class _UserDetailsPageState extends BasePageState<ProfileDetail> {
                           profile,
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: textColor,
+                          color: titleColor,
                         ),
                         SizedBox(height: screenHeight * 0.02),
                         CirleAvatarImage(
