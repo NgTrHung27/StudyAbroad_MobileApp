@@ -5,6 +5,7 @@ import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/constant/theme.dart';
 import 'package:kltn_mobile/components/functions/button.dart';
+import 'package:kltn_mobile/components/functions/dropdown.dart';
 import 'package:kltn_mobile/components/functions/textfield_title.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
@@ -49,7 +50,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
   Widget build(BuildContext context) {
     final isDarkMode =
         context.watch<ThemeSettingCubit>().state == AppTheme.blackTheme;
-
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: context.select(
           (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
@@ -84,6 +85,39 @@ class _ContactUsState extends BasePageState<ContactUs> {
                 fontWeight: FontWeight.w400,
               ),
               const SizedBox(height: 30),
+              SizedBox(
+                width: screenWidth * 0.85,
+                height: 60,
+                child: DropdownCustom(
+                  items: ['General Inquiry', 'Technical Support', 'Feedback'],
+                  selectedItem: 'General Inquiry',
+                  hintText: 'Select a title',
+                  onChanged: (value) {
+                    // Your onChanged logic here
+                  },
+                  itemLabel: (value) => value,
+                  isExpanded: true,
+                  icon: null,
+                  color: AppColor.scafflodBgColor,
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: screenWidth * 0.85,
+                height: 60,
+                child: DropdownCustom(
+                  items: ['General Inquiry', 'Technical Support', 'Feedback'],
+                  selectedItem: 'General Inquiry',
+                  hintText: 'Select a school',
+                  onChanged: (value) {
+                    // Your onChanged logic here
+                  },
+                  itemLabel: (value) => value,
+                  isExpanded: true,
+                  icon: null,
+                  color: AppColor.scafflodBgColor,
+                ),
+              ),
               TextFieldTitle(
                 title: 'Full Name',
                 controller: fullNameController,
@@ -123,7 +157,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
                   message = value;
                 },
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 40),
               MyButton(
                 onTap: () {
                   // Your onTap logic here
