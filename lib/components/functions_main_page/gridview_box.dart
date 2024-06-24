@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 class BoxGridView extends StatelessWidget {
   const BoxGridView({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    final userAuth = ModalRoute.of(context)!.settings.arguments;
     final localizations = AppLocalizations.of(context);
     // final isLoggedIn = Provider.of<bool>(context);
     final isLoggedIn = context.watch<AuthNotifier>().isLoggedIn;
@@ -30,6 +32,12 @@ class BoxGridView extends StatelessWidget {
         : 'Default Text';
     final actionComments2 = localizations != null
         ? localizations.home_action_blue_Comments2
+        : 'Default Text';
+    final actionShcols1 = localizations != null
+        ? localizations.home_action_blue_Schols1
+        : 'Default Text';
+    final actionShcols2 = localizations != null
+        ? localizations.home_action_blue_Schols2
         : 'Default Text';
 
     int crossAxisCount =
@@ -85,6 +93,23 @@ class BoxGridView extends StatelessWidget {
               Navigator.pushNamed(context, "/contactus");
             },
             image: const AssetImage('assets/icons_3d/icon_3d_contact.png'),
+          ),
+          BoxGradient(
+            color1: const Color(0xff608AFF),
+            color2: const Color(0xff131166),
+            smallText: actionShcols1,
+            bigText: actionShcols2,
+            onTap: () {
+              isLoggedIn
+                  ? Navigator.pushNamed(context, '/scholarship')
+                  : showCustomDialog(
+                      context: context,
+                      onConfirm: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                    );
+            },
+            image: const AssetImage('assets/icons_3d/icon_3d_scholarship.png'),
           ),
         ],
       ),
