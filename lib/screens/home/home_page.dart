@@ -89,11 +89,13 @@ class _HomePageState extends BasePageState<HomePage> {
                   fontWeight: FontWeight.w700,
                   color: textColorRed,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 200,
-                  child: CountrySchoolList(
-                    schools: [],
-                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                    Navigator.of(context).pushNamed('/schoolslistCanada');
+                  },
+                    child: Image.asset('assets/countries/Canada.png')), // Add the image here
                 ),
                 SizedBox(height: screenHeight * 0.01),
                 TextMonserats(homeNewListText,
