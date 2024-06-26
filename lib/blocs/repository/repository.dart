@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:kltn_mobile/models/carousel_image.dart';
 import 'package:kltn_mobile/models/country.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/schools.dart';
@@ -104,7 +103,7 @@ class APIRepository {
 
       final data =
           jsonDecode(utf8.decode(response.bodyBytes)); // Define data here
-      
+
       if (response.statusCode == 200) {
         log('data: $data');
         return UserAuthLogin.fromJson(data);
@@ -189,36 +188,12 @@ class APIRepository {
         log('data: $data');
         return UserForgotpass.fromJson(data);
       } else {
-        print("Failed to login: ${response.statusCode}");
+        print("Failed to send Fogot Pass: ${response.statusCode}");
         return UserForgotpass.fromJson(data);
       }
     } catch (e) {
       print("Exception occurred while logging in: $e");
       return null;
-    }
-  }
-
-  Future<List<ImageTest>> fetchCarouselImage() async {
-    try {
-      final response = await httpClient.get(
-        Uri.parse('https://api.thecatapi.com/v1/images/search?limit=10'),
-      );
-      if (response.statusCode == 200) {
-        List<dynamic> data =
-            jsonDecode(utf8.decode(latin1.encode(response.body)));
-        List<ImageTest> imagecarousels = [];
-        for (var item in data) {
-          // Tạo một đối tượng School từ JSON
-          ImageTest imagecarousel = ImageTest.fromJson(item);
-          // Thêm đối tượng School vào danh sách schools
-          imagecarousels.add(imagecarousel);
-        }
-        return imagecarousels;
-      } else {
-        throw Exception('Failed to load image');
-      }
-    } catch (e) {
-      throw Exception('Failed to connect to the API Image');
     }
   }
 
@@ -230,7 +205,7 @@ class APIRepository {
       if (response.statusCode == 200) {
         List<dynamic> data =
             jsonDecode(utf8.decode(latin1.encode(response.body)));
-        // print('API News Response: $data'); 
+        print('API News Response: $data');
         List<NewsList> news = [];
         for (var item in data) {
           try {
@@ -242,7 +217,7 @@ class APIRepository {
         }
         return news;
       } else {
-        print("Failed to login: ${response.statusCode}");
+        print("Failed to loadNew: ${response.statusCode}");
         throw Exception('Failed to load news');
       }
     } catch (e) {

@@ -11,7 +11,6 @@ class BoxGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userAuth = ModalRoute.of(context)!.settings.arguments;
     final localizations = AppLocalizations.of(context);
     // final isLoggedIn = Provider.of<bool>(context);
     final isLoggedIn = context.watch<AuthNotifier>().isLoggedIn;

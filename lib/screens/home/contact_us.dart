@@ -89,7 +89,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
                 width: screenWidth * 0.85,
                 height: 60,
                 child: DropdownCustom(
-                  items: ['General Inquiry', 'Technical Support', 'Feedback'],
+                  items: const ['General Inquiry', 'Technical Support', 'Feedback'],
                   selectedItem: 'General Inquiry',
                   hintText: 'Select a title',
                   onChanged: (value) {
@@ -106,7 +106,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
                 width: screenWidth * 0.85,
                 height: 60,
                 child: DropdownCustom(
-                  items: ['General Inquiry', 'Technical Support', 'Feedback'],
+                  items: const ['General Inquiry', 'Technical Support', 'Feedback'],
                   selectedItem: 'General Inquiry',
                   hintText: 'Select a school',
                   onChanged: (value) {

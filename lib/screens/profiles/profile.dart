@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/auth_cubit_bloc/login_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/action/id_tab_logout.dart';
 import 'package:kltn_mobile/components/functions/alert_dialog.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/style/simplebutton.dart';
@@ -120,14 +121,19 @@ class _UserProfileState extends BasePageState<Profile> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      IdTab(
-                        userName: hello,
-                        idUser: userAuth?.name ?? 'N/A',
-                        avatarImgUrl: userAuth?.student.school.logo != null
-                            ? userAuth!.student.school.logo
-                            : null, // Sử dụng hình ảnh từ API nếu có
-                        avatarImgPath: 'assets/logo/logo_red.png',
-                      ),
+                      isLoggedIn
+                          ? IdTab(
+                              userName: hello,
+                              idUser: userAuth?.name ?? 'N/A',
+                              avatarImgUrl:
+                                  userAuth?.student.school.logo != null
+                                      ? userAuth!.student.school.logo
+                                      : null, // Sử dụng hình ảnh từ API nếu có
+                              avatarImgPath: 'assets/logo/logo_white.png',
+                            )
+                          : const IdTabLogout(
+                              avatarImgPath: 'assets/logo/logo_white.png',
+                            )
                     ],
                   ),
                   SizedBox(height: screenHeight * 0.03),
