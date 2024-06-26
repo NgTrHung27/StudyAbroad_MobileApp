@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/authentication/forget_password.dart';
 import 'package:kltn_mobile/screens/authentication/login_page.dart';
 import 'package:kltn_mobile/screens/authentication/logout.dart';
