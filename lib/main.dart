@@ -81,7 +81,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               theme: state,
               themeMode: ThemeMode.system,
-              initialRoute: "/schoolslistCanada",
+              initialRoute: "/",
               onGenerateRoute: AppRoute.onGenerateRoute,
               supportedLocales: const [
                 Locale('en'), // English

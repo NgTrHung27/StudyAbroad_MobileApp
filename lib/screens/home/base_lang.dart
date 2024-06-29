@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
-import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +21,6 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
     super.initState();
     _loadLanguage();
     _loadUserAuth();
-    context.read<NewsCubit>().getNewsList();
   }
 
   Future<void> _loadLanguage() async {

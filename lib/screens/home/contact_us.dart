@@ -178,6 +178,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
               SizedBox(
                 width: screenWidth * 0.85,
                 height: 60,
+
                 child: DropdownCustom<TitleForm>(
                   icon: Icons.title,
                   items: TitleForm.values,
@@ -197,6 +198,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
                       titleValueChanged(newValueTitle);
                       print(valueTitleForm);
                     });
+
                   },
                   itemLabel: (TitleForm title) =>
                       getTitleFormLabel(context, title),

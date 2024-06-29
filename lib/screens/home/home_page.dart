@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/carousel_event_state/carousel_bloc.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/list_view/news_listview_horizontal_2.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/style/news_searchtextfield.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
-import 'package:kltn_mobile/screens/schools/schools_countries_main_.dart';
 
 class HomePage extends BasePage {
   const HomePage({super.key, UserAuthLogin? userAuth, NewsList? newsData});
@@ -82,22 +82,55 @@ class _HomePageState extends BasePageState<HomePage> {
                 ),
                 SizedBox(height: screenHeight * 0.01),
                 const BoxGridView(),
-                const SizedBox(height: 5),
+                SizedBox(height: screenHeight * 0.01),
                 TextMonserats(
                   homeExploreText,
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: textColorRed,
                 ),
-                const SizedBox(
-                  height: 200,
-                  child: CountrySchoolList(
-                    schools: [],
-                  ),
-                ),
                 SizedBox(height: screenHeight * 0.01),
+                SizedBox(
+                  height: 200,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/schoolslistCanada');
+                        },
+                        child: SizedBox(
+                            width: 330,
+                            child: Image.asset('assets/countries/Canada.png')),
+                      ),
+                      SizedBox(width: screenWidth * 0.02),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/schoolslistCanada');
+                        },
+                        child: SizedBox(
+                            width: 330,
+                            child:
+                                Image.asset('assets/countries/Australia.png')),
+                      ),
+                      SizedBox(width: screenWidth * 0.02),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/schoolslistCanada');
+                        },
+                        child: SizedBox(
+                            width: 330,
+                            child: Image.asset('assets/countries/Korea.png')),
+                      ),
+                    ],
+                  ), // Add the image here
+                ),
+                SizedBox(height: screenHeight * 0.02),
                 TextMonserats(homeNewListText,
                     fontSize: 20, fontWeight: FontWeight.w700),
+                SizedBox(height: screenHeight * 0.02),
+                const NewsListViewShort(),
+                SizedBox(height: screenHeight * 0.14),
               ],
             ),
           );
