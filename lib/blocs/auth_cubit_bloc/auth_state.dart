@@ -1,5 +1,3 @@
-
-
 import 'package:kltn_mobile/models/country.dart';
 import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/models/user_register.dart';

@@ -8,6 +8,7 @@ import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/models/user_forgot.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/models/user_register.dart';
+import 'package:kltn_mobile/screens/home/contact_us.dart';
 
 class APIRepository {
   http.Client get httpClient => http.Client();
@@ -104,7 +105,7 @@ class APIRepository {
 
       final data =
           jsonDecode(utf8.decode(response.bodyBytes)); // Define data here
-      
+
       if (response.statusCode == 200) {
         log('data: $data');
         return UserAuthLogin.fromJson(data);
@@ -230,7 +231,7 @@ class APIRepository {
       if (response.statusCode == 200) {
         List<dynamic> data =
             jsonDecode(utf8.decode(latin1.encode(response.body)));
-        // print('API News Response: $data'); 
+        // print('API News Response: $data');
         List<NewsList> news = [];
         for (var item in data) {
           try {
@@ -248,5 +249,53 @@ class APIRepository {
     } catch (e) {
       throw Exception('Failed to connect to the API News');
     }
+  }
+
+  Future<ContactUs?> contactUs(
+    String name,
+    String email,
+    String title,
+    String phone,
+    String message,
+    String? schoolId,
+  ) async {
+    try {
+      String jsonDataContact = jsonEncode({
+        "name": name,
+        "email": email,
+        "title": title,
+        "phone": phone,
+        "message": message,
+        "schoolId": schoolId,
+      });
+
+      print('Sending JSON data: $jsonDataContact');
+
+      final responseContactUs = await httpClient.post(
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/contacts'),
+        headers: <String, String>{"Content-Type": "application/json"},
+        body: jsonDataContact,
+      );
+
+      if (responseContactUs.statusCode == 200) {
+        final dataContactUs =
+            jsonDecode(utf8.decode(responseContactUs.bodyBytes));
+        log('data: $dataContactUs');
+      } else if (responseContactUs.statusCode == 400) {
+        final responseData = jsonDecode(responseContactUs.body);
+        final errors = responseData['error'] as List<dynamic>;
+        for (final error in errors) {
+          final code = error['code'];
+          final message = error['message'];
+          final path = error['path'];
+          print('Error: Code $code, Message: $message, Path: $path');
+        }
+        return null;
+      }
+    } catch (e) {
+      print("Exception occurred while contacting us: $e");
+      return null;
+    }
+    return null;
   }
 }
