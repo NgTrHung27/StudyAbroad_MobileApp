@@ -336,20 +336,19 @@ class _LoginPageState extends BasePageState<LoginPage> {
           ),
         ),
         if (isLoading)
-          if (isLoading)
-            Stack(
-              children: [
-                BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                  child: Container(
-                    color: Colors.black.withOpacity(0.1),
-                  ),
+          Stack(
+            children: [
+              BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                child: Container(
+                  color: Colors.black.withOpacity(0.1),
                 ),
-                const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ],
-            ),
+              ),
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ],
+          ),
       ]),
     );
   }

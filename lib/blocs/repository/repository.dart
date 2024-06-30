@@ -20,6 +20,7 @@ class APIRepository {
     DateTime dob,
     String phone,
     String? selectedSchool,
+    String? selectedCountry,
     String? selectedProgram,
     String? selectedCity,
     String? selectedDistrict,
@@ -42,6 +43,7 @@ class APIRepository {
         "dob": dob.toIso8601String(),
         "phoneNumber": phone,
         "schoolName": selectedSchool,
+        "country": selectedCountry,
         "programName": selectedProgram,
         "city": selectedCity,
         "district": selectedDistrict,
@@ -126,7 +128,7 @@ class APIRepository {
       if (response.statusCode == 200) {
         List<dynamic> data =
             jsonDecode(utf8.decode(latin1.encode(response.body)));
-        print('API Country Response: $data');
+        // print('API Country Response: $data');
         List<Country> countries = [];
         for (var item in data) {
           Country country = Country.fromJson(item);
@@ -149,7 +151,7 @@ class APIRepository {
       if (response.statusCode == 200) {
         List<dynamic> data =
             jsonDecode(utf8.decode(latin1.encode(response.body)));
-        print('API School Response: $data'); // Add this line
+        // print('API School Response: $data'); // Add this line
         List<Schools> schools = [];
         for (var item in data) {
           // Tạo một đối tượng School từ JSON
