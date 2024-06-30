@@ -22,12 +22,8 @@ class SchoolsDetailState extends State<SchoolsDetail> {
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final schoolnameColor = isDarkMode ? Colors.white : AppColor.redButton;
-    return DefaultTabController(
-      length: 3, // Số lượng tabs
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.school.name),
-        ),
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+    return Scaffold(
         body: ListView(
           children: [
             SizedBox(
@@ -56,12 +52,14 @@ class SchoolsDetailState extends State<SchoolsDetail> {
                         fontSize: screenWidth*0.07,
                         height: 1.3),
                      DefaultTabController(
-                        length: 3, // Số lượng tabs
+                        length: 4,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             TabBar(
-                              labelPadding: EdgeInsets.zero,
+                              isScrollable: true,
+                              labelPadding: EdgeInsets.symmetric(horizontal: screenWidth*0.03),
+                              tabAlignment: TabAlignment.start,
                               indicator: UnderlineTabIndicator(
                                 borderSide: BorderSide(
                                   color: schoolnameColor,
@@ -72,17 +70,25 @@ class SchoolsDetailState extends State<SchoolsDetail> {
                                 Tab(child: TextMonserats('Description', fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
                                 Tab(child: TextMonserats('Requirement', fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
                                 Tab(child: TextMonserats('Major', fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
+                                Tab(child: TextMonserats('Major 2', fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
                               ],
                             ),
-                            SizedBox(
-                              height: screenHeight*0.35, // Đặt chiều cao cho TabBarView
-                              child: TabBarView(
-                                children: [
-                                  // Nội dung cho mỗi tab
-                                  Center(child: Text(widget.school.description??'')),
-                                  const Center(child: Text('Courses Content')),
-                                  const Center(child: Text('Reviews Content')),
-                                ],
+                            Padding(
+                              padding: EdgeInsets.all(screenWidth*0.03),
+                              child: SizedBox(
+                                height: screenHeight*0.35,
+                                child: TabBarView(
+                                  children: [
+                                      TextMonserats(
+                                        widget.school.description??'',
+                                          fontSize: 16.0,
+                                          color: textColor,
+                                      ),
+                                    const Center(child: Text('Courses Content')),
+                                    const Center(child: Text('Reviews Content')),
+                                    const Center(child: Text('Reviews Content')),
+                                  ],
+                                ),
                               ),
                             ),
                             TextMonserats('School News',
@@ -102,7 +108,6 @@ class SchoolsDetailState extends State<SchoolsDetail> {
             ),
           ],
         ),
-      ),
     );
   }
 }
