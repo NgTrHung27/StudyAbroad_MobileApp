@@ -23,24 +23,24 @@ class SimpleButton extends StatelessWidget {
       width: screenWidth * 0.9,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
+          backgroundColor: WidgetStateProperty.all<Color>(
               backgroundColor ?? AppColor.redButton),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
               side: BorderSide(color: borderColor ?? Colors.transparent),
             ),
           ),
-          overlayColor: MaterialStateProperty.resolveWith<Color>((states) =>
-              states.contains(MaterialState.pressed)
+          overlayColor: WidgetStateProperty.resolveWith<Color>((states) =>
+              states.contains(WidgetState.pressed)
                   ? (backgroundColor ?? AppColor.redButton).withOpacity(0.2)
                   : (backgroundColor ?? AppColor.redButton).withOpacity(0.1)),
-          shadowColor: MaterialStateProperty.resolveWith<Color>((states) =>
-              states.contains(MaterialState.pressed)
+          shadowColor: WidgetStateProperty.resolveWith<Color>((states) =>
+              states.contains(WidgetState.pressed)
                   ? Colors.black.withOpacity(0.3)
                   : Colors.transparent),
-          elevation: MaterialStateProperty.resolveWith<double>(
-              (states) => states.contains(MaterialState.pressed) ? 5.0 : 0.0),
+          elevation: WidgetStateProperty.resolveWith<double>(
+              (states) => states.contains(WidgetState.pressed) ? 5.0 : 0.0),
         ),
         onPressed: onPressed,
         child: child,
