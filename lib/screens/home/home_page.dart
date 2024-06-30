@@ -15,6 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:kltn_mobile/screens/schools/schools_list.dart';
 
 class HomePage extends BasePage {
   const HomePage({super.key, UserAuthLogin? userAuth, NewsList? newsData});
@@ -95,18 +96,25 @@ class _HomePageState extends BasePageState<HomePage> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushNamed('/schoolslistCanada');
-                        },
-                        child: SizedBox(
-                            width: 330,
-                            child: Image.asset('assets/countries/Canada.png')),
-                      ),
+                      // Trong ListView của HomePage, cập nhật onTap của mỗi GestureDetector
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const SchoolsListPage(country: 'CANADA'),
+                          ),
+                        );
+                      },
+                      child: SizedBox(width: 330, child: Image.asset('assets/countries/Canada.png')),
+                    ),
                       SizedBox(width: screenWidth * 0.02),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/schoolslistCanada');
+                          Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const SchoolsListPage(country: 'AUSTRALIA'),
+                          ),
+                        );
                         },
                         child: SizedBox(
                             width: 330,
@@ -116,14 +124,18 @@ class _HomePageState extends BasePageState<HomePage> {
                       SizedBox(width: screenWidth * 0.02),
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushNamed('/schoolslistCanada');
+                          Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const SchoolsListPage(country: 'KOREA'),
+                          ),
+                        );
                         },
                         child: SizedBox(
                             width: 330,
                             child: Image.asset('assets/countries/Korea.png')),
                       ),
                     ],
-                  ), // Add the image here
+                  ),
                 ),
                 SizedBox(height: screenHeight * 0.02),
                 TextMonserats(homeNewListText,
