@@ -4,12 +4,10 @@ import 'package:kltn_mobile/blocs/auth_cubit_bloc/auth_state.dart';
 import 'package:kltn_mobile/blocs/repository/repository.dart';
 import 'package:kltn_mobile/models/country.dart';
 import 'package:kltn_mobile/models/enum.dart';
-import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/models/user_register.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthLoadingState());
-  static String token = "";
   APIRepository authRepo = APIRepository();
 
   //check email
@@ -169,25 +167,25 @@ class AuthCubit extends Cubit<AuthState> {
 
   //-----------------------------------
   //fetdata from api
-  void getSchools() async {
-    try {
-      List<Schools> school = await authRepo.fetchSchools();
-      emit(AuthLoadedNamedSchoolState(school));
-      print('Schools cubit: ` $school');
-    } catch (ex) {
-      print('Schools cubit: ` $ex');
-      emit(AuthErrorNamedSchoolState(ex.toString()));
-    }
-  }
-
   void getCity() async {
     try {
       List<Country> city = await authRepo.fetchCountry();
       emit(AuthLoadedCityState(city));
-      print('City cubit: ` $city');
     } catch (ex) {
       print('City cubit: ` $ex');
       emit(AuthErrorCityState(ex.toString()));
+    }
+  }
+
+  Future<void> getSchoolsAndCountries() async {
+    try {
+      emit(AuthLoadingState());
+      final schools = await authRepo.fetchSchools();
+      final countries =
+          schools.map((school) => school.country).toSet().toList();
+      emit(AuthLoadedState(schools: schools, countries: countries));
+    } catch (error) {
+      emit(AuthErrorState(error.toString()));
     }
   }
 
@@ -222,6 +220,7 @@ class AuthCubit extends Cubit<AuthState> {
     DateTime date,
     String phone,
     String? selectedSchool,
+    String? selectedCountry,
     String? selectedProgram,
     String? selectedCity,
     String? selectedDistrict,
@@ -246,10 +245,11 @@ class AuthCubit extends Cubit<AuthState> {
           date,
           phone,
           selectedSchool,
+          selectedCountry,
           selectedProgram,
           selectedCity,
           selectedDistrict,
-          selectedWard,
+          selectedWard!,
           address,
           valueGender.toString().split('.').last.toUpperCase(),
           valueDegree?.toString().split('.').last.toUpperCase(),
@@ -260,6 +260,10 @@ class AuthCubit extends Cubit<AuthState> {
       // ignore: unnecessary_null_comparison
       if (userAuthRegister != null && userAuthRegister.error == null) {
         emit(AuthSuccessState(userAuthRegister));
+      } else if (userAuthRegister?.error != null) {
+        emit(AuthErrorState(userAuthRegister?.error ?? 'Failed to register'));
+      } else {
+        emit(AuthErrorState('Failed to register'));
       }
     } catch (ex) {
       emit(AuthErrorState(ex.toString()));
