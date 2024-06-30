@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
@@ -8,23 +9,41 @@ import 'package:kltn_mobile/components/functions/button.dart';
 import 'package:kltn_mobile/components/functions/dropdown.dart';
 import 'package:kltn_mobile/components/functions/textfield_title.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
+import 'package:kltn_mobile/models/enum.dart';
+import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ContactUs extends BasePage {
   const ContactUs({super.key});
 
+  get error => null;
+
   @override
   State<ContactUs> createState() => _ContactUsState();
 }
 
 class _ContactUsState extends BasePageState<ContactUs> {
+  //Declare
   String email = '', fullName = '', phone = '', message = '';
+  Schools? selectedSchoolObject;
+  String? selectedSchool;
+  TitleForm? valueTitleForm;
 
+  //Declare API School
+  List<Schools> lstschools = [];
+  String? errorTitleMessage;
+
+  //Declare controller
   final emailController = TextEditingController();
   final fullNameController = TextEditingController();
   final phoneController = TextEditingController();
   final messageController = TextEditingController();
+  final titleFormController = DropdownButtonFormField;
+  final schoolController = DropdownButtonFormField;
+
+  //------------
+  //darkmode
 
   bool isChangeColor = false;
   @override
@@ -43,6 +62,76 @@ class _ContactUsState extends BasePageState<ContactUs> {
     context.read<ThemeSettingCubit>().toggleTheme();
     setState(() {
       isChangeColor = !isChangeColor;
+    });
+  }
+
+  //------
+  //Declare
+  void titleValueChanged(TitleForm? newValueTitle) {
+    setState(() {
+      print("TitleForm: $newValueTitle");
+      if (newValueTitle != null) {
+        valueTitleForm = newValueTitle;
+        print("titleform: $valueTitleForm");
+      }
+    });
+  }
+
+  String getTitleFormLabel(BuildContext context, TitleForm titleForm) {
+    switch (titleForm) {
+      case TitleForm.BILLING:
+        return Intl.message(
+          'Billing',
+          name: 'Billing',
+          locale: Localizations.localeOf(context).languageCode,
+        );
+      case TitleForm.FEEDBACK:
+        return Intl.message(
+          'Feedback',
+          name: 'Feedback',
+          locale: Localizations.localeOf(context).languageCode,
+        );
+      case TitleForm.PROCEDURE:
+        return Intl.message(
+          'Procedure',
+          name: 'Procedure',
+          locale: Localizations.localeOf(context).languageCode,
+        );
+      case TitleForm.REFUND:
+        return Intl.message(
+          'Refund',
+          name: 'Refund',
+          locale: Localizations.localeOf(context).languageCode,
+        );
+      case TitleForm.SCHOLARSHIP:
+        return Intl.message(
+          'Scholarship',
+          name: 'Scholarship',
+          locale: Localizations.localeOf(context).languageCode,
+        );
+      case TitleForm.SUBSCRIPTION:
+        return Intl.message(
+          'Subscription',
+          name: 'Subscription',
+          locale: Localizations.localeOf(context).languageCode,
+        );
+      case TitleForm.SYSTEM:
+        return Intl.message(
+          'System',
+          name: 'System',
+          locale: Localizations.localeOf(context).languageCode,
+        );
+      default:
+        return '';
+    }
+  }
+
+  void schoolChange(Schools? school) {
+    setState(() {
+      if (school != null) {
+        selectedSchoolObject = school;
+        selectedSchool = school.name;
+      }
     });
   }
 
@@ -85,39 +174,57 @@ class _ContactUsState extends BasePageState<ContactUs> {
                 fontWeight: FontWeight.w400,
               ),
               const SizedBox(height: 30),
+              //TitleForm
               SizedBox(
                 width: screenWidth * 0.85,
                 height: 60,
-                child: DropdownCustom(
-                  items: const ['General Inquiry', 'Technical Support', 'Feedback'],
-                  selectedItem: 'General Inquiry',
-                  hintText: 'Select a title',
-                  onChanged: (value) {
-                    // Your onChanged logic here
+
+                child: DropdownCustom<TitleForm>(
+                  icon: Icons.title,
+                  items: TitleForm.values,
+                  selectedItem: valueTitleForm,
+                  hintText: 'Select a title form',
+                  onChanged: (TitleForm? newValueTitle) {
+                    if (newValueTitle != null) {
+                      setState(() {
+                        errorTitleMessage;
+                      });
+                    } else {
+                      setState(() {
+                        errorTitleMessage = null;
+                      });
+                    }
+                    setState(() {
+                      titleValueChanged(newValueTitle);
+                      print(valueTitleForm);
+                    });
+
                   },
-                  itemLabel: (value) => value,
-                  isExpanded: true,
-                  icon: null,
-                  color: AppColor.scafflodBgColor,
+                  itemLabel: (TitleForm title) =>
+                      getTitleFormLabel(context, title),
+                  isExpanded: false,
                 ),
               ),
               const SizedBox(height: 8),
               SizedBox(
-                width: screenWidth * 0.85,
-                height: 60,
-                child: DropdownCustom(
-                  items: const ['General Inquiry', 'Technical Support', 'Feedback'],
-                  selectedItem: 'General Inquiry',
-                  hintText: 'Select a school',
-                  onChanged: (value) {
-                    // Your onChanged logic here
-                  },
-                  itemLabel: (value) => value,
-                  isExpanded: true,
-                  icon: null,
-                  color: AppColor.scafflodBgColor,
-                ),
-              ),
+                  width: screenWidth * 0.85,
+                  height: 60,
+                  child: DropdownCustom<Schools>(
+                    icon: Icons.school,
+                    items: lstschools,
+                    selectedItem: selectedSchool == null
+                        ? null
+                        : lstschools.firstWhere(
+                            (element) => element.name == selectedSchool),
+                    onChanged: (Schools? newValueSchool) {
+                      setState(() {
+                        schoolChange(newValueSchool);
+                      });
+                    },
+                    itemLabel: (Schools school) => school.name,
+                    hintText: 'Select a school',
+                    isExpanded: true,
+                  )),
               TextFieldTitle(
                 title: 'Full Name',
                 controller: fullNameController,

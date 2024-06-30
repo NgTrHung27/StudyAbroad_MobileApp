@@ -31,3 +31,13 @@ enum StudentStatus {
   AWAITING,
   APPROVED,
 }
+
+enum TitleForm {
+  FEEDBACK,
+  SYSTEM,
+  REFUND,
+  BILLING,
+  SUBSCRIPTION,
+  SCHOLARSHIP,
+  PROCEDURE
+}
