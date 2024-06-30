@@ -7,6 +7,7 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/constant/theme.dart';
 
 class IdTabLogout extends StatefulWidget {
+  final String textTab;
   final String? avatarImgUrl;
   final String avatarImgPath;
 
@@ -14,6 +15,7 @@ class IdTabLogout extends StatefulWidget {
     super.key,
     this.avatarImgUrl,
     required this.avatarImgPath,
+    required this.textTab,
   });
 
   @override
@@ -76,7 +78,7 @@ class _IdTabLogoutState extends State<IdTabLogout> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Sign In',
+                    widget.textTab,
                     style: GoogleFonts.montserrat(
                       fontSize: 16,
                       color: Colors.white,

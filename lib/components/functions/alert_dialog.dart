@@ -63,7 +63,7 @@ void showCustomDialog({
                 ),
               ),
               Transform.translate(
-                offset: const Offset(-10, 0),
+                offset: const Offset(-15, 0),
                 child: DialogButton(
                   onPressed: () {
                     if (onConfirm != null) onConfirm();
