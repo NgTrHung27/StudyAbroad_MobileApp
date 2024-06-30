@@ -53,8 +53,10 @@ class _UserProfileState extends BasePageState<Profile> {
   Widget build(BuildContext context) {
     final userAuth = this.userAuth;
     final isLoggedIn = context.watch<AuthNotifier>().isLoggedIn;
-
     final localizations = AppLocalizations.of(context);
+    final helloSignin = localizations != null
+        ? localizations.register_login_signin
+        : 'Default Text';
     final hello =
         localizations != null ? localizations.home_hello : 'Default Text';
     final account =
@@ -131,7 +133,8 @@ class _UserProfileState extends BasePageState<Profile> {
                                       : null, // Sử dụng hình ảnh từ API nếu có
                               avatarImgPath: 'assets/logo/logo_white.png',
                             )
-                          : const IdTabLogout(
+                          : IdTabLogout(
+                              textTab: helloSignin,
                               avatarImgPath: 'assets/logo/logo_white.png',
                             )
                     ],

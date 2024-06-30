@@ -240,7 +240,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
                                     ),
-                                    fillColor: MaterialStateProperty.all<Color>(
+                                    fillColor: WidgetStateProperty.all<Color>(
                                         AppColor.redButton),
                                     onChanged: (bool? value) {
                                       changeSelectedValueRadio(value!);

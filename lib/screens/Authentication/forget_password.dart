@@ -95,7 +95,7 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            "assets/LOGO_WHITE.png",
+                            "assets/logo_white.png",
                             height: 70,
                           ),
                         ],
