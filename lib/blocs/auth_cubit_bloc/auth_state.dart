@@ -94,9 +94,25 @@ class AuthLoadedNamedSchoolState extends AuthState {
   AuthLoadedNamedSchoolState(this.school);
 }
 
+//
+class AuthLoadedState extends AuthState {
+  final List<Schools> schools;
+  final List<String> countries;
+  AuthLoadedState({required this.schools, required this.countries});
+}
 class AuthErrorNamedSchoolState extends AuthState {
   final String error;
   AuthErrorNamedSchoolState(this.error);
+}
+
+class AuthLoadedCountryState extends AuthState {
+  final List<String> countries;
+  AuthLoadedCountryState(this.countries);
+}
+
+class AuthLoadedProgramState extends AuthState {
+  final List<Schools> program;
+  AuthLoadedProgramState(this.program);
 }
 
 class AuthErrorProgramState extends AuthState {

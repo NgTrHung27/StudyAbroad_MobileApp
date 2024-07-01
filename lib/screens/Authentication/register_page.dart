@@ -1,5 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:ui';
+
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,6 +61,7 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
   String register_16 = '';
   String register_17 = '';
   String register_18 = '';
+  String register_18_1 = '';
   String register_19 = '';
   String register_20 = '';
   String register_21 = '';
@@ -71,6 +74,7 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
   //Declare API School
   List<Schools> lstschools = [];
   List<Country> lstCountry = [];
+  List<String> lstCountrySchool = [];
   String? errorEmailMessage,
       errorNameMessage,
       errorPasswordMessage,
@@ -98,6 +102,7 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
       dob = '';
   Schools? selectedSchoolObject;
   String? selectedSchool,
+      selectedCountry,
       selectedProgram,
       selectedCity,
       selectedDistrict,
@@ -109,6 +114,8 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
   double gradeScore = 0.0;
   CertificateType? selectedCertificateType;
   String certificateImg = '';
+  bool isLoading = false;
+
   //End of Declare
   //-----------------------------------------------------------------------------------
   //Declare Controller
@@ -137,6 +144,9 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
   //--------------------------------------------------------------------------------------------------
 
   void userRegister() async {
+    setState(() {
+      isLoading = true;
+    });
     String email = usermailController.text.trim(),
         name = usernameController.text.trim(),
         password = passwordController.text.trim(),
@@ -145,11 +155,41 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
         phone = phoneController.text.trim(),
         address = addressController.text.trim(),
         certificateImg = imageController.text.toString();
-    DateTime dob = DateFormat('dd/MM/yyyy').parse(dateController.text.trim());
-    double gradeScore = double.parse(gradeController.text.trim());
+// Kiểm tra trường ngày tháng có rỗng không
+    if (dateController.text.trim().isEmpty) {
+      // Hiển thị thông báo lỗi hoặc xử lý lỗi tại đây
+      print("Ngày tháng không được để trống.");
+      setState(() {
+        isLoading = false;
+      });
+      return; // Ngừng xử lý nếu trường ngày tháng rỗng
+    }
+    DateTime dob;
+    try {
+      dob = DateFormat('dd/MM/yyyy').parse(dateController.text.trim());
+    } catch (e) {
+      // Xử lý lỗi phân tích ngày tháng tại đây
+      print("Lỗi khi phân tích ngày tháng: $e");
+      setState(() {
+        isLoading = false;
+      });
+      return; // Ngừng xử lý nếu có lỗi khi phân tích ngày tháng
+    }
+    double gradeScore;
+    try {
+      gradeScore = double.parse(gradeController.text.trim());
+    } catch (e) {
+      // Xử lý lỗi chuyển đổi số thực tại đây
+      print("Lỗi khi chuyển đổi điểm số: $e");
+      setState(() {
+        isLoading = false;
+      });
+      return; // Ngừng xử lý nếu có lỗi khi chuyển đổi điểm số
+    }
     String gradeScoreString = gradeScore.toString();
     var items = {
       'School': selectedSchool,
+      'Country': selectedCountry,
       'Program': selectedProgram,
       'City': selectedCity,
       'District': selectedDistrict,
@@ -175,6 +215,7 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
         dob,
         phone,
         selectedSchool,
+        selectedCountry,
         selectedProgram,
         selectedCity,
         selectedDistrict,
@@ -286,7 +327,6 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
         setState(() {
           certificateImg = base64Image;
           imageController.text = certificateImg;
-          print('Certificate Image: $certificateImg');
         });
         return base64Image;
       } else {
@@ -364,7 +404,8 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthCubit>().getSchools();
+    context.read<AuthCubit>().getSchoolsAndCountries();
+    // context.read<AuthCubit>().getSchools();
     context.read<AuthCubit>().getCity();
   }
 
@@ -394,6 +435,7 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
                     register_16,
                     register_17,
                     register_18,
+                    register_18_1,
                     register_19,
                     register_20,
                     register_21,
@@ -538,6 +580,7 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
           register_16,
           register_17,
           register_18,
+          register_18_1,
           register_19,
           register_20,
           register_21,
@@ -905,14 +948,56 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
           ),
           content: Column(
             children: [
+              //Country
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: BlocBuilder<AuthCubit, AuthState>(
+                      builder: (context, state) {
+                        if (state is AuthLoadedState) {
+                          lstCountrySchool = state.countries;
+                        }
+                        return DropdownCustom<String>(
+                          icon: Icons.location_city,
+                          items: lstCountrySchool,
+                          selectedItem: selectedCountry == null
+                              ? null
+                              : lstCountrySchool.firstWhere(
+                                  (element) => element == selectedCountry),
+                          onChanged: (String? newValueCountry) {
+                            setState(() {
+                              selectedCountry = newValueCountry;
+                              if (context.read<AuthCubit>().state
+                                  is AuthLoadedState) {
+                                (context.read<AuthCubit>().state
+                                        as AuthLoadedState)
+                                    .schools
+                                    .where((schools) =>
+                                        schools.country == selectedCountry)
+                                    .toList();
+                              }
+                            });
+                          },
+                          itemLabel: (String country) => country,
+                          hintText: register_18_1,
+                          isExpanded: true,
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Expanded(child: BlocBuilder<AuthCubit, AuthState>(
                     builder: (context, state) {
-                      if (state is AuthLoadedNamedSchoolState) {
-                        lstschools = state.school;
+                      if (state is AuthLoadedState) {
+                        lstschools = state.schools;
                       }
                       return DropdownCustom<Schools>(
                         icon: Icons.school,
@@ -942,8 +1027,8 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
                   Expanded(
                     child: BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
-                        if (state is AuthLoadedNamedSchoolState) {
-                          lstschools = state.school;
+                        if (state is AuthLoadedState) {
+                          lstschools = state.schools;
                         }
                         return DropdownCustom<Program>(
                           icon: Icons.history_edu,
@@ -1164,6 +1249,9 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
     final register_18 = localizations != null
         ? localizations.register_18_school
         : 'Default Text';
+    final register_18_1 = localizations != null
+        ? localizations.register_18_1_nation
+        : 'Default Text';
     final register_19 = localizations != null
         ? localizations.register_19_major
         : 'Default Text';
@@ -1197,83 +1285,102 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
         if (state is AuthErrorEmailState) {
           setState(() {
             errorEmailMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorNameState) {
           setState(() {
             errorNameMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorPasswordState) {
           setState(() {
             errorPasswordMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorConfrimPasswordState) {
           setState(() {
             errorConfrimPasswordMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorIDCardNumberState) {
           setState(() {
             errorIDCardNumberMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorDOBState) {
           setState(() {
             errorDateMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorPhoneState) {
           setState(() {
             errorPhoneMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorCityState) {
           setState(() {
             errorCityMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorDistrictState) {
           setState(() {
             errorDistrictMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorWardState) {
           setState(() {
             errorWardMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorAddressState) {
           setState(() {
             errorAddressMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorGenderErrorState) {
           setState(() {
             errorGenderMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorDegreeTypeState) {
           setState(() {
             errorDegreeMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorGradeTypeState) {
           setState(() {
             errorGradeTypeMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorGradeScore) {
           setState(() {
             errorGradeMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorCertificateTypeState) {
           setState(() {
             errorCertificateTypeMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthErrorState) {
           setState(() {
             errorMessage = state.error;
+            isLoading = false;
           });
         } else if (state is AuthSuccessState) {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const LoginPage()));
+          isLoading = false;
         }
       },
       builder: (context, state) {
         if (state is AuthErrorState) {
-          Scaffold(
-            body: Center(
-              child: Text(state.error),
-            ),
-          );
+          Future.microtask(() {
+            setState(() {
+              errorMessage = state.error;
+            });
+          });
+          isLoading = false;
         } else if (state is AuthLoadingState) {
           const Scaffold(
             body: Center(
@@ -1281,131 +1388,156 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
             ),
           );
         } else if (state is AuthInitialState) {}
-        return Scaffold(
-          backgroundColor: context.select(
-              (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
-          body: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: screenWidth * 0.03, vertical: screenHeight * 0.06),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(width: screenWidth * 0.3),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      BackButtonCircle(onPressed: () {
-                        Navigator.pushNamed(context, '/logout');
-                      }),
-                      SizedBox(width: screenWidth * 0.01),
-                      TextMonserats(
-                        register1,
-                        color: AppColor.redButton,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
-                      ),
-                      SizedBox(width: screenWidth * 0.01),
-                      Container(width: screenWidth * 0.15)
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  TextMonserats(
-                    register2,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 12,
-                  ),
-                  Expanded(
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                          canvasColor: context.select(
-                              (ThemeSettingCubit cubit) =>
-                                  cubit.state.scaffoldBackgroundColor),
-                          colorScheme: Theme.of(context).colorScheme.copyWith(
-                              onSurface: Colors.transparent,
-                              primary: AppColor.redButton,
-                              secondary: AppColor.redButton)),
-                      child: Stepper(
-                        physics: const ClampingScrollPhysics(),
-                        type: StepperType.horizontal,
-                        elevation: 0,
-                        currentStep: currentStep,
-                        onStepContinue: continueStep,
-                        onStepCancel: cancelStep,
-                        onStepTapped: onStepTapped,
-                        controlsBuilder: controlsBuilder,
-                        steps: getSteps(
-                            register1,
-                            register2,
-                            register3,
-                            register4,
-                            register5,
-                            register6,
-                            register_login_signin,
-                            register_email,
-                            register_pass,
-                            register_7,
-                            register_8,
-                            register_9,
-                            register_10,
-                            register_11,
-                            register_12,
-                            register_13,
-                            register_14,
-                            register_15,
-                            register_16,
-                            register_17,
-                            register_18,
-                            register_19,
-                            register_20,
-                            register_21,
-                            register_22,
-                            register_23,
-                            register_24,
-                            register_25,
-                            register_26,
-                            register_signup),
+        return Stack(children: [
+          Scaffold(
+            backgroundColor: context.select((ThemeSettingCubit cubit) =>
+                cubit.state.scaffoldBackgroundColor),
+            body: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.03,
+                  vertical: screenHeight * 0.06),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(width: screenWidth * 0.3),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        BackButtonCircle(onPressed: () {
+                          Navigator.pushNamed(context, '/logout');
+                        }),
+                        SizedBox(width: screenWidth * 0.01),
+                        TextMonserats(
+                          register1,
+                          color: AppColor.redButton,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24,
+                        ),
+                        SizedBox(width: screenWidth * 0.01),
+                        Container(width: screenWidth * 0.15)
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                    TextMonserats(
+                      register2,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 12,
+                    ),
+                    Expanded(
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                            canvasColor: context.select(
+                                (ThemeSettingCubit cubit) =>
+                                    cubit.state.scaffoldBackgroundColor),
+                            colorScheme: Theme.of(context).colorScheme.copyWith(
+                                onSurface: Colors.transparent,
+                                primary: AppColor.redButton,
+                                secondary: AppColor.redButton)),
+                        child: Stepper(
+                          physics: const ClampingScrollPhysics(),
+                          type: StepperType.horizontal,
+                          elevation: 0,
+                          currentStep: currentStep,
+                          onStepContinue: continueStep,
+                          onStepCancel: cancelStep,
+                          onStepTapped: onStepTapped,
+                          controlsBuilder: controlsBuilder,
+                          steps: getSteps(
+                              register1,
+                              register2,
+                              register3,
+                              register4,
+                              register5,
+                              register6,
+                              register_login_signin,
+                              register_email,
+                              register_pass,
+                              register_7,
+                              register_8,
+                              register_9,
+                              register_10,
+                              register_11,
+                              register_12,
+                              register_13,
+                              register_14,
+                              register_15,
+                              register_16,
+                              register_17,
+                              register_18,
+                              register_18_1,
+                              register_19,
+                              register_20,
+                              register_21,
+                              register_22,
+                              register_23,
+                              register_24,
+                              register_25,
+                              register_26,
+                              register_signup),
+                        ),
                       ),
                     ),
-                  ),
-                  const Divider(
-                    height: 1,
-                    color: Color(0xFFCBD5E1),
-                    thickness: 1.0,
-                    indent: 20,
-                    endIndent: 20,
-                  ),
-                  SizedBox(height: screenHeight * 0.02),
-                  Align(
-                    alignment: Alignment.center,
-                    child: RichText(
-                      text: TextSpan(
-                        style: DefaultTextStyle.of(context).style,
-                        children: <TextSpan>[
-                          styledTextSpan(register6, color: textColor),
-                          styledTextSpan(
-                            register_signup,
-                            color: AppColor.redButton,
-                            fontWeight: FontWeight.w700,
-                            decoration: TextDecoration.underline,
-                            decorationColor: const Color(
-                                0xff7D1F1F), // Change the color of the underline
-                            decorationStyle: TextDecorationStyle
-                                .solid, // Change the number of lines
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Navigator.pushNamed(context, "/login");
-                              },
-                          ),
-                        ],
+                    const Divider(
+                      height: 1,
+                      color: Color(0xFFCBD5E1),
+                      thickness: 1.0,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                    SizedBox(height: screenHeight * 0.02),
+                    Align(
+                      alignment: Alignment.center,
+                      child: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: <TextSpan>[
+                            styledTextSpan(register6, color: textColor),
+                            styledTextSpan(
+                              register_signup,
+                              color: AppColor.redButton,
+                              fontWeight: FontWeight.w700,
+                              decoration: TextDecoration.underline,
+                              decorationColor: const Color(
+                                  0xff7D1F1F), // Change the color of the underline
+                              decorationStyle: TextDecorationStyle
+                                  .solid, // Change the number of lines
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushNamed(context, "/login");
+                                },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    if (errorMessage != null)
+                      Center(
+                        child: TextMonserats(
+                          errorMessage!,
+                          color: Colors.red,
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
           ),
-        );
+          if (isLoading)
+            Stack(
+              children: [
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                  child: Container(
+                    color: Colors.black.withOpacity(0.1),
+                  ),
+                ),
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ],
+            ),
+        ]);
       },
     );
   }

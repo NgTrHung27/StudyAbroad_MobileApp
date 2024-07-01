@@ -86,7 +86,7 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 25.0, vertical: 30.0),
+                      horizontal: 20.0, vertical: 30.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -95,7 +95,7 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            "assets/logo_white.png",
+                            "assets/logo/logo_white.png",
                             height: 70,
                           ),
                         ],
