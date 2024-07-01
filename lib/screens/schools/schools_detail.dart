@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
+import 'package:kltn_mobile/components/list_view/major_box.dart';
 import 'package:kltn_mobile/components/list_view/news_listview_horizontal.dart';
 import 'package:kltn_mobile/models/schools.dart';
 
@@ -23,6 +24,7 @@ class SchoolsDetailState extends State<SchoolsDetail> {
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final schoolnameColor = isDarkMode ? Colors.white : AppColor.redButton;
     final textColor = isDarkMode ? Colors.white : Colors.black;
+    final scaffoldBackgroundColor = isDarkMode ? const Color(0xff1E2334) : Colors.white;
     return Scaffold(
         body: ListView(
           children: [
@@ -35,7 +37,7 @@ class SchoolsDetailState extends State<SchoolsDetail> {
               transform: Matrix4.translationValues(0.0, -screenWidth*0.5, 0.0),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: context.select((ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
+                color: scaffoldBackgroundColor,
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -73,9 +75,7 @@ class SchoolsDetailState extends State<SchoolsDetail> {
                                 Tab(child: TextMonserats('Major 2', fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
                               ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.all(screenWidth*0.03),
-                              child: SizedBox(
+                              SizedBox(
                                 height: screenHeight*0.35,
                                 child: TabBarView(
                                   children: [
@@ -84,13 +84,18 @@ class SchoolsDetailState extends State<SchoolsDetail> {
                                           fontSize: 16.0,
                                           color: textColor,
                                       ),
-                                    const Center(child: Text('Courses Content')),
-                                    const Center(child: Text('Reviews Content')),
+                                    Container(
+                                      color: Colors.red,
+                                      child: const Center(child: Text('Courses Content'))
+                                      ),
+                                      Center(
+                                        // padding: EdgeInsets.only(top: screenHeight*0.065),
+                                        child: MajorBox(programs: widget.school.programs),
+                                      ),
                                     const Center(child: Text('Reviews Content')),
                                   ],
                                 ),
                               ),
-                            ),
                             TextMonserats('School News',
                               fontWeight: FontWeight.w700,
                               color: schoolnameColor,
