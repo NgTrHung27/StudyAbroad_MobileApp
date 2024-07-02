@@ -7,6 +7,7 @@ import 'package:kltn_mobile/blocs/auth_cubit_bloc/auth_cubit.dart';
 import 'package:kltn_mobile/blocs/auth_cubit_bloc/forgot_pass_cubit.dart';
 import 'package:kltn_mobile/blocs/auth_cubit_bloc/login_cubit.dart';
 import 'package:kltn_mobile/blocs/carousel_event_state/carousel_bloc.dart';
+import 'package:kltn_mobile/blocs/contact_us_bloc/contact_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
 import 'package:kltn_mobile/blocs/profile_status_cubit_bloc/profile_status_cubit.dart';
@@ -38,6 +39,7 @@ Future<void> main() async {
         BlocProvider(create: (_) => NewsCubit()),
         BlocProvider(create: (_) => LanguageBloc()),
         BlocProvider(create: (_) => SchoolsCubit()),
+        BlocProvider(create: (_) => ContactUsCubit(APIRepository())),
         ChangeNotifierProvider(
             create: (_) => AuthNotifier()..setLoggedIn(isLoggedIn)),
       ],

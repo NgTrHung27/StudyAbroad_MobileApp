@@ -3,7 +3,7 @@ import 'package:kltn_mobile/models/enum.dart';
 class ContactUs {
   String name;
   String email;
-  TitleForm? title; // Assuming TitleForm is a custom type
+  TitleForm? title; // Giả sử TitleForm là kiểu tùy chỉnh
   String phone;
   String message;
   String? schoolId;
@@ -22,12 +22,13 @@ class ContactUs {
   // Phương thức fromJson
   factory ContactUs.fromJson(Map<String, dynamic> json) {
     return ContactUs(
-      name: json['name'],
-      email: json['email'],
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
       title: json['title'] != null ? _parseTitle(json['title']) : null,
-      phone: json['phone'],
-      message: json['message'],
+      phone: json['phone'] ?? '',
+      message: json['message'] ?? '',
       schoolId: json['schoolId'],
+      error: json['error'],
     );
   }
 
@@ -38,6 +39,7 @@ class ContactUs {
         "phone": phone,
         "message": message,
         "schoolId": schoolId,
+        "error": error,
       };
 
   static TitleForm? _parseTitle(dynamic titleString) {
