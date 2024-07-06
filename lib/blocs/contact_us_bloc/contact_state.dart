@@ -32,3 +32,9 @@ class ContactErrorState extends ContactUsState {
   final String error;
   ContactErrorState(this.error);
 }
+
+//Email
+class ContactErrorEmailState extends ContactUsState {
+  final String error;
+  ContactErrorEmailState(this.error);
+}
