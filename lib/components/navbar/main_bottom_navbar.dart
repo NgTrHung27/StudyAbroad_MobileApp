@@ -10,10 +10,12 @@ class MainNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    final home = localizations != null ? localizations.nav_home : 'Default Text';
+    final home =
+        localizations != null ? localizations.nav_home : 'Default Text';
     final noti =
         localizations != null ? localizations.nav_noti : 'Default Text';
-    final profile = localizations != null ? localizations.nav_profile : 'Default Text';
+    final profile =
+        localizations != null ? localizations.nav_profile : 'Default Text';
     return BottomNavbar(
       items: [
         BottomNavbarItem(
@@ -21,6 +23,12 @@ class MainNavBar extends StatelessWidget {
             label: home,
             onTap: () => Navigator.pushNamed(context,
                 '/home')), // Pass the path without _selected or _unselected
+        BottomNavbarItem(
+            icon: 'assets/iconMess',
+            label: profile,
+            onTap: () {
+              Navigator.pushNamed(context, '/user');
+            }),
         BottomNavbarItem(
             icon: 'assets/iconNoti',
             label: noti,
@@ -30,7 +38,8 @@ class MainNavBar extends StatelessWidget {
             label: profile,
             onTap: () {
               Navigator.pushNamed(context, '/user');
-            }),
+            })
+        
       ],
       initialIndex: 0,
     );

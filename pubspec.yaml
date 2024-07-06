@@ -56,6 +56,12 @@ dependencies:
   flutter_html: 3.0.0-beta.2
   rflutter_alert: ^2.0.7
   provider: ^6.1.2
+  floating_chat_button: ^1.0.1
+  google_generative_ai: ^0.4.3
+  flutter_markdown: ^0.7.3
+  url_launcher: ^6.3.0
+  dash_chat_2: ^0.0.21
+  flutter_gemini: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -109,6 +115,7 @@ flutter:
     - assets/countries/
     - assets/icons_3d/
     - assets/logo/
+    - env.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
