@@ -94,5 +94,14 @@
   "pfs": "프로필 상태",
   "pfs_step1": "신청이 제출되었습니다",
   "pfs_step2": "검토 대기 중",
-  "pfs_step3": "완료"
+  "pfs_step3": "완료",
+  "sch_Canada": "캐나다",
+  "sch_Australia": "호주",
+  "sch_Korea": "한국",
+  "sch_explore": "학교 탐색",
+  "sch_desc": "설명",
+  "sch_require": "요구사항",
+  "sch_major": "전공",
+  "sch_major_body": "의 전공",
+  "sch_scholarship": "장학금"
 }

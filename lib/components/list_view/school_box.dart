@@ -10,6 +10,39 @@ class SchoolBox extends StatelessWidget {
   final Schools school;
   const SchoolBox({super.key, required this.school});
 
+  // Hàm để chuyển đổi chuỗi rgba thành Color
+  Color rgbaToColor(String rgba) {
+    final rgbaValues = rgba.replaceAll('rgba(', '').replaceAll(')', '').split(',');
+    return Color.fromRGBO(
+      int.parse(rgbaValues[0].trim()),
+      int.parse(rgbaValues[1].trim()),
+      int.parse(rgbaValues[2].trim()),
+      double.parse(rgbaValues[3].trim()),
+    );
+  }
+
+  // Hàm để extract và tạo LinearGradient từ chuỗi
+  LinearGradient parseGradient(String gradientString) {
+    final matches = RegExp(r'rgba\((\d+,\d+,\d+,\d?.?\d*)\)\s(\d+)%').allMatches(gradientString);
+
+    final colors = <Color>[];
+    final stops = <double>[];
+
+    for (final match in matches) {
+      final color = rgbaToColor(match.group(1)!);
+      final stop = double.parse(match.group(2)!) / 100;
+      colors.add(color);
+      stops.add(stop);
+    }
+
+    return LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: colors,
+      stops: stops,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -19,7 +52,7 @@ class SchoolBox extends StatelessWidget {
     final textColor = isDarkMode ? Colors.white : Colors.black;
     final boxColor = isDarkMode ? const Color(0xff3F3F46) : Colors.white;
     return Padding(
-      padding: EdgeInsets.only( bottom: screenHeight * 0.015),
+      padding: EdgeInsets.only(bottom: screenHeight * 0.015),
       child: GestureDetector(
           onTap: () {
           Navigator.push(
@@ -42,15 +75,20 @@ class SchoolBox extends StatelessWidget {
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
-                  Container(
-                    height: screenHeight * 0.23,
-                    decoration:  BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.transparent, AppColor.redButton.withOpacity(0.8)],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
+                  Positioned.fill(
+                    child:Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: parseGradient(school.color).begin,
+                            end: parseGradient(school.color).end,
+                            stops: parseGradient(school.color).stops,
+                            colors: parseGradient(school.color).colors
+                                .map((color) => color.withOpacity(0.35))
+                                .toList(),
+                          ),
+                        ),
                       ),
-                    ),
                   ),
                 ],
               ),
