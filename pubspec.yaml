@@ -60,7 +60,7 @@ dependencies:
   google_generative_ai: ^0.4.3
   flutter_markdown: ^0.7.3
   url_launcher: ^6.3.0
-  dash_chat_2: ^0.0.21
+  dash_chat_2: ^0.0.20
   flutter_gemini: ^2.0.4
 
 dev_dependencies:
