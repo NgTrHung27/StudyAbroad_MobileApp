@@ -22,7 +22,7 @@ class MainPageState extends State<MainPage> {
   final List<Widget> _children = [
     const HomePage(),
     const NotificationsPage(),
-    const Profile(),
+    const Profile()
   ];
 
   void onTabTapped(int index) {
@@ -61,6 +61,12 @@ class MainPageState extends State<MainPage> {
                       icon: 'assets/iconHome',
                       label: home,
                       onTap: () => onTabTapped(0)),
+                  BottomNavbarItem(
+                      icon: 'assets/iconMess',
+                      label: 'Chat AI',
+                      onTap: () {
+                        Navigator.pushNamed(context, '/chatting');
+                      }),
                   BottomNavbarItem(
                     icon: 'assets/iconNoti',
                     label: noti,

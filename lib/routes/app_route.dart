@@ -3,6 +3,7 @@ import 'package:kltn_mobile/screens/authentication/forget_password.dart';
 import 'package:kltn_mobile/screens/authentication/login_page.dart';
 import 'package:kltn_mobile/screens/authentication/logout.dart';
 import 'package:kltn_mobile/screens/authentication/register_page.dart';
+import 'package:kltn_mobile/screens/chatting/chatting_gemini_ai.dart';
 import 'package:kltn_mobile/screens/home/contact_us.dart';
 import 'package:kltn_mobile/screens/home/home_page.dart';
 
@@ -47,9 +48,14 @@ class AppRoute {
       case '/contactus':
         return MaterialPageRoute(builder: (_) => const ContactUs());
       case '/schoolslistCanada':
-        return MaterialPageRoute(builder: (_) => const SchoolsListPage(country: 'CANADA',));
+        return MaterialPageRoute(
+            builder: (_) => const SchoolsListPage(
+                  country: 'CANADA',
+                ));
       case '/scholarship':
-            return MaterialPageRoute(builder: (_) => const ScholarshipsList());
+        return MaterialPageRoute(builder: (_) => const ScholarshipsList());
+      case '/chatting':
+        return MaterialPageRoute(builder: (_) => const GeminiAI());
       case '/mainpage':
         return MaterialPageRoute(builder: (_) => const MainPage());
       default:
