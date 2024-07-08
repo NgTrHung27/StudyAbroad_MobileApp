@@ -6,8 +6,10 @@ import 'package:kltn_mobile/components/Style/backbutton.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/list_view/school_box.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
+import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SchoolsListPage extends StatefulWidget {
+class SchoolsListPage extends BasePage {
   const SchoolsListPage({super.key, required this.country});
   final String country;
 
@@ -23,17 +25,17 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
   }
 
   Color getColorForCountry(String country) {
-  switch (country.toUpperCase()) {
-    case 'CANADA':
-      return AppColor.redButton;
-    case 'AUSTRALIA':
-      return const Color(0xff2D3D7A);
-    case 'KOREA':
-      return const Color(0xff2BB6CF);
-    default:
-      return Colors.grey; // Một màu mặc định nếu không khớp với bất kỳ trường hợp nào
+    switch (country.toUpperCase()) {
+      case 'CANADA':
+        return AppColor.redButton;
+      case 'AUSTRALIA':
+        return const Color(0xff2D3D7A);
+      case 'KOREA':
+        return const Color(0xff2BB6CF);
+      default:
+        return Colors.grey; // Default color if country is not matched
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,30 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final exploreColor = isDarkMode ? Colors.white : AppColor.redButton;
-
+    final localizations = AppLocalizations.of(context);
+    final schExplore =
+        localizations != null ? localizations.sch_explore : 'Default Text';
+    final schCanada =
+        localizations != null ? localizations.sch_Canada : 'Default Text';
+    final schAustra =
+        localizations != null ? localizations.sch_Australia : 'Default Text';
+    final schKorea =
+        localizations != null ? localizations.sch_Korea : 'Default Text';
+    String countryText;
+  switch (widget.country.toUpperCase()) {
+    case 'CANADA':
+      countryText = schCanada;
+      break;
+    case 'AUSTRALIA':
+      countryText = schAustra;
+      break;
+    case 'KOREA':
+      countryText = schKorea;
+      break;
+    default:
+      countryText = 'Default Text';
+  }
+    
     return Scaffold(
       body: BlocBuilder<SchoolsCubit, SchoolsState>(
         builder: (context, state) {
@@ -62,7 +87,7 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
                             padding: EdgeInsets.only(top: screenHeight * 0.03),
                             child: Center(
                               child: TextMonserats(
-                                widget.country,
+                                countryText,
                                 color:Colors.white,
                                 fontSize: screenWidth * 0.07,
                                 fontWeight: FontWeight.w700,
@@ -75,7 +100,7 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
                          child: Padding(
                           padding: EdgeInsets.only(top: screenHeight*0.025 ),
                           child: TextMonserats(
-                            'Explore Schools',
+                            schExplore,
                             color: exploreColor,
                             fontSize: screenWidth*0.045,
                             fontWeight: FontWeight.w700,

@@ -94,5 +94,14 @@
   "pfs": "Trạng thái hồ sơ",
   "pfs_step1": "Đã nộp đơn",
   "pfs_step2": "Đang chờ xem xét",
-  "pfs_step3": "Hoàn tất"
+  "pfs_step3": "Hoàn tất",
+  "sch_Canada": "Canada",
+  "sch_Australia": "Úc",
+  "sch_Korea": "Hàn Quốc",
+  "sch_explore": "Khám phá trường học",
+  "sch_desc": "Mô tả",
+  "sch_require": "Yêu cầu",
+  "sch_major": "Ngành học",
+  "sch_major_body": "Các ngành học của",
+  "sch_scholarship": "Học bổng"
 }

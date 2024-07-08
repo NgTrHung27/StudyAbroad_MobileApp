@@ -94,5 +94,14 @@
   "pfs": "Profile Status",
   "pfs_step1": "Application has been submitted",
   "pfs_step2": "Awaiting review",
-  "pfs_step3": "Done"
+  "pfs_step3": "Done",
+  "sch_Canada": "Canada",
+  "sch_Australia": "Australia",
+  "sch_Korea": "Korea",
+  "sch_explore": "Explore School",
+  "sch_desc": "Description",
+  "sch_require": "Requirements",
+  "sch_major": "Majors",
+  "sch_major_body": "Programs of",
+  "sch_scholarship": "Scholarships"
 }

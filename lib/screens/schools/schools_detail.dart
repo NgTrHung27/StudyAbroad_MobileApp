@@ -7,8 +7,10 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/list_view/major_box.dart';
 import 'package:kltn_mobile/components/list_view/news_listview_horizontal.dart';
 import 'package:kltn_mobile/models/schools.dart';
+import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SchoolsDetail extends StatefulWidget {
+class SchoolsDetail extends BasePage {
   final Schools school;
   const SchoolsDetail({super.key, required this.school});
 
@@ -16,7 +18,7 @@ class SchoolsDetail extends StatefulWidget {
   SchoolsDetailState createState() => SchoolsDetailState();
 }
 
-class SchoolsDetailState extends State<SchoolsDetail> {
+class SchoolsDetailState extends BasePageState<SchoolsDetail> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -26,6 +28,17 @@ class SchoolsDetailState extends State<SchoolsDetail> {
     final schoolnameColor = isDarkMode ? Colors.white : AppColor.redButton;
     final textColor = isDarkMode ? Colors.white : Colors.black;
     final scaffoldBackgroundColor = isDarkMode ? const Color(0xff1E2334) : Colors.white;
+    final localizations = AppLocalizations.of(context);
+    final schDesc =
+        localizations != null ? localizations.sch_desc : 'Default Text';
+    final schReq =
+        localizations != null ? localizations.sch_require : 'Default Text';
+    final schMaj =
+        localizations != null ? localizations.sch_major : 'Default Text';
+    final schMajBody =
+        localizations != null ? localizations.sch_major_body : 'Default Text';
+    final schSchol =
+        localizations != null ? localizations.sch_scholarship : 'Default Text';
     return Scaffold(
         body: Stack(
             children:[ 
@@ -74,10 +87,10 @@ class SchoolsDetailState extends State<SchoolsDetail> {
                                     ),
                                   ),
                                   tabs: [
-                                    Tab(child: TextMonserats('Description', fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
-                                    Tab(child: TextMonserats('Requirement', fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
-                                    Tab(child: TextMonserats('Majors', fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
-                                    Tab(child: TextMonserats('Scholarships', fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
+                                    Tab(child: TextMonserats(schDesc, fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
+                                    Tab(child: TextMonserats(schReq, fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
+                                    Tab(child: TextMonserats(schMaj, fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
+                                    Tab(child: TextMonserats(schSchol, fontSize: screenWidth*0.04, fontWeight: FontWeight.bold, color: schoolnameColor,)),
                                   ],
                                 ),
                                   SizedBox(
@@ -95,7 +108,7 @@ class SchoolsDetailState extends State<SchoolsDetail> {
                                           children: [
                                             Padding(
                                               padding: EdgeInsets.only(top: screenHeight*0.02, bottom: screenHeight*0.02),
-                                              child: TextMonserats('Programs of ${widget.school.name}',
+                                              child: TextMonserats('$schMajBody ${widget.school.name}',
                                                 fontWeight: FontWeight.w700,
                                                 color: schoolnameColor,
                                                 fontSize: screenWidth*0.05,
