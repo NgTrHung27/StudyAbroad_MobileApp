@@ -19,11 +19,10 @@ class MajorBoxState extends State<MajorBox> {
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColor = isDarkMode ? Colors.white : Colors.black;
-    final boxColor = isDarkMode ? Color(0xff3F3F46) : Colors.white;
+    final boxColor = isDarkMode ? const Color(0xff3F3F46) : Colors.white;
     return ListView.builder(
       itemCount: widget.programs.length,
       itemBuilder: (context, index) {
-        // final program = widget.programs[index];
         return GestureDetector(
             onTap: () {
               Navigator.push(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/schools_cubit/schools_cubit.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/Style/backbutton.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/list_view/school_box.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
@@ -43,58 +44,65 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
     final exploreColor = isDarkMode ? Colors.white : AppColor.redButton;
 
     return Scaffold(
-      
       body: BlocBuilder<SchoolsCubit, SchoolsState>(
         builder: (context, state) {
           if (state is SchoolsLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is SchoolsLoaded) {
             return SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                      Container(
-                        width: screenWidth,
-                        height: screenHeight * 0.15,
-                        color: getColorForCountry(widget.country),
-                        child: Padding(
-                          padding: EdgeInsets.only(top: screenHeight * 0.03),
-                          child: Center(
-                            child: TextMonserats(
-                              widget.country,
-                              color:Colors.white,
-                              fontSize: screenWidth * 0.07,
-                              fontWeight: FontWeight.w700,
+              child: Stack(
+                children: [ Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        Container(
+                          width: screenWidth,
+                          height: screenHeight * 0.15,
+                          color: getColorForCountry(widget.country),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: screenHeight * 0.03),
+                            child: Center(
+                              child: TextMonserats(
+                                widget.country,
+                                color:Colors.white,
+                                fontSize: screenWidth * 0.07,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
-                        ),
-                    ),
-                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
-                       child: Padding(
-                        padding: EdgeInsets.only(top: screenHeight*0.025 ),
-                        child: TextMonserats(
-                          'Explore Schools',
-                          color: exploreColor,
-                          fontSize: screenWidth*0.045,
-                          fontWeight: FontWeight.w700,
-                        ),
-                                           ),
-                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: state.schoolList.length,
-                        itemBuilder: (context, index) {
-                          final school = state.schoolList[index];
-                          return SchoolBox(school: school);
-                        },
                       ),
-                    ),
-                  ],
-                ),
+                       Padding(
+                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                         child: Padding(
+                          padding: EdgeInsets.only(top: screenHeight*0.025 ),
+                          child: TextMonserats(
+                            'Explore Schools',
+                            color: exploreColor,
+                            fontSize: screenWidth*0.045,
+                            fontWeight: FontWeight.w700,
+                          ),
+                                             ),
+                       ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: state.schoolList.length,
+                          itemBuilder: (context, index) {
+                            final school = state.schoolList[index];
+                            return SchoolBox(school: school);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    top: screenHeight*0.06,
+                    left: screenWidth*0.03,
+                    child: const BackButtonCircle()
+                  ),
+                ],
+              ),
             );
           } else if (state is SchoolsError) {
             return Center(child: Text('Error: ${state.message}'));
