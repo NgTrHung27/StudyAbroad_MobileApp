@@ -6,8 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
 import 'package:kltn_mobile/screens/chatting/floating_chatting_position.dart';
 import 'package:provider/provider.dart';
-import 'package:kltn_mobile/screens/chatting/dismissible_bottom_sheet_view.dart';
-import 'package:floating_chat_button/floating_chat_button.dart';
+import 'package:kltn_mobile/screens/chatting/dismissible_chatting_gemini_ai.dart';
 
 import 'home_page.dart';
 import '../notifications/notifications_page.dart';
@@ -55,25 +54,20 @@ class MainPageState extends State<MainPage> {
             index: _currentIndex,
             children: _children,
           ),
-          floatingActionButton: FloatingChatButton(
-            onTap: (_) {
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
               _showBottomSheet(context);
             },
-            chatIconWidget: Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Icon(
-                Icons.contact_support_outlined,
-                color: AppColor.redButton,
-                size: 40,
-              ),
+            backgroundColor: Colors.white,
+            child: Icon(
+              Icons.contact_support_outlined,
+              color: AppColor.redButton,
+              size: 30,
             ),
-            messageBackgroundColor: AppColor.redButton,
-            chatIconBorderColor: AppColor.redButton,
-            chatIconBackgroundColor: Colors.white,
           ),
-          floatingActionButtonLocation: CustomFloatingActionButtonLocation(
-            verticalOffset: 70,
-            horizontalOffset: 10,
+          floatingActionButtonLocation: CustomFABLocation(
+            FloatingActionButtonLocation.endFloat,
+            90.0,
           ),
         ),
         Positioned(

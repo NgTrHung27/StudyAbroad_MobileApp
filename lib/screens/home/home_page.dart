@@ -1,4 +1,3 @@
-import 'package:floating_chat_button/floating_chat_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/carousel_event_state/carousel_bloc.dart';
@@ -16,7 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
-import 'package:kltn_mobile/screens/chatting/dismissible_bottom_sheet_view.dart';
+import 'package:kltn_mobile/screens/chatting/dismissible_chatting_gemini_ai.dart';
 
 class HomePage extends BasePage {
   const HomePage({super.key, UserAuthLogin? userAuth, NewsList? newsData});
@@ -150,6 +149,7 @@ class _HomePageState extends BasePageState<HomePage> {
         ));
   }
 
+  // ignore: unused_element
   Future<void> _showBottomSheet(BuildContext bContext) async {
     return showModalBottomSheet(
       enableDrag: false,

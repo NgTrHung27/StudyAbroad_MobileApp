@@ -20,12 +20,15 @@ class SchoolsCubit extends Cubit<SchoolsState> {
     }
   }
 
-  void getCountryList() async {
+    // Thêm vào SchoolsCubit
+  void getSchoolListByCountry(String country) async {
     emit(SchoolsLoading());
     try {
-      List<String> countryList = await apiRepository.fetchUniqueCountries();
-      emit(CountryLoaded(countryList: countryList));
-      print('CountryLoaded $countryList');
+      List<Schools> schoolList = await apiRepository.fetchSchools();
+      // Lọc danh sách trường học theo quốc gia
+      List<Schools> filteredList = schoolList.where((school) => school.country == country).toList();
+      emit(SchoolsLoaded(schoolList: filteredList));
+      print('SchoolsLoaded $filteredList');
     } catch (e) {
       emit(SchoolsError(message: e.toString()));
       print('SchoolsError $e');

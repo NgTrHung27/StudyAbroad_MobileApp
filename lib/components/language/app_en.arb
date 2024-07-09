@@ -99,5 +99,14 @@
   "ai_chatting_title": "Gemini AI",
   "ai_chatting_subtitle": "Chat with our AI to get more information",
   "ai_chatting_input": "Type your message here...",
-  "ai_chatting_desPic": "Describe this picture"
+  "ai_chatting_desPic": "Describe this picture",
+  "sch_Canada": "Canada",
+  "sch_Australia": "Australia",
+  "sch_Korea": "Korea",
+  "sch_explore": "Explore School",
+  "sch_desc": "Description",
+  "sch_require": "Requirements",
+  "sch_major": "Majors",
+  "sch_major_body": "Programs of",
+  "sch_scholarship": "Scholarships"
 }

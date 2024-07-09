@@ -99,5 +99,14 @@
   "ai_chatting_title": "채팅",
   "ai_chatting_subtitle": "AI와 채팅하여 더 많은 정보를 얻으세요",
   "ai_chatting_input": "여기에 메시지를 입력하세요...",
-  "ai_chatting_desPic": "이 사진을 설명하세요"
+  "ai_chatting_desPic": "이 사진을 설명하세요",
+  "sch_Canada": "캐나다",
+  "sch_Australia": "호주",
+  "sch_Korea": "한국",
+  "sch_explore": "학교 탐색",
+  "sch_desc": "설명",
+  "sch_require": "요구사항",
+  "sch_major": "전공",
+  "sch_major_body": "의 전공",
+  "sch_scholarship": "장학금"
 }

@@ -99,5 +99,14 @@
   "ai_chatting_title": "Gemini AI",
   "ai_chatting_subtitle": "Trò chuyện với AI của chúng tôi để biết thêm thông tin",
   "ai_chatting_input": "Nhập tin nhắn của bạn tại đây...",
-  "ai_chatting_desPic": "Mô tả bức ảnh này"
+  "ai_chatting_desPic": "Mô tả bức ảnh này",
+  "sch_Canada": "Canada",
+  "sch_Australia": "Úc",
+  "sch_Korea": "Hàn Quốc",
+  "sch_explore": "Khám phá trường học",
+  "sch_desc": "Mô tả",
+  "sch_require": "Yêu cầu",
+  "sch_major": "Ngành học",
+  "sch_major_body": "Các ngành học của",
+  "sch_scholarship": "Học bổng"
 }
