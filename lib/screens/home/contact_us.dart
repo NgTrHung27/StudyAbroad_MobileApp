@@ -16,6 +16,7 @@ import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/home/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 
 class ContactUs extends BasePage {

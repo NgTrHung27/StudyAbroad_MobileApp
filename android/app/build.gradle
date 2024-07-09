@@ -14,12 +14,12 @@ if (localPropertiesFile.exists()) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
+    flutterVersionCode = '4'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = '1.4'
 }
 
     def keystoreProperties = new Properties()
@@ -28,7 +28,7 @@ if (flutterVersionName == null) {
        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
     }    
 android {
-    namespace "com.example.kltn_mobile"
+    namespace "com.hungdev.kltn_mobile"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -47,13 +47,13 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.kltn_mobile"
+        applicationId "com.hungdev.kltn_mobile"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 4
+        versionName "1.4"
     }
 
     signingConfigs {
@@ -70,7 +70,9 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             // signingConfig signingConfigs.debug
             signingConfig signingConfigs.release
-
+            ndk {
+                debugSymbolLevel 'SYMBOL_TABLE'
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kltn_mobile/screens/chatting/chatting_gemini_ai.dart';
 
 class DismissibleBottomSheetView extends StatelessWidget {
   final Widget childView;
@@ -9,31 +10,20 @@ class DismissibleBottomSheetView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      child: SafeArea(
+      child: const SafeArea(
         bottom: false,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            const SizedBox(height: 60),
+            SizedBox(height: 60),
             Expanded(
               child: ClipRRect(
-                borderRadius: const BorderRadius.only(
+                borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
                     topLeft: Radius.circular(20)),
-                child: childView,
+                child: GeminiAI(),
               ),
             ),
-            Container(
-              alignment: Alignment.center,
-              color: Colors.white,
-              padding: const EdgeInsets.all(20),  
-              child: TextButton(
-                child: const Text("Dismiss", style: TextStyle(fontSize: 20),),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            )
           ],
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
