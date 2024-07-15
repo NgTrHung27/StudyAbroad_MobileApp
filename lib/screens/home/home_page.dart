@@ -16,6 +16,7 @@ import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/chatting/dismissible_chatting_gemini_ai.dart';
+import 'package:kltn_mobile/screens/schools/schools_list.dart';
 
 class HomePage extends BasePage {
   const HomePage({super.key, UserAuthLogin? userAuth, NewsList? newsData});
@@ -101,8 +102,12 @@ class _HomePageState extends BasePageState<HomePage> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed('/schoolslistCanada');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const SchoolsListPage(
+                                        country: 'CANADA'),
+                                  ),
+                                );
                               },
                               child: SizedBox(
                                   width: 330,
@@ -112,8 +117,12 @@ class _HomePageState extends BasePageState<HomePage> {
                             SizedBox(width: screenWidth * 0.02),
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed('/schoolslistCanada');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const SchoolsListPage(
+                                        country: 'AUSTRALIA'),
+                                  ),
+                                );
                               },
                               child: SizedBox(
                                   width: 330,
@@ -123,8 +132,12 @@ class _HomePageState extends BasePageState<HomePage> {
                             SizedBox(width: screenWidth * 0.02),
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed('/schoolslistCanada');
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SchoolsListPage(country: 'KOREA'),
+                                  ),
+                                );
                               },
                               child: SizedBox(
                                   width: 330,
