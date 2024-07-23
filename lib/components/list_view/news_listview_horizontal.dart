@@ -4,6 +4,7 @@ import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/screens/news/news_detail.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewsListView extends StatefulWidget {
   const NewsListView({super.key});
@@ -23,6 +24,9 @@ class NewsListViewState extends State<NewsListView> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final errorConn =
+        localizations != null ? localizations.error_connection : "Defalut Text";
     return BlocBuilder<NewsCubit, NewsState>(
       builder: (context, state) {
         if (state is NewsLoading) {
@@ -31,9 +35,8 @@ class NewsListViewState extends State<NewsListView> {
           );
         }
         if (state is NewsError) {
-          return Center(
-            child: Text(state.message),
-          );
+          print(state.message.toString());
+          return Center(child: Text(errorConn));
         }
         if (state is NewsLoaded) {
           newsList = state.newsList;

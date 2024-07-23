@@ -53,21 +53,23 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
         localizations != null ? localizations.sch_Australia : 'Default Text';
     final schKorea =
         localizations != null ? localizations.sch_Korea : 'Default Text';
+    final errorConn =
+        localizations != null ? localizations.error_connection : "Defalut Text";
     String countryText;
-  switch (widget.country.toUpperCase()) {
-    case 'CANADA':
-      countryText = schCanada;
-      break;
-    case 'AUSTRALIA':
-      countryText = schAustra;
-      break;
-    case 'KOREA':
-      countryText = schKorea;
-      break;
-    default:
-      countryText = 'Default Text';
-  }
-    
+    switch (widget.country.toUpperCase()) {
+      case 'CANADA':
+        countryText = schCanada;
+        break;
+      case 'AUSTRALIA':
+        countryText = schAustra;
+        break;
+      case 'KOREA':
+        countryText = schKorea;
+        break;
+      default:
+        countryText = 'Default Text';
+    }
+
     return Scaffold(
       body: BlocBuilder<SchoolsCubit, SchoolsState>(
         builder: (context, state) {
@@ -76,39 +78,42 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
           } else if (state is SchoolsLoaded) {
             return SingleChildScrollView(
               child: Stack(
-                children: [ Column(
+                children: [
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                        Container(
-                          width: screenWidth,
-                          height: screenHeight * 0.15,
-                          color: getColorForCountry(widget.country),
-                          child: Padding(
-                            padding: EdgeInsets.only(top: screenHeight * 0.03),
-                            child: Center(
-                              child: TextMonserats(
-                                countryText,
-                                color:Colors.white,
-                                fontSize: screenWidth * 0.07,
-                                fontWeight: FontWeight.w700,
-                              ),
+                      Container(
+                        width: screenWidth,
+                        height: screenHeight * 0.15,
+                        color: getColorForCountry(widget.country),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: screenHeight * 0.03),
+                          child: Center(
+                            child: TextMonserats(
+                              countryText,
+                              color: Colors.white,
+                              fontSize: screenWidth * 0.07,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
+                        ),
                       ),
-                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
-                         child: Padding(
-                          padding: EdgeInsets.only(top: screenHeight*0.025 ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.08),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: screenHeight * 0.025),
                           child: TextMonserats(
                             schExplore,
                             color: exploreColor,
-                            fontSize: screenWidth*0.045,
+                            fontSize: screenWidth * 0.045,
                             fontWeight: FontWeight.w700,
                           ),
-                                             ),
-                       ),
+                        ),
+                      ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.08),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.08),
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -122,15 +127,15 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
                     ],
                   ),
                   Positioned(
-                    top: screenHeight*0.06,
-                    left: screenWidth*0.03,
-                    child: const BackButtonCircle()
-                  ),
+                      top: screenHeight * 0.06,
+                      left: screenWidth * 0.03,
+                      child: const BackButtonCircle()),
                 ],
               ),
             );
           } else if (state is SchoolsError) {
-            return Center(child: Text('Error: ${state.message}'));
+            print(state.message.toString());
+            return Center(child: Text(errorConn));
           }
           return const Center(child: Text('Please wait...'));
         },

@@ -46,6 +46,8 @@ class _HomePageState extends BasePageState<HomePage> {
         localizations != null ? localizations.home_exlore : 'Default Text';
     final homeNewListText =
         localizations != null ? localizations.home_NewList : 'Default Text';
+    final errorConn =
+        localizations != null ? localizations.error_connection : "Defalut Text";
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColorRed = isDarkMode ? Colors.white : AppColor.redButton;
@@ -73,7 +75,8 @@ class _HomePageState extends BasePageState<HomePage> {
                           } else if (state is CarouselLoaded) {
                             return CarouselSliderDataFound(state.carousels);
                           } else if (state is CarouselError) {
-                            return Center(child: Text(state.message));
+                            print(state.message.toString());
+                            return Center(child: Text(errorConn));
                           } else {
                             return Container();
                           }
