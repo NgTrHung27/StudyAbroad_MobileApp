@@ -220,7 +220,11 @@ class _UserProfileState extends BasePageState<Profile> {
                         switchValue: false,
                       ),
                       FunctionItem(
-                          name: setting3, icon: Icons.question_mark_rounded),
+                          name: setting3,
+                          icon: Icons.question_mark_rounded,
+                          onTap: () {
+                            Navigator.pushNamed(context, '/help&feedback');
+                          }),
                     ],
                   ),
                   const SizedBox(height: 20),

@@ -10,6 +10,7 @@ import 'package:kltn_mobile/screens/home/home_page.dart';
 import 'package:kltn_mobile/screens/home/splash.dart';
 import 'package:kltn_mobile/screens/home/mainpage.dart';
 import 'package:kltn_mobile/screens/news/news_page.dart';
+import 'package:kltn_mobile/screens/profiles/help_feedback.dart';
 import 'package:kltn_mobile/screens/profiles/profile.dart';
 import 'package:kltn_mobile/screens/profiles/profile_detail.dart';
 import 'package:kltn_mobile/screens/profiles/profile_status.dart';
@@ -43,6 +44,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const ProfileDetail());
       case '/profilestatus':
         return MaterialPageRoute(builder: (_) => const ProfileStatus());
+      case '/help&feedback':
+        return MaterialPageRoute(builder: (_) => const HelpFeedback());
       case '/notifications':
         return MaterialPageRoute(builder: (_) => const NotificationsPage());
       case '/contactus':
