@@ -11,7 +11,8 @@ class SchoolBox extends StatelessWidget {
 
   // Hàm để chuyển đổi chuỗi rgba thành Color
   Color rgbaToColor(String rgba) {
-    final rgbaValues = rgba.replaceAll('rgba(', '').replaceAll(')', '').split(',');
+    final rgbaValues =
+        rgba.replaceAll('rgba(', '').replaceAll(')', '').split(',');
     return Color.fromRGBO(
       int.parse(rgbaValues[0].trim()),
       int.parse(rgbaValues[1].trim()),
@@ -22,7 +23,8 @@ class SchoolBox extends StatelessWidget {
 
   // Hàm để extract và tạo LinearGradient từ chuỗi
   LinearGradient parseGradient(String gradientString) {
-    final matches = RegExp(r'rgba\((\d+,\d+,\d+,\d?.?\d*)\)\s(\d+)%').allMatches(gradientString);
+    final matches = RegExp(r'rgba\((\d+,\d+,\d+,\d?.?\d*)\)\s(\d+)%')
+        .allMatches(gradientString);
 
     final colors = <Color>[];
     final stops = <double>[];
@@ -53,10 +55,11 @@ class SchoolBox extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: screenHeight * 0.015),
       child: GestureDetector(
-          onTap: () {
+        onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SchoolsDetail(school: school)),
+            MaterialPageRoute(
+                builder: (context) => SchoolsDetail(school: school)),
           );
         },
         child: Container(
@@ -75,27 +78,30 @@ class SchoolBox extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   Positioned.fill(
-                    child:Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: parseGradient(school.color).begin,
-                            end: parseGradient(school.color).end,
-                            stops: parseGradient(school.color).stops,
-                            colors: parseGradient(school.color).colors
-                                .map((color) => color.withOpacity(0.35))
-                                .toList(),
-                          ),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: parseGradient(school.color).begin,
+                          end: parseGradient(school.color).end,
+                          stops: parseGradient(school.color).stops,
+                          colors: parseGradient(school.color)
+                              .colors
+                              .map((color) => color.withOpacity(0.35))
+                              .toList(),
                         ),
                       ),
+                    ),
                   ),
                 ],
               ),
               Container(
                 width: double.infinity,
-                height: screenHeight * 0.26,
+                height: screenHeight * 0.3,
                 color: boxColor,
-                padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06, vertical: screenHeight * 0.02),
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.06,
+                    vertical: screenHeight * 0.02),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -105,6 +111,8 @@ class SchoolBox extends StatelessWidget {
                       fontWeight: FontWeight.w700,
                       color: textColor,
                       height: 1.3,
+                      maxLine: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: screenHeight * 0.015),
                     Row(
@@ -128,14 +136,16 @@ class SchoolBox extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: screenHeight * 0.015),
-                    TextMonserats(
-                      school.short ?? 'no short description',
-                      fontSize: screenWidth * 0.04,
-                      fontWeight: FontWeight.w500,
-                      color: textColor,
-                      height: 1.3,
-                      overflow: TextOverflow.ellipsis,
-                      maxLine: 3,
+                    Expanded(
+                      child: TextMonserats(
+                        school.short ?? 'no short description',
+                        fontSize: screenWidth * 0.04,
+                        fontWeight: FontWeight.w500,
+                        color: textColor,
+                        height: 1.3,
+                        overflow: TextOverflow.ellipsis,
+                        maxLine: 3,
+                      ),
                     ),
                   ],
                 ),
