@@ -18,6 +18,7 @@ import 'package:kltn_mobile/screens/home/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ContactUs extends BasePage {
   const ContactUs({super.key});
@@ -180,6 +181,37 @@ class _ContactUsState extends BasePageState<ContactUs> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final contactPage =
+        localizations != null ? localizations.contact_page : "Default Text";
+    final contactSub =
+        localizations != null ? localizations.contact_text : "Default Text";
+    final contactTit =
+        localizations != null ? localizations.contact_title : "Default Text";
+    final contactSchool =
+        localizations != null ? localizations.contact_school : "Default Text";
+    final contactName =
+        localizations != null ? localizations.contact_name : "Default Text";
+    final contactMail =
+        localizations != null ? localizations.contact_mail : "Default Text";
+    final contactPhon =
+        localizations != null ? localizations.contact_phone : "Default Text";
+    final contactMess =
+        localizations != null ? localizations.contact_mess : "Default Text";
+    final fullname = localizations != null
+        ? localizations.register_7_fullname
+        : "Default Text";
+    final mail = localizations != null
+        ? localizations.register_login_cpass__fg_mail
+        : "Default Text";
+    final phoneText = localizations != null
+        ? localizations.register_12_phone
+        : "Default Text";
+    final help = localizations != null
+        ? localizations.register_12_phone
+        : "Defalut Text";
+    final send =
+        localizations != null ? localizations.contact_send : "Default Text";
     final isDarkMode =
         context.watch<ThemeSettingCubit>().state == AppTheme.blackTheme;
     final screenWidth = MediaQuery.of(context).size.width;
@@ -230,7 +262,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
                       }),
                       const Spacer(flex: 1),
                       TextMonserats(
-                        'Contact Us',
+                        contactPage,
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
                         color: isDarkMode ? Colors.white : AppColor.redButton,
@@ -239,8 +271,8 @@ class _ContactUsState extends BasePageState<ContactUs> {
                     ],
                   ),
                   const SizedBox(height: 6),
-                  const TextMonserats(
-                    'Need assistance? Drop us a message, describing the problem you’re experiencing.',
+                  TextMonserats(
+                    contactSub,
                     textAlign: TextAlign.center,
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -254,7 +286,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
                       icon: Icons.title,
                       items: TitleForm.values,
                       selectedItem: valueTitleForm,
-                      hintText: 'Select a title form',
+                      hintText: contactTit,
                       onChanged: (TitleForm? newValueTitle) {
                         if (newValueTitle != null) {
                           setState(() {
@@ -298,15 +330,15 @@ class _ContactUsState extends BasePageState<ContactUs> {
                               });
                             },
                             itemLabel: (Schools school) => school.name,
-                            hintText: 'Select a school',
+                            hintText: contactSchool,
                             isExpanded: true,
                           );
                         },
                       )),
                   TextFieldTitle(
-                    title: 'Full Name',
+                    title: fullname,
                     controller: fullNameController,
-                    hintText: 'Enter your full name',
+                    hintText: contactName,
                     color: AppColor.scafflodBgColor,
                     onChanged: (value) {
                       fullName = value;
@@ -314,9 +346,9 @@ class _ContactUsState extends BasePageState<ContactUs> {
                   ),
                   const SizedBox(height: 10),
                   TextFieldTitle(
-                    title: 'Email',
+                    title: mail,
                     controller: emailController,
-                    hintText: 'Enter your email',
+                    hintText: contactMail,
                     errorText: errorEmailMessage,
                     color: AppColor.scafflodBgColor,
                     //errorText: errorEmail,
@@ -336,9 +368,9 @@ class _ContactUsState extends BasePageState<ContactUs> {
                   ),
                   const SizedBox(height: 10),
                   TextFieldTitle(
-                    title: 'Phone',
+                    title: phoneText,
                     controller: phoneController,
-                    hintText: 'Enter your phone number',
+                    hintText: contactPhon,
                     color: AppColor.scafflodBgColor,
                     onChanged: (value) {
                       phone = value;
@@ -346,9 +378,9 @@ class _ContactUsState extends BasePageState<ContactUs> {
                   ),
                   const SizedBox(height: 10),
                   TextFieldTitle(
-                    title: 'How can we help?',
+                    title: help,
                     controller: messageController,
-                    hintText: 'Enter your message',
+                    hintText: contactMess,
                     color: AppColor.scafflodBgColor,
                     onChanged: (value) {
                       message = value;
@@ -360,7 +392,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
                       print('Button pressed');
                       sendForm();
                     },
-                    text: 'Send inquiry',
+                    text: send,
                   )
                 ],
               ),

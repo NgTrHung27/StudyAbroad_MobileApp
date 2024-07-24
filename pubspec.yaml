@@ -63,6 +63,8 @@ dependencies:
   dash_chat_2: ^0.0.20
   flutter_gemini: ^2.0.4
   web_socket_channel: ^3.0.0
+  firebase_core: ^3.2.0
+  connectivity_plus: ^2.0.2
 
 dev_dependencies:
   flutter_test:
