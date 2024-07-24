@@ -100,6 +100,8 @@
   "sch_Australia": "Úc",
   "sch_Korea": "Hàn Quốc",
   "sch_explore": "Khám phá trường học",
+  "sch_RvAllSch": "Xem tất cả trường học",
+  "sch_DisMore": "Khám phá thêm",
   "sch_desc": "Mô tả",
   "sch_require": "Yêu cầu",
   "sch_major": "Ngành học",
@@ -116,5 +118,12 @@
   "contact_mess": "Nhập tin nhắn của bạn",
   "contact_send": "Gửi yêu cầu",
   "error_connection": "Vui lòng kết nối với Wifi hoặc Mạng di động",
-  "input_hintext": "Nhập tin tức"
+  "input_hintext": "Nhập tin tức",
+  "cpSchool": "So sánh trường học",
+  "cpSchool2": "Chất lượng giảng dạy",
+  "cpSchool3": "Cơ sở vật chất",
+  "cpSchool4": "Tỷ lệ tốt nghiệp và việc làm",
+  "cpSchool5": "Sự hài lòng của sinh viên",
+  "cpSchool6": "Xếp hạng quốc gia và quốc tế",
+  "cpSchool7": "Tài nguyên tài chính"
 }

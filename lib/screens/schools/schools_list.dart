@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/schools_cubit/schools_cubit.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/backbutton.dart';
+import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/list_view/school_box.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/screens/schools/compare_schools.dart';
 
 class SchoolsListPage extends BasePage {
   const SchoolsListPage({super.key, required this.country});
@@ -55,6 +57,10 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
         localizations != null ? localizations.sch_Korea : 'Default Text';
     final errorConn =
         localizations != null ? localizations.error_connection : "Defalut Text";
+    final schRvallSch =
+        localizations != null ? localizations.sch_RvAllSch : 'Default Text';
+    final schDisMore =
+        localizations != null ? localizations.sch_DisMore : 'Default Text';
     String countryText;
     switch (widget.country.toUpperCase()) {
       case 'CANADA':
@@ -101,6 +107,48 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: screenWidth * 0.08),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: screenHeight * 0.025),
+                          child: TextMonserats(
+                            schRvallSch,
+                            color: exploreColor,
+                            fontSize: screenWidth * 0.045,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.08),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: screenHeight * 0.025),
+                          child: SimpleButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CompareSchoolsPage(
+                                    schoolNames: state.schoolList
+                                        .map((school) => school.name)
+                                        .toList(),
+                                  ),
+                                ),
+                              );
+                            },
+                            backgroundColor: getColorForCountry(widget.country),
+                            child: TextMonserats(
+                              schDisMore,
+                              color: Colors.white,
+                              fontSize: screenWidth * 0.037,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.08,
+                        ),
                         child: Padding(
                           padding: EdgeInsets.only(top: screenHeight * 0.025),
                           child: TextMonserats(

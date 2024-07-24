@@ -100,6 +100,8 @@
   "sch_Australia": "Australia",
   "sch_Korea": "Korea",
   "sch_explore": "Explore School",
+  "sch_RvAllSch": "Review All Schools",
+  "sch_DisMore": "Discover more",
   "sch_desc": "Description",
   "sch_require": "Requirements",
   "sch_major": "Majors",
@@ -116,5 +118,12 @@
   "contact_mess": "Enter your message",
   "contact_send": "Send inquiry",
   "error_connection": "Please connect to Wifi or Mobile Network",
-  "input_hintext": "Enter news"
+  "input_hintext": "Enter news",
+  "cpSchool": "Compare School",
+  "cpSchool2": "Quality Of Teaching",
+  "cpSchool3": "Facilities",
+  "cpSchool4": "Graduation and Employment Rates",
+  "cpSchool5": "Student Sastisfaction",
+  "cpSchool6": "National and International Rankings",
+  "cpSchool7": "Financial Resources"
 }

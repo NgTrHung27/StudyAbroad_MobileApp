@@ -100,6 +100,8 @@
   "sch_Australia": "호주",
   "sch_Korea": "한국",
   "sch_explore": "학교 탐색",
+  "sch_RvAllSch": "모든 학교 검토",
+  "sch_DisMore": "더 알아보기",
   "sch_desc": "설명",
   "sch_require": "요구사항",
   "sch_major": "전공",
@@ -116,5 +118,12 @@
   "contact_mess": "메시지를 입력하세요",
   "contact_send": "문의 보내기",
   "error_connection": "Wi-Fi 또는 모바일 네트워크에 연결하세요",
-  "input_hintext": "뉴스를 입력하세요"
+  "input_hintext": "뉴스를 입력하세요",
+  "cpSchool": "학교 비교",
+  "cpSchool2": "교육 품질",
+  "cpSchool3": "시설",
+  "cpSchool4": "졸업 및 취업률",
+  "cpSchool5": "학생 만족도",
+  "cpSchool6": "학교 비교",
+  "cpSchool7": "재정 자원"
 }
