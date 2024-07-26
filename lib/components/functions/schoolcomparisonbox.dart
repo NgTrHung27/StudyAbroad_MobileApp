@@ -35,6 +35,9 @@ class ComparisonChart extends StatelessWidget {
                 width: 1,
               ),
             ),
+            constraints: const BoxConstraints(
+              minWidth: double.infinity,
+            ),
             child: Column(
               children: [
                 SizedBox(height: screenHeight * 0.02),
@@ -115,22 +118,28 @@ class ComparisonChart extends StatelessWidget {
                           }).toList(),
                         ),
                         SizedBox(height: screenHeight * 0.01),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: schoolNames.map((name) {
-                            return SizedBox(
-                              width: screenWidth * 0.3,
-                              child: TextMonserats(
-                                name,
-                                color: textColor,
-                                fontSize: screenWidth * 0.033,
-                                fontWeight: FontWeight.w600,
-                                maxLine: 3,
-                                height: 1.2,
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          }).toList(),
+                        Container(
+                          constraints: BoxConstraints(
+                            minHeight: screenHeight * 0.055,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: schoolNames.map((name) {
+                              return SizedBox(
+                                width: screenWidth * 0.3,
+                                child: TextMonserats(
+                                  name,
+                                  color: textColor,
+                                  fontSize: screenWidth * 0.033,
+                                  fontWeight: FontWeight.w600,
+                                  maxLine: 3,
+                                  height: 1.2,
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ],
                     ),

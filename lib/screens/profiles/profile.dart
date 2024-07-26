@@ -180,8 +180,23 @@ class _UserProfileState extends BasePageState<Profile> {
                                     },
                                   );
                           }),
-                      FunctionItem(name: status2, icon: Icons.school_outlined),
-                      FunctionItem(name: status3, icon: Icons.payment),
+                      FunctionItem(
+                        name: status2,
+                        icon: Icons.school_outlined,
+                      ),
+                      FunctionItem(
+                          name: status3,
+                          icon: Icons.payment,
+                          onTap: () {
+                            isLoggedIn
+                                ? Navigator.pushNamed(context, '/tuition')
+                                : showCustomDialog(
+                                    context: context,
+                                    onConfirm: () {
+                                      Navigator.pushNamed(context, '/login');
+                                    },
+                                  );
+                          }),
                     ],
                   ),
                   const SizedBox(height: 20),
