@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +25,9 @@ class GeminiAI extends BasePage {
 
 class _GeminiAIState extends BasePageState<GeminiAI> {
   bool _hasSentFirstMessage = false;
+
+  String subtitle = "Good";
+  bool isInputDisabled = false;
 
   String? apiKey;
   Gemini? gemini;
@@ -53,11 +57,39 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // An toàn để truy cập InheritedWidgets ở đây
+    checkNetworkConnection();
+    Theme.of(context);
+    AppLocalizations.of(context);
+  }
+
   Future<void> _loadApiKey() async {
     final jsonString = await rootBundle.loadString('env.json');
     final jsonResponse = jsonDecode(jsonString);
     apiKey = jsonResponse[
         'api_key']; // Fixed to correctly update the class-level variable
+  }
+
+  void checkNetworkConnection() async {
+    final localizations = AppLocalizations.of(context);
+    final errorConn =
+        localizations != null ? localizations.error_connection : "Default Text";
+    String errorsubtitle = errorConn;
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        subtitle = errorsubtitle;
+        isInputDisabled = true;
+      });
+    } else {
+      setState(() {
+        subtitle = 'Good';
+        isInputDisabled = false;
+      });
+    }
   }
 
   @override
@@ -87,7 +119,8 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
     final hintText = localizations != null
         ? localizations.ai_chatting_input
         : 'Default Text';
-   
+    final errorConn =
+        localizations != null ? localizations.error_connection : "Default Text";
     //Theme
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
@@ -105,19 +138,18 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
             fontWeight: FontWeight.w700,
             fontSize: 30,
           ),
-         
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
             color: textColorWhite,
             onPressed: () => Navigator.pop(context),
           )),
-      body: _buildUI(
-          redCorlor, subtitle, hintText, containerUserBox, textColorWhite),
+      body: _buildUI(redCorlor, subtitle, hintText, containerUserBox,
+          textColorWhite, errorConn),
     );
   }
 
-  Widget _buildUI(
-      redCorlor, subtitle, hintText, containerUserBox, textColorWhite) {
+  Widget _buildUI(redCorlor, subtitle, hintText, containerUserBox,
+      textColorWhite, errorConn) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Stack(children: [
@@ -148,6 +180,8 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
               fontSize: 14,
               fontWeight: FontWeight.w400,
             ),
+            inputDisabled: isInputDisabled,
+
             inputDecoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -166,6 +200,14 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
                       topRight: Radius.circular(10),
                     )),
                 focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(22),
+                      bottomRight: Radius.circular(22),
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    )),
+                disabledBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(22),
@@ -202,7 +244,7 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                subtitle,
+                isInputDisabled ? errorConn : subtitle,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.grey,

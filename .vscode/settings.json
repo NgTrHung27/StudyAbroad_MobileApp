@@ -1,3 +1,4 @@
 {
-  "cmake.sourceDirectory": "D:/Work/KLTN_QLyDuHoc/kltn_mobile/linux"
+  "cmake.sourceDirectory": "D:/Work/KLTN_QLyDuHoc/kltn_mobile/linux",
+  "editor.quickSuggestionsDelay": 5
 }

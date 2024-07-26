@@ -55,6 +55,8 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
         localizations != null ? localizations.sch_Australia : 'Default Text';
     final schKorea =
         localizations != null ? localizations.sch_Korea : 'Default Text';
+    final errorConn =
+        localizations != null ? localizations.error_connection : "Defalut Text";
     final schRvallSch =
         localizations != null ? localizations.sch_RvAllSch : 'Default Text';
     final schDisMore =
@@ -180,7 +182,8 @@ class _SchoolsListPageState extends State<SchoolsListPage> {
               ),
             );
           } else if (state is SchoolsError) {
-            return Center(child: Text('Error: ${state.message}'));
+            print(state.message.toString());
+            return Center(child: Text(errorConn));
           }
           return const Center(child: Text('Please wait...'));
         },
