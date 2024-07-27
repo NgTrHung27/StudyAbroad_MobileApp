@@ -14,6 +14,7 @@ import 'package:kltn_mobile/screens/profiles/help_feedback.dart';
 import 'package:kltn_mobile/screens/profiles/profile.dart';
 import 'package:kltn_mobile/screens/profiles/profile_detail.dart';
 import 'package:kltn_mobile/screens/profiles/profile_status.dart';
+import 'package:kltn_mobile/screens/profiles/tuition.dart';
 import 'package:kltn_mobile/screens/scholarships/scholarships_list.dart';
 import 'package:kltn_mobile/screens/schools/schools_list.dart';
 
@@ -59,6 +60,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const ScholarshipsList());
       case '/chatting':
         return MaterialPageRoute(builder: (_) => const GeminiAI());
+      case '/tuition':
+        return MaterialPageRoute(builder: (_) => const TuitionStatus());
       case '/mainpage':
         return MaterialPageRoute(builder: (_) => const MainPage());
       default:
