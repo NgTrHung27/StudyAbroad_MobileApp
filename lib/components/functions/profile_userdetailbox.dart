@@ -30,7 +30,8 @@ class _LegendBoxState extends State<LegendBox> {
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColor = isDarkMode ? Colors.white : Colors.black;
-    final titleBox = isDarkMode ? AppColor.scafflodBgColorDark : AppColor.scafflodBgColor;
+    final titleBox =
+        isDarkMode ? AppColor.scafflodBgColorDark : AppColor.scafflodBgColor;
     return SizedBox(
       width: double.infinity,
       child: Stack(
@@ -50,6 +51,8 @@ class _LegendBoxState extends State<LegendBox> {
                   alignment: Alignment.centerLeft,
                   child: TextMonserats(
                     widget.value,
+                    maxLine: 1,
+                    overflow: TextOverflow.ellipsis,
                     color: widget.value == 'APPROVED'
                         ? Colors.green
                         : widget.value == 'DENIED'

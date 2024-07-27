@@ -42,7 +42,7 @@ class TuitionStatusState extends BasePageState<TuitionStatus> {
               Center(
                 child: IdTab(
                   userName: userAuth?.name ?? 'N/A',
-                  idUser: userAuth?.id ?? 'N/A',
+                  idUser: userAuth?.email ?? 'N/A',
                   avatarImgUrl: userAuth?.student.school.logo != null
                       ? userAuth!.student.school.logo
                       : null, // Sử dụng hình ảnh từ API nếu có
