@@ -58,16 +58,17 @@ class MainPageState extends State<MainPage> {
             onPressed: () {
               _showBottomSheet(context);
             },
-            backgroundColor: Colors.white,
-            child: Icon(
-              Icons.contact_support_outlined,
-              color: AppColor.redButton,
+            backgroundColor: AppColor.redLight,
+            child: const ImageIcon(
+              AssetImage('assets/icons_3d/chatbot.png'),
               size: 30,
+              color: Colors.white,
             ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
           floatingActionButtonLocation: CustomFABLocation(
             FloatingActionButtonLocation.endFloat,
-            90.0,
+            100.0,
           ),
         ),
         Positioned(
