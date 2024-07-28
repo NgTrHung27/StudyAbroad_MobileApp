@@ -34,7 +34,4 @@ class FirebaseApi {
       print('Failed to post token: ${response.statusCode}');
     }
   }
-
-  // Function to handle Received Mess
-  // Function to initialize foreground and background settings
 }
