@@ -59,12 +59,13 @@ class MainPageState extends State<MainPage> {
               _showBottomSheet(context);
             },
             backgroundColor: AppColor.redLight,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             child: const ImageIcon(
               AssetImage('assets/icons_3d/chatbot.png'),
               size: 30,
               color: Colors.white,
             ),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           ),
           floatingActionButtonLocation: CustomFABLocation(
             FloatingActionButtonLocation.endFloat,

@@ -79,6 +79,7 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
         localizations != null ? localizations.error_connection : "Default Text";
     String errorsubtitle = errorConn;
     var connectivityResult = await (Connectivity().checkConnectivity());
+    // ignore: unrelated_type_equality_checks
     if (connectivityResult == ConnectivityResult.none) {
       setState(() {
         subtitle = errorsubtitle;

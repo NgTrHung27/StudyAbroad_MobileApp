@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,20 +10,34 @@ import 'package:kltn_mobile/blocs/contact_us_bloc/contact_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
 import 'package:kltn_mobile/blocs/profile_status_cubit_bloc/profile_status_cubit.dart';
+import 'package:kltn_mobile/components/notifications/firebase_api.dart';
 import 'package:kltn_mobile/blocs/repository/repository.dart';
 import 'package:kltn_mobile/blocs/schools_cubit/schools_cubit.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/notifications/noti_services.dart';
+import 'package:kltn_mobile/firebase_options.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/routes/app_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:provider/provider.dart';
 
+//Main
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  //FirebaseMess
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseApi().initNotifications();
+  //funcion Noti
+  await initializeNotifications();
+  await setupNotificationChannel();
+  listenToForegroundMessages();
+  setupFirebaseMessagingBackgroundHandler();
+  //Authen
   final userAuth = await checkLoginStatus();
   final isLoggedIn = userAuth != null;
+  //Run
   runApp(
     MultiBlocProvider(
       providers: [
@@ -46,17 +59,6 @@ Future<void> main() async {
       child: MyApp(userAuth: userAuth),
     ),
   );
-}
-
-Future<UserAuthLogin?> checkLoginStatus() async {
-  final logindata = await SharedPreferences.getInstance();
-  final userString = logindata.getString('user');
-  if (userString != null) {
-    final user = UserAuthLogin.fromJson(jsonDecode(userString));
-    return user;
-  } else {
-    return null;
-  }
 }
 
 class MyApp extends StatefulWidget {
