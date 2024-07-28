@@ -31,6 +31,12 @@ class BottomNavbarState extends State<BottomNavbar> {
     _selectedIndex = widget.initialIndex;
   }
 
+  void updateIndex(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -41,46 +47,46 @@ class BottomNavbarState extends State<BottomNavbar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top:Radius.circular(45), bottom: Radius.circular(45)),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey,
-                blurRadius: 45,
-                offset: Offset(0, 15),
-                blurStyle: BlurStyle.normal),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(45)),
-          child: CupertinoTabBar(
-            backgroundColor: AppColor.scafflodBgColor,
-            items: widget.items.map((item) {
-              return BottomNavigationBarItem(
-                icon: _buildIcon(
-                    item.icon, widget.items.indexOf(item), item.label),
-                label: '',
-              );
-            }).toList(),
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            height: 80,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(
+            top: Radius.circular(45), bottom: Radius.circular(45)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 45,
+            offset: Offset(0, 15),
+            blurStyle: BlurStyle.normal,
           ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(45)),
+        child: CupertinoTabBar(
+          backgroundColor: AppColor.scafflodBgColor,
+          items: widget.items.map((item) {
+            return BottomNavigationBarItem(
+              icon:
+                  _buildIcon(item.icon, widget.items.indexOf(item), item.label),
+              label: '',
+            );
+          }).toList(),
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          height: 80,
         ),
-      );
+      ),
+    );
   }
 
   Widget _buildIcon(String iconData, int index, String label) {
-    // Changed from IconData to String
     return LayoutBuilder(
       builder: (context, constraints) {
         final labelWidth = _measureText(
-                label,
-                TextStyle(
-                    color:
-                        _selectedIndex == index ? Colors.white : Colors.grey))
-            .width;
+          label,
+          TextStyle(
+              color: _selectedIndex == index ? Colors.white : Colors.grey),
+        ).width;
         return Container(
           padding: const EdgeInsets.only(top: 12),
           child: Center(
@@ -89,8 +95,7 @@ class BottomNavbarState extends State<BottomNavbar> {
               height: 85,
               decoration: _selectedIndex == index
                   ? BoxDecoration(
-                      borderRadius:
-                          BorderRadius.circular(35), // Half of the height
+                      borderRadius: BorderRadius.circular(35),
                       color: const Color(0xffAF3737),
                     )
                   : null,
@@ -102,21 +107,28 @@ class BottomNavbarState extends State<BottomNavbar> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 4.0),
                       child: SizedBox(
-                          width: 24.0,
-                          height: 24.0,
-                          child: Image.asset(_selectedIndex == index
+                        width: 24.0,
+                        height: 24.0,
+                        child: Image.asset(
+                          _selectedIndex == index
                               ? '${iconData}_selected.png'
-                              : '${iconData}_unselected.png')),
-                    ), // Use Image.asset
+                              : '${iconData}_unselected.png',
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 5),
-                      child: Text(label,
-                          style: GoogleFonts.getFont('Montserrat',
-                              color: _selectedIndex == index
-                                  ? Colors.white
-                                  : const Color(0xff7D1F1F),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600)),
+                      child: Text(
+                        label,
+                        style: GoogleFonts.getFont(
+                          'Montserrat',
+                          color: _selectedIndex == index
+                              ? Colors.white
+                              : const Color(0xff7D1F1F),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -134,7 +146,6 @@ class BottomNavbarState extends State<BottomNavbar> {
       maxLines: 1,
       textDirection: TextDirection.ltr,
     )..layout(minWidth: 0, maxWidth: double.infinity);
-
     return textPainter.size;
   }
 }

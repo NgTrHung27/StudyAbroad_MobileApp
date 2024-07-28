@@ -1,13 +1,15 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:kltn_mobile/main.dart';
 
 // Tạo kênh thông báo với mức độ quan trọng cao
 AndroidNotificationChannel createNotificationChannel() {
   return const AndroidNotificationChannel(
     'high_importance_channel', // id
     'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.', // description
+    description:
+        'This channel is used for important notifications.', // description
     importance: Importance.high,
   );
 }
@@ -25,10 +27,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 // Khởi tạo các đối tượng
 final AndroidNotificationChannel channel = createNotificationChannel();
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = initializeLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    initializeLocalNotificationsPlugin();
 
 Future<void> initializeNotifications() async {
-  const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
   const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
   );
@@ -37,11 +41,23 @@ Future<void> initializeNotifications() async {
 
 Future<void> setupNotificationChannel() async {
   await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 }
 
-void listenToForegroundMessages() {
+//Handle Noti we received
+// Function to handle Received Mess
+void handleMessage(RemoteMessage? message) {
+  if (message == null) return;
+  navigatorKey.currentState?.pushNamed(
+    '/mainpage',
+    arguments: {'message': message, 'index': 1},
+  );
+}
+
+//ListenMess
+Future<void> listenToForegroundMessages() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Received a message while in the foreground!');
     print('Message data: ${message.data}');
@@ -63,6 +79,8 @@ void listenToForegroundMessages() {
       );
     }
   });
+  FirebaseMessaging.instance.getInitialMessage().then(handleMessage);
+  FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
 }
 
 // Đảm bảo hàm này được gọi để xử lý thông báo nền

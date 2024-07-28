@@ -23,6 +23,7 @@ import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:provider/provider.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
 //Main
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,7 @@ Future<void> main() async {
   //funcion Noti
   await initializeNotifications();
   await setupNotificationChannel();
-  listenToForegroundMessages();
+  await listenToForegroundMessages();
   setupFirebaseMessagingBackgroundHandler();
   //Authen
   final userAuth = await checkLoginStatus();
@@ -85,6 +86,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               theme: state,
               themeMode: ThemeMode.system,
+              navigatorKey: navigatorKey,
               initialRoute: "/",
               onGenerateRoute: AppRoute.onGenerateRoute,
               supportedLocales: const [

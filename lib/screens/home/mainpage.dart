@@ -13,20 +13,39 @@ import '../notifications/notifications_page.dart';
 import '../profiles/profile.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+  final int initialIndex;
+  const MainPage({super.key, this.initialIndex = 0});
 
   @override
   MainPageState createState() => MainPageState();
 }
 
 class MainPageState extends State<MainPage> {
-  int _currentIndex = 0;
+  late int _currentIndex;
 
   final List<Widget> _children = [
     const HomePage(),
     const NotificationsPage(),
     const Profile()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.initialIndex;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args != null && args is Map && args.containsKey('index')) {
+      setState(() {
+        _currentIndex = args['index'];
+        print(' Did $_currentIndex');
+      });
+    }
+  }
 
   void onTabTapped(int index) {
     setState(() {
@@ -46,6 +65,8 @@ class MainPageState extends State<MainPage> {
         localizations != null ? localizations.nav_noti : 'Default Text';
     final profile =
         localizations != null ? localizations.nav_profile : 'Default Text';
+    int adjustedIndex =
+        _currentIndex == 1 ? 2 : (_currentIndex == 2 ? 3 : _currentIndex);
 
     return Stack(
       children: [
@@ -93,7 +114,6 @@ class MainPageState extends State<MainPage> {
                 BottomNavbarItem(
                   icon: 'assets/iconNoti',
                   label: noti,
-                  // onTap: () => onTabTapped(1)),
                   onTap: () {
                     isLoggedIn
                         ? onTabTapped(1)
@@ -110,7 +130,7 @@ class MainPageState extends State<MainPage> {
                     label: profile,
                     onTap: () => onTabTapped(2)),
               ],
-              initialIndex: _currentIndex,
+              initialIndex: adjustedIndex,
             ),
           ),
         )
