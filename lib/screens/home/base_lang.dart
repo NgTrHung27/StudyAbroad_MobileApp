@@ -62,3 +62,13 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
     });
   }
 }
+Future<UserAuthLogin?> checkLoginStatus() async {
+  final logindata = await SharedPreferences.getInstance();
+  final userString = logindata.getString('user');
+  if (userString != null) {
+    final user = UserAuthLogin.fromJson(jsonDecode(userString));
+    return user;
+  } else {
+    return null;
+  }
+}
