@@ -32,7 +32,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> initializeNotifications() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+      AndroidInitializationSettings('@mipmap/launcher_icon');
   const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
   );
@@ -49,7 +49,13 @@ Future<void> setupNotificationChannel() async {
 //Handle Noti we received
 // Function to handle Received Mess
 void handleMessage(RemoteMessage? message) {
-  if (message == null) return;
+  if (message == null) {
+    navigatorKey.currentState?.pushNamed(
+      '/mainpage',
+      arguments: {'message': {}, 'index': 1},
+    );
+    return;
+  }
   navigatorKey.currentState?.pushNamed(
     '/mainpage',
     arguments: {'message': message, 'index': 1},
@@ -60,6 +66,8 @@ void handleMessage(RemoteMessage? message) {
 Future<void> listenToForegroundMessages() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Received a message while in the foreground!');
+    print('Mess info 1 ${message.notification?.title}');
+    print('Mess info 2 ${message.notification?.body}');
     print('Message data: ${message.data}');
 
     if (message.notification != null) {
@@ -73,7 +81,7 @@ Future<void> listenToForegroundMessages() async {
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            icon: '@mipmap/ic_launcher',
+            icon: '@mipmap/launcher_icon',
           ),
         ),
       );
