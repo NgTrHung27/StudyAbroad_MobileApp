@@ -75,14 +75,14 @@ class _NotificationDetailPageState
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                TextMonserats(
-                                  widget.notification.schoolName ?? '',
-                                  color: isDarkMode
-                                      ? Colors.white
-                                      : AppColor.redButton,
-                                  fontSize: screenWidth * 0.04,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                // TextMonserats(
+                                //   widget.notification.schoolName ?? '',
+                                //   color: isDarkMode
+                                //       ? Colors.white
+                                //       : AppColor.redButton,
+                                //   fontSize: screenWidth * 0.04,
+                                //   fontWeight: FontWeight.w600,
+                                // ),
                                 TextMonserats(
                                   widget.notification.createdAt
                                           .toIso8601String() ??

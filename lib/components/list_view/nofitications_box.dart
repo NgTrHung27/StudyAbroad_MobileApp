@@ -60,11 +60,11 @@ class NotificationBoxState extends State<NotificationBox> {
                   mainAxisAlignment: MainAxisAlignment
                       .start, // Distribute the space evenly between the columns
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage:
-                          NetworkImage(widget.notification.schoolAvt ?? ''),
-                    ),
+                    // CircleAvatar(
+                    //   radius: 30,
+                    //   backgroundImage:
+                    //       NetworkImage(widget.notification.schoolAvt ?? ''),
+                    // ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12.0),
@@ -76,15 +76,14 @@ class NotificationBoxState extends State<NotificationBox> {
                               mainAxisAlignment: MainAxisAlignment
                                   .spaceBetween, // Distribute the space evenly between the columns
                               children: [
-                                TextMonserats(
-                                  widget.notification.schoolName ?? '',
-                                  color: textColorRed,
-                                  fontSize: 14,
-                                ),
+                                // TextMonserats(
+                                //   widget.notification.schoolName ?? '',
+                                //   color: textColorRed,
+                                //   fontSize: 14,
+                                // ),
                                 TextMonserats(
                                     widget.notification.createdAt
-                                            .toIso8601String() ??
-                                        '',
+                                        .toIso8601String(),
                                     fontSize: 11,
                                     color: titleAndTimeColor,
                                     fontWeight: FontWeight
@@ -94,7 +93,7 @@ class NotificationBoxState extends State<NotificationBox> {
                             Padding(
                               padding: const EdgeInsets.only(top: 6.0),
                               child: TextMonserats(
-                                widget.notification.title ?? '',
+                                widget.notification.title,
                                 fontWeight: FontWeight.w500,
                                 color: titleAndTimeColor,
                                 fontSize: 11,
