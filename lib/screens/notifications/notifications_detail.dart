@@ -84,7 +84,9 @@ class _NotificationDetailPageState
                                   fontWeight: FontWeight.w600,
                                 ),
                                 TextMonserats(
-                                  widget.notification.time ?? '',
+                                  widget.notification.createdAt
+                                          .toIso8601String() ??
+                                      '',
                                   color:
                                       isDarkMode ? Colors.white : Colors.black,
                                   fontSize: screenWidth * 0.03,
@@ -102,7 +104,7 @@ class _NotificationDetailPageState
                                 height: screenHeight * 0.02,
                               ),
                               TextMonserats(
-                                widget.notification.notiTitle ?? '',
+                                widget.notification.title ?? '',
                                 color: isDarkMode ? Colors.white : Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -111,7 +113,7 @@ class _NotificationDetailPageState
                                 height: screenHeight * 0.01,
                               ),
                               TextMonserats(
-                                widget.notification.notiContent ?? '',
+                                widget.notification.body ?? '',
                                 color: isDarkMode ? Colors.white : Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,

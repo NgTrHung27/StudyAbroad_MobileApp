@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:kltn_mobile/components/notifications/firebase_api.dart';
 import 'package:kltn_mobile/models/country.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/schools.dart';
@@ -109,6 +110,34 @@ class APIRepository {
 
       if (response.statusCode == 200) {
         log('data: $data');
+        String? fcmToken;
+        await FirebaseApi().getFCMToken().then((res) {
+          if (res.isNotEmpty) {
+            log('FCMToken: $res');
+            fcmToken = res;
+          }
+        });
+
+        UserAuthLogin user = UserAuthLogin.fromJson(data);
+
+        if (fcmToken != null) {
+          final responseFcm = await httpClient.post(
+            Uri.parse('https://admin-cemc-co.vercel.app/api/notifications'),
+            headers: {"Content-Type": "application/json"},
+            body:
+                utf8.encode(jsonEncode({"token": fcmToken, "userId": user.id})),
+          );
+
+          final dataFcm = jsonDecode(
+              utf8.decode(responseFcm.bodyBytes)); // Define data here
+
+          if (responseFcm.statusCode == 200) {
+            log('dataFcm: $dataFcm');
+          } else {
+            print("Failed to send FCM Token: ${responseFcm.statusCode}");
+          }
+        }
+
         return UserAuthLogin.fromJson(data);
       } else {
         print("Failed to login: ${response.statusCode}");
@@ -145,32 +174,25 @@ class APIRepository {
 
   Future<List<Schools>> fetchSchools() async {
     try {
-      final response = await httpClient.get(
+      List<Schools> schools = [];
+      await http
+          .get(
         Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/schools/full'),
-      );
-      if (response.statusCode == 200) {
-        List<dynamic> data =
-            jsonDecode(utf8.decode(latin1.encode(response.body)));
-        // print('API School Response: $data'); // Add this line
-        List<Schools> schools = [];
-        for (var item in data) {
-          // Tạo một đối tượng School từ JSON
-          Schools school = Schools.fromJson(item);
-          // Thêm đối tượng School vào danh sách schools
-          schools.add(school);
-        }
-        return schools;
-      } else {
-        throw Exception('Failed to load schools');
-      }
+      )
+          .then((res) {
+        schools = schoolsFromJson(res.body);
+        log("MEOMEOMEO");
+      });
+
+      return schools;
     } catch (e) {
-      throw Exception('Failed to connect to the API School: $e');
+      return [];
     }
   }
 
   Future<List<String>> fetchUniqueCountries() async {
-    final response = await httpClient.get(
-        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/schools'));
+    final response = await httpClient
+        .get(Uri.parse('https://admin-cemc-co.vercel.app/api/schools'));
     final schools = schoolsFromJson(response.body);
     final countries = schools.map((school) => school.country).toSet().toList();
     return countries;

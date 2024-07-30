@@ -4,7 +4,7 @@ import 'package:kltn_mobile/models/notifications.dart';
 
 class ListNoti extends StatefulWidget {
   const ListNoti({super.key, required this.notifications});
-  final List<Notifications> notifications;
+  final Future<List<Notifications>> notifications;
 
   @override
   State<ListNoti> createState() => _ListNotiState();
@@ -13,21 +13,30 @@ class ListNoti extends StatefulWidget {
 class _ListNotiState extends State<ListNoti> {
   @override
   Widget build(BuildContext context) {
-    final message =
-        ModalRoute.of(context)!.settings.arguments as RemoteMessage?;
-    if (message == null) {
-      return const Column(
-        children: [Text('No message received')],
-      );
-    }
-    print('List Noti Test $message');
-
-    return Column(
-      children: [
-        Text(' ${message.notification?.title.toString()}'),
-        Text('${message.notification?.body.toString()}'),
-        Text(message.data.toString()),
-      ],
+    return FutureBuilder<List<Notifications>>(
+      future: widget.notifications,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Text('No notifications found');
+        } else {
+          final notificationsList = snapshot.data!;
+          return ListView.builder(
+            itemCount: notificationsList.length,
+            itemBuilder: (context, index) {
+              final notification = notificationsList[index];
+              return ListTile(
+                title: Text(notification.title),
+                subtitle: Text(notification.body),
+                // Customize as needed
+              );
+            },
+          );
+        }
+      },
     );
   }
 }

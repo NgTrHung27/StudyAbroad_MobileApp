@@ -24,9 +24,13 @@ class NotificationsPageState extends BasePageState<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final notifications = Notifications.getSampleData();
-
     final userAuth = this.userAuth;
+    if (userAuth == null) {
+      return const Center(
+        child: Text('User not found'),
+      );
+    }
+    final notifications = Notifications.getNotificationsList(userAuth.id);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(

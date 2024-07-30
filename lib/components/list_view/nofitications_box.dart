@@ -5,7 +5,7 @@ import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/models/notifications.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
-import '../../screens/notifications/notifications_detail.dart'; 
+import '../../screens/notifications/notifications_detail.dart';
 
 class NotificationBox extends BasePage {
   final Notifications notification;
@@ -34,7 +34,6 @@ class NotificationBoxState extends State<NotificationBox> {
     final titleAndTimeColor = isDarkMode ? Colors.white : Colors.black;
     final boxColor = isDarkMode ? const Color(0xff3F3F46) : Colors.white;
 
-
     final screenWidth = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
@@ -43,7 +42,8 @@ class NotificationBoxState extends State<NotificationBox> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NotificationDetailPage(notification: widget.notification),
+              builder: (context) =>
+                  NotificationDetailPage(notification: widget.notification),
             ),
           );
         },
@@ -57,29 +57,49 @@ class NotificationBoxState extends State<NotificationBox> {
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start, // Distribute the space evenly between the columns
+                  mainAxisAlignment: MainAxisAlignment
+                      .start, // Distribute the space evenly between the columns
                   children: [
                     CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(widget.notification.schoolAvt ?? ''),
-                      ),
+                      radius: 30,
+                      backgroundImage:
+                          NetworkImage(widget.notification.schoolAvt ?? ''),
+                    ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 12.0),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start, // Align the text to the left
+                          crossAxisAlignment: CrossAxisAlignment
+                              .start, // Align the text to the left
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween, // Distribute the space evenly between the columns
+                              mainAxisAlignment: MainAxisAlignment
+                                  .spaceBetween, // Distribute the space evenly between the columns
                               children: [
-                                  TextMonserats(widget.notification.schoolName ?? '', color: textColorRed, fontSize: 14,),
-                                  TextMonserats(widget.notification.time ?? '', fontSize: 11, color: titleAndTimeColor, fontWeight: FontWeight.w500), // Use the TextMonserats widget and set the maxLine to 1
+                                TextMonserats(
+                                  widget.notification.schoolName ?? '',
+                                  color: textColorRed,
+                                  fontSize: 14,
+                                ),
+                                TextMonserats(
+                                    widget.notification.createdAt
+                                            .toIso8601String() ??
+                                        '',
+                                    fontSize: 11,
+                                    color: titleAndTimeColor,
+                                    fontWeight: FontWeight
+                                        .w500), // Use the TextMonserats widget and set the maxLine to 1
                               ],
                             ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 6.0),
-                                child: TextMonserats(widget.notification.notiTitle ?? '', fontWeight: FontWeight.w500, color: titleAndTimeColor, fontSize: 11,),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 6.0),
+                              child: TextMonserats(
+                                widget.notification.title ?? '',
+                                fontWeight: FontWeight.w500,
+                                color: titleAndTimeColor,
+                                fontSize: 11,
                               ),
+                            ),
                           ],
                         ),
                       ),

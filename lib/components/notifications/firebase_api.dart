@@ -4,15 +4,24 @@ import 'dart:convert';
 
 class FirebaseApi {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  String? token;
 
   Future<void> initNotifications() async {
     // Request permission from user (will prompt user)
     await _firebaseMessaging.requestPermission();
     // Fetch the FCM token for this device
-    final fCMToken = await _firebaseMessaging.getToken();
+    token = await _firebaseMessaging.getToken();
     // Print the token
-    print('FCM KLTN Token: $fCMToken');
+    print('FCM KLTN Token: $token');
     // await postTokenToWebAdmin(fCMToken); // Send to Admin
+  }
+
+  Future<String> getFCMToken() async {
+    // Ensure initNotifications has been called
+    if (token == null) {
+      await initNotifications();
+    }
+    return token ?? '';
   }
 
   // Function to post FCM token to web admin
