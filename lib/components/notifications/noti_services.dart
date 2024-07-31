@@ -25,7 +25,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
 }
 
-// Khởi tạo các đối tượng
 final AndroidNotificationChannel channel = createNotificationChannel();
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     initializeLocalNotificationsPlugin();
@@ -33,9 +32,21 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> initializeNotifications() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/launcher_icon');
-  const InitializationSettings initializationSettings = InitializationSettings(
+  
+  final DarwinInitializationSettings initializationSettingsDarwin =
+      DarwinInitializationSettings(
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+          onDidReceiveLocalNotification: (id, title, body, payload) async {
+            // Handle notification tapped logic here
+          });
+
+   InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
+    iOS: initializationSettingsDarwin,
   );
+
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 
