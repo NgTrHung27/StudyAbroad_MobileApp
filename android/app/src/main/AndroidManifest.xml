@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="CECM CO.LTD - Study Abroad MS"
+        android:label="Study Abroad - CECM LTD.CO"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
