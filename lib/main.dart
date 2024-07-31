@@ -31,7 +31,7 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await FirebaseApi().initNotifications();
   //funcion Noti
-  // await initializeNotifications();
+  await initializeNotifications();
   await setupNotificationChannel();
   await listenToForegroundMessages();
   setupFirebaseMessagingBackgroundHandler();
