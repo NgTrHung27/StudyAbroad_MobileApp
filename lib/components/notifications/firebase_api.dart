@@ -6,10 +6,20 @@ class FirebaseApi {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   Future<void> initNotifications() async {
+
     // Request permission from user (will prompt user)
     await _firebaseMessaging.requestPermission();
+
+     // Ensure the APNS token is available
+    String? apnsToken = await _firebaseMessaging.getAPNSToken();
+    while (apnsToken == null) {
+      await Future.delayed(const Duration(seconds: 1));
+      apnsToken = await _firebaseMessaging.getAPNSToken();
+    }
+
     // Fetch the FCM token for this device
     final fCMToken = await _firebaseMessaging.getToken();
+
     // Print the token
     print('FCM KLTN Token: $fCMToken');
     // await postTokenToWebAdmin(fCMToken); // Send to Admin

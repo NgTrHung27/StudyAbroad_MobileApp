@@ -2,6 +2,8 @@
 //
 //     final schools = schoolsFromJson(jsonString);
 
+// ignore_for_file: constant_identifier_names
+
 import 'dart:convert';
 
 List<Schools> schoolsFromJson(String str) =>
@@ -15,7 +17,7 @@ class Schools {
   String logo;
   String background;
   String name;
-  String short;
+  String? short;
   String? description;
   String? history;
   String color;

@@ -32,7 +32,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> initializeNotifications() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/launcher_icon');
-  
+
   final DarwinInitializationSettings initializationSettingsDarwin =
       DarwinInitializationSettings(
           requestAlertPermission: true,
@@ -42,7 +42,7 @@ Future<void> initializeNotifications() async {
             // Handle notification tapped logic here
           });
 
-   InitializationSettings initializationSettings = InitializationSettings(
+  InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     iOS: initializationSettingsDarwin,
   );
@@ -80,7 +80,6 @@ Future<void> listenToForegroundMessages() async {
     print('Mess info 1 ${message.notification?.title}');
     print('Mess info 2 ${message.notification?.body}');
     print('Message data: ${message.data}');
-
     if (message.notification != null) {
       print('Message also contained a notification: ${message.notification}');
       flutterLocalNotificationsPlugin.show(

@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (status == AnimationStatus.completed) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (BuildContext context) => const MainPage(),
+            builder: (BuildContext context) => const MainPage(initialIndex: 0),
           ),
         );
       }

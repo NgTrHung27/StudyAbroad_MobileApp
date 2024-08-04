@@ -13,14 +13,15 @@ import '../notifications/notifications_page.dart';
 import '../profiles/profile.dart';
 
 class MainPage extends StatefulWidget {
-  final int initialIndex;
-  const MainPage({super.key, this.initialIndex = 0});
+  final int initialIndex =  0;
+  const MainPage({super.key, initialIndex = 0});
 
   @override
   MainPageState createState() => MainPageState();
 }
 
 class MainPageState extends State<MainPage> {
+  
   late int _currentIndex;
 
   final List<Widget> _children = [
@@ -33,6 +34,8 @@ class MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
+      print('Initial index: $_currentIndex'); // Thêm dòng này để kiểm tra giá trị
+
   }
 
   @override
