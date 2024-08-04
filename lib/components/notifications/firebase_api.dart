@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -6,15 +8,16 @@ class FirebaseApi {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   Future<void> initNotifications() async {
-
-    // Request permission from user (will prompt user)
+// Request permission from user (will prompt user)
     await _firebaseMessaging.requestPermission();
 
-     // Ensure the APNS token is available
-    String? apnsToken = await _firebaseMessaging.getAPNSToken();
-    while (apnsToken == null) {
-      await Future.delayed(const Duration(seconds: 1));
-      apnsToken = await _firebaseMessaging.getAPNSToken();
+    // Ensure the APNS token is available only on iOS
+    if (Platform.isIOS) {
+      String? apnsToken = await _firebaseMessaging.getAPNSToken();
+      while (apnsToken == null) {
+        await Future.delayed(const Duration(seconds: 1));
+        apnsToken = await _firebaseMessaging.getAPNSToken();
+      }
     }
 
     // Fetch the FCM token for this device
