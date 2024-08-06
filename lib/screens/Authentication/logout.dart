@@ -36,10 +36,11 @@ class _LogoutPageState extends State<LogoutPage> {
         localizations != null ? localizations.logout_4_signin : 'Default Text';
     final logout5 =
         localizations != null ? localizations.logout_5_home : 'Default Text';
+
     return Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/backgrounds/bckgr_logout_blur.jpg"),
+                image: AssetImage("assets/backgrounds/backgr_logoutfin.png"),
                 fit: BoxFit.cover)),
         child: Scaffold(
             backgroundColor: Colors.transparent,
@@ -57,11 +58,10 @@ class _LogoutPageState extends State<LogoutPage> {
                             Navigator.pop(context);
                           }),
                           //Logo
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.20),
+                          SizedBox(height: screenHeight * 0.15),
+                          const Spacer(),
                           Image.asset("assets/logo/logo_red.png", height: 80),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.20),
+                          const Spacer(),
                           Container(width: 35)
                         ],
                       ),
@@ -69,11 +69,11 @@ class _LogoutPageState extends State<LogoutPage> {
                       TextMonserats(logout1, fontSize: 38, color: Colors.white),
                       SizedBox(height: screenHeight * 0.01),
                       TextMonserats(logout2, fontSize: 14, color: Colors.white),
-                      SizedBox(height: screenHeight * 0.15),
+                      SizedBox(height: screenHeight * 0.07),
                       Center(
                         child: SizedBox(
                             width: widthscreen * orientationSize,
-                            height: 40,
+                            height: 45,
                             child: SimpleButton(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/register');

@@ -64,7 +64,7 @@ class _HomePageState extends BasePageState<HomePage> {
                       vertical: screenHeight * 0.01),
                   child: ListView(
                     children: [
-                      WelcomeAVT(username: userAuth?.name ?? 'N/A'),
+                      WelcomeAVT(username: userAuth?.name ?? 'User'),
                       SizedBox(height: screenHeight * 0.01),
                       const NewsSearchTextField(),
                       SizedBox(height: screenHeight * 0.02),
@@ -152,7 +152,9 @@ class _HomePageState extends BasePageState<HomePage> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextMonserats(homeNewListText,
-                          fontSize: 20, fontWeight: FontWeight.w700),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.redButton),
                       SizedBox(height: screenHeight * 0.02),
                       const NewsListViewShort(),
                       SizedBox(height: screenHeight * 0.14),
