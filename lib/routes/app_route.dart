@@ -57,15 +57,14 @@ class AppRoute {
                 ));
       case '/scholarship':
         return MaterialPageRoute(builder: (_) => const ScholarshipsList());
-      case '/chatting':
+      case '/gemini_ai':
         return MaterialPageRoute(builder: (_) => const GeminiAI());
       case '/tuition':
         return MaterialPageRoute(builder: (_) => const TuitionStatus());
       case '/mainpage':
         final args = routeSettings.arguments as Map<String, dynamic>?;
         final index = args?['index'] ?? 0;
-        return MaterialPageRoute(
-            builder: (_) => MainPage(initialIndex: index));
+        return MaterialPageRoute(builder: (_) => MainPage(initialIndex: index));
       default:
         return MaterialPageRoute(builder: (_) => const MainPage());
     }

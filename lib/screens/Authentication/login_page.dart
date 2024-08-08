@@ -83,9 +83,8 @@ class _LoginPageState extends BasePageState<LoginPage> {
         : 'Default Text';
     final remem =
         localizations != null ? localizations.login_remember : 'Default Text';
-    final signup = localizations != null
-        ? localizations.register_login_signin
-        : 'Default Text';
+    final signup =
+        localizations != null ? localizations.logout_3_signup : 'Default Text';
     final forgot =
         localizations != null ? localizations.login_forgot : 'Default Text';
     final notAccout =

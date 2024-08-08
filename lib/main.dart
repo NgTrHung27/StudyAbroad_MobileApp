@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,12 +31,17 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //FirebaseMess
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await FirebaseApi().initNotifications();
-  //funcion Noti
-  await initializeNotifications();
-  await setupNotificationChannel();
-  await listenToForegroundMessages();
-  setupFirebaseMessagingBackgroundHandler();
+  // Kiểm tra nếu đang chạy trên Android
+  bool isRunningOnAndroid = Platform.isAndroid;
+
+  // Chỉ thực thi phần thông báo nếu đang chạy trên Android
+  if (isRunningOnAndroid) {
+    await FirebaseApi().initNotifications();
+    await initializeNotifications();
+    await setupNotificationChannel();
+    await listenToForegroundMessages();
+    setupFirebaseMessagingBackgroundHandler();
+  }
   //Authen
   final userAuth = await checkLoginStatus();
   final isLoggedIn = userAuth != null;

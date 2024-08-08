@@ -74,14 +74,27 @@ class NewsListViewShortState extends State<NewsListViewShort> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: TextMonserats(
-                    newsList[index].title,
-                    fontSize: 20,
-                    color: Colors.white,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withOpacity(0.1),
+                      Colors.black.withOpacity(0.8),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: TextMonserats(
+                      newsList[index].title,
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

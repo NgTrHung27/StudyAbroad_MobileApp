@@ -154,7 +154,7 @@ class _HomePageState extends BasePageState<HomePage> {
                       TextMonserats(homeNewListText,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
-                          color: AppColor.redButton),
+                          color: textColorRed),
                       SizedBox(height: screenHeight * 0.02),
                       const NewsListViewShort(),
                       SizedBox(height: screenHeight * 0.14),
