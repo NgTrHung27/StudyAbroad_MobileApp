@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
-import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
 import 'package:kltn_mobile/screens/chatting/chatting_gemini_ai.dart';
 import 'package:kltn_mobile/screens/chatting/floating_chatting_position.dart';
-import 'package:provider/provider.dart';
 import 'package:kltn_mobile/screens/chatting/dismissible_chatting_gemini_ai.dart';
 
 import 'home_page.dart';
@@ -109,8 +107,6 @@ class MainPageState extends State<MainPage>
         localizations != null ? localizations.nav_noti : 'Default Text';
     final profile =
         localizations != null ? localizations.nav_profile : 'Default Text';
-    int adjustedIndex =
-        _currentIndex == 1 ? 2 : (_currentIndex == 2 ? 3 : _currentIndex);
     final List<String> labels = [home, chatAI, noti, profile];
     return Scaffold(
       body: Stack(
@@ -146,9 +142,21 @@ class MainPageState extends State<MainPage>
             ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showBottomSheet(context);
+        },
+        backgroundColor: AppColor.redLight,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        child: const ImageIcon(
+          AssetImage('assets/icons_3d/chatbot.png'),
+          size: 30,
+          color: Colors.white,
+        ),
+      ),
       floatingActionButtonLocation: CustomFABLocation(
         FloatingActionButtonLocation.endFloat,
-        0.0,
+        65.0,
       ),
     );
   }
