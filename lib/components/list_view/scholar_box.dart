@@ -1,0 +1,88 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
+
+class ScholarStatusWidget extends StatelessWidget {
+  final String scholarStatus;
+
+  const ScholarStatusWidget({super.key, required this.scholarStatus});
+
+  @override
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final boxColor = isDarkMode ? const Color(0xff3F3F46) : Colors.white;
+    final textColor = isDarkMode ? Colors.white : AppColor.redButton;
+
+    return Container(
+      margin: EdgeInsets.only(
+          left: screenWidth * 0.06,
+          right: screenWidth * 0.06,
+          bottom: screenHeight * 0.02),
+      decoration: BoxDecoration(
+        color: boxColor,
+        borderRadius: BorderRadius.circular(30.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 5,
+            spreadRadius: 5,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.05, vertical: screenHeight * 0.02),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextMonserats(
+                    'Scholarship',
+                    color: textColor,
+                    fontSize: screenWidth * 0.04,
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
+                    maxLine: 2,
+                  ),
+                ],
+              ),
+            ),
+            Transform(
+              transform:
+                  Matrix4.translationValues(0.0, -screenHeight * 0.0, 0.0),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    vertical: screenHeight * 0.008,
+                    horizontal: screenWidth * 0.05),
+                decoration: BoxDecoration(
+                  color: AppColor.redButton,
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                constraints: BoxConstraints(
+                  minWidth: screenWidth * 0.33,
+                ),
+                child: Center(
+                  child: TextMonserats(
+                    'hihi',
+                    color: Colors.white,
+                    fontSize: screenWidth * 0.036,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

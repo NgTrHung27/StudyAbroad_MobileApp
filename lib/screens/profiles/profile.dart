@@ -183,6 +183,16 @@ class _UserProfileState extends BasePageState<Profile> {
                       FunctionItem(
                         name: status2,
                         icon: Icons.school_outlined,
+                        onTap: () {
+                          isLoggedIn
+                              ? Navigator.pushNamed(context, '/scholarStatus')
+                              : showCustomDialog(
+                                  context: context,
+                                  onConfirm: () {
+                                    Navigator.pushNamed(context, '/login');
+                                  },
+                                );
+                        },
                       ),
                       FunctionItem(
                           name: status3,
