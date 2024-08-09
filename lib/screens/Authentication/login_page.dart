@@ -83,6 +83,9 @@ class _LoginPageState extends BasePageState<LoginPage> {
         : 'Default Text';
     final remem =
         localizations != null ? localizations.login_remember : 'Default Text';
+    final signin = localizations != null
+        ? localizations.register_login_signin
+        : 'Default Text';
     final signup =
         localizations != null ? localizations.logout_3_signup : 'Default Text';
     final forgot =
@@ -260,7 +263,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                             children: [
                               MyButton(
                                 onTap: () => userLogin(context),
-                                text: signup,
+                                text: signin,
                               ),
                             ],
                           ),

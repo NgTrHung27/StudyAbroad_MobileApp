@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/models/scholar_status.dart';
+import 'package:kltn_mobile/screens/Authentication/change_pass.dart';
 import 'package:kltn_mobile/screens/authentication/forget_password.dart';
 import 'package:kltn_mobile/screens/authentication/login_page.dart';
 import 'package:kltn_mobile/screens/authentication/logout.dart';
@@ -36,6 +36,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const RegisterPage());
       case '/forgotpass':
         return MaterialPageRoute(builder: (_) => const ForgetPass());
+      case '/changepass':
+        return MaterialPageRoute(builder: (_) => const ChangePass());
       case '/logout':
         return MaterialPageRoute(builder: (_) => const LogoutPage());
       case '/news':
@@ -64,7 +66,7 @@ class AppRoute {
       case '/tuition':
         return MaterialPageRoute(builder: (_) => const TuitionStatus());
       case '/scholarStatus':
-        return MaterialPageRoute(builder: (_) => ScholarDetail());
+        return MaterialPageRoute(builder: (_) => const ScholarDetail());
       case '/mainpage':
         final args = routeSettings.arguments as Map<String, dynamic>?;
         final index = args?['index'] ?? 0;

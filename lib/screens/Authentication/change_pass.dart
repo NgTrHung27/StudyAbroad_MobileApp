@@ -10,13 +10,13 @@ import 'package:kltn_mobile/components/functions/text_field.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class ForgetPass extends BasePage {
-  const ForgetPass({super.key});
+class ChangePass extends BasePage {
+  const ChangePass({super.key});
   @override
-  State<ForgetPass> createState() => _ForgetPassState();
+  State<ChangePass> createState() => _ForgetPassState();
 }
 
-class _ForgetPassState extends BasePageState<ForgetPass> {
+class _ForgetPassState extends BasePageState<ChangePass> {
   String email = '';
   String? errorMessage;
   final usermailController = TextEditingController();
@@ -40,10 +40,10 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
     final screenHeight = MediaQuery.of(context).size.height;
     //lang
     final localizations = AppLocalizations.of(context);
-    final forgot1 =
-        localizations != null ? localizations.forgot_1 : 'Default Text';
-    final forgot2 =
-        localizations != null ? localizations.forgot_2 : 'Default Text';
+    final change1 =
+        localizations != null ? localizations.chang_pass_1 : 'Default Text';
+    final change2 =
+        localizations != null ? localizations.chang_pass_2 : 'Default Text';
     final forgot3 =
         localizations != null ? localizations.forgot_3 : 'Default Text';
     final emailText = localizations != null
@@ -89,11 +89,11 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
             },
             builder: (context, state) {
               return SingleChildScrollView(
-                  child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.05,
-                    vertical: screenHeight * 0.05),
-                child: Column(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.05,
+                      vertical: screenHeight * 0.05),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
@@ -115,12 +115,12 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
                           Container(width: 35)
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: screenHeight * 0.02),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           TextMonserats(
-                            forgot1,
+                            change1,
                             textAlign: TextAlign.center,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
@@ -128,7 +128,7 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
                           ),
                           const SizedBox(height: 10),
                           TextMonserats(
-                            forgot2,
+                            change2,
                             textAlign: TextAlign.center,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
@@ -191,7 +191,7 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
                               ),
                             ],
                           ),
-                          SizedBox(height: screenHeight * 0.32),
+                          SizedBox(height: screenHeight * 0.28),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -223,8 +223,10 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
                           ),
                         ],
                       ),
-                    ]),
-              ));
+                    ],
+                  ),
+                ),
+              );
             },
           ),
         ),
