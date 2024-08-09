@@ -158,7 +158,19 @@ class _UserProfileState extends BasePageState<Profile> {
                                     },
                                   );
                           }),
-                      FunctionItem(name: account2, icon: Icons.key),
+                      FunctionItem(
+                          name: account2,
+                          icon: Icons.key,
+                          onTap: () {
+                            isLoggedIn
+                                ? Navigator.pushNamed(context, '/changepass')
+                                : showCustomDialog(
+                                    context: context,
+                                    onConfirm: () {
+                                      Navigator.pushNamed(context, '/login');
+                                    },
+                                  );
+                          }),
                     ],
                   ),
                   const SizedBox(height: 20),
