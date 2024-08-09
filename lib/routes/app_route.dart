@@ -59,7 +59,7 @@ class AppRoute {
                 ));
       case '/scholarship':
         return MaterialPageRoute(builder: (_) => const ScholarshipsList());
-      case '/chatting':
+      case '/gemini_ai':
         return MaterialPageRoute(builder: (_) => const GeminiAI());
       case '/tuition':
         return MaterialPageRoute(builder: (_) => const TuitionStatus());

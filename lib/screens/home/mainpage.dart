@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
-import 'package:kltn_mobile/components/functions/alert_dialog.dart';
-import 'package:kltn_mobile/components/navbar/bottom_navbar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
+import 'package:kltn_mobile/components/style/montserrat.dart';
+import 'package:kltn_mobile/screens/chatting/chatting_gemini_ai.dart';
 import 'package:kltn_mobile/screens/chatting/floating_chatting_position.dart';
-import 'package:provider/provider.dart';
 import 'package:kltn_mobile/screens/chatting/dismissible_chatting_gemini_ai.dart';
 
 import 'home_page.dart';
@@ -13,29 +11,35 @@ import '../notifications/notifications_page.dart';
 import '../profiles/profile.dart';
 
 class MainPage extends StatefulWidget {
-  final int initialIndex =  0;
+  final int initialIndex = 0;
   const MainPage({super.key, initialIndex = 0});
 
   @override
   MainPageState createState() => MainPageState();
 }
 
-class MainPageState extends State<MainPage> {
-  
+class MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
   late int _currentIndex;
 
-  final List<Widget> _children = [
+  final List<Widget> _bodyView = [
     const HomePage(),
+    const GeminiAI(),
     const NotificationsPage(),
     const Profile()
   ];
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
-      print('Initial index: $_currentIndex'); // Thêm dòng này để kiểm tra giá trị
-
+    print('Initial index: $_currentIndex'); // Thêm dòng này để kiểm tra giá trị
   }
 
   @override
@@ -50,15 +54,50 @@ class MainPageState extends State<MainPage> {
     }
   }
 
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+  Widget _tabItem(String icon, String label, int index) {
+    bool isSelected = _currentIndex == index;
+    String iconPath =
+        isSelected ? '${icon}_selected.png' : '${icon}_unselected.png';
+
+    return GestureDetector(
+      onTap: () => onTabTapped(index),
+      child: AnimatedContainer(
+        margin: const EdgeInsets.all(8),
+        alignment: Alignment.center,
+        duration: const Duration(milliseconds: 500),
+        decoration: !isSelected
+            ? null
+            : BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: AppColor.redLight,
+              ),
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: [
+            Image.asset(iconPath, width: 24),
+            Container(
+              transform: Matrix4.translationValues(0.0, 3.0, 0.0),
+              child: TextMonserats(
+                label,
+                fontSize: 12,
+                color: isSelected ? Colors.white : AppColor.redButton,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
+
+  final List<String> _icons = [
+    'assets/iconHome',
+    'assets/iconMess',
+    'assets/iconNoti',
+    'assets/iconUser',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn = context.watch<AuthNotifier>().isLoggedIn;
     final localizations = AppLocalizations.of(context);
     final home =
         localizations != null ? localizations.nav_home : 'Default Text';
@@ -68,76 +107,57 @@ class MainPageState extends State<MainPage> {
         localizations != null ? localizations.nav_noti : 'Default Text';
     final profile =
         localizations != null ? localizations.nav_profile : 'Default Text';
-    int adjustedIndex =
-        _currentIndex == 1 ? 2 : (_currentIndex == 2 ? 3 : _currentIndex);
-
-    return Stack(
-      children: [
-        Scaffold(
-          body: IndexedStack(
-            index: _currentIndex,
-            children: _children,
+    final List<String> labels = [home, chatAI, noti, profile];
+    return Scaffold(
+      body: Stack(
+        children: [
+          // Main content
+          Center(
+            child: _bodyView.elementAt(_currentIndex),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              _showBottomSheet(context);
-            },
-            backgroundColor: AppColor.redLight,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            child: const ImageIcon(
-              AssetImage('assets/icons_3d/chatbot.png'),
-              size: 30,
-              color: Colors.white,
-            ),
-          ),
-          floatingActionButtonLocation: CustomFABLocation(
-            FloatingActionButtonLocation.endFloat,
-            100.0,
-          ),
-        ),
-        Positioned(
-          bottom: 15,
-          left: 0,
-          right: 0,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: BottomNavbar(
-              items: [
-                BottomNavbarItem(
-                    icon: 'assets/iconHome',
-                    label: home,
-                    onTap: () => onTabTapped(0)),
-                BottomNavbarItem(
-                    icon: 'assets/iconMess',
-                    label: chatAI,
-                    onTap: () {
-                      Navigator.pushNamed(context, '/chatting');
-                    }),
-                BottomNavbarItem(
-                  icon: 'assets/iconNoti',
-                  label: noti,
-                  onTap: () {
-                    isLoggedIn
-                        ? onTabTapped(1)
-                        : showCustomDialog(
-                            context: context,
-                            onConfirm: () {
-                              Navigator.pushNamed(context, '/login');
-                            },
-                          );
-                  },
+          // Floating bottom navigation bar
+          if (_currentIndex != 1)
+            Positioned(
+              bottom: 10,
+              left: 0,
+              right: 0,
+              child: Container(
+                color: Colors.transparent,
+                height: 105,
+                padding: const EdgeInsets.all(12),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50.0),
+                  child: Container(
+                    height: 80,
+                    color: Colors.white.withOpacity(1),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: List.generate(_icons.length, (index) {
+                        return _tabItem(_icons[index], labels[index], index);
+                      }),
+                    ),
+                  ),
                 ),
-                BottomNavbarItem(
-                    icon: 'assets/iconUser',
-                    label: profile,
-                    onTap: () => onTabTapped(2)),
-              ],
-              initialIndex: adjustedIndex,
+              ),
             ),
-          ),
-        )
-      ],
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showBottomSheet(context);
+        },
+        backgroundColor: AppColor.redLight,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        child: const ImageIcon(
+          AssetImage('assets/icons_3d/chatbot.png'),
+          size: 30,
+          color: Colors.white,
+        ),
+      ),
+      floatingActionButtonLocation: CustomFABLocation(
+        FloatingActionButtonLocation.endFloat,
+        65.0,
+      ),
     );
   }
 

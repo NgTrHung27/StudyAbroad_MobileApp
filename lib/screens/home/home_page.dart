@@ -15,7 +15,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
-import 'package:kltn_mobile/screens/chatting/dismissible_chatting_gemini_ai.dart';
 import 'package:kltn_mobile/screens/schools/schools_list.dart';
 
 class HomePage extends BasePage {
@@ -165,27 +164,5 @@ class _HomePageState extends BasePageState<HomePage> {
             ),
           ],
         ));
-  }
-
-  // ignore: unused_element
-  Future<void> _showBottomSheet(BuildContext bContext) async {
-    return showModalBottomSheet(
-      enableDrag: false,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      context: bContext,
-      builder: (context) => DismissibleBottomSheetView(
-        childView: Container(
-            width: double.infinity,
-            color: Colors.white,
-            child: const Center(
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text("Imagine this is a chat UI",
-                    style: TextStyle(fontSize: 30, color: Colors.blue)),
-              ),
-            )),
-      ),
-    );
   }
 }

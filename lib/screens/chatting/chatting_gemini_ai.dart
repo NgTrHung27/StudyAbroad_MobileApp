@@ -141,8 +141,8 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
-            color: textColorWhite,
-            onPressed: () => Navigator.pop(context),
+            color: Colors.white,
+            onPressed: () => Navigator.pushNamed(context, '/mainpage'),
           )),
       body: _buildUI(redCorlor, subtitle, hintText, containerUserBox,
           textColorWhite, errorConn),
@@ -229,6 +229,7 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
             dateSeparatorFormat: DateFormat('dd/MM/yyyy'),
           ),
           messageOptions: MessageOptions(
+            currentUserTextColor: Colors.black,
             containerColor: Colors.white,
             currentUserContainerColor: containerUserBox,
             showCurrentUserAvatar: true,
@@ -331,6 +332,8 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
         ],
       );
       _sendMessage(chatMessage);
+    } else {
+      print('No image selected.');
     }
   }
 }
