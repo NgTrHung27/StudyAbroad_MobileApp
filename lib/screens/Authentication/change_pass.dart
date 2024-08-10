@@ -100,7 +100,7 @@ class _ForgetPassState extends BasePageState<ChangePass> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           BackButtonCircle(onPressed: () {
-                            Navigator.pushNamed(context, '/profile');
+                            Navigator.pop(context);
                           }),
                           //Logo
                           SizedBox(width: screenWidth * 0.20),
@@ -208,8 +208,7 @@ class _ForgetPassState extends BasePageState<ChangePass> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      // Navigate back to login screen
-                                      Navigator.pop(context);
+                                      Navigator.pushNamed(context, '/login');
                                     },
                                     child: TextMonserats(
                                       forgot5,

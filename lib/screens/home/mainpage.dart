@@ -98,6 +98,7 @@ class MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     final localizations = AppLocalizations.of(context);
     final home =
         localizations != null ? localizations.nav_home : 'Default Text';
@@ -142,21 +143,24 @@ class MainPageState extends State<MainPage>
             ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showBottomSheet(context);
-        },
-        backgroundColor: AppColor.redLight,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: const ImageIcon(
-          AssetImage('assets/icons_3d/chatbot.png'),
-          size: 30,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton: _currentIndex != 1
+          ? FloatingActionButton(
+              onPressed: () {
+                _showBottomSheet(context);
+              },
+              backgroundColor: AppColor.redLight,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              child: const ImageIcon(
+                AssetImage('assets/icons_3d/chatbot.png'),
+                size: 30,
+                color: Colors.white,
+              ),
+            )
+          : null,
       floatingActionButtonLocation: CustomFABLocation(
         FloatingActionButtonLocation.endFloat,
-        65.0,
+        screenHeight * 0.12,
       ),
     );
   }
@@ -174,7 +178,7 @@ class MainPageState extends State<MainPage>
             child: const Center(
               child: Padding(
                 padding: EdgeInsets.all(20.0),
-                child: Text("Imagine this is a chat UI",
+                child: Text("Chat AI",
                     style: TextStyle(fontSize: 30, color: Colors.blue)),
               ),
             )),

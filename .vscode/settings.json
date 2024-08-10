@@ -1,4 +1,5 @@
 {
   "cmake.sourceDirectory": "D:/Work/KLTN_QLyDuHoc/kltn_mobile/linux",
-  "editor.quickSuggestionsDelay": 5
+  "editor.quickSuggestionsDelay": 5,
+  "dart.enableCompletionCommitCharacters": true
 }
