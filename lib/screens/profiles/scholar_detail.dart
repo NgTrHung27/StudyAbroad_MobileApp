@@ -1,96 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/Style/backbutton.dart';
+import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/action/id_tab.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
-import 'package:kltn_mobile/components/style/backbutton.dart';
-import 'package:kltn_mobile/components/style/montserrat.dart';
-import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
-import 'package:kltn_mobile/components/functions/profile_userdetailbox.dart';
+import 'package:kltn_mobile/components/list_view/scholar_box.dart';
+import 'package:kltn_mobile/models/scholar_status.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScholarDetail extends BasePage {
   const ScholarDetail({super.key});
 
   @override
-  State<ScholarDetail> createState() => _ScholarDetailPageState();
+  ScholarDetailState createState() => ScholarDetailState();
 }
 
-class _ScholarDetailPageState extends BasePageState<ScholarDetail> {
+class ScholarDetailState extends BasePageState<ScholarDetail> {
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
-    final titleColor = isDarkMode ? Colors.white : AppColor.redButton;
-    //Language
-    final localizations = AppLocalizations.of(context);
-    final profile = localizations != null
-        ? localizations.profile_account_profilesInfo
-        : 'Default Text';
-    return BlocBuilder<ThemeSettingCubit, ThemeData>(
-      builder: (context, state) {
-        double screenWidth = MediaQuery.of(context).size.width;
-        double screenHeight = MediaQuery.of(context).size.height;
-        return Scaffold(
-          backgroundColor: context.select(
-              (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
-          body: Stack(
-            children: <Widget>[
+    final textColor = isDarkMode ? Colors.white : AppColor.redButton;
+
+    final screenHeight = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              SizedBox(height: screenHeight * 0.08),
               Padding(
-                padding: EdgeInsets.all(screenWidth * 0.15),
-                child: SingleChildScrollView(
-                  child: Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        TextMonserats(
-                          profile,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: titleColor,
-                        ),
-                        SizedBox(height: screenHeight * 0.02),
-                        CirleAvatarImage(
-                            avatarImgUrl: userAuth?.student.school.logo != null
-                                ? userAuth!.student.school.logo
-                                : null,
-                            avatarImgPath: 'assets/logo/logo_red.png',
-                            width: 120,
-                            height: 120),
-                        SizedBox(height: screenHeight * 0.02),
-                        LegendBox(
-                            title: 'Full name',
-                            value: userAuth?.name ?? 'N/A',
-                            isEditable: true),
-                        SizedBox(height: screenHeight * 0.02),
-                        LegendBox(
-                            title: 'Email', value: userAuth?.email ?? 'N/A'),
-                        SizedBox(height: screenHeight * 0.02),
-                        LegendBox(
-                            title: 'ID Student',
-                            value: userAuth?.student.school.name ?? 'N/A'),
-                        SizedBox(height: screenHeight * 0.02),
-                        LegendBox(
-                            title: 'Status',
-                            value: userAuth?.student.program.program.name ??
-                                'N/A'),
-                      ],
-                    ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Center(
+                  child: TextMonserats(
+                    'Scholarship \n Status',
+                    fontSize: screenHeight * 0.03,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                    softWrap: true,
+                    maxLine: 2,
+                    overflow: TextOverflow.visible,
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
-              Positioned(
-                top: screenWidth * 0.13,
-                left: 10.0,
-                child: BackButtonCircle(onPressed: () {
-                  Navigator.pop(context);
-                }),
+              SizedBox(height: screenHeight * 0.02),
+              Center(
+                child: IdTab(
+                  userName: userAuth?.name ?? 'N/A',
+                  idUser: userAuth?.email ?? 'N/A',
+                  avatarImgUrl: userAuth?.student.school.logo != null
+                      ? userAuth!.student.school.logo
+                      : null, // Sử dụng hình ảnh từ API nếu có
+                  avatarImgPath: 'assets/logo/logo_white.png',
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: dummyScholarData.length,
+                  itemBuilder: (context, index) {
+                    return ScholarStatusWidget(
+                      scholarStatus: dummyScholarData[index].scholarStatus,
+                    );
+                  },
+                ),
               ),
             ],
           ),
-        );
-      },
+          Positioned(
+            top: screenHeight * 0.075,
+            left: 16,
+            child: BackButtonCircle(
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
