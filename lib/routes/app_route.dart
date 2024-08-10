@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/models/scholar_status.dart';
+import 'package:kltn_mobile/screens/Authentication/change_pass.dart';
 import 'package:kltn_mobile/screens/authentication/forget_password.dart';
 import 'package:kltn_mobile/screens/authentication/login_page.dart';
 import 'package:kltn_mobile/screens/authentication/logout.dart';
@@ -16,7 +16,6 @@ import 'package:kltn_mobile/screens/profiles/profile.dart';
 import 'package:kltn_mobile/screens/profiles/profile_detail.dart';
 import 'package:kltn_mobile/screens/profiles/profile_status.dart';
 import 'package:kltn_mobile/screens/profiles/scholar_detail.dart';
-import 'package:kltn_mobile/screens/profiles/scholar_status.dart';
 import 'package:kltn_mobile/screens/profiles/tuition.dart';
 import 'package:kltn_mobile/screens/scholarships/scholarships_list.dart';
 import 'package:kltn_mobile/screens/schools/schools_list.dart';
@@ -68,7 +67,7 @@ class AppRoute {
       case '/scholarDetail':
         return MaterialPageRoute(builder: (_) => const ScholarDetail());
       case '/scholarStatus':
-        return MaterialPageRoute(builder: (_) => ScholarDetail());
+        return MaterialPageRoute(builder: (_) => const ScholarDetail());
       case '/mainpage':
         final args = routeSettings.arguments as Map<String, dynamic>?;
         final index = args?['index'] ?? 0;

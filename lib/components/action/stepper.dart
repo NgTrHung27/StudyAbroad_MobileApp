@@ -7,13 +7,14 @@ class StepperDemo extends StatefulWidget {
   final List<Widget> contents;
 
   const StepperDemo({
-    Key? key,
+    super.key,
     required this.header,
     required this.titles,
     required this.contents,
-  }) : super(key: key);
+  });
 
   @override
+  // ignore: library_private_types_in_public_api
   _StepperDemoState createState() => _StepperDemoState();
 }
 

@@ -19,7 +19,6 @@ class _ScholarStuStatusState extends BasePageState<ScholarStuStatus> {
   Widget build(BuildContext context) {
     final userAuth = this.userAuth;
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
 
     // Theme
     final isDarkMode = context.select(
@@ -89,10 +88,10 @@ class _ScholarStuStatusState extends BasePageState<ScholarStuStatus> {
                             ),
                           ],
                         ),
-                        child: SizedBox(
+                        child: const SizedBox(
                           height:
                               350.0, // Đặt chiều cao cố định cho toàn bộ Stepper
-                          child: const StepperDemo(
+                          child: StepperDemo(
                             header: 'Scholarship Status',
                             titles: [
                               'Application has been submitted',
