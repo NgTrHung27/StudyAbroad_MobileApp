@@ -48,7 +48,7 @@ dependencies:
   bottom_picker: ^2.7.0
   bloc: ^8.1.4
   meta: ^1.12.0
-  carousel_slider: ^4.2.1
+  carousel_slider_plus: ^7.0.0
   shimmer: ^3.0.0
   equatable: ^2.0.5
   cached_network_image: ^3.3.1
