@@ -70,6 +70,8 @@ dependencies:
   flutter_local_notifications: ^17.2.1+2
   easy_stepper: ^0.8.5+1
   casa_vertical_stepper: ^0.0.5
+  gif: ^2.3.0
+  smooth_page_indicator:
 
 dev_dependencies:
   flutter_test:

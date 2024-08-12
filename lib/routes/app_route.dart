@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kltn_mobile/models/score.dart';
 import 'package:kltn_mobile/screens/Authentication/change_pass.dart';
 import 'package:kltn_mobile/screens/authentication/forget_password.dart';
 import 'package:kltn_mobile/screens/authentication/login_page.dart';
@@ -9,6 +10,7 @@ import 'package:kltn_mobile/screens/home/contact_us.dart';
 import 'package:kltn_mobile/screens/home/home_page.dart';
 import 'package:kltn_mobile/screens/home/splash.dart';
 import 'package:kltn_mobile/screens/home/mainpage.dart';
+import 'package:kltn_mobile/screens/intro/intro.dart';
 import 'package:kltn_mobile/screens/news/news_page.dart';
 import 'package:kltn_mobile/screens/notifications/notifications_page.dart';
 import 'package:kltn_mobile/screens/profiles/help_feedback.dart';
@@ -19,6 +21,7 @@ import 'package:kltn_mobile/screens/profiles/scholar_detail.dart';
 import 'package:kltn_mobile/screens/profiles/tuition.dart';
 import 'package:kltn_mobile/screens/scholarships/scholarships_list.dart';
 import 'package:kltn_mobile/screens/schools/schools_list.dart';
+import 'package:kltn_mobile/screens/score/scorepage.dart';
 
 class AppRoute {
   static Route onGenerateRoute(RouteSettings routeSettings) {
@@ -68,6 +71,12 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const ScholarDetail());
       case '/scholarStatus':
         return MaterialPageRoute(builder: (_) => const ScholarDetail());
+      case '/score':
+        return MaterialPageRoute(
+            builder: (_) => ScorePage(
+                semesterScores: SemesterScore.getDummySemesterScores()));
+      case '/intro':
+        return MaterialPageRoute(builder: (_) => const IntroPage());
       case '/mainpage':
         final args = routeSettings.arguments as Map<String, dynamic>?;
         final index = args?['index'] ?? 0;
