@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
               theme: state,
               themeMode: ThemeMode.system,
               navigatorKey: navigatorKey,
-              initialRoute: "/intro",
+              initialRoute: "/",
               onGenerateRoute: AppRoute.onGenerateRoute,
               supportedLocales: const [
                 Locale('en'), // English

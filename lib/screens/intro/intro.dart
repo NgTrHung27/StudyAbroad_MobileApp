@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
-import 'package:kltn_mobile/screens/home/home_page.dart';
 import 'package:gif/gif.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -84,10 +83,7 @@ class IntroPageState extends State<IntroPage> {
                 ),
                 onPressed: isLastPage
                     ? () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const HomePage();
-                        }));
+                        Navigator.pushReplacementNamed(context, '/mainpage');
                       }
                     : () {
                         _controller.nextPage(
@@ -145,13 +141,8 @@ class BuildIntroPage extends StatelessWidget {
         children: [
           Gif(
             image: AssetImage(img),
-            placeholder: (BuildContext context) => TextMonserats(
-              'Loading...',
-              color: AppColor.redButton,
-              fontSize: 20,
-              height: 1.5,
-              fontWeight: FontWeight.w600,
-              textAlign: TextAlign.center,
+            placeholder: (BuildContext context) => const Center(
+              child: CircularProgressIndicator(),
             ),
             autostart: Autostart.once,
             duration: const Duration(milliseconds: 800),
