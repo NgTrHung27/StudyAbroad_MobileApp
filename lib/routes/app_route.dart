@@ -67,7 +67,7 @@ class AppRoute {
       case '/scholarDetail':
         return MaterialPageRoute(builder: (_) => const ScholarDetail());
       case '/scholarStatus':
-        return MaterialPageRoute(builder: (_) => const ScholarDetail());
+        return MaterialPageRoute(builder: (_) => const ScholarStuStatus());
       case '/mainpage':
         final args = routeSettings.arguments as Map<String, dynamic>?;
         final index = args?['index'] ?? 0;

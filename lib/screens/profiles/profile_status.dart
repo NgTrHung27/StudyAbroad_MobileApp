@@ -101,7 +101,6 @@ class _ProfileStatusState extends BasePageState<ProfileStatus> {
                         ],
                       ),
                       const SizedBox(height: 20),
-
                       //Result Status
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
