@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/action/actiontab_result.dart';
 import 'package:kltn_mobile/components/action/id_tab.dart';
 import 'package:kltn_mobile/components/action/stepper.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
@@ -108,11 +109,14 @@ class _ScholarStuStatusState extends BasePageState<ScholarStuStatus> {
                       ),
                     ],
                   ),
-                  TextMonserats(
-                    'Scholarship Status',
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: textColorRed,
+                  const SizedBox(height: 20),
+                  //Result Status
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ActiontabResult(
+                          result: userAuth?.student.status ?? 'N/A'),
+                    ],
                   ),
                   const SizedBox(height: 20),
                 ],
