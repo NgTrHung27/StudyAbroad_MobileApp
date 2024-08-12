@@ -24,6 +24,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:provider/provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 //Main
@@ -82,6 +83,14 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     checkLoginStatus();
     listenToForegroundMessages();
+    requestPhotoLibraryPermission();
+  }
+
+  Future<void> requestPhotoLibraryPermission() async {
+    var status = await Permission.photos.status;
+    if (!status.isGranted) {
+      await Permission.photos.request();
+    }
   }
 
   @override

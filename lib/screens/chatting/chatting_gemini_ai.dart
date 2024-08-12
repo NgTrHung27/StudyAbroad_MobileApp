@@ -264,14 +264,28 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
       messages = [chatMessage, ...messages];
       _hasSentFirstMessage = true;
     });
+
     try {
       String question = chatMessage.text;
       List<Uint8List>? images;
+
       if (chatMessage.medias?.isNotEmpty ?? false) {
         images = [
           File(chatMessage.medias!.first.url).readAsBytesSync(),
         ];
       }
+
+      // Log the request details
+      print("Sending request to Gemini API");
+      print("Question: $question");
+      if (images != null) {
+        print("Images: ${images.length} image(s) attached");
+        for (var image in images) {
+          print("Image size: ${image.lengthInBytes} bytes");
+        }
+      }
+
+      // Assuming gemini is an instance of a class that handles API requests
       gemini
           ?.streamGenerateContent(
         question,
@@ -279,17 +293,16 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
       )
           .listen((event) {
         ChatMessage? lastMessage = messages.firstOrNull;
+
         if (lastMessage != null && lastMessage.user == geminiUser) {
           lastMessage = messages.removeAt(0);
           String response = event.content?.parts?.fold(
                   "", (previous, current) => "$previous ${current.text}") ??
               "";
           lastMessage.text += response;
-          setState(
-            () {
-              messages = [lastMessage!, ...messages];
-            },
-          );
+          setState(() {
+            messages = [lastMessage!, ...messages];
+          });
         } else {
           String response = event.content?.parts?.fold(
                   "", (previous, current) => "$previous ${current.text}") ??
@@ -303,16 +316,23 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
             messages = [message, ...messages];
           });
         }
+      }).onError((error) {
+        print("Error occurred: $error");
+        // Handle specific GeminiException
+        if (error is GeminiException) {
+          print("GeminiException: ${error.message}");
+          print("Status Code: ${error.statusCode}");
+        }
       });
     } catch (e) {
-      print(e);
+      print("Exception: $e");
     }
   }
 
   void _sendMediaMessage() async {
     final localizations = AppLocalizations.of(context);
     final desPic = localizations != null
-        ? localizations.ai_chatting_title
+        ? localizations.ai_chatting_desPic
         : 'Default Text';
     ImagePicker picker = ImagePicker();
     XFile? file = await picker.pickImage(
@@ -326,14 +346,25 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
         medias: [
           ChatMedia(
             url: file.path,
-            fileName: "",
             type: MediaType.image,
-          )
+            fileName: '',
+          ),
         ],
       );
-      _sendMessage(chatMessage);
+
+      try {
+        // Log the request details
+        print("Sending media message with description: $desPic");
+        print("Image path: ${file.path}");
+
+        // Send the message
+        _sendMessage(chatMessage);
+      } catch (e) {
+        // Log the error details
+        print("Exception occurred while sending media message: $e");
+      }
     } else {
-      print('No image selected.');
+      print("No image selected.");
     }
   }
 }
