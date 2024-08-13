@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 class BoxGridView extends StatelessWidget {
   const BoxGridView({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
@@ -63,7 +62,7 @@ class BoxGridView extends StatelessWidget {
             bigText: actionS2,
             onTap: () {
               isLoggedIn
-                  ? Navigator.pushNamed(context, '/news')
+                  ? Navigator.pushNamed(context, '/score')
                   : showCustomDialog(
                       context: context,
                       onConfirm: () {

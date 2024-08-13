@@ -125,5 +125,10 @@
   "cpSchool4": "졸업 및 취업률",
   "cpSchool5": "학생 만족도",
   "cpSchool6": "학교 비교",
-  "cpSchool7": "재정 자원"
+  "cpSchool7": "재정 자원",
+  "scr_subject": "주제",
+  "scr_score": "점수",
+  "scr_cmt": "논평",
+  "scr_dwn": "다운로드",
+  "scr_sms": "학기"
 }

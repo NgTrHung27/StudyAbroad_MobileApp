@@ -14,6 +14,7 @@ class StepperDemo extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _StepperDemoState createState() => _StepperDemoState();
 }
 

@@ -125,5 +125,10 @@
   "cpSchool4": "Graduation and Employment Rates",
   "cpSchool5": "Student Sastisfaction",
   "cpSchool6": "National and International Rankings",
-  "cpSchool7": "Financial Resources"
+  "cpSchool7": "Financial Resources",
+  "scr_subject": "Subject",
+  "scr_score": "Score",
+  "scr_cmt": "Comment",
+  "scr_dwn": "Download",
+  "scr_sms": "Semester"
 }
