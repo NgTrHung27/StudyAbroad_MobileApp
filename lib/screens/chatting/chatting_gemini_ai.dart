@@ -14,6 +14,7 @@ import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class GeminiAI extends BasePage {
@@ -95,7 +96,8 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
 
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     // Cập nhật userName từ userAuth
     String newUserName = userAuth?.name ?? 'N/A';
     String newAvtUser = userAuth?.student.school.logo ??

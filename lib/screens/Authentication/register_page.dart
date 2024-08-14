@@ -239,7 +239,7 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
     });
   }
 
-  void programChange(Program? program) {
+  void programChange(SchoolProgram? program) {
     setState(() {
       if (program != null) {
         selectedProgram = program.name;
@@ -1030,7 +1030,7 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
                         if (state is AuthLoadedState) {
                           lstschools = state.schools;
                         }
-                        return DropdownCustom<Program>(
+                        return DropdownCustom<SchoolProgram>(
                           icon: Icons.history_edu,
                           items: selectedSchool == null
                               ? []
@@ -1039,12 +1039,12 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
                               ? null
                               : selectedSchoolObject!.programs.firstWhere(
                                   (element) => element.name == selectedProgram),
-                          onChanged: (Program? newValueProgram) {
+                          onChanged: (SchoolProgram? newValueProgram) {
                             setState(() {
                               programChange(newValueProgram);
                             });
                           },
-                          itemLabel: (Program program) => program.name,
+                          itemLabel: (SchoolProgram program) => program.name,
                           hintText: register_19,
                           isExpanded: true,
                         );

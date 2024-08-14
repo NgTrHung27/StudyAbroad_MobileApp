@@ -7,6 +7,7 @@ import 'package:kltn_mobile/components/action/stepper.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class ScholarStuStatus extends BasePage {
@@ -18,7 +19,9 @@ class ScholarStuStatus extends BasePage {
 class _ScholarStuStatusState extends BasePageState<ScholarStuStatus> {
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
+
     final screenHeight = MediaQuery.of(context).size.height;
 
     // Theme

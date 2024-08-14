@@ -23,32 +23,34 @@ class Schools {
   String color;
   bool isPublished;
   String country;
+
+  List<SchoolLocation> locations;
+  List<SchoolProgram> programs;
+  List<SchoolGallery>? galleries;
+  List<SchoolScholarship>? scholarships;
+  List<News>? news;
+
   DateTime createdAt;
   DateTime updatedAt;
-  List<News> news;
-  List<Gallery> galleries;
-  List<Location> locations;
-  List<Program> programs;
-  List<Scholarship> scholarships;
 
   Schools({
     required this.id,
     required this.logo,
     required this.background,
     required this.name,
-    required this.short,
-    required this.description,
-    required this.history,
+    this.short,
+    this.description,
+    this.history,
     required this.color,
     required this.isPublished,
     required this.country,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.news,
-    required this.galleries,
     required this.locations,
     required this.programs,
-    required this.scholarships,
+    this.galleries,
+    this.scholarships,
+    this.news,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Schools.fromJson(Map<String, dynamic> json) => Schools(
@@ -62,17 +64,23 @@ class Schools {
         color: json["color"],
         isPublished: json["isPublished"],
         country: json["country"],
+        locations: List<SchoolLocation>.from(
+            json["locations"].map((x) => SchoolLocation.fromJson(x))),
+        programs: List<SchoolProgram>.from(
+            json["programs"].map((x) => SchoolProgram.fromJson(x))),
+        galleries: json["galleries"] != null
+            ? List<SchoolGallery>.from(
+                json["galleries"].map((x) => SchoolGallery.fromJson(x)))
+            : [],
+        scholarships: json["scholarships"] != null
+            ? List<SchoolScholarship>.from(
+                json["scholarships"].map((x) => SchoolScholarship.fromJson(x)))
+            : [],
+        news: json["news"] != null
+            ? List<News>.from(json["news"].map((x) => News.fromJson(x)))
+            : [],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        news: List<News>.from(json["news"].map((x) => News.fromJson(x))),
-        galleries: List<Gallery>.from(
-            json["galleries"].map((x) => Gallery.fromJson(x))),
-        locations: List<Location>.from(
-            json["locations"].map((x) => Location.fromJson(x))),
-        programs: List<Program>.from(
-            json["programs"].map((x) => Program.fromJson(x))),
-        scholarships: List<Scholarship>.from(
-            json["scholarships"].map((x) => Scholarship.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -86,141 +94,144 @@ class Schools {
         "color": color,
         "isPublished": isPublished,
         "country": country,
+        "locations": locations.map((x) => x.toJson()).toList(),
+        "programs": programs.map((x) => x.toJson()).toList(),
+        "galleries": galleries?.map((x) => x.toJson()).toList() ?? [],
+        "scholarships": scholarships?.map((x) => x.toJson()).toList() ?? [],
+        "news": news?.map((x) => x.toJson()).toList() ?? [],
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-        "news": List<dynamic>.from(news.map((x) => x.toJson())),
-        "galleries": List<dynamic>.from(galleries.map((x) => x.toJson())),
-        "locations": List<dynamic>.from(locations.map((x) => x.toJson())),
-        "programs": List<dynamic>.from(programs.map((x) => x.toJson())),
-        "scholarships": List<dynamic>.from(scholarships.map((x) => x.toJson())),
       };
 }
 
-class Gallery {
+class SchoolLocation {
   String id;
+
+  String cover;
   String name;
-  String description;
+  String? description;
+  String address;
+  bool isMain;
+
+  List<SchoolLocationImage>? images;
+  List<SchoolLocationContact>? contacts;
+
   String schoolId;
+
   DateTime createdAt;
   DateTime updatedAt;
-  List<dynamic> images;
 
-  Gallery({
+  SchoolLocation({
     required this.id,
+    required this.cover,
     required this.name,
-    required this.description,
+    this.description,
+    required this.address,
+    required this.isMain,
+    this.images,
+    this.contacts,
     required this.schoolId,
     required this.createdAt,
     required this.updatedAt,
-    required this.images,
   });
 
-  factory Gallery.fromJson(Map<String, dynamic> json) => Gallery(
+  factory SchoolLocation.fromJson(Map<String, dynamic> json) => SchoolLocation(
         id: json["id"],
+        cover: json["cover"],
         name: json["name"],
         description: json["description"],
+        address: json["address"],
+        isMain: json["isMain"],
+        contacts: json["contacts"] != null
+            ? List<SchoolLocationContact>.from(
+                json["contacts"].map((x) => SchoolLocationContact.fromJson(x)))
+            : [],
+        images: json["images"] != null
+            ? List<SchoolLocationImage>.from(
+                json["images"].map((x) => SchoolLocationImage.fromJson(x)))
+            : [],
         schoolId: json["schoolId"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        images: List<dynamic>.from(json["images"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "cover": cover,
         "name": name,
         "description": description,
+        "address": address,
+        "isMain": isMain,
+        "contacts": contacts?.map((x) => x.toJson()).toList() ?? [],
+        "images": images?.map((x) => x.toJson()).toList() ?? [],
         "schoolId": schoolId,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-        "images": List<dynamic>.from(images.map((x) => x)),
       };
 }
 
-class Location {
-  Id id;
-  String cover;
-  String name;
-  String address;
-  bool isMain;
-  String schoolId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  List<Contact> contacts;
-  List<ImageLoca> images;
+class SchoolLocationImage {
+  String id;
 
-  Location({
+  String url;
+
+  String locationId;
+
+  SchoolLocationImage({
     required this.id,
-    required this.cover,
-    required this.name,
-    required this.address,
-    required this.isMain,
-    required this.schoolId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.contacts,
-    required this.images,
+    required this.url,
+    required this.locationId,
   });
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        id: idValues.map[json["id"]]!,
-        cover: json["cover"],
-        name: json["name"],
-        address: json["address"],
-        isMain: json["isMain"],
-        schoolId: json["schoolId"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        contacts: List<Contact>.from(
-            json["contacts"].map((x) => Contact.fromJson(x))),
-        images: List<ImageLoca>.from(
-            json["images"].map((x) => ImageLoca.fromJson(x))),
+  factory SchoolLocationImage.fromJson(Map<String, dynamic> json) =>
+      SchoolLocationImage(
+        id: json["id"],
+        url: json["url"],
+        locationId: json["locationId"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": idValues.reverse[id],
-        "cover": cover,
-        "name": name,
-        "address": address,
-        "isMain": isMain,
-        "schoolId": schoolId,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "contacts": List<dynamic>.from(contacts.map((x) => x.toJson())),
-        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        "id": id,
+        "url": url,
+        "locationId": locationId,
       };
 }
 
-class Contact {
+class SchoolLocationContact {
   String id;
-  String phone;
+
+  String? phone;
   String? hours;
-  dynamic fax;
-  dynamic email;
-  dynamic url;
-  Id locationId;
+  String? fax;
+  String? email;
+  String? url;
+
+  String locationId;
+
   DateTime createdAt;
   DateTime updatedAt;
 
-  Contact({
+  SchoolLocationContact({
     required this.id,
-    required this.phone,
-    required this.hours,
-    required this.fax,
-    required this.email,
-    required this.url,
+    this.phone,
+    this.hours,
+    this.fax,
+    this.email,
+    this.url,
     required this.locationId,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  factory Contact.fromJson(Map<String, dynamic> json) => Contact(
+  factory SchoolLocationContact.fromJson(Map<String, dynamic> json) =>
+      SchoolLocationContact(
         id: json["id"],
         phone: json["phone"],
         hours: json["hours"],
         fax: json["fax"],
         email: json["email"],
         url: json["url"],
-        locationId: idValues.map[json["locationId"]]!,
+        locationId: json["locationId"]!,
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
       );
@@ -232,58 +243,346 @@ class Contact {
         "fax": fax,
         "email": email,
         "url": url,
-        "locationId": idValues.reverse[locationId],
+        "locationId": locationId,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
       };
 }
 
-enum Id {
-  CLZ7_R9_S5_B0002_KG5_K0_QW5_KO02,
-  CLZ7_R9_S5_K0004_KG5_K462_FCTIQ,
-  CLZ7_R9_S910006_KG5_KQBA1_U3_DL,
-  CLZ7_R9_S9_J0008_KG5_KWJ813_F7_V
-}
-
-final idValues = EnumValues({
-  "clz7r9s5b0002kg5k0qw5ko02": Id.CLZ7_R9_S5_B0002_KG5_K0_QW5_KO02,
-  "clz7r9s5k0004kg5k462fctiq": Id.CLZ7_R9_S5_K0004_KG5_K462_FCTIQ,
-  "clz7r9s910006kg5kqba1u3dl": Id.CLZ7_R9_S910006_KG5_KQBA1_U3_DL,
-  "clz7r9s9j0008kg5kwj813f7v": Id.CLZ7_R9_S9_J0008_KG5_KWJ813_F7_V
-});
-
-class ImageLoca {
+class SchoolProgram {
   String id;
-  String url;
-  Id locationId;
+  String name;
+  String description;
+  String cover;
+  bool isPublished;
 
-  ImageLoca({
+  String schoolId;
+
+  List<StudentSchoolProgram>? studentPrograms;
+  List<SchoolProgramImage>? images;
+
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  SchoolProgram({
     required this.id,
-    required this.url,
-    required this.locationId,
+    required this.name,
+    required this.description,
+    required this.cover,
+    required this.isPublished,
+    required this.schoolId,
+    this.studentPrograms,
+    this.images,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  factory ImageLoca.fromJson(Map<String, dynamic> json) => ImageLoca(
+  factory SchoolProgram.fromJson(Map<String, dynamic> json) => SchoolProgram(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        cover: json["cover"],
+        isPublished: json["isPublished"],
+        schoolId: json["schoolId"],
+        studentPrograms: json["studentPrograms"] == null
+            ? []
+            : List<StudentSchoolProgram>.from(json["studentPrograms"]!
+                .map((x) => StudentSchoolProgram.fromJson(x))),
+        images: json["images"] == null
+            ? []
+            : List<SchoolProgramImage>.from(json["images"]!.map((x) => x)),
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "cover": cover,
+        "isPublished": isPublished,
+        "schoolId": schoolId,
+        "studentPrograms":
+            studentPrograms?.map((x) => x.toJson()).toList() ?? [],
+        "images": images?.map((x) => x.toJson()).toList() ?? [],
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class StudentSchoolProgram {
+  String id;
+
+  String studentId;
+  String programId;
+
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  StudentSchoolProgram({
+    required this.id,
+    required this.studentId,
+    required this.programId,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory StudentSchoolProgram.fromJson(Map<String, dynamic> json) =>
+      StudentSchoolProgram(
+        id: json["id"],
+        studentId: json["studentId"],
+        programId: json["programId"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "studentId": studentId,
+        "programId": programId,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class SchoolProgramImage {
+  String id;
+
+  String url;
+
+  String programId;
+
+  SchoolProgramImage({
+    required this.id,
+    required this.url,
+    required this.programId,
+  });
+
+  factory SchoolProgramImage.fromJson(Map<String, dynamic> json) =>
+      SchoolProgramImage(
         id: json["id"],
         url: json["url"],
-        locationId: idValues.map[json["locationId"]]!,
+        programId: json["programId"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "url": url,
-        "locationId": idValues.reverse[locationId],
+        "programId": programId,
+      };
+}
+
+class SchoolGallery {
+  String id;
+
+  String name;
+  String description;
+  String cover;
+
+  List<SchoolGalleryImage>? images;
+
+  String schoolId;
+
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  SchoolGallery({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.cover,
+    this.images,
+    required this.schoolId,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory SchoolGallery.fromJson(Map<String, dynamic> json) => SchoolGallery(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        cover: json["cover"],
+        schoolId: json["schoolid"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        images: json["images"] == null
+            ? []
+            : List<SchoolGalleryImage>.from(
+                json["images"]!.map((x) => SchoolGalleryImage.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "cover": cover,
+        "images": images?.map((x) => x.toJson()).toList() ?? [],
+        "schoolId": schoolId,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class SchoolGalleryImage {
+  String id;
+
+  String url;
+
+  String galleryId;
+
+  SchoolGalleryImage({
+    required this.id,
+    required this.url,
+    required this.galleryId,
+  });
+
+  factory SchoolGalleryImage.fromJson(Map<String, dynamic> json) =>
+      SchoolGalleryImage(
+        id: json["id"],
+        url: json["url"],
+        galleryId: json["galleryId"],
+      );
+
+  Map<String, dynamic> toJson() =>
+      {"id": id, "url": url, "galleryId": galleryId};
+}
+
+class SchoolScholarship {
+  String id;
+  String name;
+  String description;
+  String cover;
+  bool isPublished;
+
+  String schoolId;
+
+  List<StudentSchoolScholarship>? owners;
+  List<SchoolScholarshipImage>? images;
+
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  SchoolScholarship({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.cover,
+    required this.isPublished,
+    required this.schoolId,
+    this.owners,
+    this.images,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory SchoolScholarship.fromJson(Map<String, dynamic> json) =>
+      SchoolScholarship(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        cover: json["cover"],
+        isPublished: json["isPublished"],
+        schoolId: json["schoolId"],
+        owners: json["owners"] == null
+            ? []
+            : List<StudentSchoolScholarship>.from(json["owners"]
+                .map((x) => StudentSchoolScholarship.fromJson(x))),
+        images: json["images"] == null
+            ? []
+            : List<SchoolScholarshipImage>.from(
+                json["images"].map((x) => SchoolScholarshipImage.fromJson(x))),
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "cover": cover,
+        "isPublished": isPublished,
+        "schoolId": schoolId,
+        "owners": owners?.map((x) => x.toJson()).toList() ?? [],
+        "images": images?.map((x) => x.toJson()).toList() ?? [],
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+      };
+}
+
+class SchoolScholarshipImage {
+  String id;
+
+  String url;
+
+  String scholarshipId;
+
+  SchoolScholarshipImage({
+    required this.id,
+    required this.url,
+    required this.scholarshipId,
+  });
+
+  factory SchoolScholarshipImage.fromJson(Map<String, dynamic> json) =>
+      SchoolScholarshipImage(
+        id: json["id"],
+        url: json["url"],
+        scholarshipId: json["scholarshipId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "url": url,
+        "scholarshipId": scholarshipId,
+      };
+}
+
+class StudentSchoolScholarship {
+  String id;
+
+  String studentId;
+
+  String scholarshipId;
+
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  StudentSchoolScholarship({
+    required this.id,
+    required this.studentId,
+    required this.scholarshipId,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory StudentSchoolScholarship.fromJson(Map<String, dynamic> json) =>
+      StudentSchoolScholarship(
+        id: json["id"],
+        studentId: json["studentId"],
+        scholarshipId: json["scholarshipId"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "studentId": studentId,
+        "scholarshipId": scholarshipId,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
       };
 }
 
 class News {
   String id;
+
   String title;
   String content;
   String type;
   String cover;
   bool isPublished;
-  String schoolId;
+
+  String? schoolId;
+
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -294,7 +593,7 @@ class News {
     required this.type,
     required this.cover,
     required this.isPublished,
-    required this.schoolId,
+    this.schoolId,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -324,89 +623,6 @@ class News {
       };
 }
 
-class Program {
-  String id;
-  String name;
-  String description;
-  String? cover; // Có thể là null
-  bool isPublished;
-  String schoolId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  List<StudentProgram>? studentPrograms;
-  List<dynamic>? images;
-  List<dynamic>? owners;
-
-  Program({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.cover,
-    required this.isPublished,
-    required this.schoolId,
-    required this.createdAt,
-    required this.updatedAt,
-    this.studentPrograms,
-    this.images,
-    this.owners,
-  });
-
-  factory Program.fromJson(Map<String, dynamic> json) => Program(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        cover: json["cover"] ?? '', // Cung cấp giá trị mặc định nếu cover null
-        isPublished: json["isPublished"],
-        schoolId: json["schoolId"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        studentPrograms: json["studentPrograms"] == null
-            ? []
-            : List<StudentProgram>.from(json["studentPrograms"]!
-                .map((x) => StudentProgram.fromJson(x))),
-        images: json["images"] == null
-            ? []
-            : List<dynamic>.from(json["images"]!.map((x) => x)),
-        owners: json["owners"] == null
-            ? []
-            : List<dynamic>.from(json["owners"]!.map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "cover": cover,
-        "isPublished": isPublished,
-        "schoolId": schoolId,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "studentPrograms": studentPrograms == null
-            ? []
-            : List<dynamic>.from(studentPrograms!.map((x) => x.toJson())),
-        "images":
-            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-        "owners":
-            owners == null ? [] : List<dynamic>.from(owners!.map((x) => x)),
-      };
-}
-
-class StudentProgram {
-  Student student;
-
-  StudentProgram({
-    required this.student,
-  });
-
-  factory StudentProgram.fromJson(Map<String, dynamic> json) => StudentProgram(
-        student: Student.fromJson(json["student"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "student": student.toJson(),
-      };
-}
-
 class Student {
   String id;
   String? studentCode;
@@ -415,7 +631,7 @@ class Student {
   String degreeType;
   String certificateType;
   String gradeType;
-  double gradeScore;
+  int gradeScore;
   String status;
 
   Student({
@@ -438,7 +654,7 @@ class Student {
         degreeType: json["degreeType"],
         certificateType: json["certificateType"],
         gradeType: json["gradeType"],
-        gradeScore: json["gradeScore"]?.toDouble(),
+        gradeScore: json["gradeScore"],
         status: json["status"],
       );
 
@@ -468,122 +684,6 @@ class Account {
 
   Map<String, dynamic> toJson() => {
         "name": name,
-      };
-}
-
-class Scholarship {
-  String id;
-  String name;
-  String description;
-  String cover;
-  bool isPublished;
-  String schoolId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  List<dynamic> images;
-  List<dynamic> owners;
-  School school;
-
-  Scholarship({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.cover,
-    required this.isPublished,
-    required this.schoolId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.images,
-    required this.owners,
-    required this.school,
-  });
-
-  factory Scholarship.fromJson(Map<String, dynamic> json) => Scholarship(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        cover: json["cover"],
-        isPublished: json["isPublished"],
-        schoolId: json["schoolId"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        images: List<dynamic>.from(json["images"].map((x) => x)),
-        owners: List<dynamic>.from(json["owners"].map((x) => x)),
-        school: School.fromJson(json["school"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "cover": cover,
-        "isPublished": isPublished,
-        "schoolId": schoolId,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "images": List<dynamic>.from(images.map((x) => x)),
-        "owners": List<dynamic>.from(owners.map((x) => x)),
-        "school": school.toJson(),
-      };
-}
-
-class School {
-  String id;
-  String logo;
-  String background;
-  String name;
-  String short;
-  dynamic description;
-  dynamic history;
-  String color;
-  bool isPublished;
-  String country;
-  DateTime createdAt;
-  DateTime updatedAt;
-
-  School({
-    required this.id,
-    required this.logo,
-    required this.background,
-    required this.name,
-    required this.short,
-    required this.description,
-    required this.history,
-    required this.color,
-    required this.isPublished,
-    required this.country,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  factory School.fromJson(Map<String, dynamic> json) => School(
-        id: json["id"],
-        logo: json["logo"],
-        background: json["background"],
-        name: json["name"],
-        short: json["short"],
-        description: json["description"],
-        history: json["history"],
-        color: json["color"],
-        isPublished: json["isPublished"],
-        country: json["country"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "logo": logo,
-        "background": background,
-        "name": name,
-        "short": short,
-        "description": description,
-        "history": history,
-        "color": color,
-        "isPublished": isPublished,
-        "country": country,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
       };
 }
 

@@ -4,7 +4,7 @@ import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 
 class MajorDetailPage extends StatelessWidget {
-  final Program program;
+  final SchoolProgram program;
   const MajorDetailPage({super.key, required this.program});
 
   @override
@@ -20,7 +20,7 @@ class MajorDetailPage extends StatelessWidget {
                 SizedBox(
                   width: screenWidth,
                   height: screenHeight * 0.5,
-                  child: Image.network(program.cover ?? '', fit: BoxFit.cover),
+                  child: Image.network(program.cover, fit: BoxFit.cover),
                 ),
                 SingleChildScrollView(
                   child: ConstrainedBox(
