@@ -17,6 +17,7 @@ import 'package:kltn_mobile/screens/profiles/help_feedback.dart';
 import 'package:kltn_mobile/screens/profiles/profile.dart';
 import 'package:kltn_mobile/screens/profiles/profile_detail.dart';
 import 'package:kltn_mobile/screens/profiles/profile_status.dart';
+import 'package:kltn_mobile/screens/profiles/respond.dart';
 import 'package:kltn_mobile/screens/profiles/scholar_detail.dart';
 import 'package:kltn_mobile/screens/profiles/scholar_status.dart';
 import 'package:kltn_mobile/screens/profiles/tuition.dart';
@@ -72,6 +73,8 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const ScholarDetail());
       case '/scholarStatus':
         return MaterialPageRoute(builder: (_) => const ScholarStuStatus());
+      case '/respond':
+        return MaterialPageRoute(builder: (_) => const Respond());
       case '/score':
         return MaterialPageRoute(
             builder: (_) => ScorePage(

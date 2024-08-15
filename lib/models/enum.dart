@@ -41,3 +41,9 @@ enum TitleForm {
   SCHOLARSHIP,
   PROCEDURE
 }
+
+enum NewsType {
+  ANNOUNCEMENT,
+  EVENT,
+  BLOG,
+}

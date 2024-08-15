@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -39,7 +41,6 @@ class MainPageState extends State<MainPage>
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
-    print('Initial index: $_currentIndex'); // Thêm dòng này để kiểm tra giá trị
   }
 
   @override
@@ -98,6 +99,8 @@ class MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
+    bool isRunningOnAndroid = Platform.isAndroid;
+    final floatingHeight = isRunningOnAndroid ? 0.12 : 0.08;
     final screenHeight = MediaQuery.of(context).size.height;
     final localizations = AppLocalizations.of(context);
     final home =
@@ -160,7 +163,7 @@ class MainPageState extends State<MainPage>
           : null,
       floatingActionButtonLocation: CustomFABLocation(
         FloatingActionButtonLocation.endFloat,
-        screenHeight * 0.12,
+        screenHeight * floatingHeight,
       ),
     );
   }
