@@ -45,6 +45,10 @@
     <true/>
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Ứng dụng cần quyền truy cập vào kho ảnh của bạn để lưu và truy cập ảnh.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Ứng dụng cần quyền truy cập vào kho ảnh của bạn để lưu ảnh.</string>
     <!-- <key>UIBackgroundModes</key>
     <array>
         <string>fetch</string>

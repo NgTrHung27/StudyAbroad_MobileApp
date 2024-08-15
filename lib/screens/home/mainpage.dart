@@ -39,7 +39,6 @@ class MainPageState extends State<MainPage>
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
-    print('Initial index: $_currentIndex'); // Thêm dòng này để kiểm tra giá trị
   }
 
   @override

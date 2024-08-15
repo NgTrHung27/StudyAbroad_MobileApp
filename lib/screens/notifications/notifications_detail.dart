@@ -6,6 +6,7 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/models/notifications.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class NotificationDetailPage extends BasePage {
@@ -21,7 +22,8 @@ class _NotificationDetailPageState
     extends BasePageState<NotificationDetailPage> {
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final screenWidth = MediaQuery.of(context).size.width;

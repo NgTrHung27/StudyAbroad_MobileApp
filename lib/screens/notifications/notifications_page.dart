@@ -5,6 +5,7 @@ import 'package:kltn_mobile/components/list_view/noti_list.dart';
 import 'package:kltn_mobile/components/style/news_searchtextfield.dart';
 import 'package:kltn_mobile/components/functions_main_page/hello_avt.dart';
 import 'package:kltn_mobile/models/notifications.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class NotificationsPage extends BasePage {
@@ -25,7 +26,8 @@ class NotificationsPageState extends BasePageState<NotificationsPage> {
   Widget build(BuildContext context) {
     final notifications = Notifications.getSampleData();
 
-    final userAuth = this.userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(

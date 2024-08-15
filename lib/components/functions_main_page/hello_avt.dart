@@ -5,6 +5,7 @@ import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class WelcomeAVT extends BasePage {
@@ -17,7 +18,9 @@ class WelcomeAVT extends BasePage {
 class _WelcomeAVTState extends BasePageState<WelcomeAVT> {
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
+    
     final localizations = AppLocalizations.of(context);
     final homeHello =
         localizations != null ? localizations.home_hello : 'Default Text';
