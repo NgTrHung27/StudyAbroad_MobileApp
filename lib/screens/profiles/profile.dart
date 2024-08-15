@@ -53,7 +53,7 @@ class _UserProfileState extends BasePageState<Profile> {
   Widget build(BuildContext context) {
     final userAuth =
         this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
-  final isLoggedIn = userAuth != null;
+    final isLoggedIn = userAuth != null;
     final localizations = AppLocalizations.of(context);
     final helloSignin = localizations != null
         ? localizations.register_login_signin
@@ -128,8 +128,8 @@ class _UserProfileState extends BasePageState<Profile> {
                           ? IdTab(
                               userName: hello,
                               idUser: userAuth.name ?? 'User',
-                              avatarImgUrl:
-                                  userAuth.student.school.logo, // Sử dụng hình ảnh từ API nếu có
+                              avatarImgUrl: userAuth.student.school
+                                  .logo, // Sử dụng hình ảnh từ API nếu có
                               avatarImgPath: 'assets/logo/logo_white.png',
                             )
                           : IdTabLogout(

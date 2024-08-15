@@ -18,14 +18,12 @@ class UserAuthProvider with ChangeNotifier {
       try {
         _userAuthLogin = UserAuthLogin.fromJson(jsonDecode(userString));
         notifyListeners();
-        print('UserAuthLogin set and listeners notified: $_userAuthLogin');
       } catch (e) {
         print('Error decoding JSON: $e');
       }
     } else {
       _userAuthLogin = null;
       notifyListeners();
-      print('No user data found in SharedPreferences');
     }
   }
 }

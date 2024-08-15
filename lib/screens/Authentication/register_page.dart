@@ -1034,10 +1034,10 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
                           icon: Icons.history_edu,
                           items: selectedSchool == null
                               ? []
-                              : selectedSchoolObject!.programs,
+                              : selectedSchoolObject!.programs ?? [],
                           selectedItem: selectedProgram == null
                               ? null
-                              : selectedSchoolObject!.programs.firstWhere(
+                              : selectedSchoolObject!.programs?.firstWhere(
                                   (element) => element.name == selectedProgram),
                           onChanged: (SchoolProgram? newValueProgram) {
                             setState(() {

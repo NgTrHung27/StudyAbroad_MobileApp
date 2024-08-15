@@ -6,7 +6,6 @@ import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/functions/textfield_title.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Respond extends StatefulWidget {
   const Respond({super.key});
@@ -32,7 +31,7 @@ class _RespondState extends State<Respond> {
           children: [
             BackButtonCircle(
               onPressed: () {
-                Navigator.pushNamed(context, '/profile');
+                Navigator.pop(context);
               },
             ),
             const Expanded(
