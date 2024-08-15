@@ -292,6 +292,7 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
           ?.streamGenerateContent(
         question,
         images: images,
+        modelName: 'gemini-1.5-flash',
       )
           .listen((event) {
         ChatMessage? lastMessage = messages.firstOrNull;

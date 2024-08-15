@@ -24,8 +24,8 @@ class Schools {
   bool isPublished;
   String country;
 
-  List<SchoolLocation> locations;
-  List<SchoolProgram> programs;
+  List<SchoolLocation>? locations;
+  List<SchoolProgram>? programs;
   List<SchoolGallery>? galleries;
   List<SchoolScholarship>? scholarships;
   List<News>? news;
@@ -68,10 +68,10 @@ class Schools {
             json["locations"].map((x) => SchoolLocation.fromJson(x))),
         programs: List<SchoolProgram>.from(
             json["programs"].map((x) => SchoolProgram.fromJson(x))),
-        galleries: json["galleries"] != null
-            ? List<SchoolGallery>.from(
-                json["galleries"].map((x) => SchoolGallery.fromJson(x)))
-            : [],
+        // galleries: json["galleries"] != null
+        //     ? List<SchoolGallery>.from(
+        //         json["galleries"].map((x) => SchoolGallery.fromJson(x)))
+        // : [],
         scholarships: json["scholarships"] != null
             ? List<SchoolScholarship>.from(
                 json["scholarships"].map((x) => SchoolScholarship.fromJson(x)))
@@ -94,9 +94,9 @@ class Schools {
         "color": color,
         "isPublished": isPublished,
         "country": country,
-        "locations": locations.map((x) => x.toJson()).toList(),
-        "programs": programs.map((x) => x.toJson()).toList(),
-        "galleries": galleries?.map((x) => x.toJson()).toList() ?? [],
+        // "locations": locations?.map((x) => x.toJson()).toList(),
+        "programs": programs?.map((x) => x.toJson()).toList(),
+        // "galleries": galleries?.map((x) => x.toJson()).toList() ?? [],
         "scholarships": scholarships?.map((x) => x.toJson()).toList() ?? [],
         "news": news?.map((x) => x.toJson()).toList() ?? [],
         "createdAt": createdAt.toIso8601String(),
@@ -107,11 +107,11 @@ class Schools {
 class SchoolLocation {
   String id;
 
-  String cover;
-  String name;
+  String? cover;
+  String? name;
   String? description;
-  String address;
-  bool isMain;
+  String? address;
+  bool? isMain;
 
   List<SchoolLocationImage>? images;
   List<SchoolLocationContact>? contacts;
@@ -173,9 +173,9 @@ class SchoolLocation {
 class SchoolLocationImage {
   String id;
 
-  String url;
+  String? url;
 
-  String locationId;
+  String? locationId;
 
   SchoolLocationImage({
     required this.id,
@@ -198,7 +198,7 @@ class SchoolLocationImage {
 }
 
 class SchoolLocationContact {
-  String id;
+  String? id;
 
   String? phone;
   String? hours;
@@ -311,46 +311,28 @@ class SchoolProgram {
 }
 
 class StudentSchoolProgram {
-  String id;
-
-  String studentId;
-  String programId;
-
-  DateTime createdAt;
-  DateTime updatedAt;
+  Student? student;
 
   StudentSchoolProgram({
-    required this.id,
-    required this.studentId,
-    required this.programId,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.student,
   });
 
   factory StudentSchoolProgram.fromJson(Map<String, dynamic> json) =>
       StudentSchoolProgram(
-        id: json["id"],
-        studentId: json["studentId"],
-        programId: json["programId"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        student: Student.fromJson(json["student"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "studentId": studentId,
-        "programId": programId,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "student": student?.toJson(),
       };
 }
 
 class SchoolProgramImage {
   String id;
 
-  String url;
+  String? url;
 
-  String programId;
+  String? programId;
 
   SchoolProgramImage({
     required this.id,
@@ -375,9 +357,9 @@ class SchoolProgramImage {
 class SchoolGallery {
   String id;
 
-  String name;
-  String description;
-  String cover;
+  String? name;
+  String? description;
+  String? cover;
 
   List<SchoolGalleryImage>? images;
 
@@ -388,9 +370,9 @@ class SchoolGallery {
 
   SchoolGallery({
     required this.id,
-    required this.name,
-    required this.description,
-    required this.cover,
+    this.name,
+    this.description,
+    this.cover,
     this.images,
     required this.schoolId,
     required this.createdAt,
@@ -416,7 +398,7 @@ class SchoolGallery {
         "name": name,
         "description": description,
         "cover": cover,
-        "images": images?.map((x) => x.toJson()).toList() ?? [],
+        // "images": images?.map((x) => x.toJson()).toList() ?? [],
         "schoolId": schoolId,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
@@ -424,11 +406,11 @@ class SchoolGallery {
 }
 
 class SchoolGalleryImage {
-  String id;
+  String? id;
 
-  String url;
+  String? url;
 
-  String galleryId;
+  String? galleryId;
 
   SchoolGalleryImage({
     required this.id,
@@ -574,17 +556,15 @@ class StudentSchoolScholarship {
 
 class News {
   String id;
-
   String title;
   String content;
   String type;
   String cover;
   bool isPublished;
-
-  String? schoolId;
-
+  dynamic schoolId;
   DateTime createdAt;
   DateTime updatedAt;
+  dynamic school;
 
   News({
     required this.id,
@@ -593,10 +573,36 @@ class News {
     required this.type,
     required this.cover,
     required this.isPublished,
-    this.schoolId,
+    required this.schoolId,
     required this.createdAt,
     required this.updatedAt,
+    required this.school,
   });
+
+  News copyWith({
+    String? id,
+    String? title,
+    String? content,
+    String? type,
+    String? cover,
+    bool? isPublished,
+    dynamic schoolId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    dynamic school,
+  }) =>
+      News(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        content: content ?? this.content,
+        type: type ?? this.type,
+        cover: cover ?? this.cover,
+        isPublished: isPublished ?? this.isPublished,
+        schoolId: schoolId ?? this.schoolId,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        school: school ?? this.school,
+      );
 
   factory News.fromJson(Map<String, dynamic> json) => News(
         id: json["id"],
@@ -608,6 +614,7 @@ class News {
         schoolId: json["schoolId"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        school: json["school"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -620,18 +627,19 @@ class News {
         "schoolId": schoolId,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
+        "school": school,
       };
 }
 
 class Student {
   String id;
   String? studentCode;
-  Account account;
+  Account? account;
   String? cover;
-  String degreeType;
-  String certificateType;
-  String gradeType;
-  int gradeScore;
+  String? degreeType;
+  String? certificateType;
+  String? gradeType;
+  dynamic gradeScore;
   String status;
 
   Student({
@@ -661,7 +669,7 @@ class Student {
   Map<String, dynamic> toJson() => {
         "id": id,
         "studentCode": studentCode,
-        "account": account.toJson(),
+        "account": account?.toJson(),
         "cover": cover,
         "degreeType": degreeType,
         "certificateType": certificateType,

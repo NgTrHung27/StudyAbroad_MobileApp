@@ -53,7 +53,7 @@ class _UserProfileState extends BasePageState<Profile> {
   Widget build(BuildContext context) {
     final userAuth =
         this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
-  final isLoggedIn = userAuth != null;
+    final isLoggedIn = userAuth != null;
     final localizations = AppLocalizations.of(context);
     final helloSignin = localizations != null
         ? localizations.register_login_signin
@@ -128,8 +128,8 @@ class _UserProfileState extends BasePageState<Profile> {
                           ? IdTab(
                               userName: hello,
                               idUser: userAuth.name ?? 'User',
-                              avatarImgUrl:
-                                  userAuth.student.school.logo, // Sử dụng hình ảnh từ API nếu có
+                              avatarImgUrl: userAuth.student.school
+                                  .logo, // Sử dụng hình ảnh từ API nếu có
                               avatarImgPath: 'assets/logo/logo_white.png',
                             )
                           : IdTabLogout(
@@ -196,7 +196,7 @@ class _UserProfileState extends BasePageState<Profile> {
                         icon: Icons.school_outlined,
                         onTap: () {
                           isLoggedIn
-                              ? Navigator.pushNamed(context, '/scholarStatus')
+                              ? Navigator.pushNamed(context, '/scholarDetail')
                               : showCustomDialog(
                                   context: context,
                                   onConfirm: () {
@@ -218,6 +218,42 @@ class _UserProfileState extends BasePageState<Profile> {
                                     },
                                   );
                           }),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  ActionTab(
+                    header: 'Request Status',
+                    backgroundColor: backgroundColor,
+                    colorIcon: colorIcon,
+                    functions: [
+                      FunctionItem(
+                        name: 'Requested',
+                        icon: Icons.mail_outline,
+                        onTap: () {
+                          isLoggedIn
+                              ? Navigator.pushNamed(context, '/respond')
+                              : showCustomDialog(
+                                  context: context,
+                                  onConfirm: () {
+                                    Navigator.pushNamed(context, '/login');
+                                  },
+                                );
+                        },
+                      ),
+                      FunctionItem(
+                        name: 'Respond Request',
+                        icon: Icons.mark_email_read_outlined,
+                        onTap: () {
+                          isLoggedIn
+                              ? Navigator.pushNamed(context, '/respond')
+                              : showCustomDialog(
+                                  context: context,
+                                  onConfirm: () {
+                                    Navigator.pushNamed(context, '/login');
+                                  },
+                                );
+                        },
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
