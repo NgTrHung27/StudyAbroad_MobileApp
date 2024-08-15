@@ -26,15 +26,13 @@ import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:provider/provider.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
-//Main
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //FirebaseMess
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Kiểm tra nếu đang chạy trên Android
+
   bool isRunningOnAndroid = Platform.isAndroid;
 
-  // Chỉ thực thi phần thông báo nếu đang chạy trên Android
   if (isRunningOnAndroid) {
     await FirebaseApi().initNotifications();
     await initializeNotifications();
@@ -42,10 +40,10 @@ Future<void> main() async {
     await listenToForegroundMessages();
     setupFirebaseMessagingBackgroundHandler();
   }
-  //Authen
+
   final userAuth = await checkLoginStatus();
   final isLoggedIn = userAuth != null;
-  //Run
+
   runApp(
     MultiBlocProvider(
       providers: [
@@ -71,9 +69,10 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   final UserAuthLogin? userAuth;
+  const MyApp({super.key, this.userAuth});
+
   @override
   State<MyApp> createState() => _MyAppState();
-  const MyApp({super.key, this.userAuth});
 }
 
 class _MyAppState extends State<MyApp> {
@@ -95,14 +94,13 @@ class _MyAppState extends State<MyApp> {
               theme: state,
               themeMode: ThemeMode.system,
               navigatorKey: navigatorKey,
-              initialRoute: "/",
+              initialRoute: '/splash',
               onGenerateRoute: AppRoute.onGenerateRoute,
               supportedLocales: const [
-                Locale('en'), // English
-                Locale('ko'), // Korean
-                Locale('vi') // Vietnamese
+                Locale('en'),
+                Locale('ko'),
+                Locale('vi')
               ],
-              //Language
               localizationsDelegates: const [
                 AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
