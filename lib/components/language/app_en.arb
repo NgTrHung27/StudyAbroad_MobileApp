@@ -87,6 +87,7 @@
   "noti": "Notifications",
   "noti_1": "Please Sign in to continue using this service",
   "noti_2": "Cancel",
+  "noti_dele": "Delete Notifications",
   "pfs": "Profile Status",
   "pfs_step1": "Application has been submitted",
   "pfs_step2": "Awaiting review",

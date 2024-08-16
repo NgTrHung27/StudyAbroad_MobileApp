@@ -63,13 +63,13 @@ void handleMessage(RemoteMessage? message) {
   if (message == null) {
     navigatorKey.currentState?.pushNamed(
       '/mainpage',
-      arguments: {'message': {}, 'index': 1},
+      arguments: {'message': {}, 'index': 2},
     );
     return;
   }
   navigatorKey.currentState?.pushNamed(
     '/mainpage',
-    arguments: {'message': message, 'index': 1},
+    arguments: {'message': message, 'index': 2},
   );
 }
 
