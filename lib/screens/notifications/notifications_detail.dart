@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/backbutton.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
@@ -22,6 +23,9 @@ class _NotificationDetailPageState
     extends BasePageState<NotificationDetailPage> {
   @override
   Widget build(BuildContext context) {
+    // Định dạng thời gian của thông báo
+    DateTime timesend = DateTime.parse(widget.notification.time!);
+    String formattedDate = DateFormat('dd/MM/yyyy').format(timesend);
     final userAuth =
         this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final isDarkMode = context.select(
@@ -86,7 +90,7 @@ class _NotificationDetailPageState
                                   fontWeight: FontWeight.w600,
                                 ),
                                 TextMonserats(
-                                  widget.notification.time ?? '',
+                                  formattedDate,
                                   color:
                                       isDarkMode ? Colors.white : Colors.black,
                                   fontSize: screenWidth * 0.03,
