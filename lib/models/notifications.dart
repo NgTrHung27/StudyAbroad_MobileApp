@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 class Notifications {
   final String? schoolAvt;
   final String? schoolName;
@@ -12,58 +16,33 @@ class Notifications {
     this.notiContent,
     this.time,
   });
+  static Future<void> saveNotifications(
+      List<Notifications> notifications) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> notiList =
+        notifications.map((noti) => noti.toJson()).toList();
+    await prefs.setStringList('notifications', notiList);
+  }
 
-  static List<Notifications> getSampleData() {
-    return [
-      Notifications(
-        schoolAvt: 'https://images.pexels.com/photos/1366630/pexels-photo-1366630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        schoolName: 'Huflit America',
-        notiTitle: 'Thông báo mới nè vô xem thoai !!!',
-        notiContent: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ',
-        time: '5 minutes ago',
-      ),
-      Notifications(
-        schoolAvt: 'https://images.pexels.com/photos/1366630/pexels-photo-1366630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        schoolName: 'Huflit America',
-        notiTitle: 'Thông báo mới nè vô xem thoai !!!',
-        notiContent: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ',
-        time: '10 minutes ago',
-      ),
-      Notifications(
-        schoolAvt: 'https://images.pexels.com/photos/1366630/pexels-photo-1366630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        schoolName: 'Huflit America',
-        notiTitle: 'Thông báo mới nè vô xem thoai !!!',
-        notiContent: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ',
-        time: '15 minutes ago',
-      ),
-      Notifications(
-        schoolAvt: 'https://images.pexels.com/photos/1366630/pexels-photo-1366630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        schoolName: 'Huflit America',
-        notiTitle: 'Thông báo mới nè vô xem thoai !!!',
-        notiContent: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ',
-        time: '15 minutes ago',
-      ),
-      Notifications(
-        schoolAvt: 'https://images.pexels.com/photos/1366630/pexels-photo-1366630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        schoolName: 'Huflit America',
-        notiTitle: 'Thông báo mới nè vô xem thoai !!!',
-        notiContent: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ',
-        time: '15 minutes ago',
-      ),
-      Notifications(
-        schoolAvt: 'https://images.pexels.com/photos/1366630/pexels-photo-1366630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        schoolName: 'Huflit America',
-        notiTitle: 'Thông báo mới nè vô xem thoai !!!',
-        notiContent: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ',
-        time: '15 minutes ago',
-      ),
-      Notifications(
-        schoolAvt: 'https://images.pexels.com/photos/1366630/pexels-photo-1366630.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        schoolName: 'Huflit America',
-        notiTitle: 'Thông báo mới nè vô xem thoai !!!',
-        notiContent: 'Content ',
-        time: '15 minutes ago',
-      ),
-    ];
+  static Future<List<Notifications>> loadNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String>? notiList = prefs.getStringList('notifications');
+    if (notiList == null) return [];
+    return notiList.map((noti) => Notifications.fromJson(noti)).toList();
+  }
+
+  String toJson() {
+    return '{"schoolAvt": "$schoolAvt", "schoolName": "$schoolName", "notiTitle": "$notiTitle", "notiContent": "$notiContent", "time": "$time"}';
+  }
+
+  static Notifications fromJson(String jsonString) {
+    final Map<String, dynamic> json = jsonDecode(jsonString);
+    return Notifications(
+      schoolAvt: json['schoolAvt'],
+      schoolName: json['schoolName'],
+      notiTitle: json['notiTitle'],
+      notiContent: json['notiContent'],
+      time: json['time'],
+    );
   }
 }
