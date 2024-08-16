@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/carousel_event_state/carousel_bloc.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/Style/news_searchtextfield.dart';
 import 'package:kltn_mobile/components/list_view/news_listview_horizontal_2.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
-import 'package:kltn_mobile/components/style/news_searchtextfield.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/functions_main_page/gridview_box.dart';
 import 'package:kltn_mobile/components/functions_main_page/hello_avt.dart';
@@ -156,7 +156,9 @@ class _HomePageState extends BasePageState<HomePage> {
                           fontWeight: FontWeight.w700,
                           color: textColorRed),
                       SizedBox(height: screenHeight * 0.02),
-                      const NewsListViewShort(),
+                      const NewsListViewShort(
+                        nullSchool: null,
+                      ),
                       SizedBox(height: screenHeight * 0.14),
                     ],
                   ),

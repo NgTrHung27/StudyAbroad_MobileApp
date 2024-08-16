@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:kltn_mobile/models/country.dart';
 import 'package:kltn_mobile/models/news.dart';
+import 'package:kltn_mobile/models/news_school.dart';
 import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/models/user_changepass.dart';
 import 'package:kltn_mobile/models/user_forgot.dart';
@@ -252,7 +253,33 @@ class APIRepository {
       throw Exception('Failed to connect to the API News');
     }
   }
-
+Future<List<NewsSchoolList>> fetchSchoolNews() async {
+    try {
+      final response = await httpClient.get(
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/news'),
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> data =
+            jsonDecode(utf8.decode(latin1.encode(response.body)));
+        // print('API News Response: $data');
+        List<NewsSchoolList> news = [];
+        for (var item in data) {
+          try {
+            NewsSchoolList newss = NewsSchoolList.fromJson(item);
+            news.add(newss);
+          } catch (e) {
+            print('Error processing item: $e');
+          }
+        }
+        return news;
+      } else {
+        print("Failed to loadNew: ${response.statusCode}");
+        throw Exception('Failed to load news');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the API News');
+    }
+  }
   Future<ContactUs?> contactUs(
     String name,
     String email,

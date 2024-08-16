@@ -4,13 +4,13 @@
 
 import 'dart:convert';
 
-List<NewsList> newsListFromJson(String str) =>
-    List<NewsList>.from(json.decode(str).map((x) => NewsList.fromJson(x)));
+List<NewsSchoolList> newsListFromJson(String str) =>
+    List<NewsSchoolList>.from(json.decode(str).map((x) => NewsSchoolList.fromJson(x)));
 
-String newsListToJson(List<NewsList> data) =>
+String newsListToJson(List<NewsSchoolList> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class NewsList {
+class NewsSchoolList {
   String id;
   String title;
   String content;
@@ -22,7 +22,7 @@ class NewsList {
   DateTime updatedAt;
   School? school;
 
-  NewsList({
+  NewsSchoolList({
     required this.id,
     required this.title,
     required this.content,
@@ -35,7 +35,7 @@ class NewsList {
     required this.school,
   });
 
-  NewsList copyWith({
+  NewsSchoolList copyWith({
     String? id,
     String? title,
     String? content,
@@ -47,7 +47,7 @@ class NewsList {
     DateTime? updatedAt,
     dynamic school,
   }) =>
-      NewsList(
+      NewsSchoolList(
         id: id ?? this.id,
         title: title ?? this.title,
         content: content ?? this.content,
@@ -60,7 +60,7 @@ class NewsList {
         school: school ?? this.school,
       );
 
-  factory NewsList.fromJson(Map<String, dynamic> json) => NewsList(
+  factory NewsSchoolList.fromJson(Map<String, dynamic> json) => NewsSchoolList(
         id: json["id"],
         title: json["title"],
         content: json["content"],

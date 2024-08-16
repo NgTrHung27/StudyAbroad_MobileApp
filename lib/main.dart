@@ -11,6 +11,7 @@ import 'package:kltn_mobile/blocs/carousel_event_state/carousel_bloc.dart';
 import 'package:kltn_mobile/blocs/contact_us_bloc/contact_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
+import 'package:kltn_mobile/blocs/news_cubit_bloc/news_school_cubit.dart';
 import 'package:kltn_mobile/blocs/profile_status_cubit_bloc/profile_status_cubit.dart';
 import 'package:kltn_mobile/blocs/repository/repository.dart';
 import 'package:kltn_mobile/blocs/schools_cubit/schools_cubit.dart';
@@ -60,6 +61,7 @@ Future<void> main() async {
             create: (context) =>
                 CarouselBloc(APIRepository())..add(FetchCarousel())),
         BlocProvider(create: (_) => NewsCubit()),
+        BlocProvider(create: (_) => NewsSchoolCubit()),
         BlocProvider(create: (_) => LanguageBloc()),
         BlocProvider(create: (_) => SchoolsCubit()),
         BlocProvider(create: (_) => ContactUsCubit(APIRepository())),
