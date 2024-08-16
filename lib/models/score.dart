@@ -70,6 +70,72 @@ class SemesterScore {
         ],
         comment: 'Consistent performance.', // Thêm comment
       ),
+      SemesterScore(
+        semester: 5,
+        scores: [
+          SubjectScore(subject: 'math', score: 3.5),
+          SubjectScore(subject: 'literature', score: 3.7),
+          SubjectScore(subject: 'science', score: 3.2),
+          SubjectScore(subject: 'history', score: 3.4),
+          SubjectScore(subject: 'geography', score: 3.6),
+        ],
+        comment: 'Consistent performance.', // Thêm comment
+      ),
+      SemesterScore(
+        semester: 6,
+        scores: [
+          SubjectScore(subject: 'math', score: 3.5),
+          SubjectScore(subject: 'literature', score: 3.7),
+          SubjectScore(subject: 'science', score: 3.2),
+          SubjectScore(subject: 'history', score: 3.4),
+          SubjectScore(subject: 'geography', score: 3.6),
+        ],
+        comment: 'Consistent performance.', // Thêm comment
+      ),
+      SemesterScore(
+        semester: 7,
+        scores: [
+          SubjectScore(subject: 'math', score: 3.5),
+          SubjectScore(subject: 'literature', score: 3.7),
+          SubjectScore(subject: 'science', score: 3.2),
+          SubjectScore(subject: 'history', score: 3.4),
+          SubjectScore(subject: 'geography', score: 3.6),
+        ],
+        comment: 'Consistent performance.', // Thêm comment
+      ),
+      SemesterScore(
+        semester: 8,
+        scores: [
+          SubjectScore(subject: 'math', score: 3.5),
+          SubjectScore(subject: 'literature', score: 3.7),
+          SubjectScore(subject: 'science', score: 3.2),
+          SubjectScore(subject: 'history', score: 3.4),
+          SubjectScore(subject: 'geography', score: 3.6),
+        ],
+        comment: 'Consistent performance.', // Thêm comment
+      ),
+      SemesterScore(
+        semester: 9,
+        scores: [
+          SubjectScore(subject: 'math', score: 3.5),
+          SubjectScore(subject: 'literature', score: 3.7),
+          SubjectScore(subject: 'science', score: 3.2),
+          SubjectScore(subject: 'history', score: 3.4),
+          SubjectScore(subject: 'geography', score: 3.6),
+        ],
+        comment: 'Consistent performance.', // Thêm comment
+      ),
+      SemesterScore(
+        semester: 10,
+        scores: [
+          SubjectScore(subject: 'math', score: 3.5),
+          SubjectScore(subject: 'literature', score: 3.7),
+          SubjectScore(subject: 'science', score: 3.2),
+          SubjectScore(subject: 'history', score: 3.4),
+          SubjectScore(subject: 'geography', score: 3.6),
+        ],
+        comment: 'Consistent performance.', // Thêm comment
+      ),
     ];
   }
 }
