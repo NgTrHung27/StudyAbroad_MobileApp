@@ -8,6 +8,7 @@ import 'package:kltn_mobile/components/action/id_tab.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -20,7 +21,8 @@ class ProfileStatus extends BasePage {
 class _ProfileStatusState extends BasePageState<ProfileStatus> {
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenwidth = MediaQuery.of(context).size.width;
     //language
@@ -101,7 +103,6 @@ class _ProfileStatusState extends BasePageState<ProfileStatus> {
                         ],
                       ),
                       const SizedBox(height: 20),
-
                       //Result Status
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

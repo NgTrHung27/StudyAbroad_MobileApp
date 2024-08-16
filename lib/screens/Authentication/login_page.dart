@@ -14,6 +14,7 @@ import 'package:kltn_mobile/components/constant/theme.dart';
 import 'package:kltn_mobile/components/functions/button.dart';
 import 'package:kltn_mobile/components/functions/text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class LoginPage extends BasePage {
@@ -32,9 +33,9 @@ class _LoginPageState extends BasePageState<LoginPage> {
   //Text Editing Controller
   final usermailController = TextEditingController();
   final passwordController = TextEditingController();
-  //LoginUser in Method API
+// LoginUser Method for API
   void userLogin(BuildContext context) {
-    // Lấy giá trị email và password từ các TextField
+    // Get email and password values from TextFields
     setState(() {
       isLoading = true;
     });
@@ -42,17 +43,23 @@ class _LoginPageState extends BasePageState<LoginPage> {
     String password = passwordController.text.trim();
     log('data email: $email');
     log('data pass: $password');
-    // Call login method frorm LoginCubit
+
+    // Call login method from LoginCubit
     context
         .read<LoginCubit>()
         .login(email, password, isRememberChange!)
         .then((_) {
-      // Sau khi login thành công, cập nhật lại userAuth từ LoginCubit
       final loginCubit = context.read<LoginCubit>();
       if (loginCubit.state is LoginSuccess) {
+        final userAuth = (loginCubit.state as LoginSuccess).userAuthLogin;
+        Navigator.pushNamed(
+          context,
+          '/mainpage',
+        );
+        context.read<UserAuthProvider>().setUserAuthLogin(userAuth);
+
         setState(() {
-          userAuth = (loginCubit.state as LoginSuccess).userAuthLogin;
-          print('userAuthReset: $userAuth');
+          isLoading = false;
         });
       }
     });
@@ -83,6 +90,9 @@ class _LoginPageState extends BasePageState<LoginPage> {
         : 'Default Text';
     final remem =
         localizations != null ? localizations.login_remember : 'Default Text';
+    final signin = localizations != null
+        ? localizations.register_login_signin
+        : 'Default Text';
     final signup =
         localizations != null ? localizations.logout_3_signup : 'Default Text';
     final forgot =
@@ -127,7 +137,6 @@ class _LoginPageState extends BasePageState<LoginPage> {
                   isLoading = true;
                 });
               } else if (state is LoginSuccess) {
-                Navigator.pushNamed(context, '/mainpage', arguments: userAuth);
                 isLoading = false;
               } else {
                 setState(() {
@@ -260,7 +269,7 @@ class _LoginPageState extends BasePageState<LoginPage> {
                             children: [
                               MyButton(
                                 onTap: () => userLogin(context),
-                                text: signup,
+                                text: signin,
                               ),
                             ],
                           ),

@@ -12,24 +12,24 @@ import 'package:kltn_mobile/blocs/contact_us_bloc/contact_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
 import 'package:kltn_mobile/blocs/profile_status_cubit_bloc/profile_status_cubit.dart';
-import 'package:kltn_mobile/components/notifications/firebase_api.dart';
 import 'package:kltn_mobile/blocs/repository/repository.dart';
 import 'package:kltn_mobile/blocs/schools_cubit/schools_cubit.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/notifications/firebase_api.dart';
 import 'package:kltn_mobile/components/notifications/noti_services.dart';
 import 'package:kltn_mobile/firebase_options.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/routes/app_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
-import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:provider/provider.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 //Main
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //FirebaseMess
+//FirebaseMess
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Kiểm tra nếu đang chạy trên Android
   bool isRunningOnAndroid = Platform.isAndroid;
@@ -42,16 +42,18 @@ Future<void> main() async {
     await listenToForegroundMessages();
     setupFirebaseMessagingBackgroundHandler();
   }
-  //Authen
-  final userAuth = await checkLoginStatus();
+  // Kiểm tra session đăng nhập
+  final loginCubit = LoginCubit(APIRepository());
+  final userAuth = await loginCubit.checkLoginStatus();
   final isLoggedIn = userAuth != null;
-  //Run
+
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeSettingCubit()),
         BlocProvider(create: (_) => AuthCubit()),
-        BlocProvider(create: (_) => LoginCubit(APIRepository())),
+        BlocProvider(
+            create: (_) => loginCubit), // Sử dụng loginCubit đã khởi tạo
         BlocProvider(create: (_) => ProfileStatusCubit()),
         BlocProvider(create: (_) => ForgotPassCubit(APIRepository())),
         BlocProvider(
@@ -61,6 +63,8 @@ Future<void> main() async {
         BlocProvider(create: (_) => LanguageBloc()),
         BlocProvider(create: (_) => SchoolsCubit()),
         BlocProvider(create: (_) => ContactUsCubit(APIRepository())),
+        ChangeNotifierProvider(create: (_) => UserAuthProvider()),
+
         ChangeNotifierProvider(
             create: (_) => AuthNotifier()..setLoggedIn(isLoggedIn)),
       ],
@@ -80,7 +84,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
+    context.read<LoginCubit>().checkLoginStatus();
     listenToForegroundMessages();
   }
 

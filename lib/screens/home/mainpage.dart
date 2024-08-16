@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -39,7 +41,6 @@ class MainPageState extends State<MainPage>
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
-    print('Initial index: $_currentIndex'); // Thêm dòng này để kiểm tra giá trị
   }
 
   @override
@@ -98,6 +99,9 @@ class MainPageState extends State<MainPage>
 
   @override
   Widget build(BuildContext context) {
+    bool isRunningOnAndroid = Platform.isAndroid;
+    final floatingHeight = isRunningOnAndroid ? 0.12 : 0.08;
+    final screenHeight = MediaQuery.of(context).size.height;
     final localizations = AppLocalizations.of(context);
     final home =
         localizations != null ? localizations.nav_home : 'Default Text';
@@ -142,21 +146,24 @@ class MainPageState extends State<MainPage>
             ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showBottomSheet(context);
-        },
-        backgroundColor: AppColor.redLight,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: const ImageIcon(
-          AssetImage('assets/icons_3d/chatbot.png'),
-          size: 30,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton: _currentIndex != 1
+          ? FloatingActionButton(
+              onPressed: () {
+                _showBottomSheet(context);
+              },
+              backgroundColor: AppColor.redLight,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              child: const ImageIcon(
+                AssetImage('assets/icons_3d/chatbot.png'),
+                size: 30,
+                color: Colors.white,
+              ),
+            )
+          : null,
       floatingActionButtonLocation: CustomFABLocation(
         FloatingActionButtonLocation.endFloat,
-        65.0,
+        screenHeight * floatingHeight,
       ),
     );
   }
@@ -174,7 +181,7 @@ class MainPageState extends State<MainPage>
             child: const Center(
               child: Padding(
                 padding: EdgeInsets.all(20.0),
-                child: Text("Imagine this is a chat UI",
+                child: Text("Chat AI",
                     style: TextStyle(fontSize: 30, color: Colors.blue)),
               ),
             )),

@@ -6,6 +6,7 @@ import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/components/list_view/news_listview_vertical.dart';
 import 'package:kltn_mobile/models/news.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import '../../components/style/montserrat.dart';
 import '../../components/style/news_searchtextfield.dart';
@@ -24,7 +25,8 @@ class NewsPage extends BasePage {
 class _NewsPageState extends BasePageState<NewsPage> {
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     //theme
@@ -33,7 +35,7 @@ class _NewsPageState extends BasePageState<NewsPage> {
     final textColor = isDarkMode ? Colors.white : AppColor.redButton;
     //Language
     final localizations = AppLocalizations.of(context);
-        final news1 =
+    final news1 =
         localizations != null ? localizations.new_main : 'Default Text';
     final news2 =
         localizations != null ? localizations.new_post : 'Default Text';

@@ -13,12 +13,12 @@ import 'package:kltn_mobile/components/functions_main_page/carousel_loading.dart
 import 'package:kltn_mobile/components/functions_main_page/carousel_slider_data_found.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/models/news.dart';
-import 'package:kltn_mobile/models/user_login.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/schools/schools_list.dart';
 
 class HomePage extends BasePage {
-  const HomePage({super.key, UserAuthLogin? userAuth, NewsList? newsData});
+  const HomePage({super.key, NewsList? newsData});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -34,7 +34,8 @@ class _HomePageState extends BasePageState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     //Language

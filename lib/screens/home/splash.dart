@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/screens/home/mainpage.dart';
+import 'package:kltn_mobile/screens/intro/intro.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -25,13 +27,31 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    _controller.addStatusListener((status) {
+    _controller.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (BuildContext context) => const MainPage(initialIndex: 0),
-          ),
-        );
+        final prefs = await SharedPreferences.getInstance();
+        final bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
+
+        if (!mounted) return;
+
+        if (isFirstLaunch) {
+          await prefs.setBool('isFirstLaunch', false);
+          if (mounted) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (BuildContext context) => const IntroPage(),
+              ),
+            );
+          }
+        } else {
+          if (mounted) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (BuildContext context) => const MainPage(),
+              ),
+            );
+          }
+        }
       }
     });
   }
@@ -56,7 +76,8 @@ class _SplashScreenState extends State<SplashScreen>
                         1 + (value / 80), // Adjust the scale factor as needed
                     child: Transform.translate(
                       offset: Offset(0, value),
-                      child: Image.asset('assets/logo/logo_red.png', width: 100),
+                      child:
+                          Image.asset('assets/logo/logo_red.png', width: 100),
                     ),
                   );
                 },

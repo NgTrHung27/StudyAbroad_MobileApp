@@ -48,7 +48,7 @@ dependencies:
   bottom_picker: ^2.7.0
   bloc: ^8.1.4
   meta: ^1.12.0
-  carousel_slider: ^4.2.1
+  carousel_slider_plus: ^7.0.0
   shimmer: ^3.0.0
   equatable: ^2.0.5
   cached_network_image: ^3.3.1
@@ -68,6 +68,11 @@ dependencies:
   firebase_messaging: ^15.0.3
   firebase_analytics: ^11.2.0
   flutter_local_notifications: ^17.2.1+2
+  easy_stepper: ^0.8.5+1
+  casa_vertical_stepper: ^0.0.5
+  gif: ^2.3.0
+  smooth_page_indicator:
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

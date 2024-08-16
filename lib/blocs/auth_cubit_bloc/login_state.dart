@@ -2,6 +2,11 @@ part of 'login_cubit.dart';
 
 @immutable
 abstract class LoginState {}
+class LoginCheckSessionState extends LoginState {
+  final bool isLoggedIn;
+  final String? token;
+  LoginCheckSessionState({required this.isLoggedIn, this.token});
+}
 
 class LoginInitial extends LoginState {}
 

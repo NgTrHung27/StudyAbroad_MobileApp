@@ -2,18 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:kltn_mobile/components/functions/alert_dialog.dart';
 import 'package:kltn_mobile/components/functions_main_page/boxgradient.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
+import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:provider/provider.dart';
 
-class BoxGridView extends StatelessWidget {
+class BoxGridView extends BasePage {
   const BoxGridView({super.key});
+  @override
+  State<BoxGridView> createState() => _BoxGridViewState();
+}
 
-
+class _BoxGridViewState extends BasePageState<BoxGridView> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    // final isLoggedIn = Provider.of<bool>(context);
-    final isLoggedIn = context.watch<AuthNotifier>().isLoggedIn;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
+    final isLoggedIn = userAuth != null;
     final actionS1 = localizations != null
         ? localizations.home_action_orange_Score1
         : 'Default Text';
@@ -63,7 +68,7 @@ class BoxGridView extends StatelessWidget {
             bigText: actionS2,
             onTap: () {
               isLoggedIn
-                  ? Navigator.pushNamed(context, '/news')
+                  ? Navigator.pushNamed(context, '/score')
                   : showCustomDialog(
                       context: context,
                       onConfirm: () {

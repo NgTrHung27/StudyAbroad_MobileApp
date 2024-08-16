@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:kltn_mobile/models/country.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/models/schools.dart';
+import 'package:kltn_mobile/models/user_changepass.dart';
 import 'package:kltn_mobile/models/user_forgot.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/models/user_register.dart';
@@ -193,6 +194,30 @@ class APIRepository {
       } else {
         print("Failed to send Fogot Pass: ${response.statusCode}");
         return UserForgotpass.fromJson(data);
+      }
+    } catch (e) {
+      print("Exception occurred while logging in: $e");
+      return null;
+    }
+  }
+
+  Future<UserChangePass?> changePass(String email) async {
+    try {
+      final response = await httpClient.post(
+        Uri.parse(
+            'https://kltn-demo-deploy-admin.vercel.app/api/auth/reset-password'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email}),
+      );
+
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
+
+      if (response.statusCode == 200) {
+        log('data: $data');
+        return UserChangePass.fromJson(data);
+      } else {
+        print("Failed to send Fogot Pass: ${response.statusCode}");
+        return UserChangePass.fromJson(data);
       }
     } catch (e) {
       print("Exception occurred while logging in: $e");
