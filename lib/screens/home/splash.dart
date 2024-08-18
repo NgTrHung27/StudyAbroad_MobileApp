@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
-import 'package:kltn_mobile/screens/home/mainpage.dart';
-import 'package:kltn_mobile/screens/intro/intro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -37,19 +35,11 @@ class _SplashScreenState extends State<SplashScreen>
         if (isFirstLaunch) {
           await prefs.setBool('isFirstLaunch', false);
           if (mounted) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (BuildContext context) => const IntroPage(),
-              ),
-            );
+            Navigator.of(context).pushReplacementNamed('/intro');
           }
         } else {
           if (mounted) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (BuildContext context) => const MainPage(),
-              ),
-            );
+            Navigator.of(context).pushReplacementNamed('/mainpage');
           }
         }
       }

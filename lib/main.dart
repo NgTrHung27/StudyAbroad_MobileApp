@@ -30,7 +30,7 @@ final navigatorKey = GlobalKey<NavigatorState>();
 //Main
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-//FirebaseMess
+  //FirebaseMess
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Kiểm tra nếu đang chạy trên Android
   bool isRunningOnAndroid = Platform.isAndroid;
@@ -87,7 +87,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     context.read<LoginCubit>().checkLoginStatus();
-    listenToForegroundMessages();
   }
 
   @override
