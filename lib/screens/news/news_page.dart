@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/Style/news_searchtextfield.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
@@ -9,7 +10,6 @@ import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import '../../components/style/montserrat.dart';
-import '../../components/style/news_searchtextfield.dart';
 import '../../components/list_view/news_listview_horizontal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -27,6 +27,8 @@ class _NewsPageState extends BasePageState<NewsPage> {
   Widget build(BuildContext context) {
     final userAuth =
         this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
+    final isLoggedIn = userAuth != null;
+
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     //theme
@@ -39,6 +41,7 @@ class _NewsPageState extends BasePageState<NewsPage> {
         localizations != null ? localizations.new_main : 'Default Text';
     final news2 =
         localizations != null ? localizations.new_post : 'Default Text';
+    final news3 = localizations != null ? localizations.noti_1 : 'Default Text';
     return Scaffold(
       backgroundColor: context.select(
           (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
@@ -64,24 +67,41 @@ class _NewsPageState extends BasePageState<NewsPage> {
                     height: 60),
               ],
             ),
-            SizedBox(height: screenHeight * 0.01),
+            SizedBox(height: screenHeight * 0.02),
             const NewsSearchTextField(),
-            SizedBox(height: screenHeight * 0.03),
+            SizedBox(height: screenHeight * 0.02),
             TextMonserats(
               news1,
-              fontSize: 24,
+              fontSize: 26,
               fontWeight: FontWeight.w700,
               color: textColor,
             ),
-            const NewsListView(),
+            SizedBox(height: screenHeight * 0.02),
+            const NewsListView(nullSchool: null),
             SizedBox(height: screenHeight * 0.02),
             TextMonserats(
-              news2,
+              '$news2 \n${userAuth?.student.school.name ?? ''} ',
               fontSize: 20,
               fontWeight: FontWeight.w700,
               color: textColor,
+              maxLine: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            VerticalNewsListView(newsList: widget.newsList),
+            SizedBox(height: screenHeight * 0.02),
+            if (!isLoggedIn)
+              TextMonserats(
+                news3,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: textColor,
+                textAlign: TextAlign.center,
+                maxLine: 2,
+              ),
+            SizedBox(height: screenHeight * 0.02),
+            if (isLoggedIn)
+              VerticalNewsListView(
+                schoolName: userAuth.student.school.name,
+              ),
           ],
         ),
       ),

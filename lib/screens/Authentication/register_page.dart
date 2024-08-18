@@ -381,12 +381,10 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
       minDateTime: DateTime(1960),
       onChange: (value) {
         setState(() {
-          print(value);
           dateController.text = DateFormat('dd/MM/yyyy').format(value);
         });
       },
       onSubmit: (value) {
-        print(value);
         dateController.text = DateFormat('dd/MM/yyyy').format(value);
         if (value.isAfter(DateTime(DateTime.now().year - 17))) {
           context.read<AuthCubit>().checkDob(value);
@@ -405,7 +403,6 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
   void initState() {
     super.initState();
     context.read<AuthCubit>().getSchoolsAndCountries();
-    // context.read<AuthCubit>().getSchools();
     context.read<AuthCubit>().getCity();
   }
 

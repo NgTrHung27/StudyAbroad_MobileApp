@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:kltn_mobile/models/country.dart';
 import 'package:kltn_mobile/models/news.dart';
+import 'package:kltn_mobile/models/news_school.dart';
 import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/models/user_changepass.dart';
 import 'package:kltn_mobile/models/user_forgot.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/models/user_register.dart';
 import 'package:kltn_mobile/screens/home/contact_us.dart';
+import 'package:kltn_mobile/models/user_login.dart' as user_login;
 
 class APIRepository {
   http.Client get httpClient => http.Client();
@@ -105,15 +107,48 @@ class APIRepository {
         body: utf8.encode(jsonEncode({"email": email, "password": password})),
       );
 
-      final data =
-          jsonDecode(utf8.decode(response.bodyBytes)); // Define data here
+      final data = jsonDecode(utf8.decode(response.bodyBytes));
 
       if (response.statusCode == 200) {
         log('data: $data');
         return UserAuthLogin.fromJson(data);
+      } else if (response.statusCode == 401) {
+        print("Failed to login 401: ${response.statusCode}");
+        print("Error body: $data");
+
+        // Tạo một đối tượng UserAuthLogin với thông báo lỗi
+        return UserAuthLogin(
+          id: '',
+          email: email,
+          password: password,
+          emailVerified: DateTime.now(),
+          name: null,
+          dob: DateTime.now(),
+          phoneNumber: '',
+          student: user_login.Student
+              .empty(), // Giả định là bạn có class Student mặc định
+          isLocked: false,
+          token: '',
+          error: data['error'], // Lưu lỗi vào trường error
+        );
       } else {
         print("Failed to login: ${response.statusCode}");
-        return UserAuthLogin.fromJson(data); // Now data is accessible here
+        print("Error body: $data");
+
+        // Tương tự, trả về đối tượng UserAuthLogin với lỗi
+        return UserAuthLogin(
+          id: '',
+          email: email,
+          password: password,
+          emailVerified: DateTime.now(),
+          name: null,
+          dob: DateTime.now(),
+          phoneNumber: '',
+          student: user_login.Student.empty(),
+          isLocked: false,
+          token: '',
+          error: data['error'],
+        );
       }
     } catch (e) {
       print("Exception occurred while logging in: $e");
@@ -238,6 +273,34 @@ class APIRepository {
         for (var item in data) {
           try {
             NewsList newss = NewsList.fromJson(item);
+            news.add(newss);
+          } catch (e) {
+            print('Error processing item: $e');
+          }
+        }
+        return news;
+      } else {
+        print("Failed to loadNew: ${response.statusCode}");
+        throw Exception('Failed to load news');
+      }
+    } catch (e) {
+      throw Exception('Failed to connect to the API News');
+    }
+  }
+
+  Future<List<NewsSchoolList>> fetchSchoolNews() async {
+    try {
+      final response = await httpClient.get(
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/news'),
+      );
+      if (response.statusCode == 200) {
+        List<dynamic> data =
+            jsonDecode(utf8.decode(latin1.encode(response.body)));
+        // print('API News Response: $data');
+        List<NewsSchoolList> news = [];
+        for (var item in data) {
+          try {
+            NewsSchoolList newss = NewsSchoolList.fromJson(item);
             news.add(newss);
           } catch (e) {
             print('Error processing item: $e');

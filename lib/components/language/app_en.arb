@@ -76,7 +76,7 @@
   "chang_pass_1": "Want to change password?",
   "chang_pass_2": "Enter your email for the verification proccess, we will send digits code to your email.",
   "new_main": "Main News",
-  "new_post": "Daily Post",
+  "new_post": "School Post",
   "school_Australia": "Australia",
   "school_Canada": "Canada",
   "school_Korea": "Korea",
@@ -131,5 +131,6 @@
   "scr_score": "Score",
   "scr_cmt": "Comment",
   "scr_dwn": "Download",
-  "scr_sms": "Semester"
+  "scr_sms": "Semester",
+  "schlar_null": "There are no scholarships available yet, please wait."
 }

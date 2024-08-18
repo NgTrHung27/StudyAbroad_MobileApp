@@ -54,11 +54,13 @@ class LoginCubit extends Cubit<LoginState> {
 
         emit(LoginSuccess(userAuthLogin));
       } else {
-        await logindata.setString('user', jsonEncode(userAuthLogin?.toJson()));
-        emit(LoginFailure(userAuthLogin?.error ?? 'Failed to login'));
+        final errorLogin = userAuthLogin?.error;
+        emit(LoginFailure(errorLogin!));
+        print('Check Error Login $errorLogin');
       }
     } catch (e) {
       emit(LoginFailure(e.toString()));
+      print('Exception occurred while logging in: $e');
     }
   }
 

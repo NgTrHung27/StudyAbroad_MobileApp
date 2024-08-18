@@ -184,7 +184,9 @@ class SchoolsDetailState extends BasePageState<SchoolsDetail> {
                               height: 1.3),
                           // Danh sách tin tức
                           SizedBox(height: screenHeight * 0.02),
-                          const NewsListView(),
+                          const NewsListView(
+                            nullSchool: null,
+                          ),
                         ],
                       ),
                     )

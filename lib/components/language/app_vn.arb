@@ -76,7 +76,7 @@
   "chang_pass_1": "Bạn muốn đổi mật khẩu?",
   "chang_pass_2": "Nhập email của bạn để xác minh, chúng tôi sẽ gửi mã số đến email của bạn.",
   "new_main": "Tin tức chính",
-  "new_post": "Bài đăng hàng ngày",
+  "new_post": "Bài đăng trường học",
   "school_Australia": "Úc",
   "school_Canada": "Canada",
   "school_Korea": "Hàn Quốc",
@@ -131,5 +131,6 @@
   "scr_score": "Điểm số",
   "scr_cmt": "Lời phê",
   "scr_dwn": "Tải xuống",
-  "scr_sms": "Học kỳ"
+  "scr_sms": "Học kỳ",
+  "schlar_null": "Chưa có học bổng nào khả dụng, vui lòng chờ đợi thêm."
 }

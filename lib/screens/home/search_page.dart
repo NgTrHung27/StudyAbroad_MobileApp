@@ -10,7 +10,8 @@ import 'package:kltn_mobile/screens/news/news_detail.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  const SearchPage({super.key, this.nullSchool});
+  final dynamic nullSchool;
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -27,7 +28,7 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     super.initState();
     _searchController.addListener(_performSearch);
-    context.read<NewsCubit>().getNewsList();
+    context.read<NewsCubit>().getNewsList(widget.nullSchool);
   }
 
   @override

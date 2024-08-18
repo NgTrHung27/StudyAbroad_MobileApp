@@ -76,7 +76,7 @@
   "chang_pass_1": "비밀번호를 변경하시겠습니까?",
   "chang_pass_2": "확인 절차를 위해 이메일을 입력하세요. 이메일로 숫자 코드를 보내드리겠습니다.",
   "new_main": "주요 뉴스",
-  "new_post": "데일리 포스트",
+  "new_post": "학교 게시물",
   "school_Australia": "호주",
   "school_Canada": "캐나다",
   "school_Korea": "한국",
@@ -131,5 +131,6 @@
   "scr_score": "점수",
   "scr_cmt": "논평",
   "scr_dwn": "다운로드",
-  "scr_sms": "학기"
+  "scr_sms": "학기",
+  "schlar_null": "아직 이용 가능한 장학금이 없습니다. 기다려 주세요."
 }

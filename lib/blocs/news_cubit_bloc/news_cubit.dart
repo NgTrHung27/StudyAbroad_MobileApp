@@ -9,11 +9,14 @@ class NewsCubit extends Cubit<NewsState> {
   NewsCubit() : super(NewsInitial());
   APIRepository apiRepository = APIRepository();
 
-  void getNewsList() async {
+  void getNewsList(dynamic nullSchool) async {
     emit(NewsLoading());
     try {
       List<NewsList> newsList = await apiRepository.fetchNews();
-      emit(NewsLoaded(newsList: newsList));
+
+      List<NewsList> nullFieldsNewsList =
+          newsList.where((newsList) => newsList.school?.name == null).toList();
+      emit(NewsLoaded(newsList: nullFieldsNewsList));
     } catch (e) {
       emit(NewsError(message: e.toString()));
       print('NewsError $e');
