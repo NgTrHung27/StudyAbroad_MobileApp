@@ -131,5 +131,6 @@
   "scr_score": "점수",
   "scr_cmt": "논평",
   "scr_dwn": "다운로드",
-  "scr_sms": "학기"
+  "scr_sms": "학기",
+  "schlar_null": "아직 이용 가능한 장학금이 없습니다. 기다려 주세요."
 }

@@ -207,9 +207,8 @@ class _ContactUsState extends BasePageState<ContactUs> {
     final phoneText = localizations != null
         ? localizations.register_12_phone
         : "Default Text";
-    final help = localizations != null
-        ? localizations.register_12_phone
-        : "Defalut Text";
+    final help =
+        localizations != null ? localizations.contact_helps : "Defalut Text";
     final send =
         localizations != null ? localizations.contact_send : "Default Text";
     final isDarkMode =

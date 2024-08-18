@@ -32,6 +32,7 @@ class UserAuthLogin {
     required this.phoneNumber,
     required this.student,
     required this.isLocked,
+    this.error,
     required this.token,
   });
 
@@ -45,6 +46,8 @@ class UserAuthLogin {
     String? phoneNumber,
     Student? student,
     bool? isLocked,
+    String? error,
+    String? token,
   }) =>
       UserAuthLogin(
         id: id ?? this.id,
@@ -55,7 +58,9 @@ class UserAuthLogin {
         dob: dob ?? this.dob,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         student: student ?? this.student,
-        isLocked: isLocked ?? this.isLocked, token: '',
+        isLocked: isLocked ?? this.isLocked,
+        error: error ?? this.error,
+        token: token ?? this.token,
       );
 
   factory UserAuthLogin.fromJson(Map<String, dynamic> json) => UserAuthLogin(
@@ -67,7 +72,9 @@ class UserAuthLogin {
         dob: DateTime.parse(json["dob"]),
         phoneNumber: json["phoneNumber"],
         student: Student.fromJson(json["student"]),
-        isLocked: json["isLocked"], token: '',
+        isLocked: json["isLocked"],
+        token: json["token"] ?? '',
+        error: json["error"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,6 +87,8 @@ class UserAuthLogin {
         "phoneNumber": phoneNumber,
         "student": student.toJson(),
         "isLocked": isLocked,
+        "error": error,
+        "token": token,
       };
 }
 
@@ -89,12 +98,20 @@ class Student {
   School school;
   StudentProgram program;
 
+  // Constructor
   Student({
     required this.scholarship,
     required this.status,
     required this.school,
     required this.program,
   });
+
+  // Constructor mặc định nếu bạn cần tạo đối tượng rỗng
+  Student.empty()
+      : scholarship = [],
+        status = '',
+        school = School.empty(),
+        program = StudentProgram.empty();
 
   Student copyWith({
     List<ScholarshipElement>? scholarship,
@@ -125,12 +142,58 @@ class Student {
       };
 }
 
+class School {
+  String name;
+  String logo;
+  String background;
+
+  // Constructor
+  School({
+    required this.name,
+    required this.logo,
+    required this.background,
+  });
+
+  // Constructor mặc định cho School rỗng
+  School.empty()
+      : name = '',
+        logo = '',
+        background = '';
+
+  School copyWith({
+    String? name,
+    String? logo,
+    String? background,
+  }) =>
+      School(
+        name: name ?? this.name,
+        logo: logo ?? this.logo,
+        background: background ?? this.background,
+      );
+
+  factory School.fromJson(Map<String, dynamic> json) => School(
+        name: json["name"],
+        logo: json["logo"],
+        background: json["background"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "logo": logo,
+        "background": background,
+      };
+}
+
 class StudentProgram {
   ProgramProgram program;
 
+  // Constructor
   StudentProgram({
     required this.program,
   });
+
+  // Constructor mặc định cho StudentProgram rỗng
+  StudentProgram.empty() : program = ProgramProgram.empty();
 
   StudentProgram copyWith({
     ProgramProgram? program,
@@ -151,9 +214,13 @@ class StudentProgram {
 class ProgramProgram {
   String name;
 
+  // Constructor
   ProgramProgram({
     required this.name,
   });
+
+  // Constructor mặc định cho ProgramProgram rỗng
+  ProgramProgram.empty() : name = '';
 
   ProgramProgram copyWith({
     String? name,
@@ -179,6 +246,7 @@ class ScholarshipElement {
   DateTime updatedAt;
   ScholarshipScholarship scholarship;
 
+  // Constructor
   ScholarshipElement({
     required this.id,
     required this.studentId,
@@ -235,6 +303,7 @@ class ScholarshipScholarship {
   DateTime createdAt;
   DateTime updatedAt;
 
+  // Constructor
   ScholarshipScholarship({
     required this.id,
     required this.name,
@@ -288,40 +357,5 @@ class ScholarshipScholarship {
         "schoolId": schoolId,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-      };
-}
-
-class School {
-  String name;
-  String logo;
-  String background;
-
-  School({
-    required this.name,
-    required this.logo,
-    required this.background,
-  });
-
-  School copyWith({
-    String? name,
-    String? logo,
-    String? background,
-  }) =>
-      School(
-        name: name ?? this.name,
-        logo: logo ?? this.logo,
-        background: background ?? this.background,
-      );
-
-  factory School.fromJson(Map<String, dynamic> json) => School(
-        name: json["name"],
-        logo: json["logo"],
-        background: json["background"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "logo": logo,
-        "background": background,
       };
 }
