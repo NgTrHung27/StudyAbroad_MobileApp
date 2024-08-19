@@ -111,7 +111,7 @@ class Student {
     required this.id,
     this.studentCode,
     this.scholarship,
-    // this.tuitions,
+    this.tuitions,
     required this.status,
     required this.school,
     // this.requirements,
@@ -140,7 +140,7 @@ class Student {
         id: id ?? this.id,
         studentCode: studentCode ?? this.studentCode,
         scholarship: scholarship ?? this.scholarship,
-        // tuitions: tuitions ?? this.tuitions,
+        tuitions: tuitions ?? this.tuitions,
         status: status ?? this.status,
         school: school ?? this.school,
         // requirements: requirements ?? this.requirements,
@@ -154,10 +154,10 @@ class Student {
             ? List<StudentSchoolScholarship>.from(json["scholarship"]
                 .map((x) => StudentSchoolScholarship.fromJson(x)))
             : [],
-        // tuitions: json["tuitions"] != null
-        //     ? List<Tuition>.from(
-        //         json["tuitions"].map((x) => Tuition.fromJson(x)))
-        //     : [],
+        tuitions: json["tuitions"] != null
+            ? List<Tuition>.from(
+                json["tuitions"].map((x) => Tuition.fromJson(x)))
+            : [],
         status: json["status"] ?? '',
         school: json["school"] != null
             ? School.fromJson(json["school"])
@@ -176,11 +176,11 @@ class Student {
         "studentCode": studentCode,
         "scholarship": List<dynamic>.from(scholarship!.map((x) => x.toJson())),
 
-        // "tuitions": List<Tuition>.from(tuitions!.map((x) => x.toJson())),
+        "tuitions": List<dynamic>.from(tuitions!.map((x) => x.toJson())),
         "status": status,
         "school": school.toJson(),
         // "requirements":
-        //     List<Requirement>.from(requirements!.map((x) => x.toJson())),
+        //     List<dynamic>.from(requirements!.map((x) => x.toJson())),
         "program": program?.toJson(),
       };
 }
@@ -585,21 +585,21 @@ class SchoolScholarshipImage {
 }
 
 class Tuition {
-  String status;
-  int amount;
-  String description;
-  DateTime dueAt;
+  String? status;
+  dynamic amount;
+  String? description;
+  DateTime? dueAt;
 
   Tuition({
-    required this.status,
-    required this.amount,
-    required this.description,
-    required this.dueAt,
+    this.status,
+    this.amount,
+    this.description,
+    this.dueAt,
   });
 
   Tuition copyWith({
     String? status,
-    int? amount,
+    double? amount,
     String? description,
     DateTime? dueAt,
   }) =>
@@ -621,6 +621,6 @@ class Tuition {
         "status": status,
         "amount": amount,
         "description": description,
-        "dueAt": dueAt.toIso8601String(),
+        "dueAt": dueAt?.toIso8601String(),
       };
 }

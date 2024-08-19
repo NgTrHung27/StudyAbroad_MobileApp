@@ -15,6 +15,8 @@
   "home_NewList": "What's News?",
   "profile_account": "Account",
   "profile_account_profilesInfo": "Profile",
+  "profile_account_profilesInfo_School": "School",
+  "profile_account_profilesInfo_Major": "Major",
   "profile_account_changePassword": "Change Password",
   "profile_status": "Status",
   "profile_status_ps": "Profile Status",
