@@ -16,7 +16,6 @@ import 'package:kltn_mobile/blocs/profile_status_cubit_bloc/profile_status_cubit
 import 'package:kltn_mobile/blocs/repository/repository.dart';
 import 'package:kltn_mobile/blocs/schools_cubit/schools_cubit.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
-import 'package:kltn_mobile/components/notifications/firebase_api.dart';
 import 'package:kltn_mobile/components/notifications/noti_services.dart';
 import 'package:kltn_mobile/firebase_options.dart';
 import 'package:kltn_mobile/models/user_login.dart';
@@ -39,7 +38,6 @@ Future<void> main() async {
 
   // Chỉ thực thi phần thông báo nếu đang chạy trên Android
   if (isRunningOnAndroid) {
-    await FirebaseApi().initNotifications();
     await initializeNotifications();
     await setupNotificationChannel();
     await listenToForegroundMessages();
