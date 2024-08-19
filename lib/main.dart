@@ -25,8 +25,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
 import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
+
 //Main
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,11 +68,12 @@ Future<void> main() async {
         BlocProvider(create: (_) => SchoolsCubit()),
         BlocProvider(create: (_) => ContactUsCubit(APIRepository())),
         ChangeNotifierProvider(create: (_) => UserAuthProvider()),
-
         ChangeNotifierProvider(
             create: (_) => AuthNotifier()..setLoggedIn(isLoggedIn)),
       ],
-      child: MyApp(userAuth: userAuth),
+      child: ShowCaseWidget(
+        builder: (context) => MyApp(userAuth: userAuth),
+      ),
     ),
   );
 }

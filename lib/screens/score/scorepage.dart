@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/Style/backbutton.dart';
+import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/models/score.dart';
 import 'package:kltn_mobile/screens/score/scoredetail.dart';
 
@@ -29,153 +34,241 @@ class ScorePageState extends State<ScorePage> {
       (score) => score.semester == latestSemester,
       orElse: () => widget.semesterScores.first,
     );
-
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColor = isDarkMode ? Colors.white : AppColor.redButton;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0, // Flat AppBar
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Lastest Score',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.red[800],
-              ),
-            ),
-            SizedBox(height: 8.0),
-            Card(
-              elevation: 2.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
+            Container(
+              height: screenHeight * 0.15,
+              color: AppColor.redButton,
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                padding: EdgeInsets.only(top: screenWidth * 0.05),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: screenWidth * 0.05),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Semester ${latestScore.semester}/2025 Score',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        const BackButtonCircle(),
+                        TextMonserats(
+                          'Score',
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.06,
+                          fontWeight: FontWeight.w700,
                         ),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            // Handle download action
-                          },
-                          icon: Icon(Icons.download),
-                          label: Text('Download'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                        ),
+                        SizedBox(
+                          width: screenWidth * 0.13,
+                        )
                       ],
                     ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      'Total GPA',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      calculateGPA(latestScore.scores).toStringAsFixed(1),
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red[800],
-                      ),
-                    ),
-                    SizedBox(height: 16.0),
-                    Divider(),
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Icon(
-                        Icons.person_outline,
-                        color: Colors.black,
-                      ),
-                      title: Text(
-                        'Details score',
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16.0,
-                        color: Colors.black,
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ScoreDetail(semesterScore: latestScore),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 24.0),
-            Text(
-              'Previous Score',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.red[800],
-              ),
-            ),
-            SizedBox(height: 8.0),
-            Expanded(
-              child: ListView(
-                children: widget.semesterScores
-                    .where((score) => score.semester != latestSemester)
-                    .map((semesterScore) {
-                  return Card(
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.05, vertical: screenWidth * 0.05),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextMonserats(
+                    'Lastest Score',
+                    fontSize: screenWidth * 0.04,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
+                  SizedBox(height: screenHeight * 0.013),
+                  Card(
+                    color: Colors.white,
                     elevation: 2.0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    child: ListTile(
-                      title: Text('Semester ${semesterScore.semester}/2024'),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16.0,
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ScoreDetail(semesterScore: semesterScore),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(screenWidth * 0.02),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.all(screenWidth * 0.02),
+                                  child: TextMonserats(
+                                    'Semester ${latestScore.semester}',
+                                    fontSize: screenWidth * 0.05,
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.5,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  // Handle download action
+                                },
+                                icon: const Icon(
+                                    Icons.download_for_offline_outlined),
+                                label: TextMonserats(
+                                  'Download',
+                                  color: Colors.white,
+                                  fontSize: screenWidth * 0.033,
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: Colors.orange,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                        const Divider(
+                          color: Colors.grey,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.04),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextMonserats(
+                                'Total GPA',
+                                fontSize: screenWidth * 0.04,
+                                color: Colors.black,
+                              ),
+                              TextMonserats(
+                                calculateGPA(latestScore.scores)
+                                    .toStringAsFixed(1),
+                                fontSize: screenWidth * 0.05,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red[800],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          color: Colors.grey,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.04),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: const Icon(
+                              Icons.person_outline,
+                              color: Colors.black,
+                            ),
+                            title: TextMonserats(
+                              'Details score',
+                              fontSize: screenWidth * 0.035,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios,
+                              size: screenWidth * 0.04,
+                              color: Colors.black,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ScoreDetail(semesterScore: latestScore),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
-                  );
-                }).toList(),
+                  ),
+                  SizedBox(height: screenHeight * 0.03),
+                  TextMonserats(
+                    'Previous Score',
+                    fontSize: screenWidth * 0.04,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
+                  SizedBox(height: screenHeight * 0.013),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0), // Inner padding for the box
+                    decoration: BoxDecoration(
+                      color: Colors.white, // White background
+                      borderRadius:
+                          BorderRadius.circular(10.0), // Rounded corners
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey
+                              .withOpacity(0.2), // Subtle shadow for depth
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3), // Shadow position
+                        ),
+                      ],
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: widget.semesterScores
+                            .where((score) => score.semester != latestSemester)
+                            .map((semesterScore) {
+                          // Get the index of the current item
+                          int index =
+                              widget.semesterScores.indexOf(semesterScore);
+                          // Get the total number of items
+                          int itemCount = widget.semesterScores
+                              .where(
+                                  (score) => score.semester != latestSemester)
+                              .length;
+                          return Column(
+                            children: [
+                              ListTile(
+                                title: TextMonserats(
+                                  'Semester ${semesterScore.semester}',
+                                  fontSize: screenWidth * 0.04,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black,
+                                ),
+                                trailing: Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: screenWidth * 0.04,
+                                  color: Colors.black,
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ScoreDetail(
+                                          semesterScore: semesterScore),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // Only show Divider if this is not the last item
+                              if (index < itemCount - 1)
+                                const Divider(
+                                  color: Colors
+                                      .grey, // Light grey color for the divider
+                                  height: 1, // Height of the divider
+                                  thickness: 1, // Thickness of the divider line
+                                ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
