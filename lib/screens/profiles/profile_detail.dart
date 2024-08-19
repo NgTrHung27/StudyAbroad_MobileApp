@@ -76,7 +76,7 @@ class _UserDetailsPageState extends BasePageState<ProfileDetail> {
                         SizedBox(height: screenHeight * 0.02),
                         LegendBox(
                             title: 'Status',
-                            value: userAuth?.student.program.program.name ??
+                            value: userAuth!.student.program?.program.name ??
                                 'N/A'),
                       ],
                     ),

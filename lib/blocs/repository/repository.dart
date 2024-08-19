@@ -52,7 +52,7 @@ class APIRepository {
         "district": selectedDistrict,
         "ward": selectedWard,
         "addressLine": address,
-        "gender": valueGender, // "0" or "1
+        "gender": valueGender,
         "degreeType": valueDegree,
         "gradeType": radioGradeTypeValue,
         "gradeScore": gradeScore,
@@ -85,14 +85,16 @@ class APIRepository {
           final path = error['path'];
           print('Error: Code $code, Message: $message, Path: $path');
         }
-        return null;
+
+        // Return an instance of UserAuthRegister with the error details
+        return UserAuthRegister(error: 'Failed to register with status 406');
       } else {
         print("Failed to register: ${response.statusCode}");
-        return null;
+        return UserAuthRegister(error: 'Failed to register');
       }
     } catch (e) {
       print("Exception occurred while registering: $e");
-      return null;
+      return UserAuthRegister(error: 'Exception: $e');
     }
   }
 
@@ -122,7 +124,7 @@ class APIRepository {
           email: email,
           password: password,
           emailVerified: DateTime.now(),
-          name: null,
+          name: '',
           dob: DateTime.now(),
           phoneNumber: '',
           student: user_login.Student
@@ -141,7 +143,7 @@ class APIRepository {
           email: email,
           password: password,
           emailVerified: DateTime.now(),
-          name: null,
+          name: '',
           dob: DateTime.now(),
           phoneNumber: '',
           student: user_login.Student.empty(),
