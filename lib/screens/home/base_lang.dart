@@ -1,11 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:kltn_mobile/blocs/auth_cubit_bloc/login_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/models/news.dart';
-import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -20,7 +21,25 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
   void initState() {
     super.initState();
     _loadLanguage();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     _loadUserAuth();
+  }
+
+  Future<void> _loadUserAuth() async {
+    context.read<LoginCubit>().checkLoginStatus();
+    final logindata = await SharedPreferences.getInstance();
+    final userString = logindata.getString('user');
+    setState(() {
+      if (userString != null) {
+        userAuth = UserAuthLogin.fromJson(jsonDecode(userString));
+      } else {
+        userAuth = null;
+      }
+    });
   }
 
   Future<void> _loadLanguage() async {
@@ -40,25 +59,5 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
         context.read<LanguageBloc>().add(LanguageEvent.setVietnamese);
         break;
     }
-  }
-
-  Future<void> _loadUserAuth() async {
-    final logindata = await SharedPreferences.getInstance();
-    final userString = logindata.getString('user');
-    final isRemember = logindata.getBool('isRememberChange') ?? false;
-    setState(() {
-      if (userString != null && isRemember) {
-        // Kiểm tra nếu có thông tin đăng nhập và isRememberChange là true
-        userAuth = UserAuthLogin.fromJson(jsonDecode(userString));
-        context.read<AuthNotifier>().setLoggedIn(true);
-      } else if (userString != null) {
-        userAuth = UserAuthLogin.fromJson(jsonDecode(userString));
-        context.read<AuthNotifier>().setLoggedIn(true);
-      } else {
-        // Nếu isRememberChange là false, không lấy thông tin đăng nhập từ SharedPreferences
-        userAuth = null;
-        context.read<AuthNotifier>().setLoggedIn(false);
-      }
-    });
   }
 }

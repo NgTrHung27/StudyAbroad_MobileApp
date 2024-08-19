@@ -179,6 +179,15 @@ class _ContactUsState extends BasePageState<ContactUs> {
     }
   }
 
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialogComponent();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
@@ -207,9 +216,8 @@ class _ContactUsState extends BasePageState<ContactUs> {
     final phoneText = localizations != null
         ? localizations.register_12_phone
         : "Default Text";
-    final help = localizations != null
-        ? localizations.register_12_phone
-        : "Defalut Text";
+    final help =
+        localizations != null ? localizations.contact_helps : "Defalut Text";
     final send =
         localizations != null ? localizations.contact_send : "Default Text";
     final isDarkMode =
@@ -390,6 +398,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
                   MyButton(
                     onTap: () {
                       print('Button pressed');
+                      _showAlertDialog(context);
                       sendForm();
                     },
                     text: send,
@@ -400,6 +409,39 @@ class _ContactUsState extends BasePageState<ContactUs> {
           ),
         );
       },
+    );
+  }
+}
+
+class AlertDialogComponent extends StatelessWidget {
+  const AlertDialogComponent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    return AlertDialog.adaptive(
+      title: TextMonserats(
+        'Form Submitted',
+        fontSize: screenWidth * 0.06,
+        fontWeight: FontWeight.w500,
+      ),
+      icon: Icon(
+        Icons.check_circle_rounded,
+        color: Colors.green,
+        size: screenWidth * 0.18,
+      ),
+      actions: <Widget>[
+        Center(
+          child: InkWell(
+            child: MyButton(
+              text: 'Xác nhận',
+              onTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

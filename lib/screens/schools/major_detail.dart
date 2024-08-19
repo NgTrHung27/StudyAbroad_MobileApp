@@ -4,7 +4,7 @@ import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 
 class MajorDetailPage extends StatelessWidget {
-  final Program program;
+  final SchoolProgram program;
   const MajorDetailPage({super.key, required this.program});
 
   @override
@@ -25,7 +25,7 @@ class MajorDetailPage extends StatelessWidget {
                 SingleChildScrollView(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      minHeight: screenHeight*0.5,
+                      minHeight: screenHeight * 0.5,
                     ),
                     child: IntrinsicHeight(
                       child: Container(
@@ -42,9 +42,15 @@ class MajorDetailPage extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TextMonserats(program.name, fontWeight: FontWeight.bold, fontSize: screenWidth*0.06, height: 1.3),
+                              TextMonserats(program.name,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: screenWidth * 0.06,
+                                  height: 1.3),
                               SizedBox(height: screenHeight * 0.02),
-                              TextMonserats(program.description, fontWeight: FontWeight.w500, fontSize: screenWidth*0.04, height: 1.3),
+                              TextMonserats(program.description,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: screenWidth * 0.04,
+                                  height: 1.3),
                               // Thêm các widget khác tại đây để mở rộng nội dung
                             ],
                           ),
@@ -58,7 +64,8 @@ class MajorDetailPage extends StatelessWidget {
             SafeArea(
               child: Padding(
                 padding: EdgeInsets.all(screenWidth * 0.04),
-                child: BackButtonCircle(onPressed: () => Navigator.pop(context)),
+                child:
+                    BackButtonCircle(onPressed: () => Navigator.pop(context)),
               ),
             ),
           ],

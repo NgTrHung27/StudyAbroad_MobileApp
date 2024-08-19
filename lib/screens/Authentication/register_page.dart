@@ -239,7 +239,7 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
     });
   }
 
-  void programChange(Program? program) {
+  void programChange(SchoolProgram? program) {
     setState(() {
       if (program != null) {
         selectedProgram = program.name;
@@ -381,12 +381,10 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
       minDateTime: DateTime(1960),
       onChange: (value) {
         setState(() {
-          print(value);
           dateController.text = DateFormat('dd/MM/yyyy').format(value);
         });
       },
       onSubmit: (value) {
-        print(value);
         dateController.text = DateFormat('dd/MM/yyyy').format(value);
         if (value.isAfter(DateTime(DateTime.now().year - 17))) {
           context.read<AuthCubit>().checkDob(value);
@@ -405,7 +403,6 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
   void initState() {
     super.initState();
     context.read<AuthCubit>().getSchoolsAndCountries();
-    // context.read<AuthCubit>().getSchools();
     context.read<AuthCubit>().getCity();
   }
 
@@ -1030,21 +1027,21 @@ class _RegisterPageState extends BasePageState<RegisterPage> {
                         if (state is AuthLoadedState) {
                           lstschools = state.schools;
                         }
-                        return DropdownCustom<Program>(
+                        return DropdownCustom<SchoolProgram>(
                           icon: Icons.history_edu,
                           items: selectedSchool == null
                               ? []
-                              : selectedSchoolObject!.programs,
+                              : selectedSchoolObject!.programs ?? [],
                           selectedItem: selectedProgram == null
                               ? null
-                              : selectedSchoolObject!.programs.firstWhere(
+                              : selectedSchoolObject!.programs?.firstWhere(
                                   (element) => element.name == selectedProgram),
-                          onChanged: (Program? newValueProgram) {
+                          onChanged: (SchoolProgram? newValueProgram) {
                             setState(() {
                               programChange(newValueProgram);
                             });
                           },
-                          itemLabel: (Program program) => program.name,
+                          itemLabel: (SchoolProgram program) => program.name,
                           hintText: register_19,
                           isExpanded: true,
                         );

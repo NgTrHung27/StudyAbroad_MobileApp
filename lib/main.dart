@@ -1,5 +1,6 @@
-import 'dart:convert';
+import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -10,53 +11,71 @@ import 'package:kltn_mobile/blocs/carousel_event_state/carousel_bloc.dart';
 import 'package:kltn_mobile/blocs/contact_us_bloc/contact_cubit.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
+import 'package:kltn_mobile/blocs/news_cubit_bloc/news_school_cubit.dart';
 import 'package:kltn_mobile/blocs/profile_status_cubit_bloc/profile_status_cubit.dart';
 import 'package:kltn_mobile/blocs/repository/repository.dart';
 import 'package:kltn_mobile/blocs/schools_cubit/schools_cubit.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/notifications/firebase_api.dart';
+import 'package:kltn_mobile/components/notifications/noti_services.dart';
+import 'package:kltn_mobile/firebase_options.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/routes/app_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
+//Main
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final userAuth = await checkLoginStatus();
+  //FirebaseMess
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Kiểm tra nếu đang chạy trên Android
+  bool isRunningOnAndroid = Platform.isAndroid;
+
+  // Chỉ thực thi phần thông báo nếu đang chạy trên Android
+  if (isRunningOnAndroid) {
+    await FirebaseApi().initNotifications();
+    await initializeNotifications();
+    await setupNotificationChannel();
+    await listenToForegroundMessages();
+    setupFirebaseMessagingBackgroundHandler();
+  }
+  // Kiểm tra session đăng nhập
+  final loginCubit = LoginCubit(APIRepository());
+  final userAuth = await loginCubit.checkLoginStatus();
   final isLoggedIn = userAuth != null;
+
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeSettingCubit()),
         BlocProvider(create: (_) => AuthCubit()),
-        BlocProvider(create: (_) => LoginCubit(APIRepository())),
+        BlocProvider(
+            create: (_) => loginCubit), // Sử dụng loginCubit đã khởi tạo
         BlocProvider(create: (_) => ProfileStatusCubit()),
         BlocProvider(create: (_) => ForgotPassCubit(APIRepository())),
         BlocProvider(
             create: (context) =>
                 CarouselBloc(APIRepository())..add(FetchCarousel())),
         BlocProvider(create: (_) => NewsCubit()),
+        BlocProvider(create: (_) => NewsSchoolCubit()),
         BlocProvider(create: (_) => LanguageBloc()),
         BlocProvider(create: (_) => SchoolsCubit()),
         BlocProvider(create: (_) => ContactUsCubit(APIRepository())),
+        ChangeNotifierProvider(create: (_) => UserAuthProvider()),
         ChangeNotifierProvider(
             create: (_) => AuthNotifier()..setLoggedIn(isLoggedIn)),
       ],
-      child: MyApp(userAuth: userAuth),
+      child: ShowCaseWidget(
+        builder: (context) => MyApp(userAuth: userAuth),
+      ),
     ),
   );
-}
-
-Future<UserAuthLogin?> checkLoginStatus() async {
-  final logindata = await SharedPreferences.getInstance();
-  final userString = logindata.getString('user');
-  if (userString != null) {
-    final user = UserAuthLogin.fromJson(jsonDecode(userString));
-    return user;
-  } else {
-    return null;
-  }
 }
 
 class MyApp extends StatefulWidget {
@@ -70,7 +89,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
+    context.read<LoginCubit>().checkLoginStatus();
   }
 
   @override
@@ -83,6 +102,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               theme: state,
               themeMode: ThemeMode.system,
+              navigatorKey: navigatorKey,
               initialRoute: "/",
               onGenerateRoute: AppRoute.onGenerateRoute,
               supportedLocales: const [

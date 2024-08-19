@@ -61,6 +61,8 @@ class _MyTextFieldState extends State<MyTextField> {
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColor = isDarkMode ? Colors.white : Colors.black;
     final iconColor = isDarkMode ? Colors.white : Colors.black;
+    final border = isDarkMode ? Colors.black : Colors.white;
+
     return SizedBox(
       height: 73,
       child: SizedBox(
@@ -126,13 +128,13 @@ class _MyTextFieldState extends State<MyTextField> {
                 borderSide: BorderSide(color: Colors.red),
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFCBD5E1)),
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: border),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
-              focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: iconColor),
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
               contentPadding: const EdgeInsets.all(10)),
         ),
       ),

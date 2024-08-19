@@ -14,6 +14,7 @@ import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class GeminiAI extends BasePage {
@@ -79,6 +80,7 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
         localizations != null ? localizations.error_connection : "Default Text";
     String errorsubtitle = errorConn;
     var connectivityResult = await (Connectivity().checkConnectivity());
+    // ignore: unrelated_type_equality_checks
     if (connectivityResult == ConnectivityResult.none) {
       setState(() {
         subtitle = errorsubtitle;
@@ -94,7 +96,8 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
 
   @override
   Widget build(BuildContext context) {
-    final userAuth = this.userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     // Cập nhật userName từ userAuth
     String newUserName = userAuth?.name ?? 'N/A';
     String newAvtUser = userAuth?.student.school.logo ??
@@ -140,8 +143,8 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
-            color: textColorWhite,
-            onPressed: () => Navigator.pop(context),
+            color: Colors.white,
+            onPressed: () => Navigator.pushNamed(context, '/mainpage'),
           )),
       body: _buildUI(redCorlor, subtitle, hintText, containerUserBox,
           textColorWhite, errorConn),
@@ -228,6 +231,7 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
             dateSeparatorFormat: DateFormat('dd/MM/yyyy'),
           ),
           messageOptions: MessageOptions(
+            currentUserTextColor: Colors.black,
             containerColor: Colors.white,
             currentUserContainerColor: containerUserBox,
             showCurrentUserAvatar: true,
@@ -262,32 +266,46 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
       messages = [chatMessage, ...messages];
       _hasSentFirstMessage = true;
     });
+
     try {
       String question = chatMessage.text;
       List<Uint8List>? images;
+
       if (chatMessage.medias?.isNotEmpty ?? false) {
         images = [
           File(chatMessage.medias!.first.url).readAsBytesSync(),
         ];
       }
+
+      // Log the request details
+      print("Sending request to Gemini API");
+      print("Question: $question");
+      if (images != null) {
+        print("Images: ${images.length} image(s) attached");
+        for (var image in images) {
+          print("Image size: ${image.lengthInBytes} bytes");
+        }
+      }
+
+      // Assuming gemini is an instance of a class that handles API requests
       gemini
           ?.streamGenerateContent(
         question,
         images: images,
+        modelName: 'gemini-1.5-flash',
       )
           .listen((event) {
         ChatMessage? lastMessage = messages.firstOrNull;
+
         if (lastMessage != null && lastMessage.user == geminiUser) {
           lastMessage = messages.removeAt(0);
           String response = event.content?.parts?.fold(
                   "", (previous, current) => "$previous ${current.text}") ??
               "";
           lastMessage.text += response;
-          setState(
-            () {
-              messages = [lastMessage!, ...messages];
-            },
-          );
+          setState(() {
+            messages = [lastMessage!, ...messages];
+          });
         } else {
           String response = event.content?.parts?.fold(
                   "", (previous, current) => "$previous ${current.text}") ??
@@ -301,16 +319,23 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
             messages = [message, ...messages];
           });
         }
+      }).onError((error) {
+        print("Error occurred: $error");
+        // Handle specific GeminiException
+        if (error is GeminiException) {
+          print("GeminiException: ${error.message}");
+          print("Status Code: ${error.statusCode}");
+        }
       });
     } catch (e) {
-      print(e);
+      print("Exception: $e");
     }
   }
 
   void _sendMediaMessage() async {
     final localizations = AppLocalizations.of(context);
     final desPic = localizations != null
-        ? localizations.ai_chatting_title
+        ? localizations.ai_chatting_desPic
         : 'Default Text';
     ImagePicker picker = ImagePicker();
     XFile? file = await picker.pickImage(
@@ -324,12 +349,25 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
         medias: [
           ChatMedia(
             url: file.path,
-            fileName: "",
             type: MediaType.image,
-          )
+            fileName: '',
+          ),
         ],
       );
-      _sendMessage(chatMessage);
+
+      try {
+        // Log the request details
+        print("Sending media message with description: $desPic");
+        print("Image path: ${file.path}");
+
+        // Send the message
+        _sendMessage(chatMessage);
+      } catch (e) {
+        // Log the error details
+        print("Exception occurred while sending media message: $e");
+      }
+    } else {
+      print("No image selected.");
     }
   }
 }

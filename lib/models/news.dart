@@ -20,7 +20,7 @@ class NewsList {
   dynamic schoolId;
   DateTime createdAt;
   DateTime updatedAt;
-  dynamic school;
+  School? school;
 
   NewsList({
     required this.id,
@@ -70,7 +70,7 @@ class NewsList {
         schoolId: json["schoolId"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
-        school: json["school"],
+        school: json["school"] != null ? School.fromJson(json["school"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -83,6 +83,22 @@ class NewsList {
         "schoolId": schoolId,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
-        "school": school,
+        "school": school?.toJson(),
+      };
+}
+
+class School {
+  String name;
+
+  School({
+    required this.name,
+  });
+
+  factory School.fromJson(Map<String, dynamic> json) => School(
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
       };
 }

@@ -12,6 +12,7 @@ class TextMonserats extends StatelessWidget {
   final TextAlign? textAlign;
   final double height;
   final TextOverflow? overflow;
+  final bool softWrap;
 
   const TextMonserats(
     this.text, {
@@ -23,6 +24,7 @@ class TextMonserats extends StatelessWidget {
     this.textAlign,
     this.overflow,
     this.height = 1.75,
+    this.softWrap = true,
   });
 
   @override

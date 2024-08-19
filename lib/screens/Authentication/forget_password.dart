@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/auth_cubit_bloc/forgot_pass_cubit.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/theme.dart';
 import 'package:kltn_mobile/components/functions/button.dart';
@@ -34,6 +35,10 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
 
   @override
   Widget build(BuildContext context) {
+    //size
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    //lang
     final localizations = AppLocalizations.of(context);
     final forgot1 =
         localizations != null ? localizations.forgot_1 : 'Default Text';
@@ -84,20 +89,30 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
             },
             builder: (context, state) {
               return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 30.0),
-                  child: Column(
+                  child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.05,
+                    vertical: screenHeight * 0.05),
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 40),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          BackButtonCircle(onPressed: () {
+                            Navigator.pushNamed(context, '/profile');
+                          }),
+                          //Logo
+                          SizedBox(width: screenWidth * 0.20),
                           Image.asset(
-                            "assets/logo/logo_white.png",
-                            height: 70,
+                            context.watch<ThemeSettingCubit>().state ==
+                                    AppTheme.blackTheme
+                                ? "assets/logo/logo_white.png"
+                                : "assets/logo/logo_red.png",
+                            height: 80,
                           ),
+                          SizedBox(width: screenWidth * 0.25),
+                          Container(width: 35)
                         ],
                       ),
                       const SizedBox(height: 20),
@@ -109,7 +124,7 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
                             textAlign: TextAlign.center,
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
-                            fontSize: 30,
+                            fontSize: 28,
                           ),
                           const SizedBox(height: 10),
                           TextMonserats(
@@ -176,29 +191,40 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 280),
-                          Row(
+                          SizedBox(height: screenHeight * 0.32),
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              GestureDetector(
-                                onTap: () {
-                                  // Navigate back to login screen
-                                  Navigator.pop(context);
-                                },
-                                child: TextMonserats(
-                                  forgot5,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 13,
-                                ),
+                              const Divider(
+                                height: 1,
+                                color: Color(0xFFCBD5E1),
+                                thickness: 1.0,
+                                indent: 20,
+                                endIndent: 20,
+                              ),
+                              SizedBox(height: screenHeight * 0.02),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Navigate back to login screen
+                                      Navigator.pop(context);
+                                    },
+                                    child: TextMonserats(
+                                      forgot5,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              );
+                    ]),
+              ));
             },
           ),
         ),
