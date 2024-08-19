@@ -41,19 +41,6 @@ class _HomePageState extends BasePageState<HomePage> {
     });
   }
 
-  void _scrollToPosition(GlobalKey key) {
-    final RenderBox renderBox =
-        key.currentContext!.findRenderObject() as RenderBox;
-    final position = renderBox.localToGlobal(Offset.zero).dy;
-    _scrollController.animateTo(
-      position -
-          MediaQuery.of(context).size.height / 2 +
-          renderBox.size.height / 2,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final userAuth =
@@ -105,121 +92,96 @@ class _HomePageState extends BasePageState<HomePage> {
                           }
                         },
                       ),
-                      Showcase.withWidget(
-                        key: _one,
-                        height: screenHeight,
-                        width: screenWidth,
-                        container: const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: TextMonserats(
-                            'This is the first tooltip!',
-                            color: Colors.white,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextMonserats(
+                            homeActionText,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: textColorRed,
                           ),
-                        ),
-                        onTargetClick: () => _scrollToPosition(_two),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextMonserats(
-                              homeActionText,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: textColorRed,
-                            ),
-                            SizedBox(height: screenHeight * 0.01),
-                            const BoxGridView(),
-                          ],
-                        ),
+                          SizedBox(height: screenHeight * 0.01),
+                          const BoxGridView(),
+                        ],
                       ),
-                      Showcase.withWidget(
-                        key: _two,
-                        height: screenHeight,
-                        width: screenWidth,
-                        container: const Padding(
-                          padding: EdgeInsets.all(16.0),
-                          child: TextMonserats(
-                            'This is the second tooltip!',
-                            color: Colors.white,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: screenHeight * 0.01),
+                          TextMonserats(
+                            homeExploreText,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: textColorRed,
                           ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: screenHeight * 0.01),
-                            TextMonserats(
-                              homeExploreText,
+                          SizedBox(height: screenHeight * 0.01),
+                          SizedBox(
+                            height: 200,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SchoolsListPage(
+                                                country: 'CANADA'),
+                                      ),
+                                    );
+                                  },
+                                  child: SizedBox(
+                                      width: 330,
+                                      child: Image.asset(
+                                          'assets/countries/Canada.png')),
+                                ),
+                                SizedBox(width: screenWidth * 0.02),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SchoolsListPage(
+                                                country: 'AUSTRALIA'),
+                                      ),
+                                    );
+                                  },
+                                  child: SizedBox(
+                                      width: 330,
+                                      child: Image.asset(
+                                          'assets/countries/Australia.png')),
+                                ),
+                                SizedBox(width: screenWidth * 0.02),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SchoolsListPage(
+                                                country: 'KOREA'),
+                                      ),
+                                    );
+                                  },
+                                  child: SizedBox(
+                                      width: 330,
+                                      child: Image.asset(
+                                          'assets/countries/Korea.png')),
+                                ),
+                              ],
+                            ), // Add the image here
+                          ),
+                          SizedBox(height: screenHeight * 0.02),
+                          TextMonserats(homeNewListText,
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
-                              color: textColorRed,
-                            ),
-                            SizedBox(height: screenHeight * 0.01),
-                            SizedBox(
-                              height: 200,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SchoolsListPage(
-                                                  country: 'CANADA'),
-                                        ),
-                                      );
-                                    },
-                                    child: SizedBox(
-                                        width: 330,
-                                        child: Image.asset(
-                                            'assets/countries/Canada.png')),
-                                  ),
-                                  SizedBox(width: screenWidth * 0.02),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SchoolsListPage(
-                                                  country: 'AUSTRALIA'),
-                                        ),
-                                      );
-                                    },
-                                    child: SizedBox(
-                                        width: 330,
-                                        child: Image.asset(
-                                            'assets/countries/Australia.png')),
-                                  ),
-                                  SizedBox(width: screenWidth * 0.02),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SchoolsListPage(
-                                                  country: 'KOREA'),
-                                        ),
-                                      );
-                                    },
-                                    child: SizedBox(
-                                        width: 330,
-                                        child: Image.asset(
-                                            'assets/countries/Korea.png')),
-                                  ),
-                                ],
-                              ), // Add the image here
-                            ),
-                            SizedBox(height: screenHeight * 0.02),
-                            TextMonserats(homeNewListText,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: textColorRed),
-                            SizedBox(height: screenHeight * 0.02),
-                            const NewsListViewShort(
-                              nullSchool: null,
-                            ),
-                            SizedBox(height: screenHeight * 0.14),
-                          ],
-                        ),
+                              color: textColorRed),
+                          SizedBox(height: screenHeight * 0.02),
+                          const NewsListViewShort(
+                            nullSchool: null,
+                          ),
+                          SizedBox(height: screenHeight * 0.14),
+                        ],
                       ),
                     ],
                   ),
