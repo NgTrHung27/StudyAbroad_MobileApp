@@ -47,18 +47,29 @@ class LoginCubit extends Cubit<LoginState> {
 
         if (isRememberChange) {
           await logindata.setString('token', userAuthLogin.token); // Lưu token
+          final userString = logindata.getString('user');
+          final token = logindata.getString('token');
+          final isRemember = logindata.getBool('isRememberChange') ?? false;
+          print('check $userString,  $token $isRemember}');
         }
         await logindata.setString(
             'user', jsonEncode(userAuthLogin.toJson())); // Lưu userAuthLogin
+        final userString = logindata.getString('user');
+        print('check userString $userString');
         await logindata.setBool('isRememberChange', isRememberChange);
 
         emit(LoginSuccess(userAuthLogin));
       } else {
-        final errorLogin = userAuthLogin?.error;
-        emit(LoginFailure(errorLogin!));
+        final errorLogin = userAuthLogin?.error ?? 'Error';
+        emit(LoginFailure(errorLogin));
         print('Check Error Login $errorLogin');
       }
     } catch (e) {
+      final userString = logindata.getString('user');
+      final token = logindata.getString('token');
+      final isRemember = logindata.getBool('isRememberChange') ?? false;
+      print('check $userString,  $token $isRemember}');
+
       emit(LoginFailure(e.toString()));
       print('Exception occurred while logging in: $e');
     }
