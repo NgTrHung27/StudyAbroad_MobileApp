@@ -3,26 +3,42 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
-import 'package:kltn_mobile/models/tuition.dart';
+import 'package:kltn_mobile/models/user_login.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
+import 'package:kltn_mobile/screens/home/base_lang.dart';
 
-class TuitionBox extends StatelessWidget {
+class TuitionBox extends BasePage {
+  const TuitionBox({
+    super.key,
+    required this.tuition,
+  });
   final Tuition tuition;
 
-  const TuitionBox({super.key, required this.tuition});
+  @override
+  TuitionBoxDetailState createState() => TuitionBoxDetailState();
+}
 
+class TuitionBoxDetailState extends BasePageState<TuitionBox> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenwidth = MediaQuery.of(context).size.width;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     Color statusColor;
-    switch (tuition.tuitionStatus) {
-      case 'Paid':
+    final List<String?> tuitionStatuses =
+        userAuth?.student.tuitions?.map((tuition) => tuition.status).toList() ??
+            [];
+    final String? currentStatus =
+        tuitionStatuses.isNotEmpty ? tuitionStatuses[0] : 'Unknown';
+    switch (currentStatus) {
+      case 'PAID':
         statusColor = const Color(0xff65AF37);
         break;
-      case 'Unpaid':
+      case 'OVERDUE':
         statusColor = const Color(0xffC81D1D);
         break;
-      case 'Pending':
+      case 'PENDING':
         statusColor = Colors.orange;
         break;
       default:
@@ -56,22 +72,25 @@ class TuitionBox extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextMonserats(
-                  'Semester ${tuition.semester}',
-                  color: textColor,
-                  fontSize: screenwidth * 0.04,
-                ),
-                SizedBox(height: screenHeight * 0.01),
-                TextMonserats(
-                  '\$${tuition.tuition}',
-                  color: Colors.red,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ],
+            SizedBox(
+              width: screenwidth * 0.4,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextMonserats(widget.tuition.description ?? '',
+                      color: textColor,
+                      fontSize: screenwidth * 0.04,
+                      maxLine: 2,
+                      overflow: TextOverflow.ellipsis),
+                  SizedBox(height: screenHeight * 0.01),
+                  TextMonserats(
+                    '\$${widget.tuition.amount}',
+                    color: Colors.red,
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ],
+              ),
             ),
             Transform(
               transform:
@@ -85,11 +104,11 @@ class TuitionBox extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 constraints: BoxConstraints(
-                  minWidth: screenwidth * 0.33,
+                  minWidth: screenwidth * 0.2,
                 ),
                 child: Center(
                   child: TextMonserats(
-                    tuition.tuitionStatus,
+                    widget.tuition.status ?? 'Null',
                     color: Colors.white,
                     fontSize: screenwidth * 0.036,
                   ),

@@ -15,6 +15,8 @@
   "home_NewList": "새로운 소식이 있나요?",
   "profile_account": "계정",
   "profile_account_profilesInfo": "프로필",
+  "profile_account_profilesInfo_School": "학교",
+  "profile_account_profilesInfo_Major": "전공",
   "profile_account_changePassword": "비밀번호 변경",
   "profile_status": "상태",
   "profile_status_ps": "프로필 상태",

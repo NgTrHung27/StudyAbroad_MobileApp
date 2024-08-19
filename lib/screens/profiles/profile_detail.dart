@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
@@ -31,6 +32,22 @@ class _UserDetailsPageState extends BasePageState<ProfileDetail> {
     final profile = localizations != null
         ? localizations.profile_account_profilesInfo
         : 'Default Text';
+    final fullName = localizations != null
+        ? localizations.register_7_fullname
+        : 'Default Text';
+    final dobUser =
+        localizations != null ? localizations.register_10_dob : 'Default Text';
+    final phoneUser = localizations != null
+        ? localizations.register_12_phone
+        : 'Default Text';
+    final schoolUser = localizations != null
+        ? localizations.profile_account_profilesInfo_School
+        : 'Default Text';
+    final majorUser = localizations != null
+        ? localizations.profile_account_profilesInfo_Major
+        : 'Default Text';
+    DateTime dob = userAuth?.dob ?? DateTime.now();
+    String userFormattedDate = DateFormat('dd/MM/yyyy').format(dob);
     return BlocBuilder<ThemeSettingCubit, ThemeData>(
       builder: (context, state) {
         double screenWidth = MediaQuery.of(context).size.width;
@@ -41,7 +58,11 @@ class _UserDetailsPageState extends BasePageState<ProfileDetail> {
           body: Stack(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.all(screenWidth * 0.15),
+                padding: EdgeInsets.only(
+                    top: screenHeight * 0.08,
+                    bottom: screenHeight * 0.08,
+                    left: screenHeight * 0.04,
+                    right: screenHeight * 0.04),
                 child: SingleChildScrollView(
                   child: Center(
                     child: Column(
@@ -63,21 +84,27 @@ class _UserDetailsPageState extends BasePageState<ProfileDetail> {
                             height: 120),
                         SizedBox(height: screenHeight * 0.02),
                         LegendBox(
-                            title: 'Full name',
-                            value: userAuth?.name ?? 'N/A',
+                            title: fullName,
+                            value: userAuth?.name ?? 'User',
                             isEditable: true),
                         SizedBox(height: screenHeight * 0.02),
                         LegendBox(
-                            title: 'Email', value: userAuth?.email ?? 'N/A'),
+                            title: 'Email', value: userAuth?.email ?? 'Null'),
+                        SizedBox(height: screenHeight * 0.02),
+                        LegendBox(title: dobUser, value: userFormattedDate),
                         SizedBox(height: screenHeight * 0.02),
                         LegendBox(
-                            title: 'ID Student',
-                            value: userAuth?.student.school.name ?? 'N/A'),
+                            title: phoneUser,
+                            value: userAuth?.phoneNumber ?? 'Null'),
                         SizedBox(height: screenHeight * 0.02),
                         LegendBox(
-                            title: 'Status',
-                            value: userAuth!.student.program?.program.name ??
-                                'N/A'),
+                            title: schoolUser,
+                            value: userAuth?.student.school.name ?? 'Null'),
+                        SizedBox(height: screenHeight * 0.02),
+                        LegendBox(
+                            title: majorUser,
+                            value: userAuth?.student.program?.program.name ??
+                                'Null'),
                       ],
                     ),
                   ),
