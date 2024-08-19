@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/models/score.dart';
 import 'package:kltn_mobile/screens/Authentication/change_pass.dart';
 import 'package:kltn_mobile/screens/authentication/forget_password.dart';
 import 'package:kltn_mobile/screens/authentication/login_page.dart';
@@ -76,9 +75,7 @@ class AppRoute {
       case '/respond':
         return MaterialPageRoute(builder: (_) => const Respond());
       case '/score':
-        return MaterialPageRoute(
-            builder: (_) => ScorePage(
-                semesterScores: SemesterScore.getDummySemesterScores()));
+        return MaterialPageRoute(builder: (_) => const ScorePage());
       case '/intro':
         return MaterialPageRoute(builder: (_) => const IntroPage());
       case '/mainpage':

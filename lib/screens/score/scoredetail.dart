@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/components/Style/backbutton.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
-import 'package:kltn_mobile/components/list_view/score_comment_box.dart';
 import 'package:kltn_mobile/components/list_view/scoretable.dart';
-import 'package:kltn_mobile/models/score.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kltn_mobile/models/user_login.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
+import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:kltn_mobile/screens/score/pdf_score_api.dart';
 
-class ScoreDetail extends StatelessWidget {
-  final SemesterScore semesterScore;
+class ScoreDetail extends BasePage {
+  final String semester;
+  final String year;
+  const ScoreDetail({super.key, required this.semester, required this.year});
 
-  const ScoreDetail({super.key, required this.semesterScore});
+  @override
+  ScoreDetailState createState() => ScoreDetailState();
+}
 
+class ScoreDetailState extends BasePageState<ScoreDetail> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -20,6 +28,9 @@ class ScoreDetail extends StatelessWidget {
     final localizations = AppLocalizations.of(context);
     final sms = localizations != null ? localizations.scr_sms : "Default Text";
     final dwn = localizations != null ? localizations.scr_dwn : "Default Text";
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
+    List<Score>? scores = userAuth?.student.program?.scores;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -38,10 +49,12 @@ class ScoreDetail extends StatelessWidget {
                       children: [
                         const BackButtonCircle(),
                         TextMonserats(
-                          '$sms ${semesterScore.semester.toString()}',
+                          '$sms ${widget.semester} \n ${widget.year}',
                           color: Colors.white,
                           fontSize: screenWidth * 0.06,
                           fontWeight: FontWeight.w700,
+                          height: 1.5,
+                          textAlign: TextAlign.center,
                         ),
                         SizedBox(
                           width: screenWidth * 0.13,
@@ -60,14 +73,20 @@ class ScoreDetail extends StatelessWidget {
                 children: [
                   SizedBox(height: screenHeight * 0.025),
                   ScoreTable(
-                    semesterScore: semesterScore,
+                    semester: widget.semester,
+                    year: widget.year,
                   ),
                   SizedBox(height: screenHeight * 0.025),
-                  ScoreCommentBox(comment: semesterScore.comment),
                   SizedBox(height: screenHeight * 0.025),
                   SimpleButton(
                     backgroundColor: const Color(0xffF58218),
-                    onPressed: () {},
+                    onPressed: () async {
+                      print('Download');
+                      final pdfFile =
+                          await PdfScoreApi.generateScorePdf(scores!);
+                      print(pdfFile);
+                      PdfApi.openFile(pdfFile);
+                    },
                     child: Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

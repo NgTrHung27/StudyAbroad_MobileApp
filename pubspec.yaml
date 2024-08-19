@@ -74,6 +74,9 @@ dependencies:
   smooth_page_indicator:
   permission_handler: ^11.3.1
   showcaseview: ^3.0.0
+  pdf: ^3.11.1
+  open_file: ^3.3.2
+  path_provider: ^2.1.4
 
 dev_dependencies:
   flutter_test:
@@ -127,6 +130,7 @@ flutter:
     - assets/countries/
     - assets/icons_3d/
     - assets/logo/
+    - assets/fonts/
     - env.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
