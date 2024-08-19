@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/carousel_event_state/carousel_bloc.dart';
@@ -17,6 +21,7 @@ import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/schools/schools_list.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends BasePage {
   const HomePage({super.key, NewsList? newsData});
@@ -39,12 +44,74 @@ class _HomePageState extends BasePageState<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ShowCaseWidget.of(context).startShowCase([_one, _two, _three]);
     });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _initializeNotifications(context);
+    // });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    Future.delayed(
+        const Duration(seconds: 2), () => _initializeNotifications(context));
+  }
+
+  Future<void> _initializeNotifications(BuildContext context) async {
+    bool isRunningOnAndroid = Platform.isAndroid;
+    final userAuth =
+        this.userAuth ?? context.read<UserAuthProvider>().userAuthLogin;
+    print('checkuserAuth _initializeNotifications: $userAuth');
+
+    if (userAuth == null) {
+      print('checkuserAuth: null');
+    } else {
+      print('checkuserAuth: $userAuth');
+    }
+    if (isRunningOnAndroid) {
+      final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+      await firebaseMessaging.requestPermission();
+
+      // Ensure the APNS token is available only on iOS
+      if (Platform.isIOS) {
+        String? apnsToken = await firebaseMessaging.getAPNSToken();
+        while (apnsToken == null) {
+          await Future.delayed(const Duration(seconds: 1));
+          apnsToken = await firebaseMessaging.getAPNSToken();
+        }
+      }
+
+      // Fetch the FCM token for this device
+      final fCMToken = await firebaseMessaging.getToken();
+
+      // Print the token
+      print('FCM KLTN Token: $fCMToken');
+      if (fCMToken == null) return;
+      final idUser = userAuth?.id;
+      print('Log data before send API: $idUser , $fCMToken');
+      final url =
+          Uri.parse('https://admin-cemc-co.vercel.app/api/notifications');
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({'token': fCMToken, 'userId': idUser}),
+      );
+
+      if (response.statusCode == 200) {
+        print('Token posted successfully');
+      } else {
+        print('Failed to post token: ${response.statusCode}');
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final userAuth =
         this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
+    print('checkuserAuth: $userAuth');
+
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     //Language
