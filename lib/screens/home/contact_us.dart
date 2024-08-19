@@ -183,7 +183,7 @@ class _ContactUsState extends BasePageState<ContactUs> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialogComponent();
+        return const AlertDialogComponent();
       },
     );
   }
