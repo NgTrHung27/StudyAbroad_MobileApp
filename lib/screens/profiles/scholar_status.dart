@@ -11,7 +11,8 @@ import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class ScholarStuStatus extends BasePage {
-  const ScholarStuStatus({super.key});
+  final String status;
+  const ScholarStuStatus(this.status, {super.key});
   @override
   State<ScholarStuStatus> createState() => _ScholarStuStatusState();
 }
@@ -92,21 +93,22 @@ class _ScholarStuStatusState extends BasePageState<ScholarStuStatus> {
                             ),
                           ],
                         ),
-                        child: const SizedBox(
+                        child: SizedBox(
                           height:
                               350.0, // Đặt chiều cao cố định cho toàn bộ Stepper
                           child: StepperDemo(
                             header: 'Scholarship Status',
-                            titles: [
+                            titles: const [
                               'Application has been submitted',
                               'Awaiting review',
                               'Done'
                             ],
-                            contents: [
+                            contents: const [
                               Text(''),
                               Text('Waiting time is about 3-5 days'),
                               Text(''),
                             ],
+                            status: widget.status,
                           ),
                         ),
                       ),
@@ -118,7 +120,8 @@ class _ScholarStuStatusState extends BasePageState<ScholarStuStatus> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ActiontabResult(
-                          result: userAuth?.student.status ?? 'N/A'),
+                        result: widget.status, // Trạng thái kết quả
+                      )
                     ],
                   ),
                   const SizedBox(height: 20),

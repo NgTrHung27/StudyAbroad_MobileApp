@@ -72,8 +72,6 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const TuitionStatus());
       case '/scholarDetail':
         return MaterialPageRoute(builder: (_) => const ScholarDetail());
-      case '/scholarStatus':
-        return MaterialPageRoute(builder: (_) => const ScholarStuStatus());
       case '/requested':
         return MaterialPageRoute(builder: (_) => const Requested());
       case '/response':
