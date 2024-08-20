@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/scholarships/scholarships_detail.dart';
 import 'package:provider/provider.dart';
@@ -20,12 +21,13 @@ class ScholarshipsBoxState extends BasePageState<ScholarshipsBox> {
     final localizations = AppLocalizations.of(context);
     final schonull =
         localizations != null ? localizations.schlar_null : "Default Text";
-    final userAuthLogin = userAuth;
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColor = isDarkMode ? Colors.white : AppColor.redButton;
     final boxColor = isDarkMode ? AppColor.backgrTabDark : Colors.white;
-    final scholarships = userAuthLogin?.student.scholarship;
+    final scholarships = userAuth?.student.scholarship;
 
     if (scholarships == null || scholarships.isEmpty) {
       return Container(
