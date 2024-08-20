@@ -80,14 +80,6 @@ class TuitionStatusState extends BasePageState<TuitionStatus> {
                           avatarImgPath: 'assets/logo/logo_white.png',
                         ),
                       ),
-                      // Expanded(
-                      //   child: ListView.builder(
-                      //     itemCount: dummyTuitionData.length,
-                      //     itemBuilder: (context, index) {
-                      //       return TuitionBox(tuition: dummyTuitionData[index]);
-                      //     },
-                      //   ),
-                      // ),
                       Expanded(
                         child: ListView.builder(
                           itemCount: tuitionList?.length,

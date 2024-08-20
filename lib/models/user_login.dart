@@ -114,7 +114,7 @@ class Student {
     this.tuitions,
     required this.status,
     required this.school,
-    // this.requirements,
+    this.requirements,
     this.program,
   });
 
@@ -133,7 +133,7 @@ class Student {
     List<Tuition>? tuitions,
     String? status,
     School? school,
-    // List<Requirement>? requirements,
+    List<Requirement>? requirements,
     StudentProgram? program,
   }) =>
       Student(
@@ -143,7 +143,7 @@ class Student {
         tuitions: tuitions ?? this.tuitions,
         status: status ?? this.status,
         school: school ?? this.school,
-        // requirements: requirements ?? this.requirements,
+        requirements: requirements ?? this.requirements,
         program: program ?? this.program,
       );
 
@@ -162,10 +162,10 @@ class Student {
         school: json["school"] != null
             ? School.fromJson(json["school"])
             : School.empty(),
-        // requirements: json["requirements"] != null
-        //     ? List<Requirement>.from(
-        //         json["requirements"].map((x) => Requirement.fromJson(x)))
-        //     : [],
+        requirements: json["requirements"] != null
+            ? List<Requirement>.from(
+                json["requirements"].map((x) => Requirement.fromJson(x)))
+            : [],
         program: json["program"] != null
             ? StudentProgram.fromJson(json["program"])
             : StudentProgram.empty(),
@@ -175,12 +175,11 @@ class Student {
         "id": id,
         "studentCode": studentCode,
         "scholarship": List<dynamic>.from(scholarship!.map((x) => x.toJson())),
-
         "tuitions": List<dynamic>.from(tuitions!.map((x) => x.toJson())),
         "status": status,
         "school": school.toJson(),
-        // "requirements":
-        //     List<dynamic>.from(requirements!.map((x) => x.toJson())),
+        "requirements":
+            List<dynamic>.from(requirements!.map((x) => x.toJson())),
         "program": program?.toJson(),
       };
 }
@@ -395,10 +394,13 @@ class Requirement {
   factory Requirement.fromJson(Map<String, dynamic> json) => Requirement(
         id: json["id"],
         title: json["title"],
-        images:
-            List<StudentRequirementImage>.from(json["images"].map((x) => x)),
-        replies:
-            List<Reply>.from(json["replies"].map((x) => Reply.fromJson(x))),
+        images: json["images"] != null
+            ? List<StudentRequirementImage>.from(
+                json["images"].map((x) => StudentRequirementImage.fromJson(x)))
+            : [],
+        replies: json["replies"] != null
+            ? List<Reply>.from(json["replies"].map((x) => Reply.fromJson(x)))
+            : [],
         status: json["status"],
         description: json["description"],
       );
@@ -406,25 +408,24 @@ class Requirement {
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
-        "images": List<StudentRequirementImage>.from(images!.map((x) => x)),
-        "replies":
-            List<StudentRequirementImage>.from(replies!.map((x) => x.toJson())),
+        "images": List<dynamic>.from(images!.map((x) => x.toJson())),
+        "replies": List<dynamic>.from(replies!.map((x) => x.toJson())),
         "status": status,
         "description": description,
       };
 }
 
 class StudentRequirementImage {
-  String id;
+  String? id;
 
-  String url;
+  String? url;
 
-  String requirementId;
+  String? requirementId;
 
   StudentRequirementImage({
-    required this.id,
-    required this.url,
-    required this.requirementId,
+    this.id,
+    this.url,
+    this.requirementId,
   });
 
   factory StudentRequirementImage.fromJson(Map<String, dynamic> json) =>
