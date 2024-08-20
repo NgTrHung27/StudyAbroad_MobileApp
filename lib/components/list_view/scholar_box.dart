@@ -6,8 +6,24 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 
 class ScholarStatusWidget extends StatelessWidget {
   final String scholarStatus;
+  final String name;
 
-  const ScholarStatusWidget({super.key, required this.scholarStatus});
+  const ScholarStatusWidget({
+    super.key,
+    required this.scholarStatus,
+    required this.name,
+  });
+
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'APPROVED':
+        return Colors.green;
+      case 'REJECTED':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +63,7 @@ class ScholarStatusWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextMonserats(
-                    'Scholarship',
+                    name,
                     color: textColor,
                     fontSize: screenWidth * 0.04,
                     softWrap: true,
@@ -65,7 +81,7 @@ class ScholarStatusWidget extends StatelessWidget {
                     vertical: screenHeight * 0.008,
                     horizontal: screenWidth * 0.05),
                 decoration: BoxDecoration(
-                  color: AppColor.redButton,
+                  color: _getStatusColor(scholarStatus),
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 constraints: BoxConstraints(
@@ -73,7 +89,7 @@ class ScholarStatusWidget extends StatelessWidget {
                 ),
                 child: Center(
                   child: TextMonserats(
-                    'hihi',
+                    scholarStatus,
                     color: Colors.white,
                     fontSize: screenWidth * 0.036,
                   ),

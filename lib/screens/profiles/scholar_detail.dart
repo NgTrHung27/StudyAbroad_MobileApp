@@ -6,7 +6,7 @@ import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/action/id_tab.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/list_view/scholar_box.dart';
-import 'package:kltn_mobile/models/scholar_status.dart';
+import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
 class ScholarDetail extends BasePage {
@@ -19,6 +19,8 @@ class ScholarDetail extends BasePage {
 class ScholarDetailState extends BasePageState<ScholarDetail> {
   @override
   Widget build(BuildContext context) {
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final textColor = isDarkMode ? Colors.white : AppColor.redButton;
@@ -42,6 +44,7 @@ class ScholarDetailState extends BasePageState<ScholarDetail> {
                     maxLine: 2,
                     overflow: TextOverflow.visible,
                     textAlign: TextAlign.center,
+                    height: 1.3,
                   ),
                 ),
               ),
@@ -58,11 +61,14 @@ class ScholarDetailState extends BasePageState<ScholarDetail> {
               ),
               Expanded(
                 child: ListView.builder(
-                  itemCount: dummyScholarData.length,
+                  itemCount: userAuth!.student.scholarship?.length,
                   itemBuilder: (context, index) {
                     return ScholarStatusWidget(
-                      scholarStatus: dummyScholarData[index].scholarStatus,
-                    );
+                        scholarStatus:
+                            userAuth.student.scholarship![index].status,
+                        name: userAuth.student.scholarship![index].scholarship
+                                ?.name ??
+                            '');
                   },
                 ),
               ),

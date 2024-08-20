@@ -72,7 +72,7 @@ class ScholarshipsBoxState extends BasePageState<ScholarshipsBox> {
           ),
           child: ListTile(
             title: TextMonserats(
-              scholarship.scholarshipsch!.name,
+              scholarship.scholarship!.name,
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
               color: textColor,
@@ -83,8 +83,8 @@ class ScholarshipsBoxState extends BasePageState<ScholarshipsBox> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ScholarshipsDetail(
-                    name: scholarship.scholarshipsch!.name,
-                    description: scholarship.scholarshipsch!.description,
+                    name: scholarship.scholarship!.name,
+                    description: scholarship.scholarship!.description,
                   ),
                 ),
               );
