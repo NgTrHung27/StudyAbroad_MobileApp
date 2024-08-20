@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/blocs/news_cubit_bloc/news_cubit.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
-import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/screens/news/news_detail.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -15,7 +14,7 @@ class NewsListView extends StatefulWidget {
 }
 
 class NewsListViewState extends State<NewsListView> {
-  List<NewsList> newsList = [];
+  // List<NewsList> newsList = [];
 
   @override
   void initState() {

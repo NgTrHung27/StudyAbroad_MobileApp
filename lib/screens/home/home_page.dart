@@ -52,8 +52,11 @@ class _HomePageState extends BasePageState<HomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Future.delayed(
-        const Duration(seconds: 2), () => _initializeNotifications(context));
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        _initializeNotifications(context);
+      }
+    });
   }
 
   Future<void> _initializeNotifications(BuildContext context) async {
