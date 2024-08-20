@@ -6,7 +6,6 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/style/backbutton.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/components/list_view/news_listview_vertical.dart';
-import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import '../../components/style/montserrat.dart';
@@ -14,8 +13,7 @@ import '../../components/list_view/news_listview_horizontal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewsPage extends BasePage {
-  const NewsPage({super.key, required this.newsList});
-  final List<NewsList> newsList;
+  const NewsPage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api

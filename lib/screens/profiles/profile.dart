@@ -231,7 +231,7 @@ class _UserProfileState extends BasePageState<Profile> {
                         icon: Icons.mail_outline,
                         onTap: () {
                           isLoggedIn
-                              ? Navigator.pushNamed(context, '/respond')
+                              ? Navigator.pushNamed(context, '/requested')
                               : showCustomDialog(
                                   context: context,
                                   onConfirm: () {
@@ -245,7 +245,8 @@ class _UserProfileState extends BasePageState<Profile> {
                         icon: Icons.mark_email_read_outlined,
                         onTap: () {
                           isLoggedIn
-                              ? Navigator.pushNamed(context, '/respond')
+                              ? Navigator.pushNamed(
+                                  context, '/respondrequested')
                               : showCustomDialog(
                                   context: context,
                                   onConfirm: () {
