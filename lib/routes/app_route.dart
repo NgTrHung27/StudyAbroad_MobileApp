@@ -17,7 +17,9 @@ import 'package:kltn_mobile/screens/profiles/help_feedback.dart';
 import 'package:kltn_mobile/screens/profiles/profile.dart';
 import 'package:kltn_mobile/screens/profiles/profile_detail.dart';
 import 'package:kltn_mobile/screens/profiles/profile_status.dart';
+import 'package:kltn_mobile/screens/profiles/requested.dart';
 import 'package:kltn_mobile/screens/profiles/respond.dart';
+import 'package:kltn_mobile/screens/profiles/response_requested.dart';
 import 'package:kltn_mobile/screens/profiles/scholar_detail.dart';
 import 'package:kltn_mobile/screens/profiles/scholar_status.dart';
 import 'package:kltn_mobile/screens/profiles/tuition.dart';
@@ -45,7 +47,7 @@ class AppRoute {
       case '/logout':
         return MaterialPageRoute(builder: (_) => const LogoutPage());
       case '/news':
-        return MaterialPageRoute(builder: (_) => const NewsPage(newsList: []));
+        return MaterialPageRoute(builder: (_) => const NewsPage());
       case '/profile':
         return MaterialPageRoute(builder: (_) => const Profile());
       case '/profiledetail':
@@ -73,8 +75,12 @@ class AppRoute {
         return MaterialPageRoute(builder: (_) => const ScholarDetail());
       case '/scholarStatus':
         return MaterialPageRoute(builder: (_) => const ScholarStuStatus());
-      case '/respond':
+      case '/requested':
+        return MaterialPageRoute(builder: (_) => const Requested());
+      case '/response':
         return MaterialPageRoute(builder: (_) => const Respond());
+      case '/respondrequested':
+        return MaterialPageRoute(builder: (_) => const ResponseRequested());
       case '/score':
         return MaterialPageRoute(
             builder: (_) => ScorePage(
