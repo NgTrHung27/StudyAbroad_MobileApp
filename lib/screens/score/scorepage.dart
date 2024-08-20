@@ -30,18 +30,20 @@ class ScorePageState extends BasePageState<ScorePage> {
 
   @override
   Widget build(BuildContext context) {
-    Score? latestScore;
     final userAuth =
         this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     List<Score>? scores = userAuth?.student.program?.scores;
 
-    if (scores == null || scores.isEmpty) {
-      latestScore = null;
-    } else {
-      latestScore = scores.firstWhere(
-        (score) => int.parse(score.semester) == latestSemester,
-        orElse: () => scores.first,
-      );
+    Score? latestScore;
+    List<Score> previousScores = [];
+
+    if (scores != null && scores.isNotEmpty) {
+      // Đảo ngược danh sách scores để item nào thêm sau thì hiển thị ở trên
+      scores = scores.reversed.toList();
+      // Lấy giá trị đầu tiên của danh sách để hiển thị ở phần "Latest Score"
+      latestScore = scores.first;
+      // Lấy các giá trị còn lại của danh sách để hiển thị ở phần "Previous Score"
+      previousScores = scores.skip(1).toList();
     }
 
     final screenHeight = MediaQuery.of(context).size.height;
@@ -214,7 +216,8 @@ class ScorePageState extends BasePageState<ScorePage> {
                       ),
                     ),
                   SizedBox(height: screenHeight * 0.03),
-                  if (scores != null && scores.length > 1)
+                  // ignore: unnecessary_null_comparison
+                  if (previousScores.isNotEmpty)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -244,19 +247,12 @@ class ScorePageState extends BasePageState<ScorePage> {
                           ),
                           child: SingleChildScrollView(
                             child: Column(
-                              children: scores
-                                  .where((score) =>
-                                      int.parse(score.semester) !=
-                                      latestSemester)
-                                  .map((semesterScore) {
+                              children: previousScores.map((semesterScore) {
                                 // Get the index of the current item
-                                int index = scores.indexOf(semesterScore);
+                                int index =
+                                    previousScores.indexOf(semesterScore);
                                 // Get the total number of items
-                                int itemCount = scores
-                                    .where((score) =>
-                                        int.parse(score.semester) !=
-                                        latestSemester)
-                                    .length;
+                                int itemCount = previousScores.length;
                                 return Column(
                                   children: [
                                     ListTile(
