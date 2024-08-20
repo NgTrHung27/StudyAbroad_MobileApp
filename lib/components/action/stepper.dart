@@ -5,12 +5,14 @@ class StepperDemo extends StatefulWidget {
   final String header; // Thêm tham số tiêu đề
   final List<String> titles;
   final List<Widget> contents;
+  final String status; // Add status parameter
 
   const StepperDemo({
     super.key,
     required this.header,
     required this.titles,
     required this.contents,
+    required this.status, // Initialize status
   });
 
   @override
@@ -19,7 +21,21 @@ class StepperDemo extends StatefulWidget {
 }
 
 class _StepperDemoState extends State<StepperDemo> {
-  int _currentStep = 1;
+  late int _currentStep;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentStep = _determineStep(widget.status);
+  }
+
+  int _determineStep(String status) {
+    if (status == 'APPROVED' || status == 'REJECTED') {
+      return widget.titles.length - 1; // Last step
+    } else {
+      return (widget.titles.length / 2).floor(); // Middle step
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

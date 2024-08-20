@@ -480,37 +480,38 @@ class Reply {
 class StudentSchoolScholarship {
   String status;
   String? description;
-  SchoolScholarship? scholarshipsch;
+  SchoolScholarship? scholarship; // Corrected field name
+
   StudentSchoolScholarship({
     required this.status,
-    required this.description,
-    this.scholarshipsch,
+    this.description,
+    this.scholarship,
   });
 
   StudentSchoolScholarship copyWith({
     String? status,
     String? description,
-    SchoolScholarship? scholarshipsch,
+    SchoolScholarship? scholarship,
   }) =>
       StudentSchoolScholarship(
         status: status ?? this.status,
         description: description ?? this.description,
-        scholarshipsch: scholarshipsch ?? this.scholarshipsch,
+        scholarship: scholarship ?? this.scholarship,
       );
 
   factory StudentSchoolScholarship.fromJson(Map<String, dynamic> json) =>
       StudentSchoolScholarship(
         status: json["status"],
         description: json["description"],
-        scholarshipsch: json["scholarshipsch"] != null
-            ? SchoolScholarship.fromJson(json["scholarshipsch"])
+        scholarship: json["scholarship"] != null
+            ? SchoolScholarship.fromJson(json["scholarship"])
             : null,
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "description": description,
-        "scholarshipsch": scholarshipsch?.toJson(),
+        "scholarship": scholarship?.toJson(),
       };
 }
 
