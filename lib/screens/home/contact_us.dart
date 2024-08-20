@@ -7,6 +7,7 @@ import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/constant/theme.dart';
+import 'package:kltn_mobile/components/functions/alert_form.dart';
 import 'package:kltn_mobile/components/functions/button.dart';
 import 'package:kltn_mobile/components/functions/dropdown.dart';
 import 'package:kltn_mobile/components/functions/textfield_title.dart';
@@ -409,39 +410,6 @@ class _ContactUsState extends BasePageState<ContactUs> {
           ),
         );
       },
-    );
-  }
-}
-
-class AlertDialogComponent extends StatelessWidget {
-  const AlertDialogComponent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    return AlertDialog.adaptive(
-      title: TextMonserats(
-        'Form Submitted',
-        fontSize: screenWidth * 0.06,
-        fontWeight: FontWeight.w500,
-      ),
-      icon: Icon(
-        Icons.check_circle_rounded,
-        color: Colors.green,
-        size: screenWidth * 0.18,
-      ),
-      actions: <Widget>[
-        Center(
-          child: InkWell(
-            child: MyButton(
-              text: 'Xác nhận',
-              onTap: () {
-                Navigator.pushNamed(context, '/home');
-              },
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

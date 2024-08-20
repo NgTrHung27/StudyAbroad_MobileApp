@@ -4,12 +4,14 @@ import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:kltn_mobile/screens/scholarships/applyschorlarship.dart';
 
 class ScholarshipsDetail extends BasePage {
   final String name;
   final String description;
 
-  const ScholarshipsDetail({super.key, required this.name, required this.description});
+  const ScholarshipsDetail(
+      {super.key, required this.name, required this.description});
 
   @override
   ScholarshipsDetailState createState() => ScholarshipsDetailState();
@@ -56,20 +58,29 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
                             fontWeight: FontWeight.bold,
                           ),
                           const SizedBox(height: 10),
-                          TextMonserats(widget.description),
+                          TextMonserats(
+                            widget.description,
+                            fontSize: 16,
+                            height: 1.5,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20), // Add some space before the button
+                  const SizedBox(
+                      height: 20), // Add some space before the button
                   SimpleButton(
                     onPressed: () {
-                      // Handle the button press
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ApplyPage(title: widget.name),
+                        ),
+                      );
                     },
-                    child: const Text(
-                      'Apply Now',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    child:
+                        const TextMonserats('Apply Now', color: Colors.white),
                   ),
                 ],
               ),
@@ -83,13 +94,12 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
               top: MediaQuery.of(context).padding.top,
               right: 0,
               child: CirleAvatarImage(
-                avatarImgUrl: userAuth?.student.school.logo != null
-                        ? userAuth!.student.school.logo
-                        : null,
-                    avatarImgPath: 'assets/logo/logo_red.png',
-                    width: 60,
-                    height: 60
-              ),
+                  avatarImgUrl: userAuth?.student.school.logo != null
+                      ? userAuth!.student.school.logo
+                      : null,
+                  avatarImgPath: 'assets/logo/logo_red.png',
+                  width: 60,
+                  height: 60),
             ),
           ],
         ),

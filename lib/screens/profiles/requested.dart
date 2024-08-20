@@ -9,6 +9,7 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:kltn_mobile/screens/profiles/respond.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Requested extends BasePage {
@@ -150,14 +151,13 @@ class _RequestedState extends BasePageState<Requested> {
                           children: [
                             ListView.builder(
                               shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: pendingRequirements?.length,
                               itemBuilder: (context, index) {
                                 final titleRe =
                                     pendingRequirements?[index].title;
                                 final detailRe =
                                     pendingRequirements?[index].description;
-
+                                final idRe = pendingRequirements?[index].id;
                                 return Column(
                                   children: [
                                     ListTile(
@@ -191,9 +191,18 @@ class _RequestedState extends BasePageState<Requested> {
                                         color: textBox,
                                       ),
                                       onTap: () {
-                                        Navigator.pushNamed(
+                                        Navigator.push(
                                           context,
-                                          '/response',
+                                          MaterialPageRoute(
+                                            builder: (context) => Respond(
+                                              id: idRe ?? '',
+                                              title: titleRe ?? '',
+                                              description: detailRe ?? '',
+                                              images:
+                                                  pendingRequirements?[index]
+                                                      .images,
+                                            ),
+                                          ),
                                         );
                                       },
                                     ),
