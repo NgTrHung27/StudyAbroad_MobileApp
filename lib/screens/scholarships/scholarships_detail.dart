@@ -9,9 +9,13 @@ import 'package:kltn_mobile/screens/scholarships/applyschorlarship.dart';
 class ScholarshipsDetail extends BasePage {
   final String name;
   final String description;
+  final String id;
 
   const ScholarshipsDetail(
-      {super.key, required this.name, required this.description});
+      {super.key,
+      required this.name,
+      required this.description,
+      required this.id});
 
   @override
   ScholarshipsDetailState createState() => ScholarshipsDetailState();
@@ -75,7 +79,10 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ApplyPage(title: widget.name),
+                          builder: (context) => ApplyPage(
+                            name: widget.name,
+                            id: widget.id,
+                          ),
                         ),
                       );
                     },

@@ -192,6 +192,8 @@ class _RespondState extends BasePageState<Respond> {
 
   Widget _buildResponseContent(BuildContext context, ResponseState state,
       bool isDarkMode, double screenHeight) {
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     ResponseModel? responseModel;
     if (state is ResponseSuccess) {
       responseModel = state.responseModel;

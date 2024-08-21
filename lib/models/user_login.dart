@@ -185,12 +185,14 @@ class Student {
 }
 
 class School {
+  String id;
   String name;
   String logo;
   String background;
 
   // Constructor
   School({
+    required this.id,
     required this.name,
     required this.logo,
     required this.background,
@@ -198,28 +200,33 @@ class School {
 
   // Constructor mặc định cho School rỗng
   School.empty()
-      : name = '',
+      : id = '',
+        name = '',
         logo = '',
         background = '';
 
   School copyWith({
+    String? id,
     String? name,
     String? logo,
     String? background,
   }) =>
       School(
+        id: id ?? this.id,
         name: name ?? this.name,
         logo: logo ?? this.logo,
         background: background ?? this.background,
       );
 
   factory School.fromJson(Map<String, dynamic> json) => School(
+        id: json["id"],
         name: json["name"],
         logo: json["logo"],
         background: json["background"],
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "name": name,
         "logo": logo,
         "background": background,
