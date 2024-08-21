@@ -42,7 +42,6 @@ class _RequestedState extends BasePageState<Requested> {
 
   Future<UserAuthLogin?> checkLoginStatus() async {
     late SharedPreferences logindata;
-    UserAuthLogin? userAuthLogin;
 
     logindata = await SharedPreferences.getInstance();
     final userString = logindata.getString('user');
@@ -71,7 +70,7 @@ class _RequestedState extends BasePageState<Requested> {
         print('Program: ${studentMap['program']}');
       }
     }
-    return userAuthLogin;
+    return userAuth;
   }
 
   @override
