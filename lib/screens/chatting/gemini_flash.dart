@@ -17,14 +17,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 
-class GeminiAI extends BasePage {
-  const GeminiAI({super.key});
+class GeminiAIFlash extends BasePage {
+  const GeminiAIFlash({super.key});
 
   @override
-  State<GeminiAI> createState() => _GeminiAIState();
+  State<GeminiAIFlash> createState() => _GeminiAIState();
 }
 
-class _GeminiAIState extends BasePageState<GeminiAI> {
+class _GeminiAIState extends BasePageState<GeminiAIFlash> {
   bool _hasSentFirstMessage = false;
 
   String subtitle = "Good";
@@ -136,7 +136,7 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
           centerTitle: true,
           backgroundColor: AppColor.redButton,
           title: TextMonserats(
-            title,
+            '$title -1.5-flash',
             color: Colors.white,
             fontWeight: FontWeight.w700,
             fontSize: 30,
@@ -325,10 +325,22 @@ class _GeminiAIState extends BasePageState<GeminiAI> {
         if (error is GeminiException) {
           print("GeminiException: ${error.message}");
           print("Status Code: ${error.statusCode}");
+          // Hiển thị thông báo lỗi cho người dùng
+          // Ví dụ: ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     content: Text('Có lỗi khi gửi yêu cầu. Vui lòng thử lại!'),
+          //   ),
+          // );
         }
       });
     } catch (e) {
       print("Exception: $e");
+      // Hiển thị thông báo lỗi cho người dùng
+      // Ví dụ: ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Có lỗi xảy ra. Vui lòng thử lại!'),
+      //   ),
+      // );
     }
   }
 

@@ -4,7 +4,8 @@ import 'package:kltn_mobile/screens/authentication/forget_password.dart';
 import 'package:kltn_mobile/screens/authentication/login_page.dart';
 import 'package:kltn_mobile/screens/authentication/logout.dart';
 import 'package:kltn_mobile/screens/authentication/register_page.dart';
-import 'package:kltn_mobile/screens/chatting/chatting_gemini_ai.dart';
+import 'package:kltn_mobile/screens/chatting/ably_websocket.dart';
+import 'package:kltn_mobile/screens/chatting/gemini_flash.dart';
 import 'package:kltn_mobile/screens/home/contact_us.dart';
 import 'package:kltn_mobile/screens/home/home_page.dart';
 import 'package:kltn_mobile/screens/home/mainpage.dart';
@@ -65,17 +66,19 @@ class AppRoute {
       case '/scholarship':
         return MaterialPageRoute(builder: (_) => const ScholarshipsList());
       case '/gemini_ai':
-        return MaterialPageRoute(builder: (_) => const GeminiAI());
+        return MaterialPageRoute(builder: (_) => const GeminiAIFlash());
       case '/tuition':
         return MaterialPageRoute(builder: (_) => const TuitionStatus());
       case '/scholarDetail':
         return MaterialPageRoute(builder: (_) => const ScholarDetail());
-      case '/requested':
-        return MaterialPageRoute(builder: (_) => const Requested());
+      case '/respondrequest':
+        return MaterialPageRoute(builder: (_) => const ResponseRequest());
       case '/respondrequested':
         return MaterialPageRoute(builder: (_) => const ResponseRequested());
       case '/score':
         return MaterialPageRoute(builder: (_) => const ScorePage());
+      case '/ablychat':
+        return MaterialPageRoute(builder: (_) => const AblyWebsocket());
       case '/intro':
         return MaterialPageRoute(builder: (_) => const IntroPage());
       case '/mainpage':

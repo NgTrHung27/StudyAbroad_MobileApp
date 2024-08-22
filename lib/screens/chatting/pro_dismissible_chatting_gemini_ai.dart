@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kltn_mobile/screens/chatting/chatting_gemini_ai.dart';
+import 'package:kltn_mobile/screens/chatting/gemini_pro.dart';
 
-class DismissibleBottomSheetView extends StatelessWidget {
+class ProDismissibleBottomSheetView extends StatelessWidget {
   final Widget childView;
 
-  const DismissibleBottomSheetView({super.key, required this.childView});
+  const ProDismissibleBottomSheetView({super.key, required this.childView});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class DismissibleBottomSheetView extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20),
                     topLeft: Radius.circular(20)),
-                child: GeminiAI(),
+                child: GeminiAIPro(),
               ),
             ),
           ],
