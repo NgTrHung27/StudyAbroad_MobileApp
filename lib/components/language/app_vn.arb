@@ -99,6 +99,7 @@
   "ai_chatting_subtitle": "Trò chuyện với AI của chúng tôi để biết thêm thông tin",
   "ai_chatting_input": "Nhập tin nhắn của bạn tại đây...",
   "ai_chatting_desPic": "Mô tả bức ảnh này",
+  "chat_system": "Hệ thống trò chuyện CEMC",
   "sch_Canada": "Canada",
   "sch_Australia": "Úc",
   "sch_Korea": "Hàn Quốc",
@@ -134,5 +135,13 @@
   "scr_cmt": "Lời phê",
   "scr_dwn": "Tải xuống",
   "scr_sms": "Học kỳ",
-  "schlar_null": "Chưa có học bổng nào khả dụng, vui lòng chờ đợi thêm."
+  "schlar_null": "Chưa có học bổng nào khả dụng, vui lòng chờ đợi thêm.",
+  "reqest_sta": "Trạng thái yêu cầu",
+  "request": "Yêu cầu",
+  "request_1": "Yêu cầu phản hồi",
+  "request_2": "Yêu cầu đã được phản hồi",
+  "resq": "Phản hồi",
+  "resq_1": "Nội dung",
+  "resq_2": "Nhập nội dung của bạn",
+  "resq_3": "Hình ảnh đã được tải lên"
 }

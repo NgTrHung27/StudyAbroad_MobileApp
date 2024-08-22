@@ -99,6 +99,7 @@
   "ai_chatting_subtitle": "Chat with our AI to get more information",
   "ai_chatting_input": "Type your message here...",
   "ai_chatting_desPic": "Describe this picture",
+  "chat_system": "Chat CEMC System",
   "sch_Canada": "Canada",
   "sch_Australia": "Australia",
   "sch_Korea": "Korea",
@@ -134,5 +135,13 @@
   "scr_cmt": "Comment",
   "scr_dwn": "Download",
   "scr_sms": "Semester",
-  "schlar_null": "There are no scholarships available yet, please wait."
+  "schlar_null": "There are no scholarships available yet, please wait.",
+  "reqest_sta": "Request Status",
+  "request": "Request",
+  "request_1": "Response Request",
+  "request_2": "Request Responded",
+  "resq": "Response",
+  "resq_1": "Content",
+  "resq_2": "Enter your content",
+  "resq_3": "Images uploaded"
 }

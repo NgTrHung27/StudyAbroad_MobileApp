@@ -10,6 +10,7 @@ import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResponseRequested extends BasePage {
   const ResponseRequested({super.key});
@@ -75,6 +76,9 @@ class _RequestedState extends BasePageState<ResponseRequested> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final resq = localizations != null ? localizations.resq : 'Default Text';
+
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final boxColor = isDarkMode ? AppColor.backgrTabDark : Colors.white;
@@ -98,10 +102,10 @@ class _RequestedState extends BasePageState<ResponseRequested> {
                   Navigator.pop(context);
                 },
               ),
-              const Expanded(
+              Expanded(
                 child: Center(
                   child: TextMonserats(
-                    'Respond',
+                    resq,
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,

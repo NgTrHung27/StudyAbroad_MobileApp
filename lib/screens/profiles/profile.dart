@@ -96,6 +96,12 @@ class _UserProfileState extends BasePageState<Profile> {
     final logout2 = localizations != null
         ? localizations.profile_logout_ss2
         : 'Default Text';
+    final reqSta =
+        localizations != null ? localizations.reqest_sta : 'Default Text';
+    final req1 = localizations != null ? localizations.request : 'Default Text';
+    final req2 =
+        localizations != null ? localizations.request_2 : 'Default Text';
+
     final logoutText = isLoggedIn ? logout : logout2;
 
     final screenHeight = MediaQuery.of(context).size.height;
@@ -222,16 +228,16 @@ class _UserProfileState extends BasePageState<Profile> {
                   ),
                   const SizedBox(height: 20),
                   ActionTab(
-                    header: 'Request Status',
+                    header: reqSta,
                     backgroundColor: backgroundColor,
                     colorIcon: colorIcon,
                     functions: [
                       FunctionItem(
-                        name: 'Requested',
+                        name: req1,
                         icon: Icons.mail_outline,
                         onTap: () {
                           isLoggedIn
-                              ? Navigator.pushNamed(context, '/requested')
+                              ? Navigator.pushNamed(context, '/respondrequest')
                               : showCustomDialog(
                                   context: context,
                                   onConfirm: () {
@@ -241,7 +247,7 @@ class _UserProfileState extends BasePageState<Profile> {
                         },
                       ),
                       FunctionItem(
-                        name: 'Respond Request',
+                        name: req2,
                         icon: Icons.mark_email_read_outlined,
                         onTap: () {
                           isLoggedIn

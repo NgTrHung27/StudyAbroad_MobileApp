@@ -23,6 +23,7 @@ import 'package:kltn_mobile/routes/app_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
+import 'package:kltn_mobile/screens/chatting/client_id.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -68,6 +69,9 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => UserAuthProvider()),
         ChangeNotifierProvider(
             create: (_) => AuthNotifier()..setLoggedIn(isLoggedIn)),
+        ChangeNotifierProvider(
+          create: (context) => ClientIdProvider(),
+        ),
       ],
       child: ShowCaseWidget(
         builder: (context) => MyApp(userAuth: userAuth),

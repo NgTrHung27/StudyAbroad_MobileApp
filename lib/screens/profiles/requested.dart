@@ -11,14 +11,15 @@ import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/profiles/respond.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class Requested extends BasePage {
-  const Requested({super.key});
+class ResponseRequest extends BasePage {
+  const ResponseRequest({super.key});
   @override
-  State<Requested> createState() => _RequestedState();
+  State<ResponseRequest> createState() => _RequestedState();
 }
 
-class _RequestedState extends BasePageState<Requested> {
+class _RequestedState extends BasePageState<ResponseRequest> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -75,6 +76,9 @@ class _RequestedState extends BasePageState<Requested> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final resq = localizations != null ? localizations.resq : 'Default Text';
+
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
     final boxColor = isDarkMode ? AppColor.backgrTabDark : Colors.white;
@@ -98,10 +102,10 @@ class _RequestedState extends BasePageState<Requested> {
                   Navigator.pop(context);
                 },
               ),
-              const Expanded(
+              Expanded(
                 child: Center(
                   child: TextMonserats(
-                    'Respond',
+                    resq,
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
