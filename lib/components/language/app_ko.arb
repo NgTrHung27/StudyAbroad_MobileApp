@@ -143,5 +143,10 @@
   "resq": "응답",
   "resq_1": "콘텐츠",
   "resq_2": "콘텐츠를 입력하세요",
-  "resq_3": "이미지가 업로드되었습니다."
+  "resq_3": "이미지가 업로드되었습니다.",
+  "resq_4": "요청",
+  "apply_now": "지금 신청하세요",
+  "scholar_desc_textfield": "설명",
+  "scholar_desc_hint": "장학금 신청 이유를 입력하세요...",
+  "scholar_desc_submit": "제출"
 }

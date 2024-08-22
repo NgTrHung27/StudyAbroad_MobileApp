@@ -28,7 +28,7 @@ class ScholarshipsBoxState extends BasePageState<ScholarshipsBox> {
     final textColor = isDarkMode ? Colors.white : AppColor.redButton;
     final boxColor = isDarkMode ? AppColor.backgrTabDark : Colors.white;
     final scholarships = widget.scholarships;
-
+    final screenHeight = MediaQuery.of(context).size.height;
     if (scholarships.isEmpty) {
       return Container(
         transform: Matrix4.translationValues(0.0, -50.0, 0.0),
@@ -60,14 +60,14 @@ class ScholarshipsBoxState extends BasePageState<ScholarshipsBox> {
       itemBuilder: (context, index) {
         final scholarship = scholarships[index];
         return Padding(
-          padding: const EdgeInsets.only(bottom: 10.0),
+          padding: EdgeInsets.only(bottom: screenHeight * 0.02),
           child: Container(
             decoration: BoxDecoration(
               color: boxColor,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: boxColor.withOpacity(0.5),
                   spreadRadius: 1,
                   blurRadius: 5,
                   offset: const Offset(0, 3),
@@ -78,7 +78,7 @@ class ScholarshipsBoxState extends BasePageState<ScholarshipsBox> {
               title: TextMonserats(
                 scholarship.name,
                 fontSize: 16.0,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
                 color: textColor,
               ),
               trailing: const Icon(Icons.arrow_forward_ios, size: 20.0),

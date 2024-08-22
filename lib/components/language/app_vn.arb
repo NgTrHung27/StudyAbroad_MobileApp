@@ -143,5 +143,10 @@
   "resq": "Phản hồi",
   "resq_1": "Nội dung",
   "resq_2": "Nhập nội dung của bạn",
-  "resq_3": "Hình ảnh đã được tải lên"
+  "resq_3": "Hình ảnh đã được tải lên",
+  "resq_4": "Yều cầu",
+  "apply_now": "Đăng ký ngay",
+  "scholar_desc_textfield": "Mô tả",
+  "scholar_desc_hint": "Nhập lý do bạn đăng ký học bổng...",
+  "scholar_desc_submit": "Gửi"
 }

@@ -9,6 +9,7 @@ import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:kltn_mobile/screens/profiles/response_requested_detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -157,7 +158,7 @@ class _RequestedState extends BasePageState<ResponseRequested> {
                             ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: filteredRequirements?.length,
+                              itemCount: filteredRequirements?.length ?? 0,
                               itemBuilder: (context, index) {
                                 final titleRe =
                                     filteredRequirements?[index].title;
@@ -197,9 +198,18 @@ class _RequestedState extends BasePageState<ResponseRequested> {
                                         color: textBox,
                                       ),
                                       onTap: () {
-                                        Navigator.pushNamed(
+                                        Navigator.push(
                                           context,
-                                          '/response',
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ResponseRequestedDetail(
+                                                    title: titleRe ?? '',
+                                                    replies:
+                                                        filteredRequirements![
+                                                                    index]
+                                                                .replies ??
+                                                            []),
+                                          ),
                                         );
                                       },
                                     ),

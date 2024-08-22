@@ -197,6 +197,9 @@ class _RespondState extends BasePageState<Respond> {
           children: [
             Expanded(
               child: Container(
+                constraints: BoxConstraints(
+                  minHeight: screenHeight,
+                ),
                 color: isDarkMode
                     ? AppColor.scafflodBgColorDark
                     : Colors.white, //backscreen color

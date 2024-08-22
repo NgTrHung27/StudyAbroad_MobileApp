@@ -69,7 +69,7 @@ class ScholarshipsListState extends BasePageState<ScholarshipsList> {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.04),
+        padding: EdgeInsets.all(screenWidth * 0.05),
         child: Stack(
           children: [
             FutureBuilder<List<schools.SchoolScholarship>>(
