@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/components/style/montserrat.dart';
-import 'package:kltn_mobile/screens/chatting/chatting_gemini_ai.dart';
+import 'package:kltn_mobile/screens/chatting/flash_dismissible_chatting_gemini_ai.dart';
+import 'package:kltn_mobile/screens/chatting/ably_websocket.dart';
 import 'package:kltn_mobile/screens/chatting/floating_chatting_position.dart';
-import 'package:kltn_mobile/screens/chatting/dismissible_chatting_gemini_ai.dart';
+import 'package:kltn_mobile/screens/chatting/pro_dismissible_chatting_gemini_ai.dart';
 
 import 'home_page.dart';
 import '../notifications/notifications_page.dart';
@@ -26,7 +28,7 @@ class MainPageState extends State<MainPage>
 
   final List<Widget> _bodyView = [
     const HomePage(),
-    const GeminiAI(),
+    const AblyWebsocket(),
     const NotificationsPage(),
     const Profile()
   ];
@@ -147,18 +149,41 @@ class MainPageState extends State<MainPage>
         ],
       ),
       floatingActionButton: _currentIndex != 1
-          ? FloatingActionButton(
-              onPressed: () {
-                _showBottomSheet(context);
-              },
-              backgroundColor: AppColor.redLight,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
+          ? SpeedDial(
+              animatedIcon: AnimatedIcons.search_ellipsis,
+              // ignore: sort_child_properties_last
               child: const ImageIcon(
                 AssetImage('assets/icons_3d/chatbot.png'),
                 size: 30,
                 color: Colors.white,
               ),
+              backgroundColor: AppColor.redLight,
+              children: [
+                SpeedDialChild(
+                  child: const ImageIcon(
+                    AssetImage('assets/icons_3d/chatbot.png'),
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  label: 'Gemini-Pro',
+                  onTap: () => _showFlashBottomSheetNew(context),
+                  backgroundColor: AppColor.redLight,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+                SpeedDialChild(
+                  child: const ImageIcon(
+                    AssetImage('assets/icons_3d/chatbot.png'),
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  label: 'Gemini-1.5-flash',
+                  onTap: () => _showProBottomSheet(context),
+                  backgroundColor: AppColor.redLight,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ],
             )
           : null,
       floatingActionButtonLocation: CustomFABLocation(
@@ -168,13 +193,34 @@ class MainPageState extends State<MainPage>
     );
   }
 
-  Future<void> _showBottomSheet(BuildContext bContext) async {
+  Future<void> _showProBottomSheet(BuildContext context) async {
     return showModalBottomSheet(
       enableDrag: false,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      context: bContext,
-      builder: (context) => DismissibleBottomSheetView(
+      context: context,
+      builder: (context) => ProDismissibleBottomSheetView(
+        childView: Container(
+            width: double.infinity,
+            color: Colors.white,
+            child: const Center(
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text("Chat AI",
+                    style: TextStyle(fontSize: 30, color: Colors.blue)),
+              ),
+            )),
+      ),
+    );
+  }
+
+  Future<void> _showFlashBottomSheetNew(BuildContext bCcontextontext) async {
+    return showModalBottomSheet(
+      enableDrag: false,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) => FlashDismissibleBottomSheetView(
         childView: Container(
             width: double.infinity,
             color: Colors.white,

@@ -8,38 +8,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
+import 'package:kltn_mobile/components/Style/montserrat.dart';
+import 'package:kltn_mobile/components/constant/color_constant.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/link.dart';
 
-class AIChatting extends StatelessWidget {
-  const AIChatting({super.key});
+class GeminiAIPro extends StatelessWidget {
+  const GeminiAIPro({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter + Generative AI',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          brightness: Brightness.dark,
-          seedColor: const Color.fromARGB(255, 171, 222, 244),
-        ),
-        useMaterial3: true,
-      ),
-      home: const ChatScreen(title: 'Flutter + Generative AI'),
-    );
+    return const Scaffold(body: AIChatScreen());
   }
 }
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key, required this.title});
-
-  final String title;
+class AIChatScreen extends StatefulWidget {
+  const AIChatScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<AIChatScreen> createState() => _AIChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _AIChatScreenState extends State<AIChatScreen> {
   String? apiKey;
   @override
   void initState() {
@@ -57,10 +48,22 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //Language
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-      ),
+          centerTitle: true,
+          backgroundColor: AppColor.redButton,
+          title: const TextMonserats(
+            'GeminiAI - Pro',
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            fontSize: 30,
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new),
+            color: Colors.white,
+            onPressed: () => Navigator.pushNamed(context, '/mainpage'),
+          )),
       body: apiKey == null
           ? const CircularProgressIndicator()
           : ChatWidget(apiKey: apiKey!),
@@ -200,6 +203,8 @@ class _ChatWidgetState extends State<ChatWidget> {
                 Expanded(
                   child: TextField(
                     autofocus: true,
+                    cursorColor: Colors.white,
+                    
                     focusNode: _textFieldFocus,
                     decoration:
                         textFieldDecoration(context, 'Enter a prompt...'),
@@ -215,9 +220,9 @@ class _ChatWidgetState extends State<ChatWidget> {
                     onPressed: () async {
                       _sendChatMessage(_textController.text);
                     },
-                    icon: Icon(
-                      Icons.send,
-                      color: Theme.of(context).colorScheme.primary,
+                    icon: ImageIcon(
+                      const AssetImage('assets/send.png'),
+                      color: AppColor.redButton,
                     ),
                   )
                 else
@@ -299,6 +304,11 @@ class MessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Theme
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+      final containerUserBox =
+        isDarkMode ? const Color.fromARGB(113, 217, 217, 217) : Colors.white;
     return Row(
       mainAxisAlignment:
           isFromUser ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -308,7 +318,7 @@ class MessageWidget extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: 480),
             decoration: BoxDecoration(
               color: isFromUser
-                  ? Theme.of(context).colorScheme.primaryContainer
+                  ? containerUserBox
                   : Theme.of(context).colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(18),
             ),

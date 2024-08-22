@@ -99,6 +99,7 @@
   "ai_chatting_subtitle": "AI와 채팅하여 더 많은 정보를 얻으세요",
   "ai_chatting_input": "여기에 메시지를 입력하세요...",
   "ai_chatting_desPic": "이 사진을 설명하세요",
+  "chat_system": "CEMC 시스템 채팅",
   "sch_Canada": "캐나다",
   "sch_Australia": "호주",
   "sch_Korea": "한국",
@@ -134,5 +135,13 @@
   "scr_cmt": "논평",
   "scr_dwn": "다운로드",
   "scr_sms": "학기",
-  "schlar_null": "아직 이용 가능한 장학금이 없습니다. 기다려 주세요."
+  "schlar_null": "아직 이용 가능한 장학금이 없습니다. 기다려 주세요.",
+  "reqest_sta": "요청 상태",
+  "request": "요청",
+  "request_1": "응답 요청",
+  "request_2": "요청이 응답됨",
+  "resq": "응답",
+  "resq_1": "콘텐츠",
+  "resq_2": "콘텐츠를 입력하세요",
+  "resq_3": "이미지가 업로드되었습니다."
 }

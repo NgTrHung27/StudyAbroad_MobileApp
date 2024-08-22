@@ -18,6 +18,7 @@ import 'package:kltn_mobile/components/functions_main_page/carousel_slider_data_
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kltn_mobile/models/news.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
+import 'package:kltn_mobile/screens/chatting/client_id.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/schools/schools_list.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -60,7 +61,6 @@ class _HomePageState extends BasePageState<HomePage> {
   }
 
   Future<void> _initializeNotifications(BuildContext context) async {
-    bool isRunningOnAndroid = Platform.isAndroid;
     final userAuth =
         this.userAuth ?? context.read<UserAuthProvider>().userAuthLogin;
     print('checkuserAuth _initializeNotifications: $userAuth');
@@ -70,42 +70,43 @@ class _HomePageState extends BasePageState<HomePage> {
     } else {
       print('checkuserAuth: $userAuth');
     }
-    if (isRunningOnAndroid) {
-      final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-      await firebaseMessaging.requestPermission();
 
-      // Ensure the APNS token is available only on iOS
-      if (Platform.isIOS) {
-        String? apnsToken = await firebaseMessaging.getAPNSToken();
-        while (apnsToken == null) {
-          await Future.delayed(const Duration(seconds: 1));
-          apnsToken = await firebaseMessaging.getAPNSToken();
-        }
+    final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+    await firebaseMessaging.requestPermission();
+
+    // Ensure the APNS token is available only on iOS
+    if (Platform.isIOS) {
+      String? apnsToken = await firebaseMessaging.getAPNSToken();
+      while (apnsToken == null) {
+        await Future.delayed(const Duration(seconds: 1));
+        apnsToken = await firebaseMessaging.getAPNSToken();
       }
+    }
 
-      // Fetch the FCM token for this device
-      final fCMToken = await firebaseMessaging.getToken();
+    // Fetch the FCM token for this device
+    final fCMToken = await firebaseMessaging.getToken();
 
-      // Print the token
-      print('FCM KLTN Token: $fCMToken');
-      if (fCMToken == null) return;
-      final idUser = userAuth?.id;
-      print('Log data before send API: $idUser , $fCMToken');
-      final url =
-          Uri.parse('https://admin-cemc-co.vercel.app/api/notifications');
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({'token': fCMToken, 'userId': idUser}),
-      );
+    // Print the token
+    print('FCM KLTN Token: $fCMToken');
+    if (fCMToken == null) return;
+    final idUser = userAuth?.id;
+    print('Log data before send API: $idUser , $fCMToken');
+    final url = Uri.parse('https://admin-cemc-co.vercel.app/api/notifications');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'token': fCMToken, 'userId': idUser}),
+    );
 
-      if (response.statusCode == 200) {
-        print('Token posted successfully');
-      } else {
-        print('Failed to post token: ${response.statusCode}');
-      }
+    print('Token posted successfully');
+    if (mounted) {
+      // ignore: use_build_context_synchronously
+      context.read<ClientIdProvider>().setClientId(fCMToken);
+      print("Token Provided sent to Websocket");
+    } else {
+      print('Failed to post token: ${response.statusCode}');
     }
   }
 

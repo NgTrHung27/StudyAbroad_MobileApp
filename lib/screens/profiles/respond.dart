@@ -15,6 +15,7 @@ import 'package:kltn_mobile/models/response.dart';
 import 'package:kltn_mobile/models/user_login.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResponseCubit extends Cubit<ResponseState> {
   ResponseCubit() : super(ResponseInitial());
@@ -112,6 +113,9 @@ class _RespondState extends BasePageState<Respond> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    final resq = localizations != null ? localizations.resq : 'Default Text';
+
     final isDarkMode = context.select(
         (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
 
@@ -129,10 +133,10 @@ class _RespondState extends BasePageState<Respond> {
                 Navigator.pop(context);
               },
             ),
-            const Expanded(
+            Expanded(
               child: Center(
                 child: TextMonserats(
-                  'Respond',
+                  resq,
                   fontSize: 30,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
@@ -181,6 +185,11 @@ class _RespondState extends BasePageState<Respond> {
     } else if (state is ResponseError) {
       return Center(child: Text(state.error));
     }
+    final localizations = AppLocalizations.of(context);
+    final resq = localizations != null ? localizations.resq : 'Default Text';
+    final resq1 = localizations != null ? localizations.resq_1 : 'Default Text';
+    final resq2 = localizations != null ? localizations.resq_2 : 'Default Text';
+    final resq3 = localizations != null ? localizations.resq_3 : 'Default Text';
 
     return Stack(
       children: [
@@ -242,9 +251,9 @@ class _RespondState extends BasePageState<Respond> {
                         ),
                         const SizedBox(height: 20),
                         TextFieldTitle(
-                          title: 'Content',
+                          title: resq1,
                           controller: contentController,
-                          hintText: 'Enter your content',
+                          hintText: resq2,
                           color: Colors.white,
                           onChanged: (value) {},
                         ),
@@ -276,7 +285,7 @@ class _RespondState extends BasePageState<Respond> {
                                 ),
                                 const SizedBox(width: 10),
                                 TextMonserats(
-                                  'Upload file here',
+                                  resq3,
                                   color:
                                       isDarkMode ? Colors.white : Colors.black,
                                 )
@@ -333,8 +342,8 @@ class _RespondState extends BasePageState<Respond> {
                                   imageBase64List,
                                 );
                           },
-                          child: const TextMonserats(
-                            'Respond',
+                          child: TextMonserats(
+                            resq,
                             color: Colors.white,
                           ),
                         ),
