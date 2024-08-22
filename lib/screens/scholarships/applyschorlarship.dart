@@ -1,14 +1,75 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kltn_mobile/components/Style/backbutton.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/simplebutton.dart';
-import 'package:kltn_mobile/models/user_login.dart';
+import 'package:kltn_mobile/components/functions/alert_form.dart';
+import 'package:kltn_mobile/models/apply_scholar.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
-import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+
+class ApplyScholarCubit extends Cubit<ApplyScholarState> {
+  ApplyScholarCubit() : super(ApplyScholarInitial());
+
+  Future<void> sendApplyScholar(
+      String url, String studentId, String additional) async {
+    emit(ApplyScholarLoading());
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'studentId': studentId,
+          'additional': additional,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        emit(ApplyScholarSuccess(ApplyScholarModel.fromJson(
+            jsonDecode(utf8.decode(response.bodyBytes)))));
+      } else {
+        emit(ApplyScholarFailure(
+          applyScholarModel: ApplyScholarModel.fromJson(
+              jsonDecode(utf8.decode(response.bodyBytes))),
+        ));
+      }
+    } catch (e) {
+      emit(ApplyScholarError(e.toString()));
+    }
+  }
+}
+
+abstract class ApplyScholarState {}
+
+class ApplyScholarInitial extends ApplyScholarState {}
+
+class ApplyScholarLoading extends ApplyScholarState {}
+
+class ApplyScholarSuccess extends ApplyScholarState {
+  final ApplyScholarModel applyScholarModel;
+
+  ApplyScholarSuccess(this.applyScholarModel);
+}
+
+class ApplyScholarFailure extends ApplyScholarState {
+  final ApplyScholarModel? applyScholarModel;
+  final String? error;
+
+  ApplyScholarFailure({this.applyScholarModel, this.error});
+}
+
+class ApplyScholarError extends ApplyScholarState {
+  final String error;
+
+  ApplyScholarError(this.error);
+}
 
 class ApplyPage extends BasePage {
   final String name;
@@ -27,104 +88,141 @@ class ApplyPage extends BasePage {
 class ApplyPageState extends BasePageState<ApplyPage> {
   final TextEditingController descriptionController = TextEditingController();
 
-  Future<void> sendScholarReg() async {
-    final url =
-        'https://kltn-demo-deploy-admin.vercel.app/api/accounts/students/${userAuth?.student.id}/requirements/${widget.id}';
-    final response = await http.post(
-      Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'studentId': userAuth?.student.id,
-        'additional': descriptionController.text,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      print(response.body);
-    } else {
-      print('Failed to send response');
-    }
-    print(jsonDecode(utf8.decode(response.bodyBytes)));
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    userAuth = context.watch<UserAuthProvider>().userAuthLogin;
-  }
-
-  Future<UserAuthLogin?> getUserAuth(BuildContext context) async {
-    return userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final userAuth =
+        this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.04),
-        child: Stack(
+
+    return BlocProvider(
+      create: (_) => ApplyScholarCubit(),
+      child: BlocBuilder<ApplyScholarCubit, ApplyScholarState>(
+          builder: (context, state) {
+        ApplyScholarModel? responseModel;
+        Widget? backdropWidget;
+        if (state is ApplyScholarLoading) {
+          backdropWidget = BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Container(
+              color: Colors.black.withOpacity(0.1),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          );
+        }
+        if (state is ApplyScholarSuccess) {
+          backdropWidget = BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Container(
+              color: Colors.black.withOpacity(0.1),
+              child: const Center(
+                child: AlertDialogComponent(),
+              ),
+            ),
+          );
+        } else if (state is ApplyScholarFailure) {
+          responseModel = state.applyScholarModel;
+        } else if (state is ApplyScholarError) {
+          return Center(child: Text(state.error));
+        }
+
+        return Stack(
           children: [
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
+            Scaffold(
+              body: Stack(
                 children: [
-                  TextMonserats('Description',
-                      fontSize: screenWidth * 0.04,
-                      fontWeight: FontWeight.w700),
-                  TextField(
-                    controller: descriptionController,
-                    onChanged: (value) {},
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white, // Màu nền trắng
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: Colors.black54, // Màu sắc của đường viền
-                        ),
+                  Padding(
+                    padding: EdgeInsets.all(screenWidth * 0.04),
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextMonserats('Description',
+                              fontSize: screenWidth * 0.04,
+                              fontWeight: FontWeight.w700),
+                          TextField(
+                            style: GoogleFonts.getFont('Montserrat',
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                height: 1.75),
+                            controller: descriptionController,
+                            onChanged: (value) {},
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: const BorderSide(
+                                  width: 1,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ),
+                            maxLines: 8,
+                            keyboardType: TextInputType.multiline,
+                          ),
+                          const SizedBox(height: 20),
+                          if (responseModel != null) ...[
+                            if (responseModel.error != null)
+                              Column(
+                                children: [
+                                  TextMonserats(
+                                    responseModel.error ?? '',
+                                    color: Colors.red,
+                                  ),
+                                  const SizedBox(height: 20),
+                                ],
+                              ),
+                          ],
+                          SimpleButton(
+                            onPressed: () {
+                              final url =
+                                  'https://kltn-demo-deploy-admin.vercel.app/api/schools/${userAuth?.student.school.id}/scholarships/${widget.id}';
+                              context
+                                  .read<ApplyScholarCubit>()
+                                  .sendApplyScholar(
+                                    url,
+                                    userAuth?.student.id ?? '',
+                                    descriptionController.text,
+                                  );
+                            },
+                            child: const TextMonserats('Send',
+                                color: Colors.white),
+                          ),
+                        ],
                       ),
                     ),
-                    maxLines: 8, // Số dòng tối đa có thể nhập
-                    keyboardType: TextInputType
-                        .multiline, // Kiểu bàn phím nhập văn bản nhiều dòng
                   ),
-
-                  const SizedBox(
-                      height: 20), // Add some space before the button
-                  SimpleButton(
-                    onPressed: () {},
-                    child: const TextMonserats('Send', color: Colors.white),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).padding.top),
+                      child: const BackButtonCircle(),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).padding.top +
+                              screenHeight * 0.005),
+                      child: TextMonserats(widget.name,
+                          fontSize: screenWidth * 0.05,
+                          fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding:
-                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                child: const BackButtonCircle(),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top +
-                        screenHeight * 0.005),
-                child: TextMonserats(widget.name,
-                    fontSize: screenWidth * 0.05, fontWeight: FontWeight.w700),
-              ),
-            ),
+            if (backdropWidget != null) backdropWidget,
           ],
-        ),
-      ),
+        );
+      }),
     );
   }
 }
