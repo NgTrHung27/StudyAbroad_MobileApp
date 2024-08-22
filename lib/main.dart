@@ -26,6 +26,8 @@ import 'package:kltn_mobile/screens/authentication/auth_notify.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 
+import 'screens/scholarships/applyschorlarship.dart';
+
 final navigatorKey = GlobalKey<NavigatorState>();
 
 //Main
@@ -62,6 +64,7 @@ Future<void> main() async {
                 CarouselBloc(APIRepository())..add(FetchCarousel())),
         BlocProvider(create: (_) => NewsCubit()),
         BlocProvider(create: (_) => NewsSchoolCubit()),
+        BlocProvider(create: (_) => ApplyScholarCubit()),
         BlocProvider(create: (_) => LanguageBloc()),
         BlocProvider(create: (_) => SchoolsCubit()),
         BlocProvider(create: (_) => ContactUsCubit(APIRepository())),

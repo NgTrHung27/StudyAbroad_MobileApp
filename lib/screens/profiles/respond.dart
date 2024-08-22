@@ -110,27 +110,6 @@ class _RespondState extends BasePageState<Respond> {
     setState(() {}); // Update the state to reflect the new image count
   }
 
-  Future<void> sendResponse() async {
-    final url =
-        'https://kltn-demo-deploy-admin.vercel.app/api/accounts/students/${userAuth?.student.id}/requirements/${widget.id}';
-    final response = await http.post(
-      Uri.parse(url),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'message': contentController.text,
-        'images': imageBase64List,
-      }),
-    );
-
-    if (response.statusCode == 200) {
-    } else {
-      print('Failed to send response');
-    }
-    print(jsonDecode(utf8.decode(response.bodyBytes)));
-  }
-
   @override
   Widget build(BuildContext context) {
     final isDarkMode = context.select(

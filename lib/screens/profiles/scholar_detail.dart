@@ -18,16 +18,6 @@ class ScholarDetail extends BasePage {
 }
 
 class ScholarDetailState extends BasePageState<ScholarDetail> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        getUserAuth(context);
-      }
-    });
-  }
-
   Future<UserAuthLogin?> getUserAuth(BuildContext context) async {
     return userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
   }
@@ -47,8 +37,6 @@ class ScholarDetailState extends BasePageState<ScholarDetail> {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data == null) {
-              return const Center(child: Text('User not logged in'));
             } else {
               final userAuth = snapshot.data!;
               final List<StudentSchoolScholarship>? scholarshipList =
@@ -62,7 +50,7 @@ class ScholarDetailState extends BasePageState<ScholarDetail> {
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Center(
                           child: TextMonserats(
-                            'Scholarship \n Status',
+                            'Scholarship\nStatus',
                             fontSize: screenHeight * 0.03,
                             fontWeight: FontWeight.bold,
                             color: textColor,

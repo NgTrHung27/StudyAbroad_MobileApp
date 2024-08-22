@@ -25,6 +25,7 @@ class ScholarshipsListState extends BasePageState<ScholarshipsList> {
       final schoolId = userAuth.student.school.id;
       final apiRepository = APIRepository();
       final schoolsList = await apiRepository.fetchSchools();
+
       final school = schoolsList.firstWhere(
         (school) => school.id == schoolId,
         orElse: () => schools.Schools(
@@ -44,7 +45,11 @@ class ScholarshipsListState extends BasePageState<ScholarshipsList> {
           news: [], // Cung cấp giá trị mặc định cho news
         ),
       );
-      return school.scholarships ?? [];
+      final publishedScholarships = school.scholarships
+              ?.where((scholarship) => scholarship.isPublished)
+              .toList() ??
+          [];
+      return publishedScholarships;
     }
     return [];
   }
