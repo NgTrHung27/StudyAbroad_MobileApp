@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kltn_mobile/components/Style/backbutton.dart';
 import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/Style/simplebutton.dart';
 import 'package:kltn_mobile/components/functions/circle_avatarimg.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:kltn_mobile/screens/scholarships/applyschorlarship.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../blocs/theme_setting_cubit/theme_setting_cubit.dart';
 
 class ScholarshipsDetail extends BasePage {
   final String name;
@@ -25,7 +29,13 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
+    final isDarkMode = context.select(
+        (ThemeSettingCubit cubit) => cubit.state.brightness == Brightness.dark);
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+    final boxColor = isDarkMode ? const Color(0xff3F3F46) : Colors.white;
+    final localizations = AppLocalizations.of(context);
+    final apply_now =
+        localizations != null ? localizations.apply_now : 'Default Text';
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(screenWidth * 0.04),
@@ -38,11 +48,11 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
                   Container(
                     width: screenWidth,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: boxColor,
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: boxColor.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 7,
                           offset: const Offset(0, 3),
@@ -60,6 +70,7 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
                             widget.name,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+                            color: textColor,
                           ),
                           const SizedBox(height: 10),
                           TextMonserats(
@@ -67,6 +78,7 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
                             fontSize: 16,
                             height: 1.5,
                             fontWeight: FontWeight.w500,
+                            color: textColor,
                           ),
                         ],
                       ),
@@ -86,8 +98,7 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
                         ),
                       );
                     },
-                    child:
-                        const TextMonserats('Apply Now', color: Colors.white),
+                    child: TextMonserats(apply_now, color: Colors.white),
                   ),
                 ],
               ),

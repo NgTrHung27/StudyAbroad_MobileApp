@@ -143,5 +143,10 @@
   "resq": "Response",
   "resq_1": "Content",
   "resq_2": "Enter your content",
-  "resq_3": "Images uploaded"
+  "resq_3": "Images uploaded",
+  "resq_4": "Request",
+  "apply_now": "Apply Now",
+  "scholar_desc_textfield": "Description",
+  "scholar_desc_hint": "Enter your reason for applying for scholarship...",
+  "scholar_desc_submit": "Submit"
 }

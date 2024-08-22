@@ -11,6 +11,7 @@ import 'package:kltn_mobile/components/functions/alert_form.dart';
 import 'package:kltn_mobile/models/apply_scholar.dart';
 import 'package:kltn_mobile/screens/Authentication/auth_data_notify.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 
 class ApplyScholarCubit extends Cubit<ApplyScholarState> {
@@ -94,7 +95,16 @@ class ApplyPageState extends BasePageState<ApplyPage> {
         this.userAuth ?? context.watch<UserAuthProvider>().userAuthLogin;
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-
+    final localizations = AppLocalizations.of(context);
+    final scholarDescTextfield = localizations != null
+        ? localizations.scholar_desc_textfield
+        : "Default Text";
+    final scholarDescHint = localizations != null
+        ? localizations.scholar_desc_hint
+        : "Default Text";
+    final scholarDescSubmit = localizations != null
+        ? localizations.scholar_desc_submit
+        : "Default Text";
     return BlocProvider(
       create: (_) => ApplyScholarCubit(),
       child: BlocBuilder<ApplyScholarCubit, ApplyScholarState>(
@@ -140,7 +150,7 @@ class ApplyPageState extends BasePageState<ApplyPage> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextMonserats('Description',
+                          TextMonserats(scholarDescTextfield,
                               fontSize: screenWidth * 0.04,
                               fontWeight: FontWeight.w700),
                           TextField(
@@ -152,6 +162,12 @@ class ApplyPageState extends BasePageState<ApplyPage> {
                             controller: descriptionController,
                             onChanged: (value) {},
                             decoration: InputDecoration(
+                              hintText: scholarDescHint,
+                              hintStyle: GoogleFonts.getFont('Montserrat',
+                                  color: Colors.black38,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  height: 1.75),
                               filled: true,
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
@@ -190,7 +206,7 @@ class ApplyPageState extends BasePageState<ApplyPage> {
                                     descriptionController.text,
                                   );
                             },
-                            child: const TextMonserats('Send',
+                            child: TextMonserats(scholarDescSubmit,
                                 color: Colors.white),
                           ),
                         ],
@@ -201,7 +217,9 @@ class ApplyPageState extends BasePageState<ApplyPage> {
                     alignment: Alignment.topLeft,
                     child: Padding(
                       padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).padding.top),
+                          top: MediaQuery.of(context).padding.top +
+                              screenHeight * 0.005,
+                          left: screenWidth * 0.04),
                       child: const BackButtonCircle(),
                     ),
                   ),
@@ -210,7 +228,7 @@ class ApplyPageState extends BasePageState<ApplyPage> {
                     child: Padding(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).padding.top +
-                              screenHeight * 0.005),
+                              screenHeight * 0.009),
                       child: TextMonserats(widget.name,
                           fontSize: screenWidth * 0.05,
                           fontWeight: FontWeight.w700),

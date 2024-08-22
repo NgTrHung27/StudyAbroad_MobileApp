@@ -6,6 +6,7 @@ import 'package:kltn_mobile/components/Style/montserrat.dart';
 import 'package:kltn_mobile/components/constant/color_constant.dart';
 import 'package:kltn_mobile/components/list_view/major_box.dart';
 import 'package:kltn_mobile/components/list_view/news_listview_horizontal.dart';
+import 'package:kltn_mobile/components/list_view/scholar_school_box.dart';
 import 'package:kltn_mobile/models/schools.dart';
 import 'package:kltn_mobile/screens/home/base_lang.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -71,7 +72,7 @@ class SchoolsDetailState extends BasePageState<SchoolsDetail> {
                         fontSize: screenWidth * 0.07,
                         height: 1.3),
                     DefaultTabController(
-                      length: 4,
+                      length: 3,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -95,13 +96,13 @@ class SchoolsDetailState extends BasePageState<SchoolsDetail> {
                                 fontWeight: FontWeight.bold,
                                 color: schoolnameColor,
                               )),
-                              Tab(
-                                  child: TextMonserats(
-                                schReq,
-                                fontSize: screenWidth * 0.04,
-                                fontWeight: FontWeight.bold,
-                                color: schoolnameColor,
-                              )),
+                              // Tab(
+                              //     child: TextMonserats(
+                              //   schReq,
+                              //   fontSize: screenWidth * 0.04,
+                              //   fontWeight: FontWeight.bold,
+                              //   color: schoolnameColor,
+                              // )),
                               Tab(
                                   child: TextMonserats(
                                 schMaj,
@@ -123,11 +124,11 @@ class SchoolsDetailState extends BasePageState<SchoolsDetail> {
                             child: TabBarView(
                               children: [
                                 TextMonserats(
-                                  widget.school.description ?? '',
+                                  widget.school.short ?? '',
                                   fontSize: 16.0,
                                   color: textColor,
                                 ),
-                                const Center(child: Text('Courses Content')),
+                                // const Center(child: Text('Courses Content')),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -167,9 +168,10 @@ class SchoolsDetailState extends BasePageState<SchoolsDetail> {
                                     ),
                                     Expanded(
                                       child: Center(
-                                        child: MajorBox(
-                                            programs:
-                                                widget.school.programs ?? []),
+                                        child: ScholarSchoolBox(
+                                            scholar:
+                                                widget.school.scholarships ??
+                                                    []),
                                       ),
                                     ),
                                   ],
