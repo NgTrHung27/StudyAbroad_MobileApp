@@ -47,6 +47,17 @@ class _CarouselSliderDataFoundState extends State<CarouselSliderDataFound> {
                       left: 0,
                       right: 0,
                       child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white.withOpacity(0.1),
+                              Colors.black.withOpacity(0.8),
+                            ],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
                         padding: const EdgeInsets.all(10),
                         child: TextMonserats(e.name,
                             fontSize: 20,

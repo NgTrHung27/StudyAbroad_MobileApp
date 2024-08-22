@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kltn_mobile/blocs/auth_cubit_bloc/login_cubit.dart';
 import 'package:kltn_mobile/blocs/carousel_event_state/carousel_bloc.dart';
 import 'package:kltn_mobile/blocs/lang_cubit/language_bloc.dart';
 import 'package:kltn_mobile/blocs/theme_setting_cubit/theme_setting_cubit.dart';
@@ -142,119 +143,126 @@ class _HomePageState extends BasePageState<HomePage> {
                   padding: EdgeInsets.symmetric(
                       horizontal: screenWidth * 0.04,
                       vertical: screenHeight * 0.01),
-                  child: ListView(
-                    controller: _scrollController,
-                    children: [
-                      WelcomeAVT(username: userAuth?.name ?? 'User'),
-                      SizedBox(height: screenHeight * 0.01),
-                      const NewsSearchTextField(),
-                      SizedBox(height: screenHeight * 0.02),
-                      BlocBuilder<CarouselBloc, CarouselState>(
-                        builder: (context, state) {
-                          if (state is CarouselLoading) {
-                            return const CarouselLoadingCustom();
-                          } else if (state is CarouselLoaded) {
-                            return CarouselSliderDataFound(state.carousels);
-                          } else if (state is CarouselError) {
-                            print(state.message.toString());
-                            return Center(child: Text(errorConn));
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextMonserats(
-                            homeActionText,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: textColorRed,
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          const BoxGridView(),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: screenHeight * 0.01),
-                          TextMonserats(
-                            homeExploreText,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: textColorRed,
-                          ),
-                          SizedBox(height: screenHeight * 0.01),
-                          SizedBox(
-                            height: 200,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SchoolsListPage(
-                                                country: 'CANADA'),
-                                      ),
-                                    );
-                                  },
-                                  child: SizedBox(
-                                      width: 330,
-                                      child: Image.asset(
-                                          'assets/countries/Canada.png')),
-                                ),
-                                SizedBox(width: screenWidth * 0.02),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SchoolsListPage(
-                                                country: 'AUSTRALIA'),
-                                      ),
-                                    );
-                                  },
-                                  child: SizedBox(
-                                      width: 330,
-                                      child: Image.asset(
-                                          'assets/countries/Australia.png')),
-                                ),
-                                SizedBox(width: screenWidth * 0.02),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const SchoolsListPage(
-                                                country: 'KOREA'),
-                                      ),
-                                    );
-                                  },
-                                  child: SizedBox(
-                                      width: 330,
-                                      child: Image.asset(
-                                          'assets/countries/Korea.png')),
-                                ),
-                              ],
-                            ), // Add the image here
-                          ),
-                          SizedBox(height: screenHeight * 0.02),
-                          TextMonserats(homeNewListText,
+                  child: RefreshIndicator(
+                    color: textColorRed,
+                    onRefresh: () => Future.delayed(
+                        const Duration(seconds: 2),
+                        // ignore: use_build_context_synchronously
+                        () => context.read<LoginCubit>().autoLogin()),
+                    child: ListView(
+                      controller: _scrollController,
+                      children: [
+                        WelcomeAVT(username: userAuth?.name ?? 'User'),
+                        SizedBox(height: screenHeight * 0.01),
+                        const NewsSearchTextField(),
+                        SizedBox(height: screenHeight * 0.02),
+                        BlocBuilder<CarouselBloc, CarouselState>(
+                          builder: (context, state) {
+                            if (state is CarouselLoading) {
+                              return const CarouselLoadingCustom();
+                            } else if (state is CarouselLoaded) {
+                              return CarouselSliderDataFound(state.carousels);
+                            } else if (state is CarouselError) {
+                              print(state.message.toString());
+                              return Center(child: Text(errorConn));
+                            } else {
+                              return Container();
+                            }
+                          },
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextMonserats(
+                              homeActionText,
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
-                              color: textColorRed),
-                          SizedBox(height: screenHeight * 0.02),
-                          const NewsListViewShort(
-                            nullSchool: null,
-                          ),
-                          SizedBox(height: screenHeight * 0.14),
-                        ],
-                      ),
-                    ],
+                              color: textColorRed,
+                            ),
+                            SizedBox(height: screenHeight * 0.01),
+                            const BoxGridView(),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: screenHeight * 0.01),
+                            TextMonserats(
+                              homeExploreText,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: textColorRed,
+                            ),
+                            SizedBox(height: screenHeight * 0.01),
+                            SizedBox(
+                              height: 200,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SchoolsListPage(
+                                                  country: 'CANADA'),
+                                        ),
+                                      );
+                                    },
+                                    child: SizedBox(
+                                        width: 330,
+                                        child: Image.asset(
+                                            'assets/countries/Canada.png')),
+                                  ),
+                                  SizedBox(width: screenWidth * 0.02),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SchoolsListPage(
+                                                  country: 'AUSTRALIA'),
+                                        ),
+                                      );
+                                    },
+                                    child: SizedBox(
+                                        width: 330,
+                                        child: Image.asset(
+                                            'assets/countries/Australia.png')),
+                                  ),
+                                  SizedBox(width: screenWidth * 0.02),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SchoolsListPage(
+                                                  country: 'KOREA'),
+                                        ),
+                                      );
+                                    },
+                                    child: SizedBox(
+                                        width: 330,
+                                        child: Image.asset(
+                                            'assets/countries/Korea.png')),
+                                  ),
+                                ],
+                              ), // Add the image here
+                            ),
+                            SizedBox(height: screenHeight * 0.02),
+                            TextMonserats(homeNewListText,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: textColorRed),
+                            SizedBox(height: screenHeight * 0.02),
+                            const NewsListViewShort(
+                              nullSchool: null,
+                            ),
+                            SizedBox(height: screenHeight * 0.14),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

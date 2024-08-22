@@ -57,20 +57,24 @@ Future<void> setupNotificationChannel() async {
       ?.createNotificationChannel(channel);
 }
 
-//Handle Noti we received
-// Function to handle Received Mess
+// //Handle Noti we received
+// // Function to handle Received Mess
 void handleMessage(RemoteMessage? message) {
-  if (message == null) {
+  try {
+    if (message == null) {
+      navigatorKey.currentState?.pushNamed(
+        '/mainpage',
+        arguments: {'message': {}, 'index': 2},
+      );
+      return;
+    }
     navigatorKey.currentState?.pushNamed(
       '/mainpage',
-      arguments: {'message': {}, 'index': 2},
+      arguments: {'message': message, 'index': 2},
     );
-    return;
+  } catch (e) {
+    print('Error handling message: $e');
   }
-  navigatorKey.currentState?.pushNamed(
-    '/mainpage',
-    arguments: {'message': message, 'index': 2},
-  );
 }
 
 //ListenMess

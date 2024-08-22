@@ -8,7 +8,7 @@ class AlertDialogComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    return AlertDialog.adaptive(
+    return AlertDialog(
       title: TextMonserats(
         'Form Submitted',
         fontSize: screenWidth * 0.06,
@@ -21,13 +21,11 @@ class AlertDialogComponent extends StatelessWidget {
       ),
       actions: <Widget>[
         Center(
-          child: InkWell(
-            child: MyButton(
-              text: 'Xác nhận',
-              onTap: () {
-                Navigator.pushNamed(context, '/mainpage');
-              },
-            ),
+          child: MyButton(
+            text: 'Xác nhận',
+            onTap: () {
+              Navigator.pushNamed(context, '/mainpage');
+            },
           ),
         ),
       ],

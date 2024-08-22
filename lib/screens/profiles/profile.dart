@@ -118,211 +118,220 @@ class _UserProfileState extends BasePageState<Profile> {
     return Scaffold(
       backgroundColor: context.select(
           (ThemeSettingCubit cubit) => cubit.state.scaffoldBackgroundColor),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            color: Theme.of(context).primaryColor,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: screenHeight * 0.08),
-                  // UserID and UserName
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      isLoggedIn
-                          ? IdTab(
-                              userName: hello,
-                              idUser: userAuth.name ?? 'User',
-                              avatarImgUrl: userAuth.student.school
-                                  .logo, // Sử dụng hình ảnh từ API nếu có
-                              avatarImgPath: 'assets/logo/logo_white.png',
-                            )
-                          : IdTabLogout(
-                              textTab: helloSignin,
-                              avatarImgPath: 'assets/logo/logo_white.png',
-                            )
-                    ],
-                  ),
-                  SizedBox(height: screenHeight * 0.03),
-                  ActionTab(
-                    backgroundColor: backgroundColor,
-                    header: account,
-                    colorIcon: colorIcon,
-                    functions: [
-                      FunctionItem(
-                          name: account1,
-                          icon: Icons.person,
+      body: RefreshIndicator(
+        onRefresh: () => Future.delayed(
+            const Duration(seconds: 2),
+            // ignore: use_build_context_synchronously
+            () => context.read<LoginCubit>().autoLogin()),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              color: Theme.of(context).primaryColor,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: screenHeight * 0.08),
+                    // UserID and UserName
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        isLoggedIn
+                            ? IdTab(
+                                userName: hello,
+                                idUser: userAuth.name ?? 'User',
+                                avatarImgUrl: userAuth.student.school
+                                    .logo, // Sử dụng hình ảnh từ API nếu có
+                                avatarImgPath: 'assets/logo/logo_white.png',
+                              )
+                            : IdTabLogout(
+                                textTab: helloSignin,
+                                avatarImgPath: 'assets/logo/logo_white.png',
+                              )
+                      ],
+                    ),
+                    SizedBox(height: screenHeight * 0.03),
+                    ActionTab(
+                      backgroundColor: backgroundColor,
+                      header: account,
+                      colorIcon: colorIcon,
+                      functions: [
+                        FunctionItem(
+                            name: account1,
+                            icon: Icons.person,
+                            onTap: () {
+                              isLoggedIn
+                                  ? Navigator.pushNamed(
+                                      context, '/profiledetail')
+                                  : showCustomDialog(
+                                      context: context,
+                                      onConfirm: () {
+                                        Navigator.pushNamed(context, '/login');
+                                      },
+                                    );
+                            }),
+                        FunctionItem(
+                            name: account2,
+                            icon: Icons.key,
+                            onTap: () {
+                              isLoggedIn
+                                  ? Navigator.pushNamed(context, '/changepass')
+                                  : showCustomDialog(
+                                      context: context,
+                                      onConfirm: () {
+                                        Navigator.pushNamed(context, '/login');
+                                      },
+                                    );
+                            }),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    ActionTab(
+                      header: status,
+                      backgroundColor: backgroundColor,
+                      colorIcon: colorIcon,
+                      functions: [
+                        FunctionItem(
+                            name: status1,
+                            icon: Icons.account_circle,
+                            onTap: () {
+                              isLoggedIn
+                                  ? Navigator.pushNamed(
+                                      context, '/profilestatus')
+                                  : showCustomDialog(
+                                      context: context,
+                                      onConfirm: () {
+                                        Navigator.pushNamed(context, '/login');
+                                      },
+                                    );
+                            }),
+                        FunctionItem(
+                          name: status2,
+                          icon: Icons.school_outlined,
                           onTap: () {
                             isLoggedIn
-                                ? Navigator.pushNamed(context, '/profiledetail')
+                                ? Navigator.pushNamed(context, '/scholarDetail')
                                 : showCustomDialog(
                                     context: context,
                                     onConfirm: () {
                                       Navigator.pushNamed(context, '/login');
                                     },
                                   );
-                          }),
-                      FunctionItem(
-                          name: account2,
-                          icon: Icons.key,
+                          },
+                        ),
+                        FunctionItem(
+                            name: status3,
+                            icon: Icons.payment,
+                            onTap: () {
+                              isLoggedIn
+                                  ? Navigator.pushNamed(context, '/tuition')
+                                  : showCustomDialog(
+                                      context: context,
+                                      onConfirm: () {
+                                        Navigator.pushNamed(context, '/login');
+                                      },
+                                    );
+                            }),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    ActionTab(
+                      header: reqSta,
+                      backgroundColor: backgroundColor,
+                      colorIcon: colorIcon,
+                      functions: [
+                        FunctionItem(
+                          name: req1,
+                          icon: Icons.mail_outline,
                           onTap: () {
                             isLoggedIn
-                                ? Navigator.pushNamed(context, '/changepass')
+                                ? Navigator.pushNamed(
+                                    context, '/respondrequest')
                                 : showCustomDialog(
                                     context: context,
                                     onConfirm: () {
                                       Navigator.pushNamed(context, '/login');
                                     },
                                   );
-                          }),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  ActionTab(
-                    header: status,
-                    backgroundColor: backgroundColor,
-                    colorIcon: colorIcon,
-                    functions: [
-                      FunctionItem(
-                          name: status1,
-                          icon: Icons.account_circle,
+                          },
+                        ),
+                        FunctionItem(
+                          name: req2,
+                          icon: Icons.mark_email_read_outlined,
                           onTap: () {
                             isLoggedIn
-                                ? Navigator.pushNamed(context, '/profilestatus')
+                                ? Navigator.pushNamed(
+                                    context, '/respondrequested')
                                 : showCustomDialog(
                                     context: context,
                                     onConfirm: () {
                                       Navigator.pushNamed(context, '/login');
                                     },
                                   );
-                          }),
-                      FunctionItem(
-                        name: status2,
-                        icon: Icons.school_outlined,
-                        onTap: () {
-                          isLoggedIn
-                              ? Navigator.pushNamed(context, '/scholarDetail')
-                              : showCustomDialog(
-                                  context: context,
-                                  onConfirm: () {
-                                    Navigator.pushNamed(context, '/login');
-                                  },
-                                );
-                        },
-                      ),
-                      FunctionItem(
-                          name: status3,
-                          icon: Icons.payment,
-                          onTap: () {
-                            isLoggedIn
-                                ? Navigator.pushNamed(context, '/tuition')
-                                : showCustomDialog(
-                                    context: context,
-                                    onConfirm: () {
-                                      Navigator.pushNamed(context, '/login');
-                                    },
-                                  );
-                          }),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  ActionTab(
-                    header: reqSta,
-                    backgroundColor: backgroundColor,
-                    colorIcon: colorIcon,
-                    functions: [
-                      FunctionItem(
-                        name: req1,
-                        icon: Icons.mail_outline,
-                        onTap: () {
-                          isLoggedIn
-                              ? Navigator.pushNamed(context, '/respondrequest')
-                              : showCustomDialog(
-                                  context: context,
-                                  onConfirm: () {
-                                    Navigator.pushNamed(context, '/login');
-                                  },
-                                );
-                        },
-                      ),
-                      FunctionItem(
-                        name: req2,
-                        icon: Icons.mark_email_read_outlined,
-                        onTap: () {
-                          isLoggedIn
-                              ? Navigator.pushNamed(
-                                  context, '/respondrequested')
-                              : showCustomDialog(
-                                  context: context,
-                                  onConfirm: () {
-                                    Navigator.pushNamed(context, '/login');
-                                  },
-                                );
-                        },
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  ActionTab(
-                    header: setting,
-                    backgroundColor: backgroundColor,
-                    colorIcon: colorIcon,
-                    functions: [
-                      FunctionItem(
-                        name: setting1,
-                        icon: Icons.language,
-                        dropdownCallback: (Locale newValue) {
-                          switch (newValue.languageCode) {
-                            case 'en':
-                              context
-                                  .read<LanguageBloc>()
-                                  .add(LanguageEvent.setEnglish);
-                              break;
-                            case 'ko':
-                              context
-                                  .read<LanguageBloc>()
-                                  .add(LanguageEvent.setKorean);
-                              break;
-                            case 'vi':
-                              context
-                                  .read<LanguageBloc>()
-                                  .add(LanguageEvent.setVietnamese);
-                              break;
-                          }
-                        },
-                      ),
-                      FunctionItem(
-                        name: setting2,
-                        icon: Icons.nightlight_round,
-                        isEnable: true,
-                        switchValue: false,
-                      ),
-                      FunctionItem(
-                          name: setting3,
-                          icon: Icons.question_mark_rounded,
-                          onTap: () {
-                            Navigator.pushNamed(context, '/help&feedback');
-                          }),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  SimpleButton(
-                    onPressed: () {
-                      userLogout(context);
-                      Navigator.pushNamed(context, '/logout');
-                    },
-                    child: TextMonserats(logoutText,
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700),
-                  ),
-                  SizedBox(height: screenHeight * 0.2),
-                ],
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    ActionTab(
+                      header: setting,
+                      backgroundColor: backgroundColor,
+                      colorIcon: colorIcon,
+                      functions: [
+                        FunctionItem(
+                          name: setting1,
+                          icon: Icons.language,
+                          dropdownCallback: (Locale newValue) {
+                            switch (newValue.languageCode) {
+                              case 'en':
+                                context
+                                    .read<LanguageBloc>()
+                                    .add(LanguageEvent.setEnglish);
+                                break;
+                              case 'ko':
+                                context
+                                    .read<LanguageBloc>()
+                                    .add(LanguageEvent.setKorean);
+                                break;
+                              case 'vi':
+                                context
+                                    .read<LanguageBloc>()
+                                    .add(LanguageEvent.setVietnamese);
+                                break;
+                            }
+                          },
+                        ),
+                        FunctionItem(
+                          name: setting2,
+                          icon: Icons.nightlight_round,
+                          isEnable: true,
+                          switchValue: false,
+                        ),
+                        FunctionItem(
+                            name: setting3,
+                            icon: Icons.question_mark_rounded,
+                            onTap: () {
+                              Navigator.pushNamed(context, '/help&feedback');
+                            }),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    SimpleButton(
+                      onPressed: () {
+                        userLogout(context);
+                        Navigator.pushNamed(context, '/logout');
+                      },
+                      child: TextMonserats(logoutText,
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    SizedBox(height: screenHeight * 0.2),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

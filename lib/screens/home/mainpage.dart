@@ -150,7 +150,7 @@ class MainPageState extends State<MainPage>
       ),
       floatingActionButton: _currentIndex != 1
           ? SpeedDial(
-              animatedIcon: AnimatedIcons.search_ellipsis,
+              animatedIcon: AnimatedIcons.view_list,
               // ignore: sort_child_properties_last
               child: const ImageIcon(
                 AssetImage('assets/icons_3d/chatbot.png'),
@@ -165,11 +165,11 @@ class MainPageState extends State<MainPage>
                     size: 30,
                     color: Colors.white,
                   ),
-                  label: 'Gemini-Pro',
+                  label: 'Gemini - Flash',
                   onTap: () => _showFlashBottomSheetNew(context),
                   backgroundColor: AppColor.redLight,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
+                      borderRadius: BorderRadius.circular(20)),
                 ),
                 SpeedDialChild(
                   child: const ImageIcon(
@@ -177,11 +177,11 @@ class MainPageState extends State<MainPage>
                     size: 30,
                     color: Colors.white,
                   ),
-                  label: 'Gemini-1.5-flash',
+                  label: 'Gemini - Pro',
                   onTap: () => _showProBottomSheet(context),
                   backgroundColor: AppColor.redLight,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
+                      borderRadius: BorderRadius.circular(20)),
                 ),
               ],
             )
