@@ -41,14 +41,17 @@ Future<void> main() async {
 
   // Chỉ thực thi phần thông báo nếu đang chạy trên Android
   if (isRunningOnAndroid) {
+    await Firebase.initializeApp();
     await initializeNotifications();
     await setupNotificationChannel();
     await listenToForegroundMessages();
     setupFirebaseMessagingBackgroundHandler();
   }
+  
   // Kiểm tra session đăng nhập
   final loginCubit = LoginCubit(APIRepository());
   final userAuth = await loginCubit.checkLoginStatus();
+  print('userAuth in main $userAuth');
   final isLoggedIn = userAuth != null;
 
   runApp(

@@ -61,6 +61,7 @@ class _AblyChatState extends BasePageState<AblyWebsocket> {
   @override
   void initState() {
     super.initState();
+    setLoadingState();
     _clientId = Provider.of<ClientIdProvider>(context, listen: false).clientId;
     currentUser = ChatUser(
         id: "0",
@@ -69,6 +70,20 @@ class _AblyChatState extends BasePageState<AblyWebsocket> {
     createAblyRealtimeInstance();
     _loadChatSession();
     _currentChatSession = ChatSession.placeholder();
+  }
+
+  void setLoadingState() {
+    setState(() {
+      _isLoading = true;
+      print('Loading started');
+    });
+
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _isLoading = false;
+        print('Loading ended');
+      });
+    });
   }
 
   @override
@@ -101,6 +116,8 @@ class _AblyChatState extends BasePageState<AblyWebsocket> {
       print("Loaded messages: ${_currentChatSession.messages?.length}");
     } else {
       print("Failed to load chat session: ${chatSessionResponse.statusCode}");
+      print("Failed to load chat session: ${chatSessionResponse.body}");
+
       _loadChatSession();
     }
   }
@@ -234,122 +251,8 @@ class _AblyChatState extends BasePageState<AblyWebsocket> {
     }
   }
 
-  // _buildMessageComposer() {
-  //   return Container(
-  //     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-  //     height: 50.0,
-  //     color: Colors.white,
-  //     child: Row(
-  //       children: <Widget>[
-  //         IconButton(
-  //           icon: const Icon(Icons.photo),
-  //           iconSize: 25.0,
-  //           color: Theme.of(context).primaryColor,
-  //           onPressed: () {},
-  //         ),
-  //         Expanded(
-  //           child: TextField(
-  //             textCapitalization: TextCapitalization.sentences,
-  //             controller: _messageController,
-  //             onChanged: (value) {},
-  //             decoration: const InputDecoration.collapsed(
-  //               hintText: 'Send a message...',
-  //             ),
-  //           ),
-  //         ),
-  //         IconButton(
-  //           icon: const Icon(Icons.send),
-  //           iconSize: 25.0,
-  //           color: Theme.of(context).primaryColor,
-  //           onPressed: () {
-  //             publishMyMessage();
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildMessage(Message message) {
-  //   final isAdmin = message.role == ChatSessionRole.ADMIN;
-  //   final formattedTime =
-  //       DateFormat('HH:mm - dd/MM/yy').format(message.createdAt.toLocal());
-  //   return Align(
-  //     alignment: isAdmin ? Alignment.centerLeft : Alignment.centerRight,
-  //     child: Container(
-  //       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-  //       padding: const EdgeInsets.all(12.0),
-  //       decoration: BoxDecoration(
-  //         color: isAdmin ? Colors.blue : Colors.grey[300],
-  //         borderRadius: BorderRadius.circular(12.0),
-  //       ),
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Text(
-  //             message.name ?? 'Hung Null User Test',
-  //             style: const TextStyle(
-  //               fontWeight: FontWeight.bold,
-  //               color: Colors.white,
-  //             ),
-  //           ),
-  //           const SizedBox(height: 4.0),
-  //           Text(
-  //             message.message ?? 'Hung Null Mess Test',
-  //             style: TextStyle(
-  //               color: isAdmin ? Colors.white : Colors.black,
-  //             ),
-  //           ),
-  //           const SizedBox(height: 4.0),
-  //           Text(
-  //             formattedTime,
-  //             style: const TextStyle(
-  //               fontSize: 12.0,
-  //               color: Colors.grey,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: const Text('Chat with Admin'),
-  //     ),
-  //     body: Column(
-  //       children: [
-  //         Expanded(
-  //           child: ListView.builder(
-  //             itemCount: _currentChatSession?.messages?.length ?? 0,
-  //             itemBuilder: (context, index) {
-  //               final message = _currentChatSession?.messages?[index];
-  //               // Check if the message is not null and has a valid role
-  //               if (message != null && message.role != null) {
-  //                 return _buildMessage(message);
-  //               } else {
-  //                 return SizedBox
-  //                     .shrink(); // Return an empty widget if the message is null or has no role
-  //               }
-  //             },
-  //           ),
-  //         ),
-  //         _buildMessageComposer(),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // Lấy message từ _currentChatSession
-    // final message = (_currentChatSession.messages != null &&
-    //         _currentChatSession.messages!.isNotEmpty)
-    //     ? _currentChatSession.messages?.last
-    //     : null;
     //Language
     final localizations = AppLocalizations.of(context);
     final title =

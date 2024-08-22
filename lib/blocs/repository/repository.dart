@@ -339,7 +339,7 @@ class APIRepository {
       print('Sending JSON data: $jsonDataContact');
 
       final responseContactUs = await httpClient.post(
-        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/contacts'),
+        Uri.parse('https://kltn-demo-deploy-admin.vercel.app/api/feedbacks'),
         headers: <String, String>{"Content-Type": "application/json"},
         body: jsonDataContact,
       );
