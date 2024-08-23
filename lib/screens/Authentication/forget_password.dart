@@ -100,7 +100,7 @@ class _ForgetPassState extends BasePageState<ForgetPass> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           BackButtonCircle(onPressed: () {
-                            Navigator.pushNamed(context, '/profile');
+                            Navigator.pop(context);
                           }),
                           //Logo
                           SizedBox(width: screenWidth * 0.20),

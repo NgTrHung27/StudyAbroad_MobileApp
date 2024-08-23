@@ -33,8 +33,6 @@ class SchoolsDetailState extends BasePageState<SchoolsDetail> {
     final localizations = AppLocalizations.of(context);
     final schDesc =
         localizations != null ? localizations.sch_desc : 'Default Text';
-    final schReq =
-        localizations != null ? localizations.sch_require : 'Default Text';
     final schMaj =
         localizations != null ? localizations.sch_major : 'Default Text';
     final schMajBody =

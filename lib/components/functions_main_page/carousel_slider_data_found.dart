@@ -51,7 +51,7 @@ class _CarouselSliderDataFoundState extends State<CarouselSliderDataFound> {
                           borderRadius: BorderRadius.circular(15),
                           gradient: LinearGradient(
                             colors: [
-                              Colors.white.withOpacity(0.1),
+                              Colors.white.withOpacity(0.2),
                               Colors.black.withOpacity(0.8),
                             ],
                             begin: Alignment.topCenter,

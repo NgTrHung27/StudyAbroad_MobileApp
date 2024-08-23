@@ -224,12 +224,13 @@ class APIRepository {
       );
 
       final data = jsonDecode(utf8.decode(response.bodyBytes));
-
+      print('data: $data');
       if (response.statusCode == 200) {
         log('data: $data');
         return UserForgotpass.fromJson(data);
       } else {
         print("Failed to send Fogot Pass: ${response.statusCode}");
+        print("Error body: $data");
         return UserForgotpass.fromJson(data);
       }
     } catch (e) {
