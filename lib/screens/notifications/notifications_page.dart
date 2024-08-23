@@ -54,6 +54,13 @@ class NotificationsPageState extends BasePageState<NotificationsPage> {
     setState(() {}); // Cập nhật giao diện người dùng
   }
 
+  void checkUserAuthAndClearNotifications() {
+    final userAuth = context.read<UserAuthProvider>().userAuthLogin;
+    if (userAuth == null) {
+      _clearNotifications();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final userAuth =

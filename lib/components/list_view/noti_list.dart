@@ -105,7 +105,8 @@ class _ListNotiState extends BasePageState<ListNoti> {
                                     children: [
                                       Expanded(
                                         child: TextMonserats(
-                                          userAuth!.student.school.name,
+                                          userAuth?.student.school.name ??
+                                              'CEMC',
                                           color: textColorRed,
                                           fontSize: 14,
                                           maxLine: 1,

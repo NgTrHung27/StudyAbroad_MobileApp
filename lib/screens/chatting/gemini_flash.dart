@@ -54,6 +54,7 @@ class _GeminiAIState extends BasePageState<GeminiAIFlash> {
     _loadApiKey().then((_) {
       setState(() {
         gemini = Gemini.init(apiKey: apiKey!);
+        print("API Key loaded: $apiKey");
       });
     });
   }
@@ -261,7 +262,7 @@ class _GeminiAIState extends BasePageState<GeminiAIFlash> {
     );
   }
 
-  void _sendMessage(ChatMessage chatMessage) {
+  void _sendMessage(ChatMessage chatMessage) async {
     setState(() {
       messages = [chatMessage, ...messages];
       _hasSentFirstMessage = true;
@@ -325,22 +326,23 @@ class _GeminiAIState extends BasePageState<GeminiAIFlash> {
         if (error is GeminiException) {
           print("GeminiException: ${error.message}");
           print("Status Code: ${error.statusCode}");
-          // Hiển thị thông báo lỗi cho người dùng
-          // Ví dụ: ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(
-          //     content: Text('Có lỗi khi gửi yêu cầu. Vui lòng thử lại!'),
-          //   ),
-          // );
+          // Display error message to the user
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Error sending request. Please try again!'),
+            ),
+          );
         }
       });
     } catch (e) {
       print("Exception: $e");
-      // Hiển thị thông báo lỗi cho người dùng
-      // Ví dụ: ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Có lỗi xảy ra. Vui lòng thử lại!'),
-      //   ),
-      // );
+      // Display error message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An error occurred. Please try again!'),
+        ),
+      );
     }
   }
 

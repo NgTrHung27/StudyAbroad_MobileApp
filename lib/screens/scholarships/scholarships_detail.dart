@@ -34,7 +34,7 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
     final textColor = isDarkMode ? Colors.white : Colors.black;
     final boxColor = isDarkMode ? const Color(0xff3F3F46) : Colors.white;
     final localizations = AppLocalizations.of(context);
-    final apply_now =
+    final applyNow =
         localizations != null ? localizations.apply_now : 'Default Text';
     return Scaffold(
       body: Padding(
@@ -98,7 +98,7 @@ class ScholarshipsDetailState extends BasePageState<ScholarshipsDetail> {
                         ),
                       );
                     },
-                    child: TextMonserats(apply_now, color: Colors.white),
+                    child: TextMonserats(applyNow, color: Colors.white),
                   ),
                 ],
               ),
