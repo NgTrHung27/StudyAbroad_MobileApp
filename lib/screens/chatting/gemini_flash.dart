@@ -62,7 +62,6 @@ class _GeminiAIState extends BasePageState<GeminiAIFlash> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // An toàn để truy cập InheritedWidgets ở đây
     checkNetworkConnection();
     Theme.of(context);
     AppLocalizations.of(context);
