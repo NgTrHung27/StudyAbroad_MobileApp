@@ -6,12 +6,12 @@ The project's research subjects are students wishing to study abroad and schools
 - Application Technology :
 • Languages: Dart
 • Frameworks: Flutter
-• UI Libraries: Form Builder, Toast, Rating Bar, HTML Code
 - Shared Technologies:
 • Database: MongoDB
 • Services: Node Mailer (Email services), Vercel (Deployment/Hosting)
 - Design Others: Rest API, CRUD
 - AI: Gemini AI
+- Notification: Firebase Messaging
 - Commuciation: AblyChat - Websocket
 -----------------------------
 UI Application
