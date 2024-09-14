@@ -17,12 +17,12 @@ if (localPropertiesFile.exists()) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '6'
+    flutterVersionCode = '9'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.6'
+    flutterVersionName = '1.9'
 }
 
     def keystoreProperties = new Properties()
@@ -55,8 +55,8 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 24
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 6
-        versionName "1.6"
+        versionCode 9
+        versionName "1.9"
     }
 
     signingConfigs {
